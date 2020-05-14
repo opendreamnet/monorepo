@@ -94,8 +94,5 @@ sw.*
 # Vim swap files
 *.swp
 
-# Lock
-*.lock
-
 # For now the tools will remain local.
 workspaces/tools
