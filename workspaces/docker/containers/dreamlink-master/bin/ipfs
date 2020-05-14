@@ -1,0 +1,6 @@
+#!/bin/sh
+
+CONTAINER_NAME="dreamlink-master"
+CONTAINER_EXEC="ipfs"
+
+docker exec -ti $CONTAINER_NAME sh -c "$CONTAINER_EXEC $*"

@@ -1,0 +1,25 @@
+{
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": false,
+  "editor.formatOnType": false,
+  "javascript.validate.enable": false,
+	"typescript.validate.enable": true,
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "eslint.packageManager": "yarn",
+  "eslint.nodePath": "node_modules",
+  "eslint.workingDirectories": [
+    {
+      "pattern": "workspaces/*/*"
+    }
+  ],
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "vue"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "npm.validate.enable": false
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@dreamnet/docusaurus-plugin-dreamtime",
+  "version": "0.0.1",
+  "description": "",
+  "license": "MIT",
+  "main": "src/index.js",
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0"
+  }
+}

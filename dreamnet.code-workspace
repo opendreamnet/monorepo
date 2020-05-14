@@ -1,0 +1,69 @@
+{
+	"folders": [
+		{
+			"name": "✨ monorepo",
+			"path": "."
+		},
+		{
+			"name": "🐳 docker",
+			"path": "workspaces/docker"
+		},
+		{
+			"name": "💻 dreamtime",
+			"path": "workspaces/servers/dreamtime"
+		},
+		{
+			"name": "💻 dreamtrack",
+			"path": "workspaces/servers/dreamtrack"
+		},
+		{
+			"name": "👨‍💻 dreamcli",
+			"path": "workspaces/tools/dreamcli"
+		},
+		{
+			"name": "📦 @dreamnet/eslint-config-dreamnet",
+			"path": "workspaces/packages/eslint-config-dreamnet"
+		},
+		{
+			"name": "📦 @dreamnet/eslint-config-dreamnet-javascript",
+			"path": "workspaces/packages/eslint-config-dreamnet-javascript"
+    },
+    {
+			"name": "📦 @dreamnet/app",
+			"path": "workspaces/packages/app"
+		},
+		{
+			"name": "📦 @dreamnet/queue",
+			"path": "workspaces/packages/queue"
+		},
+		{
+			"name": "📦 @dreamnet/deploy",
+			"path": "workspaces/packages/deploy"
+		},
+	],
+	"settings": {
+		"editor.formatOnPaste": false,
+		"editor.formatOnSave": false,
+		"editor.formatOnType": false,
+		"javascript.validate.enable": false,
+		"typescript.validate.enable": true,
+		"eslint.enable": true,
+		"eslint.run": "onSave",
+		"eslint.packageManager": "yarn",
+		"eslint.nodePath": "node_modules",
+		"eslint.workingDirectories": [
+			{
+				"pattern": "workspaces/*/*"
+			}
+		],
+		"eslint.validate": [
+			"javascript",
+			"typescript",
+			"vue"
+		],
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
+		"npm.validate.enable": false
+	}
+}

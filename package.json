@@ -1,0 +1,35 @@
+{
+  "name": "monorepo",
+  "private": true,
+  "workspaces": [
+    "workspaces/*/*"
+  ],
+  "engines": {
+    "node": ">= 10"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/babel__core": "7.1.7",
+    "@types/babel__preset-env": "7.9.0",
+    "@types/chromedriver": "2.38.0",
+    "@types/eslint": "6.8.0",
+    "@types/webpack": "4.41.12",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "bundlesize": "^0.18.0",
+    "chromedriver": "^81.0.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "lerna": "^3.20.2",
+    "shx": "^0.3.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

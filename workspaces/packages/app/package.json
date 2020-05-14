@@ -1,0 +1,49 @@
+{
+  "name": "@dreamnet/app",
+  "version": "0.1.0",
+  "description": "DreamNet Application Basics.",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "author": {
+    "name": "DreamNet Contributors",
+    "email": "hello@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/dreamnet/graphs/contributors"
+  },
+  "scripts": {
+    "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx,.vue src/",
+    "mocha": "ts-mocha test/**/*.ts --recursive --exit",
+    "test": "yarn run lint && yarn run mocha && bundlesize",
+    "clean": "shx rm -rf dist/",
+    "build": "yarn run clean && webpack"
+  },
+  "directories": {
+    "lib": "src/",
+    "test": "test/"
+  },
+  "files": [
+    "src/"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.dreamnet.tech"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamnettech/dreamnet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dreamnettech/dreamnet/issues"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "dependencies": {
+    "parent-package-json": "^2.0.1",
+    "platform-folders": "^0.5.1"
+  },
+  "devDependencies": {
+    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/packages/eslint-config-dreamnet",
+    "@types/webpack": "4.41.12",
+    "shx": "^0.3.2",
+    "webpack": "^4.43.0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "files": [
+    {
+      "path": "./dist/dreamapp.min.js",
+      "maxSize": "4 kB"
+    }
+  ]
+}
