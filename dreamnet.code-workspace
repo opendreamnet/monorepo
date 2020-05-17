@@ -3,6 +3,10 @@
 		{
 			"name": "✨ monorepo",
 			"path": "."
+    },
+    {
+			"name": "🍎 dreamtime",
+			"path": "workspaces/apps/dreamtime"
 		},
 		{
 			"name": "🐳 docker",
@@ -39,6 +43,10 @@
 		{
 			"name": "📦 @dreamnet/deploy",
 			"path": "workspaces/packages/deploy"
+    },
+    {
+			"name": "📦 @dreamnet/dreamlink",
+			"path": "workspaces/packages/dreamlink"
 		},
 	],
 	"settings": {

@@ -2,6 +2,7 @@
   "name": "monorepo",
   "private": true,
   "workspaces": [
+    "workspaces/apps/dreamtime/src",
     "workspaces/*/*"
   ],
   "engines": {

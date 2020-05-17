@@ -41,6 +41,15 @@ jobs:
           src: "/"
           dest: "root@mariana.dreamnet.tech:/dreamnet"
 
+      - name: "Mariana: Setup"
+        uses: JimCronqvist/action-ssh@master
+        with:
+          hosts: root@mariana.dreamnet.tech
+          privateKey: ${{ secrets.SSH_KEY }}
+          command: |
+            chown root:root -R /dreamnet
+            chmod 774 -R /dreamnet
+
       - name: "Mariana: Docker Compose"
         uses: JimCronqvist/action-ssh@master
         with:
@@ -56,24 +65,3 @@ jobs:
           hosts: root@mariana.dreamnet.tech
           privateKey: ${{ secrets.SSH_KEY }}
           command: docker restart dreamtrack
-
-      # Valeria server. (IPFS)
-
-      - name: "Valeria: RSync"
-        uses: Pendect/action-rsyncer@v1.1.0
-        env:
-          DEPLOY_KEY: ${{ secrets.SSH_KEY }}
-        with:
-          flags: "--archive --verbose --compress --recursive"
-          options: "--exclude=.git"
-          src: "/"
-          dest: "root@valeria.dreamnet.tech:/dreamnet"
-
-      - name: "Valeria: Docker Compose"
-        uses: JimCronqvist/action-ssh@master
-        with:
-          hosts: root@valeria.dreamnet.tech
-          privateKey: ${{ secrets.SSH_KEY }}
-          command: |
-            cd /dreamnet/workspaces/docker/containers/dreamlink-master
-            docker-compose up --detach

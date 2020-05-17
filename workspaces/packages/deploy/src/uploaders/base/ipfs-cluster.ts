@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { multiaddr, CID  } from 'ipfs-http-client'
 import ipfsCluster from 'ipfs-cluster-api'
 import { UrlHash } from '../../modules/interfaces'
@@ -87,7 +88,16 @@ export class IPFSCluster extends IPFS {
    * @memberof IPFSCluster
    */
   async upload(): Promise<any> {
-    const response = await this.ipfs.add(this.release.files, {
+    const files = this.release.files.map(file => {
+      if (!file.isDirectory) {
+        file.content = fs.createReadStream(file.path)
+        file.path = file.relpath
+      }
+
+      return file
+    })
+
+    const response = await this.ipfs.add(files, {
       name: this.release.name,
       recursive: true,
     })
@@ -103,6 +113,8 @@ export class IPFSCluster extends IPFS {
    * @memberof IPFSCluster
    */
   async parse(response): Promise<UrlHash> {
+    fs.writeFileSync('response.json', JSON.stringify(response, null, 2))
+
     const cid = new CID(response[response.length - 1].hash).toString()
 
     return {

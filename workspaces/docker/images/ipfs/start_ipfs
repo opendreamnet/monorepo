@@ -30,7 +30,6 @@ else
   ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
 
   # Set up the swarm key, if provided
-
   SWARM_KEY_FILE="$repo/swarm.key"
   SWARM_KEY_PERM=0740
 
@@ -76,17 +75,13 @@ else
   case "$DREAMLINK_MODE" in
     "node")
       ipfs config Ipns.RepublishPeriod "6h"
-
       ipfs config Reprovider.Interval "6h"
-
       ipfs config --bool Swarm.EnableRelayHop false
       ;;
     "router")
       ipfs config Datastore.GCPeriod "1h"
       ipfs config --json Datastore.StorageGCWatermark "70"
-
       ipfs config Ipns.RepublishPeriod "12h"
-
       ipfs config Reprovider.Interval "12h"
       ipfs config Reprovider.Strategy "pinned"
       ;;
@@ -94,7 +89,7 @@ else
 fi
 
 echo "DreamNet Bootstrap..."
-ipfs bootstrap rm all
+#ipfs bootstrap rm all
 
 if [ ! -z "$DREAMLINK_BOOTSTRAP" ] ; then
   ipfs bootstrap add "/dnsaddr/bootstrap.link.dreamnet.tech/p2p/QmcWoy1FzBicbYuopNT2rT6EDQSBDfco1TxibEyYgWbiMq"

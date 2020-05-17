@@ -9,7 +9,7 @@
     "strictNullChecks": false,
     "experimentalDecorators": true,
     "noImplicitAny": false,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "declaration": true,
     "importHelpers": true
   },

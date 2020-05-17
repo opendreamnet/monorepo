@@ -13,22 +13,22 @@ module.exports = {
     browser: true,
     node: true
   },
-  extends: [
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
-    'plugin:import/typescript',
-    'plugin:promise/recommended',
-    'plugin:lodash/recommended',
-    'plugin:mocha/recommended'
-  ],
   plugins: [
     '@typescript-eslint',
     'import',
     'promise',
     'lodash',
     'mocha'
+  ],
+  extends: [
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'plugin:promise/recommended',
+    'plugin:lodash/recommended',
+    'plugin:mocha/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   rules: {
     '@typescript-eslint/quotes': ['error', 'single'],
@@ -38,6 +38,8 @@ module.exports = {
     '@typescript-eslint/camelcase': ['warn', {
       properties: 'never'
     }],
+    'quotes': 'off',
+    'semi': 'off',
     'mocha/prefer-arrow-callback': 'error',
     'import/named': 'error',
     'import/no-cycle': 'off',
@@ -54,6 +56,7 @@ module.exports = {
     'lodash/prefer-lodash-typecheck': 'warn',
     'lodash/prefer-noop': 'off',
     'lodash/prefer-spread': 'off',
+    'promise/no-callback-in-promise': 'off',
     'linebreak-style': 'error',
     'max-len': ['warn', { code: 120 }],
     'no-await-in-loop': 'warn',
@@ -71,13 +74,14 @@ module.exports = {
     'comma-dangle': ['warn', 'always-multiline'],
     'func-names': 'off',
     'global-require': 'off',
-    'prefer-arrow-callback': 'off',
-    'object-shorthand': ['error', 'always'],
+    'prefer-arrow-callback': 'error',
+    'object-shorthand': ['error'],
     'padded-blocks': ['error', 'never'],
-    'prefer-spread': 'off',
-    'promise/no-callback-in-promise': 'off',
+    'prefer-spread': 'error',
     'quote-props': ['error', 'as-needed'],
     'spaced-comment': 'warn',
-    'object-curly-spacing': ['error', 'always']
+    'object-curly-spacing': ['error', 'always'],
+    'unicorn/prefer-includes': 'off',
+    'unicorn/prefer-text-content': 'off'
   }
 }

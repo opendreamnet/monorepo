@@ -1,0 +1,32 @@
+{
+  "name": "@dreamnet/dreamlink",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": {
+    "name": "Contributors",
+    "email": "hello@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "publishConfig": {
+    "registry": "https://npm.dreamnet.tech"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamnettech/monorepo.git"
+  },
+  "bugs": "https://github.com/dreamnettech/monorepo/issues",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/packages/eslint-config-dreamnet",
+    "@types/eslint": "6.8.0",
+    "@types/rimraf": "3.0.0",
+    "eslint": "^7.0.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.2"
+  }
+}

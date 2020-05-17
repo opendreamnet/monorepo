@@ -28,6 +28,7 @@ export interface UrlHash {
 export interface ReleaseFile {
   path: string;
   relpath: string;
+  content?: fs.ReadStream;
 
   name?: string;
   mimetype?: string;
