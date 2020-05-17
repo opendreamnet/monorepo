@@ -48,7 +48,6 @@ jobs:
           privateKey: ${{ secrets.SSH_KEY }}
           command: |
             chown root:root -R /dreamnet
-            chmod 774 -R /dreamnet
 
       - name: "Mariana: Docker Compose"
         uses: JimCronqvist/action-ssh@master
