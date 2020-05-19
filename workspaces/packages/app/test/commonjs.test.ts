@@ -2,9 +2,9 @@
 
 import assert from 'assert'
 import { platform } from 'os'
-import * as app from '../src'
+import * as app from '../dist/dreamapp.js'
 
-describe('app - node', function () {
+describe('app - commonjs', function () {
   describe('getPlatform()', function () {
     it('should be string', function () {
       assert.equal(typeof app.getPlatform(), 'string')

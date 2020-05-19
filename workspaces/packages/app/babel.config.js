@@ -1,7 +1,5 @@
 module.exports = {
-  sourceType: 'unambiguous',
   presets: [
-    '@babel/typescript',
     [
       '@babel/preset-env',
       {
@@ -14,7 +12,5 @@ module.exports = {
   ],
   plugins: [
     'lodash',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-optional-chaining',
   ],
 }

@@ -1,21 +1,9 @@
 {
   "name": "@dreamnet/eslint-config-dreamnet",
   "version": "0.1.0",
-  "description": "DreamNet ESLint config.",
+  "description": "ESLint config for DreamNet projects in Typescript.",
   "license": "MIT",
   "main": "index.js",
-  "author": {
-    "name": "Contributors",
-    "email": "hello@dreamnet.tech",
-    "url": "https://github.com/dreamnettech/dreamnet/graphs/contributors"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dreamnettech/dreamnet.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.dreamnet.tech"
-  },
   "devDependencies": {
     "@types/eslint": "6.8.0",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
@@ -35,5 +23,21 @@
     "eslint-plugin-lodash": "^6.0.0",
     "eslint-plugin-mocha": "^6.3.0",
     "eslint-plugin-promise": "^4.2.1"
+  },
+  "author": {
+    "name": "Contributors",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamnettech/monorepo.git"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.dreamnet.tech"
   }
 }

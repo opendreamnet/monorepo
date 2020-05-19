@@ -1,12 +1,14 @@
 {
   "name": "@dreamnet/queue",
   "version": "0.1.2",
-  "description": "Queue",
+  "description": "Small library to create managed queues.",
   "main": "dist/index.js",
-  "author": "Ivan Bravo Bravo <ivan@dreamnet.tech>",
   "license": "MIT",
   "scripts": {
     "build": "babel src -d dist"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -27,7 +29,20 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.1.3"
   },
-  "dependencies": {
-    "lodash": "^4.17.15"
+  "author": {
+    "name": "Contributors",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamnettech/monorepo.git"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.dreamnet.tech"
   }
 }

@@ -51,14 +51,8 @@ let appName: string
  * Returns the application name.
  */
 export function getName(): string {
-  if (!isNode) {
-    return 'DreamApp'
-  }
-
-  if (!appName) {
-    const parent = require('parent-package-json')
-
-    const pkg = parent()
+  if (!appName && isNode) {
+    const pkg = require('parent-package-json')()
 
     if (pkg) {
       // Try to find the name of the application in the package.json
@@ -69,7 +63,17 @@ export function getName(): string {
     }
   }
 
-  return appName
+  return appName || 'DreamApp'
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {string} value
+ */
+export function setName(value: string): void {
+  appName = value
 }
 
 /**
@@ -80,9 +84,7 @@ export function getPlatform(): string {
     return navigator.platform.toLowerCase()
   }
 
-  const os = require('os')
-
-  return os.platform()
+  return require('os').platform()
 }
 
 /**
@@ -166,7 +168,7 @@ export function getPath(name: string, ...paths: string[]): string | null {
 
   const fs = require('fs')
   const os = require('os')
-  const getPlatformPath = require('platform-folders')
+  const getPlatformPath = require('platform-folders').default
 
   switch (name) {
     case 'cwd':
@@ -205,7 +207,6 @@ export function getPath(name: string, ...paths: string[]): string | null {
     }
 
     case 'cache':
-    case 'documents':
     case 'savegames':
       basePath = path.resolve(getPlatformPath(name), getName())
       break

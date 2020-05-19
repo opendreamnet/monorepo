@@ -1,33 +1,11 @@
 {
   "name": "@dreamnet/deploy",
   "version": "0.1.0",
+  "description": "Library to deploy files and folders to different file providers.",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "author": {
-    "name": "Contributors",
-    "email": "hello@dreamnet.tech",
-    "url": "https://github.com/dreamnettech/dreamnet/graphs/contributors"
-  },
-  "publishConfig": {
-    "registry": "https://npm.dreamnet.tech"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dreamnettech/dreamnet.git"
-  },
-  "bugs": "https://github.com/dreamnettech/dreamnet/issues",
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "bin": "./bin/run",
-  "oclif": {
-    "bin": "deploy"
-  },
-  "files": [
-    "/bin",
-    "/dist"
-  ],
   "scripts": {
     "posttest": "eslint . --ext .ts --config .eslintrc",
     "prepack": "rimraf dist && tsc -b && oclif-dev readme",
@@ -76,5 +54,31 @@
     "rimraf": "^3.0.2",
     "ts-node": "^8",
     "typescript": "^3.3"
+  },
+  "author": {
+    "name": "Contributors",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamnettech/monorepo.git"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.dreamnet.tech"
+  },
+  "oclif": {
+    "bin": "deploy"
+  },
+  "files": [
+    "/bin",
+    "/dist"
+  ],
+  "engines": {
+    "node": ">=8.0.0"
   }
 }

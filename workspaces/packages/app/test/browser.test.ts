@@ -1,3 +1,5 @@
+/* eslint-disable prefer-arrow-callback */
+
 import 'chromedriver'
 import assert from 'assert'
 import path from 'path'
