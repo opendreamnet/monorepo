@@ -2,7 +2,7 @@
 
 import { isEmpty, isPlainObject, isNil } from 'lodash'
 import { Release } from '../../modules/release'
-import { UrlHash } from '../../modules/interfaces'
+import { UrlHash } from '../../modules/types'
 
 export interface Provider {
   /**
@@ -214,7 +214,9 @@ export class Provider {
    * @type {(string | undefined)}
    */
   get token(): string | undefined {
-    return this._token || process.env[`DEPLOY_${this.name.toUpperCase()}_TOKEN`] || process.env[`DEPLOY_${this.name.toUpperCase()}_KEY`]
+    return this._token ||
+      process.env[`DEPLOY_${this.name.toUpperCase()}_TOKEN`] ||
+      process.env[`DEPLOY_${this.name.toUpperCase()}_KEY`]
   }
 
   /**

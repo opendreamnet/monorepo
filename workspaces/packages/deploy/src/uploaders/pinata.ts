@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { UrlHash } from '../modules/interfaces'
+import { UrlHash } from '../modules/types'
 import { Http } from './base/http'
 
 /**
@@ -11,6 +11,16 @@ import { Http } from './base/http'
  * @extends {Http}
  */
 export class Pinata extends Http {
+  /**
+   *
+   *
+   * @readonly
+   * @type {string}
+   */
+  get label(): string {
+    return 'Pinata.cloud'
+  }
+
   /**
    *
    *

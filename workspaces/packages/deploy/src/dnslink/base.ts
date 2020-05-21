@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash'
 import { Release } from '../modules/release'
-import { DNSRecord } from '../modules/interfaces'
+import { DNSRecord } from '../modules/types'
 
 export interface DnsProvider {
   setup?(): Promise<void>;

@@ -8,7 +8,7 @@ export class Codeberg extends Gitea {
    * @type {string}
    */
   get label(): string {
-    return `Codeberg.org`
+    return 'Codeberg.org'
   }
 
   /**

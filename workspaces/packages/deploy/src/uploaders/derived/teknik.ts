@@ -8,7 +8,7 @@ export class Teknik extends Gitea {
    * @type {string}
    */
   get label(): string {
-    return `Teknik.io`
+    return 'Teknik.io'
   }
 
   /**

@@ -15,7 +15,7 @@ export class Infura extends IPFS {
    * @type {string}
    * @memberof Infura
    */
-  get gateway(): string {
+  get gatewayURL(): string {
     return process.env.DEPLOY_INFURA_GATEWAY || 'https://gateway.ipfs.io'
   }
 

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { Octokit } from '@octokit/rest'
-import { GitRelease, GitReleaseAsset } from '../modules/interfaces'
+import { GitRelease, GitReleaseAsset } from '../modules/types'
 import { Git } from './mixins/git'
 import { Provider } from './base/base'
 

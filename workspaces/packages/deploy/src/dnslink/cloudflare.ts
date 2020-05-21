@@ -2,7 +2,7 @@
 import updateCloudflareDnslink from 'dnslink-cloudflare'
 import { isEmpty } from 'lodash'
 
-import { DNSRecord, DNSLink } from '../modules/interfaces'
+import { DNSRecord, DNSLink } from '../modules/types'
 import { DnsProvider } from './base'
 
 export class Cloudflare extends DnsProvider {

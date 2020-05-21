@@ -1,7 +1,8 @@
 import fs from 'fs'
-import { multiaddr, CID  } from 'ipfs-http-client'
+import { cloneDeep } from 'lodash'
+import { CID  } from 'ipfs-http-client'
 import ipfsCluster from 'ipfs-cluster-api'
-import { UrlHash } from '../../modules/interfaces'
+import { UrlHash } from '../../modules/types'
 import { IPFS } from './ipfs'
 
 /**
@@ -17,9 +18,8 @@ export class IPFSCluster extends IPFS {
    *
    * @readonly
    * @type {string}
-   * @memberof IPFSCluster
    */
-  get name(): string {
+  get label(): string {
     return this.host ? `IPFS Cluster (${this.host})` : super.name
   }
 
@@ -28,56 +28,17 @@ export class IPFSCluster extends IPFS {
    *
    * @readonly
    * @type {string}
-   * @memberof IPFSCluster
    */
-  get gateway(): string {
-    return this._gateway || process.env.DEPLOY_IPFS_CLUSTER_GATEWAY || 'https://gateway.ipfs.io'
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {string}
-   * @memberof IPFSCluster
-   */
-  get host(): string {
-    return this._host || process.env.DEPLOY_IPFS_CLUSTER_HOST || '/ip4/127.0.0.1/tcp/9094'
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof IPFSCluster
-   */
-  get username(): string | null {
-    return this._username || process.env.DEPLOY_IPFS_CLUSTER_USERNAME || null
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof IPFSCluster
-   */
-  get password(): string | null {
-    return this._password || process.env.DEPLOY_IPFS_CLUSTER_PASSWORD || null
+  get customHost(): string {
+    return '/ip4/127.0.0.1/tcp/9094'
   }
 
   /**
    *
    *
    * @returns {Promise<void>}
-   * @memberof IPFSCluster
    */
   async setup(): Promise<void> {
-    if (this.ipfs) {
-      return
-    }
-
     this.ipfs = ipfsCluster(this.options)
   }
 
@@ -85,10 +46,9 @@ export class IPFSCluster extends IPFS {
    *
    *
    * @returns {Promise<any>}
-   * @memberof IPFSCluster
    */
   async upload(): Promise<any> {
-    const files = this.release.files.map(file => {
+    const files = cloneDeep(this.release.files).map(file => {
       if (!file.isDirectory) {
         file.content = fs.createReadStream(file.path)
         file.path = file.relpath
@@ -110,16 +70,13 @@ export class IPFSCluster extends IPFS {
    *
    * @param {*} response
    * @returns {Promise<UrlHash>}
-   * @memberof IPFSCluster
    */
   async parse(response): Promise<UrlHash> {
-    fs.writeFileSync('response.json', JSON.stringify(response, null, 2))
-
     const cid = new CID(response[response.length - 1].hash).toString()
 
     return {
       cid,
-      url: `${this.gateway}/ipfs/${cid}`,
+      url: `${this.gatewayURL}/ipfs/${cid}`,
     }
   }
 
@@ -127,7 +84,6 @@ export class IPFSCluster extends IPFS {
    *
    *
    * @returns {Promise<void>}
-   * @memberof IPFSCluster
    */
   async pin(): Promise<void> {
     await this.ipfs.pin.add(this.cid, { timeout: 5 * 60 * 1000 })
@@ -137,7 +93,6 @@ export class IPFSCluster extends IPFS {
    *
    *
    * @returns {Promise<void>}
-   * @memberof IPFSCluster
    */
   async unpin(): Promise<void> {
     await this.ipfs.pin.rm(this.release.previousCID)

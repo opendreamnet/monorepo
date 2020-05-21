@@ -13,9 +13,18 @@ export class DreamLink extends IPFS {
    *
    * @readonly
    * @type {string}
-   * @memberof DreamLink
    */
-  get gateway(): string {
+  get label(): string {
+    return 'DreamLink'
+  }
+
+  /**
+   *
+   *
+   * @readonly
+   * @type {string}
+   */
+  get customGatewayURL(): string {
     return 'https://link.dreamnet.tech'
   }
 
@@ -24,31 +33,8 @@ export class DreamLink extends IPFS {
    *
    * @readonly
    * @type {string}
-   * @memberof DreamLink
    */
-  get host(): string {
-    return '/dns4/api.valeria.dreamnet.tech/tcp/443/https'
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof DreamLink
-   */
-  get username(): string | null {
-    return this._username || process.env.DEPLOY_DREAMLINK_USERNAME || null
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof DreamLink
-   */
-  get password(): string | null {
-    return this._password || process.env.DEPLOY_DREAMLINK_PASSWORD || null
+  get customHost(): string {
+    return '/dns4/api.link.dreamnet.tech/tcp/443/https'
   }
 }

@@ -8,7 +8,7 @@ export class Antopie extends Gitea {
    * @type {string}
    */
   get label(): string {
-    return `Antopie.org`
+    return 'Antopie.org'
   }
 
   /**

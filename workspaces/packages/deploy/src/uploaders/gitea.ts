@@ -1,6 +1,6 @@
 import { find, isEmpty } from 'lodash'
 import { AxiosRequestConfig } from 'axios'
-import { GitRelease, GitReleaseAsset } from '../modules/interfaces'
+import { GitRelease, GitReleaseAsset } from '../modules/types'
 import { Http } from './base/http'
 import { Git } from './mixins/git'
 

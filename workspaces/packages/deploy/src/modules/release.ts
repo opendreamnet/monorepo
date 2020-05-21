@@ -11,7 +11,7 @@ import * as Providers from '../uploaders'
 import { Provider } from '../uploaders'
 import * as DnsProviders from '../dnslink'
 import { DnsProvider } from '../dnslink'
-import { ReleaseFile, UrlHash, ProviderEntity, DNSProviderEntity as DnsProviderEntity } from './interfaces'
+import { ReleaseFile, UrlHash, ProviderEntity, DNSProviderEntity as DnsProviderEntity } from './types'
 import { isProvider } from './utils'
 import { storage } from './storage'
 
@@ -71,21 +71,21 @@ export class Release extends EventEmitter {
    *
    * @type {ReleaseFile[]}
    */
-  files: ReleaseFile[] = [];
+  files: ReleaseFile[] = []
 
   /**
    *
    *
    * @type {Provider[]}
    */
-  providers: Provider[] = [];
+  providers: Provider[] = []
 
   /**
    *
    *
    * @type {DnsProvider[]}
    */
-  dnsProviders: DnsProvider[] = [];
+  dnsProviders: DnsProvider[] = []
 
   /**
    *
@@ -133,14 +133,18 @@ export class Release extends EventEmitter {
    * @param {string} releasePath
    * @param {string} [version]
    */
-  constructor(releasePath: string, public name?: string, encryptKey?: string) {
+  constructor(releasePath: string) {
     super()
 
     this.path = path.resolve(releasePath)
     this.stats = fs.statSync(releasePath)
 
-    if (encryptKey || process.env.DEPLOY_ENCRYPT_KEY) {
-      this.setEncryptKey(encryptKey || process.env.DEPLOY_ENCRYPT_KEY)
+    if (process.env.DEPLOY_NAME) {
+      this.setName(process.env.DEPLOY_NAME)
+    }
+
+    if (process.env.DEPLOY_ENCRYPT_KEY) {
+      this.setEncryptKey(process.env.DEPLOY_ENCRYPT_KEY)
     }
   }
 
@@ -244,12 +248,16 @@ export class Release extends EventEmitter {
         this.addProvider(prov)
       })
     } else {
-      if (!isProvider(provider)) {
-        // eslint-disable-next-line import/namespace
-        provider = new Providers[provider](this) as Provider
-      }
+      try {
+        if (!isProvider(provider)) {
+          // eslint-disable-next-line import/namespace
+          provider = new Providers[provider](this) as Provider
+        }
 
-      this.providers.push(provider)
+        this.providers.push(provider)
+      } catch (error) {
+        this.emit('fail', error)
+      }
     }
 
     return this
@@ -267,12 +275,16 @@ export class Release extends EventEmitter {
         this.addDnsProvider(prov)
       })
     } else {
-      if (!(provider instanceof DnsProvider)) {
-        // eslint-disable-next-line import/namespace
-        provider = new DnsProviders[provider](this) as DnsProvider
-      }
+      try {
+        if (!(provider instanceof DnsProvider)) {
+          // eslint-disable-next-line import/namespace
+          provider = new DnsProviders[provider](this) as DnsProvider
+        }
 
-      this.dnsProviders.push(provider)
+        this.dnsProviders.push(provider)
+      } catch (error) {
+        this.emit('fail', error)
+      }
     }
 
     return this

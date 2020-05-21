@@ -7,6 +7,8 @@ export { Infura } from './infura'
 export { Pinata } from './pinata'
 export { Github } from './github'
 export { Gitea } from './gitea'
+export { MEGA } from './mega'
+export { GoogleDrive } from './googledrive'
 
 export { DreamLink } from './derived/dreamlink'
 export { DreamLinkCluster } from './derived/dreamlink-cluster'

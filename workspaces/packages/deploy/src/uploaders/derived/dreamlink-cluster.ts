@@ -6,9 +6,8 @@ export class DreamLinkCluster extends IPFSCluster {
    *
    * @readonly
    * @type {string}
-   * @memberof DreamLinkCluster
    */
-  get name(): string {
+  get label(): string {
     return 'DreamLink Cluster'
   }
 
@@ -17,9 +16,8 @@ export class DreamLinkCluster extends IPFSCluster {
    *
    * @readonly
    * @type {string}
-   * @memberof DreamLinkCluster
    */
-  get gateway(): string {
+  get customGatewayURL(): string {
     return 'https://link.dreamnet.tech'
   }
 
@@ -28,31 +26,8 @@ export class DreamLinkCluster extends IPFSCluster {
    *
    * @readonly
    * @type {string}
-   * @memberof DreamLinkCluster
    */
-  get host(): string {
-    return '/dns4/cluster.valeria.dreamnet.tech/tcp/443/https'
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof DreamLinkCluster
-   */
-  get username(): string | null {
-    return this._username || process.env.DEPLOY_DREAMLINK_CLUSTER_USERNAME || null
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof DreamLinkCluster
-   */
-  get password(): string | null {
-    return this._password || process.env.DEPLOY_DREAMLINK_CLUSTER_PASSWORD || null
+  get customHost(): string {
+    return '/dns4/cluster.link.dreamnet.tech/tcp/443/https'
   }
 }

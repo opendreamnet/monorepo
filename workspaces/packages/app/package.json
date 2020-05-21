@@ -6,17 +6,17 @@
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
-  "main": "dist/dreamapp.js",
+  "main": "dist/index.js",
   "umd:main": "dist/dreamapp.umd.js",
   "scripts": {
     "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx,.vue src/",
-    "mocha": "ts-mocha test/**/*.ts --recursive --exit",
-    "test": "yarn run lint && yarn run mocha",
+    "test:run": "ts-mocha test/**/*.ts --recursive --exit",
+    "test": "yarn run lint && yarn run test:run",
     "clean": "shx rm -rf dist/",
-    "build:web": "microbundle --format umd --target web --external none --no-sourcemap --compress",
-    "build:node": "microbundle --format cjs --target node",
-    "build": "yarn run clean && yarn run build:node && yarn run build:web && bundlesize",
-    "prepare": "yarn run build"
+    "build:web": "microbundle --format umd --external none --no-sourcemap --compress --tsconfig tsconfig.web.json --output dist/dreamapp.umd.js",
+    "build:node": "tsc -b",
+    "build": "yarn run clean && yarn run build:web && yarn run build:node && bundlesize",
+    "prepack": "yarn run build"
   },
   "dependencies": {
     "lodash": "^4.17.15",
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
-    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/packages/eslint-config-dreamnet",
+    "@dreamnet/eslint-config-dreamnet": "workspace:^0.1.0",
     "@types/babel__core": "7.1.7",
     "@types/babel__preset-env": "7.9.0",
     "@types/eslint": "6.8.1",
@@ -41,7 +41,7 @@
   },
   "bundlesize": [
     {
-      "path": "./dist/dreamapp.js",
+      "path": "./dist/index.js",
       "maxSize": "2 kB"
     },
     {
@@ -49,15 +49,12 @@
       "maxSize": "5 kB"
     }
   ],
-  "directories": {
-    "lib": "src/",
-    "test": "test/"
-  },
   "files": [
+    "dist/",
     "src/"
   ],
   "author": {
-    "name": "Contributors",
+    "name": "Iván Bravo Bravo",
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },

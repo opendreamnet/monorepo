@@ -1,9 +1,13 @@
+/* eslint-disable no-console */
 import { Command, flags } from '@oclif/command'
 import * as ora from 'ora'
 import { upperFirst } from 'lodash'
-import { UrlHash, DNSRecord } from './modules/interfaces'
+import Youch from 'youch'
+import forTerminal from 'youch-terminal'
+import { UrlHash, DNSRecord } from './modules/types'
 import { DnsProvider } from './dnslink'
 import { Release, Provider } from '.'
+// import '../secrets'
 
 class Deploy extends Command {
   static description = ''
@@ -27,6 +31,9 @@ class Deploy extends Command {
         'antopie',
         'codeberg',
         'teknik',
+        'mega',
+        'googledrive',
+        'gdrive',
       ],
       required: true,
       char: 'p',
@@ -56,11 +63,14 @@ class Deploy extends Command {
   async run(): Promise<void> {
     const { args, flags } = this.parse(Deploy)
 
-    const release = new Release(args.release, flags.name)
+    const release = new Release(args.release)
+
+    release.setName(flags.name)
 
     flags.provider.forEach(provider => {
       switch (provider) {
       case 'ipfs':
+      case 'mega':
         release.addProvider(provider.toUpperCase())
         break
 
@@ -84,6 +94,11 @@ class Deploy extends Command {
 
       case 'dreamlink-cluster':
         release.addProvider('DreamLinkCluster')
+        break
+
+      case 'googledrive':
+      case 'gdrive':
+        release.addProvider('GoogleDrive')
         break
       }
     })
@@ -110,6 +125,7 @@ class Deploy extends Command {
     release.on('upload_fail', (error: any, provider: Provider) => {
       this.spinner.fail(`Upload to ${provider.label} failed: ${error.message}`)
 
+      /*
       if (error.response) {
         console.warn(error.response)
       }
@@ -117,6 +133,7 @@ class Deploy extends Command {
       if (error.request) {
         console.warn(error.request)
       }
+      */
     })
 
     release.on('pin_begin', (provider: Provider) => {
@@ -158,10 +175,20 @@ class Deploy extends Command {
       this.spinner.info(`${result.record} = ${result.content}`)
     })
 
+    release.on('fail', (error: Error) => {
+      try {
+        const output = new Youch(error, {}).toJSON()
+        console.log(forTerminal(output))
+      } catch (error2) {
+        console.trace(error)
+        throw error
+      }
+    })
+
     const response = await release.run()
 
     this.log(JSON.stringify(response))
   }
 }
 
-export = Deploy
+export default Deploy

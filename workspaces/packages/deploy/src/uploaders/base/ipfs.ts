@@ -1,6 +1,6 @@
 import ipfsHttpClient, { multiaddr, globSource, CID  } from 'ipfs-http-client'
 import { isEmpty } from 'lodash'
-import { UrlHash } from '../../modules/interfaces'
+import { UrlHash } from '../../modules/types'
 import { Provider } from './base'
 
 /**
@@ -14,47 +14,32 @@ export class IPFS extends Provider {
   /**
    *
    *
-   * @readonly
-   * @type {string}
-   * @memberof IPFSCluster
-   */
-  get name(): string {
-    return this.host ? `IPFS (${this.host})` : super.name
-  }
-
-  /**
-   *
-   *
    * @type {*}
-   * @memberof IPFS
    */
   ipfs?: any
 
   /**
    *
    *
-   * @type {(string | undefined)}
-   * @memberof IPFS
+   * @type {string}
    */
-  _gateway: string | undefined
+  _gateway?: string
 
   /**
    *
    *
-   * @type {(string | undefined)}
-   * @memberof IPFS
+   * @type {string}
    */
-  _host: string | undefined
+  _host?: string
 
   /**
    *
    *
    * @readonly
    * @type {string}
-   * @memberof IPFS
    */
-  get gateway(): string {
-    return this._gateway || process.env.DEPLOY_IPFS_GATEWAY || 'https://gateway.ipfs.io'
+  get label(): string {
+    return this.host ? `IPFS (${this.host})` : super.label
   }
 
   /**
@@ -62,10 +47,29 @@ export class IPFS extends Provider {
    *
    * @readonly
    * @type {string}
-   * @memberof IPFS
+   */
+  get gatewayURL(): string {
+    return this._gateway || process.env[`DEPLOY_${this.name.toUpperCase()}_GATEWAY`] || this.customGatewayURL
+  }
+
+  /**
+   *
+   *
+   * @readonly
+   * @type {string}
+   */
+  get customGatewayURL(): string {
+    return 'https://gateway.ipfs.io'
+  }
+
+  /**
+   *
+   *
+   * @readonly
+   * @type {string}
    */
   get host(): string {
-    return this._host || process.env.DEPLOY_IPFS_HOST || '/ip4/127.0.0.1/tcp/5001'
+    return this._host || process.env[`DEPLOY_${this.name.toUpperCase()}_HOST`] || this.customHost
   }
 
   /**
@@ -73,7 +77,16 @@ export class IPFS extends Provider {
    *
    * @readonly
    * @type {string}
-   * @memberof IPFS
+   */
+  get customHost(): string {
+    return '/ip4/127.0.0.1/tcp/5001'
+  }
+
+  /**
+   *
+   *
+   * @readonly
+   * @type {string}
    */
   get protocol(): string {
     return this.host.includes('https') ? 'https' : 'http'
@@ -83,30 +96,7 @@ export class IPFS extends Provider {
    *
    *
    * @readonly
-   * @type {(string | null)}
-   * @memberof IPFS
-   */
-  get username(): string | null {
-    return this._username || process.env.DEPLOY_IPFS_USERNAME || null
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof IPFS
-   */
-  get password(): string | null {
-    return this._password || process.env.DEPLOY_IPFS_PASSWORD || null
-  }
-
-  /**
-   *
-   *
-   * @readonly
    * @type {object}
-   * @memberof IPFS
    */
   get options(): object {
     const addr = multiaddr(this.host).nodeAddress()
@@ -122,32 +112,8 @@ export class IPFS extends Provider {
   /**
    *
    *
-   * @readonly
-   * @type {boolean}
-   * @memberof IPFS
-   */
-  get enabled(): boolean {
-    if (isEmpty(this.host)) {
-      return false
-    }
-
-    if (!isEmpty(this.username) && isEmpty(this.password)) {
-      return false
-    }
-
-    if (!isEmpty(this.password) && isEmpty(this.username)) {
-      return false
-    }
-
-    return true
-  }
-
-  /**
-   *
-   *
    * @param {string} value
    * @returns
-   * @memberof IPFS
    */
   setGateway(value: string): this {
     this._gateway = value
@@ -159,7 +125,6 @@ export class IPFS extends Provider {
    *
    * @param {string} value
    * @returns
-   * @memberof IPFS
    */
   setHost(value: string): this {
     this._host = value
@@ -169,14 +134,26 @@ export class IPFS extends Provider {
   /**
    *
    *
-   * @returns {Promise<void>}
-   * @memberof IPFS
    */
-  async setup(): Promise<void> {
-    if (this.ipfs) {
-      return
+  validate(): void {
+    if (!this.host) {
+      throw new Error(`Missing host: DEPLOY_${this.name.toUpperCase()}_HOST`)
     }
 
+    if ((!this.username && this.password) || (!this.password && this.username)) {
+      throw new Error(`Missing credentials:
+
+DEPLOY_${this.name.toUpperCase()}_USERNAME
+DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
+    }
+  }
+
+  /**
+   *
+   *
+   * @returns {Promise<void>}
+   */
+  async setup(): Promise<void> {
     this.ipfs = ipfsHttpClient(this.options)
   }
 
@@ -184,7 +161,6 @@ export class IPFS extends Provider {
    *
    *
    * @returns {Promise<any>}
-   * @memberof IPFS
    */
   async upload(): Promise<any> {
     const files: any[] = []
@@ -201,14 +177,13 @@ export class IPFS extends Provider {
    *
    * @param {*} files
    * @returns {Promise<UrlHash>}
-   * @memberof IPFS
    */
   async parse(files: any): Promise<UrlHash> {
     const hash = new CID(files[files.length - 1].cid).toString()
 
     return {
       cid: hash,
-      url: `${this.gateway}/ipfs/${hash}`,
+      url: `${this.gatewayURL}/ipfs/${hash}`,
     }
   }
 
@@ -216,7 +191,6 @@ export class IPFS extends Provider {
    *
    *
    * @returns {Promise<void>}
-   * @memberof IPFS
    */
   async pin(): Promise<void> {
     await this.ipfs.pin.add(this.cid, { timeout: 5 * 60 * 1000 })
@@ -226,7 +200,6 @@ export class IPFS extends Provider {
    *
    *
    * @returns {Promise<void>}
-   * @memberof IPFS
    */
   async unpin(): Promise<void> {
     await this.ipfs.pin.rm(this.release.previousCID)
