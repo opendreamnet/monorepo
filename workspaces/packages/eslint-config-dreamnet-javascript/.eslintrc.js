@@ -9,7 +9,14 @@ module.exports = {
     mocha: true,
     browser: true,
     node: true,
+    es6: true
   },
+  plugins: [
+    'import',
+    'promise',
+    'lodash',
+    'mocha'
+  ],
   extends: [
     'plugin:import/errors',
     'plugin:import/warnings',
@@ -17,17 +24,10 @@ module.exports = {
     'plugin:lodash/recommended',
     'plugin:mocha/recommended'
   ],
-  plugins: [
-    'import',
-    'promise',
-    'lodash',
-    'mocha'
-  ],
   rules: {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'mocha/prefer-arrow-callback': 'error',
-    // 'import/extensions': 'off',
     'import/named': 'error',
     'import/no-cycle': 'off',
     'import/no-extraneous-dependencies': 'off',
@@ -43,6 +43,7 @@ module.exports = {
     'lodash/prefer-lodash-typecheck': 'warn',
     'lodash/prefer-noop': 'off',
     'lodash/prefer-spread': 'off',
+    'promise/no-callback-in-promise': 'off',
     'linebreak-style': 'error',
     'max-len': ['warn', { code: 120 }],
     'no-await-in-loop': 'warn',
@@ -53,19 +54,21 @@ module.exports = {
     'no-trailing-spaces': 'warn',
     'no-tabs': 'error',
     'no-undef': 'warn',
-    'no-unused-vars': 'warn',
+    'no-console': 'warn',
+    'no-underscore-dangle': 'off',
+    'valid-jsdoc': 'off',
     'class-methods-use-this': 'off',
-    'comma-dangle': ['warn', { arrays: 'always-multiline', objects: 'always-multiline' }],
+    'comma-dangle': ['warn', 'always-multiline'],
     'func-names': 'off',
     'global-require': 'off',
-    'prefer-arrow-callback': 'off',
-    'no-underscore-dangle': ['error', { allowAfterThis: true }],
-    'object-shorthand': ['error', 'always'],
+    'prefer-arrow-callback': 'error',
+    'object-shorthand': ['error'],
     'padded-blocks': ['error', 'never'],
-    'prefer-spread': 'off',
-    'promise/no-callback-in-promise': 'off',
+    'prefer-spread': 'error',
     'quote-props': ['error', 'as-needed'],
     'spaced-comment': 'warn',
     'object-curly-spacing': ['error', 'always'],
+    'unicorn/prefer-includes': 'off',
+    'unicorn/prefer-text-content': 'off'
   },
 }

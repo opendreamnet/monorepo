@@ -75,8 +75,9 @@ else
   case "$DREAMLINK_MODE" in
     "node")
       ipfs config Ipns.RepublishPeriod "6h"
-      ipfs config Reprovider.Interval "6h"
       ipfs config --bool Swarm.EnableRelayHop false
+      ipfs config Reprovider.Interval "6h"
+      ipfs config Reprovider.Strategy "pinned"
       ;;
     "router")
       ipfs config Datastore.GCPeriod "1h"
