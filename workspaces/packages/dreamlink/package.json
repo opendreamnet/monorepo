@@ -1,10 +1,17 @@
 {
   "name": "@dreamnet/dreamlink",
-  "description": "Library to control DreamLink (IPFS).",
   "version": "0.1.0",
+  "description": "Library to control DreamLink (IPFS).",
   "license": "MIT",
-  "main": "dist/index.js",
+  "source": "src/index.ts",
   "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "scripts": {
+    "posttest": "eslint --fix --ext .ts src/",
+    "clean": "shx rm -rf dist/",
+    "build": "yarn run clean && tsc -b",
+    "prepack": "yarn run build && oclif-dev readme"
+  },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/packages/eslint-config-dreamnet",
     "@types/eslint": "6.8.0",
