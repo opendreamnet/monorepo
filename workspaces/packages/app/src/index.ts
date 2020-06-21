@@ -52,6 +52,7 @@ let appName: string
  */
 export function getName(): string {
   if (!appName && isNode) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const pkg = require('parent-package-json')()
 
     if (pkg) {
@@ -117,7 +118,7 @@ export function choice(choices: object, defaultValue?: any): any {
   return defaultValue
 }
 
-/* eslint-disable import/no-unresolved, no-empty */
+/* eslint-disable @typescript-eslint/no-var-requires, no-empty */
 function getElectronPath(name: string, ...paths: string[]): string | null {
   let basePath = ''
 
@@ -144,7 +145,7 @@ function getElectronPath(name: string, ...paths: string[]): string | null {
 
   return null
 }
-/* eslint-enable import/no-unresolved, no-empty */
+/* eslint-enable @typescript-eslint/no-var-requires, no-empty */
 
 /**
  *
@@ -166,7 +167,9 @@ export function getPath(name: string, ...paths: string[]): string | null {
 
   let basePath = ''
 
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const fs = require('fs')
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const os = require('os')
   const getPlatformPath = require('platform-folders').default
 

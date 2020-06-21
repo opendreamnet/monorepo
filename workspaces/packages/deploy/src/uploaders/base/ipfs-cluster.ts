@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isArray } from 'lodash'
 import { CID  } from 'ipfs-http-client'
 import ipfsCluster from 'ipfs-cluster-api'
 import { UrlHash } from '../../modules/types'
@@ -61,6 +61,10 @@ export class IPFSCluster extends IPFS {
       name: this.release.name,
       recursive: true,
     })
+
+    if (!isArray(response) || response.length === 0) {
+      throw new Error(`IPFS Cluster invalid response: ${response}`)
+    }
 
     return response
   }

@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 module.exports = {
   parserOptions: {
     ecmaVersion: 2020,

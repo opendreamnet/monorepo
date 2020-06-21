@@ -181,7 +181,7 @@ class Deploy extends Command {
         console.log(forTerminal(output))
       } catch (error2) {
         console.trace(error)
-        throw error
+        // throw error
       }
     })
 

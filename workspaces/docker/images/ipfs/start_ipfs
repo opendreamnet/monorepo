@@ -13,7 +13,7 @@ if [ `id -u` -eq 0 ]; then
 fi
 
 # 2nd invocation with regular user
-ipfs version
+#ipfs version
 
 if [ -e "$repo/config" ]; then
   echo "Found IPFS fs-repo at $repo"
@@ -63,38 +63,30 @@ else
   ipfs config --bool Experimental.Libp2pStreamMounting true
 
   ipfs config Ipns.RecordLifetime "24h"
-  ipfs config Ipns.RepublishPeriod "1h"
+  ipfs config Ipns.RepublishPeriod "4h"
 
-  ipfs config Reprovider.Interval "1h"
-  ipfs config Reprovider.Strategy "all"
+  ipfs config Reprovider.Interval "12h"
+  ipfs config Reprovider.Strategy "pinned"
 
   ipfs config --bool Swarm.DisableRelay false
   ipfs config --bool Swarm.EnableAutoRelay true
-  ipfs config --bool Swarm.EnableRelayHop true
+  ipfs config --bool Swarm.EnableRelayHop false
+
+  if [ ! -z "$DREAMLINK_BOOTSTRAP" ] ; then
+    ipfs bootstrap add "/dnsaddr/bootstrap.link.dreamnet.tech/p2p/QmcWoy1FzBicbYuopNT2rT6EDQSBDfco1TxibEyYgWbiMq"
+    ipfs bootstrap add "/dnsaddr/bootstrap.link.dreamnet.tech/p2p/QmRQTpmbSVGCDAYw1wyTmPq647dW3fXwkhX6UBQErv1sTJ"
+  fi
 
   case "$DREAMLINK_MODE" in
     "node")
+      ipfs config Datastore.GCPeriod "6h"
       ipfs config Ipns.RepublishPeriod "6h"
-      ipfs config --bool Swarm.EnableRelayHop false
-      ipfs config Reprovider.Interval "6h"
-      ipfs config Reprovider.Strategy "pinned"
       ;;
     "router")
-      ipfs config Datastore.GCPeriod "1h"
-      ipfs config --json Datastore.StorageGCWatermark "70"
-      ipfs config Ipns.RepublishPeriod "12h"
-      ipfs config Reprovider.Interval "12h"
-      ipfs config Reprovider.Strategy "pinned"
+      ipfs config Datastore.GCPeriod "3h"
+      ipfs config Ipns.RepublishPeriod "6h"
       ;;
   esac
-fi
-
-echo "DreamNet Bootstrap..."
-#ipfs bootstrap rm all
-
-if [ ! -z "$DREAMLINK_BOOTSTRAP" ] ; then
-  ipfs bootstrap add "/dnsaddr/bootstrap.link.dreamnet.tech/p2p/QmcWoy1FzBicbYuopNT2rT6EDQSBDfco1TxibEyYgWbiMq"
-  ipfs bootstrap add "/dnsaddr/bootstrap.link.dreamnet.tech/p2p/QmRQTpmbSVGCDAYw1wyTmPq647dW3fXwkhX6UBQErv1sTJ"
 fi
 
 exec ipfs "$@"

@@ -38,7 +38,7 @@
   "devDependencies": {
     "@adonisjs/ace": "^5.0.8",
     "@adonisjs/fold": "^4.0.9",
-    "@types/eslint": "6.8.0",
+    "@types/eslint": "6.8.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-adonis": "^1.0.8",

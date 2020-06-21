@@ -4,7 +4,7 @@
   "description": "ESLint config for DreamNet projects in Javascript.",
   "license": "MIT",
   "main": "index.js",
-  "devDependencies": {
+  "dependencies": {
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-lodash": "^6.0.0",
@@ -20,7 +20,7 @@
     "eslint-plugin-promise": "^4.2.1"
   },
   "author": {
-    "name": "Contributors",
+    "name": "Iván Bravo Bravo",
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },

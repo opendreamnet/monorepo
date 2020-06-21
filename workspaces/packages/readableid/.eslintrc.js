@@ -3,6 +3,5 @@ module.exports = {
     '@dreamnet/eslint-config-dreamnet',
   ],
   rules: {
-    'import/order': 'off',
   },
 }

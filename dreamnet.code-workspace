@@ -13,8 +13,12 @@
 			"path": "workspaces/docker"
 		},
 		{
-			"name": "💻 dreamtime",
+			"name": "🌐 dreamtime",
 			"path": "workspaces/servers/dreamtime"
+    },
+    {
+			"name": "🌐 dreamnet",
+			"path": "workspaces/servers/dreamnet"
 		},
 		{
 			"name": "💻 dreamtrack",
@@ -33,6 +37,10 @@
 			"path": "workspaces/packages/eslint-config-dreamnet-javascript"
     },
     {
+			"name": "📦 @dreamnet/eslint-config-dreamnet-nuxtjs",
+			"path": "workspaces/packages/eslint-config-dreamnet-nuxtjs"
+    },
+    {
 			"name": "📦 @dreamnet/app",
 			"path": "workspaces/packages/app"
 		},
@@ -47,6 +55,10 @@
     {
 			"name": "📦 @dreamnet/dreamlink",
 			"path": "workspaces/packages/dreamlink"
+    },
+    {
+			"name": "📦 @dreamnet/readableid",
+			"path": "workspaces/packages/readableid"
 		},
 	],
 	"settings": {
@@ -54,7 +66,9 @@
 		"editor.formatOnSave": false,
 		"editor.formatOnType": false,
 		"javascript.validate.enable": false,
-		"typescript.validate.enable": true,
+    "typescript.validate.enable": true,
+    "css.validate": false,
+    "scss.validate": false,
 		"eslint.enable": true,
 		"eslint.run": "onSave",
 		"eslint.packageManager": "yarn",
@@ -70,7 +84,7 @@
 			"vue"
 		],
 		"editor.codeActionsOnSave": {
-			"source.fixAll.eslint": true
+      "source.fixAll.eslint": true
 		},
 		"npm.validate.enable": false
 	}

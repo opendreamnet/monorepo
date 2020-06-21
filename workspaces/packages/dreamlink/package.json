@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/packages/eslint-config-dreamnet",
-    "@types/eslint": "6.8.0",
+    "@types/eslint": "6.8.1",
     "@types/rimraf": "3.0.0",
     "eslint": "^7.0.0",
     "rimraf": "^3.0.2",

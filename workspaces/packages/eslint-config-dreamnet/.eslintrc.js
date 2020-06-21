@@ -1,88 +1,30 @@
-/* eslint-disable */
-
-const path = require('path')
-
 module.exports = {
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module',
-  },
-  env: {
-    mocha: true,
-    browser: true,
-    node: true,
-    es6: true
-  },
   plugins: [
     '@typescript-eslint',
-    'import',
-    'promise',
-    'lodash',
-    'mocha'
   ],
   extends: [
-    'plugin:import/errors',
-    'plugin:import/warnings',
-    'plugin:import/typescript',
-    'plugin:promise/recommended',
-    'plugin:lodash/recommended',
-    'plugin:mocha/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    '@dreamnet/eslint-config-dreamnet-javascript'
   ],
   rules: {
     '@typescript-eslint/quotes': ['error', 'single'],
     '@typescript-eslint/semi': ['error', 'never'],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-ignore': 'warn',
+    '@typescript-eslint/no-unused-vars': ['error', { args: 'all', argsIgnorePattern: '^_' }],
     '@typescript-eslint/camelcase': ['warn', {
-      properties: 'never'
+      properties: 'never',
     }],
-    'quotes': 'off',
-    'semi': 'off',
-    'mocha/prefer-arrow-callback': 'error',
-    'import/named': 'error',
-    'import/no-cycle': 'off',
-    'import/no-extraneous-dependencies': 'off',
-    'import/no-webpack-loader-syntax': 'off',
-    'import/order': 'error',
-    'import/prefer-default-export': 'off',
-    'import/no-duplicates': 'off',
-    'lodash/import-scope': ['error', 'member'],
-    'lodash/prefer-constant': 'off',
-    'lodash/prefer-immutable-method': 'warn',
-    'lodash/prefer-includes': 'warn',
-    'lodash/prefer-lodash-method': 'off',
-    'lodash/prefer-lodash-typecheck': 'warn',
-    'lodash/prefer-noop': 'off',
-    'lodash/prefer-spread': 'off',
-    'promise/no-callback-in-promise': 'off',
-    'linebreak-style': 'error',
-    'max-len': ['warn', { code: 120 }],
-    'no-await-in-loop': 'warn',
-    'no-continue': 'off',
-    'no-param-reassign': 'off',
-    'no-restricted-globals': 'warn',
-    'no-restricted-syntax': 'off',
-    'no-trailing-spaces': 'warn',
-    'no-tabs': 'error',
-    'no-undef': 'warn',
-    'no-console': 'warn',
-    'no-underscore-dangle': 'off',
-    'valid-jsdoc': 'off',
-    'class-methods-use-this': 'off',
-    'comma-dangle': ['warn', 'always-multiline'],
-    'func-names': 'off',
-    'global-require': 'off',
-    'prefer-arrow-callback': 'error',
-    'object-shorthand': ['error'],
-    'padded-blocks': ['error', 'never'],
-    'prefer-spread': 'error',
-    'quote-props': ['error', 'as-needed'],
-    'spaced-comment': 'warn',
-    'object-curly-spacing': ['error', 'always'],
-    'unicorn/prefer-includes': 'off',
-    'unicorn/prefer-text-content': 'off'
+    quotes: 'off',
+    semi: 'off',
+  },
+  settings: {
+    'import/extensions': [
+      '.js',
+      '.jsx',
+      '.ts'
+    ]
   }
 }
