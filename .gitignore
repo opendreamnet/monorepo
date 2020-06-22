@@ -60,7 +60,7 @@ typings/
 .yarn/cache/
 .yarn/build-state.yml
 .yarn/install-state.gz
-yarn.lock
+#yarn.lock
 
 # dotenv environment variables file
 .env
