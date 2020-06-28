@@ -7,8 +7,6 @@ RUN apk --update upgrade && apk update && apk add curl ca-certificates && update
 RUN apk --update add \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
-        nginx \
-        gzip \
         php7 \
         php7-dom \
         php7-ctype \
@@ -37,10 +35,6 @@ RUN apk --update add \
 # User
 RUN addgroup -S www && adduser -S www -G www
 
-# NGINX Setup
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /run/nginx
-
 #
 WORKDIR /www
 
@@ -56,9 +50,9 @@ RUN chmod -R a+w /www/var \
     && chmod -R a+w /www/www/images
 
 # Ports
-EXPOSE 80
+EXPOSE 9000
 
 # Volumes
 VOLUME /www
 
-CMD php-fpm7 && nginx -g 'daemon off;'
+CMD php-fpm7

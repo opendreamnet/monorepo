@@ -57,7 +57,7 @@ jobs:
           privateKey: ${{ secrets.SSH_KEY }}
           command: |
             cd /dreamnet/workspaces/docker/servers/mariana
-            docker-compose up --detach
+            docker-compose up --detach --build
 
       - name: "Mariana: DreamTrack - Restart"
         uses: JimCronqvist/action-ssh@master

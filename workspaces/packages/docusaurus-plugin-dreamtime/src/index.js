@@ -17,14 +17,14 @@ module.exports = function(context) {
             tagName: 'meta',
             attributes: {
               name: 'description',
-              content: 'DreamTime is an application that uses artificial intelligence to generate fake nudes, available for free for Windows, macOS and Linux.'
+              content: 'DreamTime is an application that allows you to easily create fake nudes from a photo using artificial intelligence. Available for free for Windows, Mac and Linux.'
             }
           },
           {
             tagName: 'meta',
             attributes: {
               name: 'keywords',
-              content: 'dreamtime, deepnude, dreampower, dreamtime app, dreamtime download, nudify, dreamtime nudify, dreamtime checkpoints, deepfake, windows, macos, linux, ubuntu'
+              content: 'dreamtime, deepnude, dreampower, dreamtime app, dreamtime download, nudify, dreamtime nudify, dreamtime checkpoints, deepfake'
             }
           },
           {
@@ -59,7 +59,7 @@ module.exports = function(context) {
             tagName: 'meta',
             attributes: {
               property: 'og:description',
-              content: 'DreamTime is an application that uses artificial intelligence to remove clothing from photos of people.'
+              content: 'DreamTime is an application that allows you to easily create fake nudes from a photo using artificial intelligence. Available for free for Windows, Mac and Linux.'
             }
           },
           {
@@ -141,7 +141,7 @@ module.exports = function(context) {
             tagName: 'script',
             attributes: {
               async: true,
-              src: '//ads.dreamnet.tech/www/delivery/asyncjs.php',
+              src: '//ads.dreamnet.tech/delivery/asyncjs.php',
             },
           },
           {
@@ -162,9 +162,9 @@ module.exports = function(context) {
             })(history.replaceState);
 
             window.addEventListener('locationchange', function() {
-              if (window.reviveAsync && window.reviveAsync["7e048c7f8d85676181a4b65ec87d61fe"]) {
+              if (window.reviveAsync && window.reviveAsync["3fe087377ab3999f9bd455cef8976f0b"]) {
                 setTimeout(function() {
-                  window.reviveAsync["7e048c7f8d85676181a4b65ec87d61fe"].refresh();
+                  window.reviveAsync["3fe087377ab3999f9bd455cef8976f0b"].refresh();
                   console.log('Refresh!');
                 }, 1000);
               }
@@ -178,7 +178,14 @@ module.exports = function(context) {
               name: 'trafficjunky-site-verification',
               content: 'w4ts34pvt'
             }
-          }
+          },
+          {
+            tagName: 'meta',
+            attributes: {
+              name: 'juicyads-site-verification',
+              content: '09f2b5ac5e71d26d2980ce9f8f05f643'
+            }
+          },
         ],
 
         postBodyTags: [
