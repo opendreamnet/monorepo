@@ -3,10 +3,6 @@
 		{
 			"name": "✨ monorepo",
 			"path": "."
-    },
-    {
-			"name": "🍎 dreamtime",
-			"path": "workspaces/apps/dreamtime"
 		},
 		{
 			"name": "🐳 docker",
@@ -15,8 +11,8 @@
 		{
 			"name": "🌐 dreamtime",
 			"path": "workspaces/servers/dreamtime"
-    },
-    {
+		},
+		{
 			"name": "🌐 dreamnet",
 			"path": "workspaces/servers/dreamnet"
 		},
@@ -35,12 +31,12 @@
 		{
 			"name": "📦 @dreamnet/eslint-config-dreamnet-javascript",
 			"path": "workspaces/packages/eslint-config-dreamnet-javascript"
-    },
-    {
+		},
+		{
 			"name": "📦 @dreamnet/eslint-config-dreamnet-nuxtjs",
 			"path": "workspaces/packages/eslint-config-dreamnet-nuxtjs"
-    },
-    {
+		},
+		{
 			"name": "📦 @dreamnet/app",
 			"path": "workspaces/packages/app"
 		},
@@ -51,15 +47,15 @@
 		{
 			"name": "📦 @dreamnet/deploy",
 			"path": "workspaces/packages/deploy"
-    },
-    {
+		},
+		{
 			"name": "📦 @dreamnet/dreamlink",
 			"path": "workspaces/packages/dreamlink"
-    },
-    {
+		},
+		{
 			"name": "📦 @dreamnet/readableid",
 			"path": "workspaces/packages/readableid"
-		},
+		}
 	],
 	"settings": {
 		"editor.formatOnPaste": false,
