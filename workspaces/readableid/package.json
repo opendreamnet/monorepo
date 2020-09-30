@@ -1,0 +1,73 @@
+{
+  "name": "@dreamnettech/readableid",
+  "version": "0.1.0",
+  "description": "Readable ID's generation.",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "umd:main": "dist/readableid.umd.js",
+  "amdName": "readableid",
+  "scripts": {
+    "lint": "eslint --fix --ext .ts,.js src/",
+    "test:run": "ts-mocha test/**/*.ts --recursive --exit",
+    "test": "yarn run lint && yarn run test:run",
+    "clean": "shx rm -rf dist/",
+    "build:web": "microbundle --format umd --external none --no-sourcemap --compress --tsconfig tsconfig.web.json --output dist/readableid.umd.js",
+    "build:node": "tsc -b",
+    "build": "yarn run clean && yarn run build:web && yarn run build:node && bundlesize",
+    "prepack": "yarn run build"
+  },
+  "dependencies": {
+    "chance": "^1.1.6",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@dreamnettech/eslint-config-dreamnet": "workspace:^0.1.0",
+    "@types/babel__core": "7.1.8",
+    "@types/babel__preset-env": "7.9.0",
+    "@types/chance": "1.1.0",
+    "@types/eslint": "6.8.1",
+    "@types/lodash": "4.14.155",
+    "babel-plugin-lodash": "^3.3.4",
+    "bundlesize": "^0.18.0",
+    "eslint": "^7.2.0",
+    "microbundle": "^0.12.0",
+    "shx": "^0.3.2",
+    "ts-mocha": "^7.0.0",
+    "typescript": "^3.9.5"
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/index.js",
+      "maxSize": "1 kB"
+    },
+    {
+      "path": "./dist/readableid.umd.js",
+      "maxSize": "80 kB"
+    }
+  ],
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "engines": {
+    "node": ">= 10"
+  },
+  "author": {
+    "name": "Iván Bravo Bravo",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/readableid"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  }
+}

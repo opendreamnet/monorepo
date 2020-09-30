@@ -9,22 +9,6 @@
 			"path": "workspaces/docker"
 		},
 		{
-			"name": "🌐 dreamtime",
-			"path": "workspaces/servers/dreamtime"
-		},
-		{
-			"name": "🌐 dreamnet",
-			"path": "workspaces/servers/dreamnet"
-		},
-		{
-			"name": "💻 dreamtrack",
-			"path": "workspaces/servers/dreamtrack"
-		},
-		{
-			"name": "👨‍💻 dreamcli",
-			"path": "workspaces/tools/dreamcli"
-		},
-		{
 			"name": "📦 @dreamnet/eslint-config-dreamnet",
 			"path": "workspaces/packages/eslint-config-dreamnet"
 		},
@@ -71,7 +55,7 @@
 		"eslint.nodePath": "node_modules",
 		"eslint.workingDirectories": [
 			{
-				"pattern": "workspaces/*/*"
+				"pattern": "workspaces/!(node_modules)/*"
 			}
 		],
 		"eslint.validate": [

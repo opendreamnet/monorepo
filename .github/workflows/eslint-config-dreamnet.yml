@@ -1,8 +1,8 @@
-name: "@dreamnettech/deploy"
+name: "@dreamnettech/eslint-config-dreamnet"
 on:
   push:
     paths:
-      - workspaces/deploy/src/**
+      - workspaces/eslint-config-dreamnet/**
 
 jobs:
   build:
@@ -18,20 +18,11 @@ jobs:
           node-version: "12"
 
       - name: Setup
-        working-directory: workspaces/deploy
+        working-directory: workspaces/eslint-config-dreamnet
         run: yarn install
 
-      - name: Tests
-        if: "false"
-        working-directory: workspaces/deploy
-        run: yarn run test
-
-      - name: Build
-        working-directory: workspaces/deploy
-        run: yarn run build
-
       - name: Publish
-        working-directory: workspaces/deploy
+        working-directory: workspaces/eslint-config-dreamnet
         run: yarn npm publish --tolerate-republish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

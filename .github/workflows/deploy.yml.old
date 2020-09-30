@@ -1,0 +1,69 @@
+name: Deploy
+on: push
+
+jobs:
+  setup:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          token: ${{ secrets.DEPLOY_PAT }}
+
+      - name: Install Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - run: yarn install
+
+      # DreamTrack
+
+      - name: "DreamTrack: Setup"
+        working-directory: workspaces/servers/dreamtrack
+        run: |
+          cp .env.production .env --force --update --verbose
+
+      # Mariana server. (WebApps)
+
+      - name: "Mariana: RSync"
+        uses: Pendect/action-rsyncer@v1.1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.SSH_KEY }}
+        with:
+          flags: "--archive --verbose --compress --recursive"
+          options: "--exclude=.git"
+          src: "/"
+          dest: "root@mariana.dreamnet.tech:/dreamnet"
+
+      - name: "Mariana: Setup"
+        uses: JimCronqvist/action-ssh@master
+        with:
+          hosts: root@mariana.dreamnet.tech
+          privateKey: ${{ secrets.SSH_KEY }}
+          command: |
+            chown root:root -R /dreamnet
+            chmod 777 -R /dreamnet/.yarn
+
+      - name: "Mariana: Docker Compose"
+        uses: JimCronqvist/action-ssh@master
+        with:
+          hosts: root@mariana.dreamnet.tech
+          privateKey: ${{ secrets.SSH_KEY }}
+          command: |
+            cd /dreamnet/workspaces/docker/servers/mariana
+            docker-compose up --detach --build
+
+      - name: "Mariana: DreamTrack - Restart"
+        uses: JimCronqvist/action-ssh@master
+        with:
+          hosts: root@mariana.dreamnet.tech
+          privateKey: ${{ secrets.SSH_KEY }}
+          command: |
+            chmod 777 -R /dreamnet/workspaces/servers/dreamtrack/storage/
+            docker restart dreamtrack

@@ -3,14 +3,16 @@
   "editor.formatOnSave": false,
   "editor.formatOnType": false,
   "javascript.validate.enable": false,
-	"typescript.validate.enable": true,
+  "typescript.validate.enable": true,
+  "css.validate": false,
+  "scss.validate": false,
   "eslint.enable": true,
   "eslint.run": "onSave",
   "eslint.packageManager": "yarn",
   "eslint.nodePath": "node_modules",
   "eslint.workingDirectories": [
     {
-      "pattern": "workspaces/*/*"
+      "pattern": "workspaces/!(node_modules)/*"
     }
   ],
   "eslint.validate": [

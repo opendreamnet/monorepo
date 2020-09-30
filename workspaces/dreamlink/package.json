@@ -1,0 +1,43 @@
+{
+  "name": "@dreamnettech/dreamlink",
+  "version": "0.1.0",
+  "description": "Library to control DreamLink (IPFS).",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "scripts": {
+    "posttest": "eslint --fix --ext .ts src/",
+    "clean": "shx rm -rf dist/",
+    "build": "yarn run clean && tsc -b",
+    "prepack": "yarn run build && oclif-dev readme"
+  },
+  "devDependencies": {
+    "@dreamnettech/eslint-config-dreamnet": "workspace:^0.1.0",
+    "@types/eslint": "7.2.0",
+    "@types/rimraf": "3.0.0",
+    "eslint": "^7.5.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "author": {
+    "name": "Ivan Bravo Bravo",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "orbit-db": "^0.24.2"
+  }
+}

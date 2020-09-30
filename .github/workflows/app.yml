@@ -1,8 +1,8 @@
-name: "@dreamnettech/deploy"
+name: "@dreamnettech/app"
 on:
   push:
     paths:
-      - workspaces/deploy/src/**
+      - workspaces/app/src/**
 
 jobs:
   build:
@@ -18,20 +18,15 @@ jobs:
           node-version: "12"
 
       - name: Setup
-        working-directory: workspaces/deploy
+        working-directory: workspaces/app
         run: yarn install
 
-      - name: Tests
-        if: "false"
-        working-directory: workspaces/deploy
-        run: yarn run test
-
       - name: Build
-        working-directory: workspaces/deploy
+        working-directory: workspaces/app
         run: yarn run build
 
       - name: Publish
-        working-directory: workspaces/deploy
+        working-directory: workspaces/app
         run: yarn npm publish --tolerate-republish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

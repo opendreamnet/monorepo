@@ -1,0 +1,23 @@
+{
+  "name": "@dreamnettech/docusaurus-plugin-dreamtime",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "src/index.js",
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0"
+  },
+  "author": {
+    "name": "Iván Bravo Bravo",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/docusaurus-plugin-dreamtime"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  }
+}

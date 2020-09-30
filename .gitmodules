@@ -1,7 +1,1 @@
 
-[submodule "workspaces/servers"]
-	path = workspaces/servers
-	url = git@github.com:dreamnettech/servers.git
-[submodule "workspaces/docker/servers"]
-	path = workspaces/docker/servers
-	url = git@github.com:dreamnettech/docker-servers.git
