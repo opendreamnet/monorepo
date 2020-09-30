@@ -1,8 +1,10 @@
-name: "@dreamnettech/app"
+name: "@dreamnet/app"
 on:
   push:
     paths:
-      - workspaces/app/src/**
+      - workspaces/app/**.js
+      - workspaces/app/**.ts
+      - workspaces/app/**.json
 
 jobs:
   build:
@@ -27,6 +29,6 @@ jobs:
 
       - name: Publish
         working-directory: workspaces/app
-        run: yarn npm publish --tolerate-republish
+        run: yarn npm publish --access public --tolerate-republish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

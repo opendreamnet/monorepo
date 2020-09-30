@@ -1,5 +1,5 @@
 {
-  "name": "@dreamnettech/queue",
+  "name": "@dreamnet/queue",
   "version": "0.1.2",
   "description": "Small library to create managed queues.",
   "main": "dist/index.js",

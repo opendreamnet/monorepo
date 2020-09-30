@@ -1,10 +1,10 @@
-name: "@dreamnet/eslint-config-dreamnet"
+name: "@dreamnet/queue"
 on:
   push:
     paths:
-      - workspaces/eslint-config-dreamnet/**.js
-      - workspaces/eslint-config-dreamnet/**.ts
-      - workspaces/eslint-config-dreamnet/**.json
+      - workspaces/queue/**.js
+      - workspaces/queue/**.ts
+      - workspaces/queue/**.json
 
 jobs:
   build:
@@ -20,11 +20,15 @@ jobs:
           node-version: "12"
 
       - name: Setup
-        working-directory: workspaces/eslint-config-dreamnet
+        working-directory: workspaces/queue
         run: yarn install
 
+      - name: Build
+        working-directory: workspaces/queue
+        run: yarn run build
+
       - name: Publish
-        working-directory: workspaces/eslint-config-dreamnet
+        working-directory: workspaces/queue
         run: yarn npm publish --access public --tolerate-republish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

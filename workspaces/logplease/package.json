@@ -1,5 +1,5 @@
 {
-  "name": "@dreamnettech/logplease",
+  "name": "@dreamnet/logplease",
   "version": "1.0.0",
   "description": "Simple Javascript logger for Node.js and Browsers",
   "main": "src/index.js",

@@ -1,10 +1,10 @@
-name: "@dreamnet/eslint-config-dreamnet"
+name: "@dreamnet/readableid"
 on:
   push:
     paths:
-      - workspaces/eslint-config-dreamnet/**.js
-      - workspaces/eslint-config-dreamnet/**.ts
-      - workspaces/eslint-config-dreamnet/**.json
+      - workspaces/readableid/**.js
+      - workspaces/readableid/**.ts
+      - workspaces/readableid/**.json
 
 jobs:
   build:
@@ -20,11 +20,15 @@ jobs:
           node-version: "12"
 
       - name: Setup
-        working-directory: workspaces/eslint-config-dreamnet
+        working-directory: workspaces/readableid
         run: yarn install
 
+      - name: Build
+        working-directory: workspaces/readableid
+        run: yarn run build
+
       - name: Publish
-        working-directory: workspaces/eslint-config-dreamnet
+        working-directory: workspaces/readableid
         run: yarn npm publish --access public --tolerate-republish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

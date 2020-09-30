@@ -1,5 +1,5 @@
 import path from 'path'
-import * as app from '@dreamnettech/app'
+import * as app from '@dreamnet/app'
 import fs from 'fs-extra'
 
 class Storage {

@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    '@dreamnettech/eslint-config-dream,net',
+    '@dreamnet/eslint-config-dream,net',
   ],
   overrides: [
     {

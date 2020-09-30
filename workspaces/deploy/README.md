@@ -16,11 +16,11 @@ deploy
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @dreamnettech/deploy
+$ npm install -g @dreamnet/deploy
 $ deploy COMMAND
 running command...
 $ deploy (-v|--version|version)
-@dreamnettech/deploy/0.1.0 win32-x64 node-v12.16.2
+@dreamnet/deploy/0.1.0 win32-x64 node-v12.16.2
 $ deploy --help [COMMAND]
 USAGE
   $ deploy COMMAND

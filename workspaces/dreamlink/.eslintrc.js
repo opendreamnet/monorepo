@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    '@dreamnettech/eslint-config-dreamnet',
+    '@dreamnet/eslint-config-dreamnet',
   ],
   rules: {,
   }

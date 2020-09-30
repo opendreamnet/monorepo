@@ -1,5 +1,5 @@
 {
-  "name": "@dreamnettech/adonis-queue",
+  "name": "@dreamnet/adonis-queue",
   "version": "1.0.0",
   "description": "An easy-to-use job queue for AdonisJS framework backed by Kue and Kue-scheduler.",
   "license": "MIT",

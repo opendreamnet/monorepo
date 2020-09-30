@@ -1,5 +1,5 @@
 {
-  "name": "@dreamnettech/deploy",
+  "name": "@dreamnet/deploy",
   "version": "0.1.2",
   "description": "Deploy files and folders to different file providers.",
   "license": "MIT",
@@ -23,8 +23,8 @@
     }
   },
   "dependencies": {
-    "@dreamnettech/app": "workspace:^0.1.0",
-    "@dreamnettech/eslint-config-dreamnet": "workspace:^0.1.0",
+    "@dreamnet/app": "workspace:^0.1.0",
+    "@dreamnet/eslint-config-dreamnet": "workspace:^0.1.0",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",

@@ -1,6 +1,6 @@
 module.exports = function(context) {
   return {
-    name: '@dreamnettech/docusaurus-plugin-dreamtime',
+    name: '@dreamnet/docusaurus-plugin-dreamtime',
 
     injectHtmlTags() {
       const html = {

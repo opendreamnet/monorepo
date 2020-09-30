@@ -1,5 +1,5 @@
 {
-  "name": "@dreamnettech/dreamlink",
+  "name": "@dreamnet/dreamlink",
   "version": "0.1.0",
   "description": "Library to control DreamLink (IPFS).",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "prepack": "yarn run build && oclif-dev readme"
   },
   "devDependencies": {
-    "@dreamnettech/eslint-config-dreamnet": "workspace:^0.1.0",
+    "@dreamnet/eslint-config-dreamnet": "workspace:^0.1.0",
     "@types/eslint": "7.2.0",
     "@types/rimraf": "3.0.0",
     "eslint": "^7.5.0",
