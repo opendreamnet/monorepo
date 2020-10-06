@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/readableid",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Readable ID's generation.",
   "license": "MIT",
   "source": "src/index.ts",
@@ -15,7 +15,7 @@
     "clean": "shx rm -rf dist/",
     "build:web": "microbundle --format umd --external none --no-sourcemap --compress --tsconfig tsconfig.web.json --output dist/readableid.umd.js",
     "build:node": "tsc -b",
-    "build": "yarn run clean && yarn run build:web && yarn run build:node && bundlesize"
+    "build": "yarn run clean && yarn run build:web && yarn run build:node && shx cp -R src/words dist/words && bundlesize"
   },
   "dependencies": {
     "chance": "^1.1.6",

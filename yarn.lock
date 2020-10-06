@@ -1440,14 +1440,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dreamnet/docusaurus-plugin-dreamtime@workspace:workspaces/docusaurus-plugin-dreamtime":
-  version: 0.0.0-use.local
-  resolution: "@dreamnet/docusaurus-plugin-dreamtime@workspace:workspaces/docusaurus-plugin-dreamtime"
-  peerDependencies:
-    "@docusaurus/core": ^2.0.0
-  languageName: unknown
-  linkType: soft
-
 "@dreamnet/dreamlink@workspace:workspaces/dreamlink":
   version: 0.0.0-use.local
   resolution: "@dreamnet/dreamlink@workspace:workspaces/dreamlink"
@@ -1455,10 +1447,10 @@ __metadata:
     "@dreamnet/eslint-config-dreamnet": "workspace:^0.1.0"
     "@types/eslint": 7.2.0
     "@types/rimraf": 3.0.0
-    eslint: ^7.5.0
-    orbit-db: ^0.24.2
+    eslint: ^7.10.0
+    orbit-db: ^0.26.0
     rimraf: ^3.0.2
-    ts-node: ^8.10.2
+    ts-node: ^9.0.0
     typescript: ^3.9.7
   languageName: unknown
   linkType: soft
@@ -6712,7 +6704,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.2.1, buffer@npm:^5.4.3, buffer@npm:^5.5.0, buffer@npm:^5.6.0":
+"buffer@npm:^5.4.3, buffer@npm:^5.5.0, buffer@npm:^5.6.0":
   version: 5.6.0
   resolution: "buffer@npm:5.6.0"
   dependencies:
@@ -7306,19 +7298,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cids@npm:^0.7.1":
-  version: 0.7.5
-  resolution: "cids@npm:0.7.5"
-  dependencies:
-    buffer: ^5.5.0
-    class-is: ^1.1.0
-    multibase: ~0.6.0
-    multicodec: ^1.0.0
-    multihashes: ~0.4.15
-  checksum: 8e19dde8d5f9a9900c3823b61c83ee1f0af1ba71c5694a06aa1d79f4e5e1aa9439dff0bc8ccd3e80f1bc09078457a0d212db90aebd8982c8fd4b142d22567eb6
-  languageName: node
-  linkType: hard
-
 "cids@npm:^1.0.0":
   version: 1.0.0
   resolution: "cids@npm:1.0.0"
@@ -7329,19 +7308,6 @@ __metadata:
     multihashes: ^3.0.1
     uint8arrays: ^1.0.0
   checksum: b32dad37b26a9b9b5ede7fc0046702543574f9630fa46a39a691edb3b172d36275c65a112067cf85fb9b9bce78ad47070a7694e3677bb5ed28a2c8b7bf14d028
-  languageName: node
-  linkType: hard
-
-"cids@npm:~0.8.0":
-  version: 0.8.3
-  resolution: "cids@npm:0.8.3"
-  dependencies:
-    buffer: ^5.6.0
-    class-is: ^1.1.0
-    multibase: ^1.0.0
-    multicodec: ^1.0.1
-    multihashes: ^1.0.1
-  checksum: 11139e4c978eb97d24ec3e80642337b65deee574a98690ea0cdd0861c437c6c18af431d36f56dd433ece7ce6793c8bd6ab71b28630375c7598aed7a4931cc01c
   languageName: node
   linkType: hard
 
@@ -9284,7 +9250,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"err-code@npm:^1.0.0, err-code@npm:^1.1.2":
+"err-code@npm:^1.0.0":
   version: 1.1.2
   resolution: "err-code@npm:1.1.2"
   checksum: 9e6bcdc90de83b1f30e312a7c7db38e6c50cbea0771e8b9f7301506e09df543ce29b4ed147ec528c1c072fb5561be7651b902b085338237682c8d0ac496e759c
@@ -9813,6 +9779,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-scope@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "eslint-scope@npm:5.1.1"
+  dependencies:
+    esrecurse: ^4.3.0
+    estraverse: ^4.1.1
+  checksum: 79465cf5082f4216176f6d49c7d088de89ee890f912eb87b831f23ee9a5e17ed0f3f2ab6108fb8fefa0474ba5ebeaa9bdefbe49ba704bd879b73f2445e23ee10
+  languageName: node
+  linkType: hard
+
 "eslint-template-visitor@npm:^2.0.0":
   version: 2.2.1
   resolution: "eslint-template-visitor@npm:2.2.1"
@@ -9945,6 +9921,53 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint@npm:^7.10.0":
+  version: 7.10.0
+  resolution: "eslint@npm:7.10.0"
+  dependencies:
+    "@babel/code-frame": ^7.0.0
+    "@eslint/eslintrc": ^0.1.3
+    ajv: ^6.10.0
+    chalk: ^4.0.0
+    cross-spawn: ^7.0.2
+    debug: ^4.0.1
+    doctrine: ^3.0.0
+    enquirer: ^2.3.5
+    eslint-scope: ^5.1.1
+    eslint-utils: ^2.1.0
+    eslint-visitor-keys: ^1.3.0
+    espree: ^7.3.0
+    esquery: ^1.2.0
+    esutils: ^2.0.2
+    file-entry-cache: ^5.0.1
+    functional-red-black-tree: ^1.0.1
+    glob-parent: ^5.0.0
+    globals: ^12.1.0
+    ignore: ^4.0.6
+    import-fresh: ^3.0.0
+    imurmurhash: ^0.1.4
+    is-glob: ^4.0.0
+    js-yaml: ^3.13.1
+    json-stable-stringify-without-jsonify: ^1.0.1
+    levn: ^0.4.1
+    lodash: ^4.17.19
+    minimatch: ^3.0.4
+    natural-compare: ^1.4.0
+    optionator: ^0.9.1
+    progress: ^2.0.0
+    regexpp: ^3.1.0
+    semver: ^7.2.1
+    strip-ansi: ^6.0.0
+    strip-json-comments: ^3.1.0
+    table: ^5.2.3
+    text-table: ^0.2.0
+    v8-compile-cache: ^2.0.3
+  bin:
+    eslint: bin/eslint.js
+  checksum: a136b9e01c956b97b1705517ecf71de082d7758b5871c97f4ca6a33a6f364f8be42a75f045ed74c3ae85e42e333269c4db5ad8b793f0ceeb10975726808a1514
+  languageName: node
+  linkType: hard
+
 "eslint@npm:^7.9.0":
   version: 7.9.0
   resolution: "eslint@npm:7.9.0"
@@ -10042,6 +10065,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esrecurse@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "esrecurse@npm:4.3.0"
+  dependencies:
+    estraverse: ^5.2.0
+  checksum: 2c96302dd5c4e6d07154d0ce6baee9e829ebf77e21c50c5ca4f24d6d0006fe4a4582364624a01f5667a3633b3e39bbce1a8191924f8419fb71584bb45bf7bb81
+  languageName: node
+  linkType: hard
+
 "estraverse@npm:^4.1.0, estraverse@npm:^4.1.1":
   version: 4.3.0
   resolution: "estraverse@npm:4.3.0"
@@ -10049,7 +10081,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"estraverse@npm:^5.1.0":
+"estraverse@npm:^5.1.0, estraverse@npm:^5.2.0":
   version: 5.2.0
   resolution: "estraverse@npm:5.2.0"
   checksum: 7dc1b027aebf937bab10c3254d9d73ed21672d7382518c9ddb9dc45560cb2f4e6548cc8ff1a07b7f431e94bd0fb0bf5da75b602e2473f966fea141c4c31b31d6
@@ -12566,19 +12598,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ipfs-log@npm:~4.6.2":
-  version: 4.6.2
-  resolution: "ipfs-log@npm:4.6.2"
+"ipfs-log@npm:~5.0.0":
+  version: 5.0.0
+  resolution: "ipfs-log@npm:5.0.0"
   dependencies:
+    ipfs-http-client: ^47.0.1
     json-stringify-deterministic: ^1.0.1
-    multihashing-async: ^0.7.0
-    orbit-db-identity-provider: ~0.3.0
-    orbit-db-io: ~0.2.0
+    multihashing-async: ^2.0.1
+    orbit-db-identity-provider: ~0.3.1
+    orbit-db-io: ~0.3.0
     p-do-whilst: ^1.1.0
     p-each-series: ^2.1.0
-    p-map: ^1.1.1
-    p-whilst: ^1.0.0
-  checksum: 0fd2188ff09f2f6eaf9e6ae59f2ece54857c9038fcf4c407993c4392a0c09261f6d92e390db6fe00431f6461961f820e6477e7e14eeafdad11d9fa056b61e659
+    p-map: ^4.0.0
+    p-whilst: ^2.1.0
+  checksum: 05f7e2a0550cd525eb975d502b7063eecbe53de0619a0d93aa09d9129621f6c88bfa5b852f8d470c9bf64c5e21bb4c11639f9f41998bd453a9a76ae7641f6a00
   languageName: node
   linkType: hard
 
@@ -12641,21 +12674,6 @@ __metadata:
     multihashing-async: ^2.0.0
     uint8arrays: ^1.0.0
   checksum: 8c49314d3d4f6e3b59c0a91e9a88a84ffd2841e69c6ad878306b46cd6a4402674f80ba005bc1a10e541df759a1b4f74459a61f3f8b21e1c8d2ab842b0fc11790
-  languageName: node
-  linkType: hard
-
-"ipld-dag-pb@npm:^0.18.1":
-  version: 0.18.5
-  resolution: "ipld-dag-pb@npm:0.18.5"
-  dependencies:
-    buffer: ^5.6.0
-    cids: ~0.8.0
-    class-is: ^1.1.0
-    multicodec: ^1.0.1
-    multihashing-async: ~0.8.1
-    protons: ^1.0.2
-    stable: ^0.1.8
-  checksum: c1104d6418c9a3a25683011ee8abbfb0318171f4984dbd8b89be2dd18086686234d9a8298e512e4fb5ebe4fff4f7c6543643eedb1a312ad79461df3d3a850100
   languageName: node
   linkType: hard
 
@@ -15762,16 +15780,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multibase@npm:^1.0.0, multibase@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "multibase@npm:1.0.1"
-  dependencies:
-    base-x: ^3.0.8
-    buffer: ^5.5.0
-  checksum: 61aedfdf01e5b2fc7b6dbb74adc24869f1ef80349239e6818d3dfc1b1dc5c737b4d2fa6765f74d68e9b3ac03f64ccff084e1fe8f30a91b0811d2e5db21086caa
-  languageName: node
-  linkType: hard
-
 "multibase@npm:^3.0.0":
   version: 3.0.0
   resolution: "multibase@npm:3.0.0"
@@ -15779,26 +15787,6 @@ __metadata:
     base-x: ^3.0.8
     web-encoding: ^1.0.2
   checksum: af3e943694daab11616637658875aa63183365e396e47ddb4865401aa3c30a8b44272f6b0fb148e2c23e2265e1eace67ae4febdd42fd8c603ea56ddf4d054dac
-  languageName: node
-  linkType: hard
-
-"multibase@npm:~0.6.0":
-  version: 0.6.1
-  resolution: "multibase@npm:0.6.1"
-  dependencies:
-    base-x: ^3.0.8
-    buffer: ^5.5.0
-  checksum: 22087b1bbbf4059202e866a1341f245b93bbca0316f31aa5ae6d932d2f82328bbe5bee93bb2c6895258bed653064b9c8ca3f98832c9139738201e9ad8587491d
-  languageName: node
-  linkType: hard
-
-"multicodec@npm:^1.0.0, multicodec@npm:^1.0.1":
-  version: 1.0.4
-  resolution: "multicodec@npm:1.0.4"
-  dependencies:
-    buffer: ^5.6.0
-    varint: ^5.0.0
-  checksum: aedec568e5dc662d3d02eb938207e08e1c69eaddf683efc902f15d1910e7acf1c349edc2f6b1edc995ecf777f7a9a30245ef9ab1b05e05f4f83268760eca060c
   languageName: node
   linkType: hard
 
@@ -15812,29 +15800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multihashes@npm:^0.4.12, multihashes@npm:~0.4.13, multihashes@npm:~0.4.15":
-  version: 0.4.21
-  resolution: "multihashes@npm:0.4.21"
-  dependencies:
-    buffer: ^5.5.0
-    multibase: ^0.7.0
-    varint: ^5.0.0
-  checksum: b950e045db982899f712ddfed7b3eb27b04576fa1a78bfd179e9dc86ded35823398d8cac6c3935f405b9a3cf2e8767022bd4287fb5e9d2b0fa6de098caa61323
-  languageName: node
-  linkType: hard
-
-"multihashes@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "multihashes@npm:1.0.1"
-  dependencies:
-    buffer: ^5.6.0
-    multibase: ^1.0.1
-    varint: ^5.0.0
-  checksum: 35e92d7110f27879fffdf1c57a5af2acb37e5962d6a49a55ec5327f140640c41bed53207897c72752510e31ac9ae5cdcfdf405f3e948ff7262e3893492007840
-  languageName: node
-  linkType: hard
-
-"multihashes@npm:^3.0.1":
+"multihashes@npm:^3.0.1, multihashes@npm:~3.0.1":
   version: 3.0.1
   resolution: "multihashes@npm:3.0.1"
   dependencies:
@@ -15845,21 +15811,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multihashing-async@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "multihashing-async@npm:0.7.0"
+"multihashes@npm:~0.4.13":
+  version: 0.4.21
+  resolution: "multihashes@npm:0.4.21"
   dependencies:
-    blakejs: ^1.1.0
-    buffer: ^5.2.1
-    err-code: ^1.1.2
-    js-sha3: ~0.8.0
-    multihashes: ~0.4.13
-    murmurhash3js-revisited: ^3.0.0
-  checksum: 21a6deef40b509bc3a99c0b614f1f0d4743d448b2bf091c90b255891b27df2360a8f358809e78bbc841ab5c5250cdfcc881493e7afac153f8b99cab8b2d029a6
+    buffer: ^5.5.0
+    multibase: ^0.7.0
+    varint: ^5.0.0
+  checksum: b950e045db982899f712ddfed7b3eb27b04576fa1a78bfd179e9dc86ded35823398d8cac6c3935f405b9a3cf2e8767022bd4287fb5e9d2b0fa6de098caa61323
   languageName: node
   linkType: hard
 
-"multihashing-async@npm:^2.0.0":
+"multihashing-async@npm:^2.0.0, multihashing-async@npm:^2.0.1":
   version: 2.0.1
   resolution: "multihashing-async@npm:2.0.1"
   dependencies:
@@ -15896,20 +15859,6 @@ __metadata:
     murmurhash3js: ^3.0.1
     nodeify: ^1.0.1
   checksum: d49ece6a4fa94e6f5a8f6fa678c58caac78b702ded71cf1e5b3e61bc71eac0a7c942c8050b950905169b77a182f4c6999eceefb0ea2107da3601e26b09081680
-  languageName: node
-  linkType: hard
-
-"multihashing-async@npm:~0.8.1":
-  version: 0.8.2
-  resolution: "multihashing-async@npm:0.8.2"
-  dependencies:
-    blakejs: ^1.1.0
-    buffer: ^5.4.3
-    err-code: ^2.0.0
-    js-sha3: ^0.8.0
-    multihashes: ^1.0.1
-    murmurhash3js-revisited: ^3.0.0
-  checksum: c2942599e960b7066eb4ca06a80eacdda0cbc5719a146e542695ccf386519319b2a71e0b15574105ae868d4791e82b90146c223f764b35dee6b50bc6694117b9
   languageName: node
   linkType: hard
 
@@ -16794,13 +16743,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"orbit-db-access-controllers@npm:^0.2.2":
-  version: 0.2.5
-  resolution: "orbit-db-access-controllers@npm:0.2.5"
+"orbit-db-access-controllers@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "orbit-db-access-controllers@npm:0.3.0"
   dependencies:
-    orbit-db-io: ^0.2.0
+    orbit-db-io: ^0.3.0
     p-map-series: ^1.0.0
-  checksum: c9214f6dd5de5fa643eca6e5ce872e09d40c1d28f59518311040c7171d8b9984234a8af7441f28c06da9c5ad70a67aee774433b2a263ddebe2e0df9ea7a53bde
+  checksum: 0a4fbb292923557d2372b490cce91a1c6eda09187fe059c2aabb191ced123936474697c4d0a8f25381017145d8f3290cc8d59f4b6d9fdfdce5253a179fb1d886
   languageName: node
   linkType: hard
 
@@ -16813,45 +16762,47 @@ __metadata:
   languageName: node
   linkType: hard
 
-"orbit-db-counterstore@npm:~1.9.0":
-  version: 1.9.0
-  resolution: "orbit-db-counterstore@npm:1.9.0"
+"orbit-db-counterstore@npm:~1.12.0":
+  version: 1.12.0
+  resolution: "orbit-db-counterstore@npm:1.12.0"
   dependencies:
     crdts: ~0.1.2
-    orbit-db-store: ~3.3.0
-  checksum: c16c1ce3b6acbce6294dc4126db9c1237bf72a46bb7a0e4da159cf8d55cd854e0338d1e2d946da3ab314706848aaf91968be2e925056c621039dcb4a378a200a
+  peerDependencies:
+    orbit-db-store: 4.x
+  checksum: 0009f52e8322a6ea1346621a9512fb9a0faaacc6da44f0ba7a3eec9122e5071c514871b88246aaf8fec2de309ed4c427405c5cabe62f2f6ee6d77b54c9362b15
   languageName: node
   linkType: hard
 
-"orbit-db-docstore@npm:~1.9.0":
-  version: 1.9.1
-  resolution: "orbit-db-docstore@npm:1.9.1"
+"orbit-db-docstore@npm:~1.12.0":
+  version: 1.12.0
+  resolution: "orbit-db-docstore@npm:1.12.0"
   dependencies:
-    orbit-db-store: ~3.3.0
     p-map: ~1.1.1
-  checksum: d96a1cb2e4e52e831636e8de153e3b0d0aa56fdaaff7d4468dacc257e6d29310bfb75a5719bacc686763fc524d8d3705f918cce1ca69d1612543a0f30ad367d5
+  peerDependencies:
+    orbit-db-store: 4.x
+  checksum: c69e7e326863e778dd9e66b3ed051a4e23797f468858daae838e579429025a42a9d14006dc1738d5b0533bcb13af7e18deb52a7bc47af4d243301ab3c7937305
   languageName: node
   linkType: hard
 
-"orbit-db-eventstore@npm:~1.9.0":
-  version: 1.9.0
-  resolution: "orbit-db-eventstore@npm:1.9.0"
+"orbit-db-eventstore@npm:~1.12.0":
+  version: 1.12.0
+  resolution: "orbit-db-eventstore@npm:1.12.0"
+  peerDependencies:
+    orbit-db-store: 4.x
+  checksum: f3c2a683d68edb53e4636b07aef71a9dcf3a6b70914f3fb937147a71dee01262256d8f683d6ade936a8a7037c0c5da06522bde09de321617a1d3b2744d809324
+  languageName: node
+  linkType: hard
+
+"orbit-db-feedstore@npm:~1.12.0":
+  version: 1.12.0
+  resolution: "orbit-db-feedstore@npm:1.12.0"
   dependencies:
-    orbit-db-store: ~3.3.0
-  checksum: 9d3230a2321cc61f5dbc82c6f61dace5bd6338f38240f00a8c3c887699b69999c6a9ed95f61a50f123de834dccc406786a1b44da6cdf00cb75eab4f315bb2b15
+    orbit-db-eventstore: ~1.12.0
+  checksum: 40d9a4144ffe4c07128238218bd17943d7b2f45d1c4362f48afab0e7cf5feb6b43d445ea1f705462411621eae33771b8e8824159595937b528cac3da7393b12e
   languageName: node
   linkType: hard
 
-"orbit-db-feedstore@npm:~1.9.0":
-  version: 1.9.0
-  resolution: "orbit-db-feedstore@npm:1.9.0"
-  dependencies:
-    orbit-db-eventstore: ~1.9.0
-  checksum: a754f6df0247571a975fae8b9257ff4f7c8a15a496d95002ef7cc1a7c87c765d2844e9a7ac86d41443425756b723f0f7cbc6667343023a827d734add1f381d7a
-  languageName: node
-  linkType: hard
-
-"orbit-db-identity-provider@npm:~0.3.0":
+"orbit-db-identity-provider@npm:~0.3.0, orbit-db-identity-provider@npm:~0.3.1":
   version: 0.3.1
   resolution: "orbit-db-identity-provider@npm:0.3.1"
   dependencies:
@@ -16861,13 +16812,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"orbit-db-io@npm:^0.2.0, orbit-db-io@npm:~0.2.0":
-  version: 0.2.0
-  resolution: "orbit-db-io@npm:0.2.0"
+"orbit-db-io@npm:^0.3.0, orbit-db-io@npm:~0.3.0":
+  version: 0.3.0
+  resolution: "orbit-db-io@npm:0.3.0"
   dependencies:
-    cids: ^0.7.1
-    ipld-dag-pb: ^0.18.1
-  checksum: 61d2ab4d1536a51c266f52bcd8ed5d18c48a94632734f92c19d1b63d1d18dbeb423a86e178820e1a60b49a5263c4f4ff9b930ae54157c1d3f699b8aa0a782212
+    cids: ^1.0.0
+    ipld-dag-pb: ^0.20.0
+  checksum: 7e2ee4bd66dcc0f3bce65f32b2d302a10745abae6901a32b50a8ebf449ef49d733c75c45bf1511af30de726e9a9a35ed0998fd47bc5a615d04c110a77c832175
   languageName: node
   linkType: hard
 
@@ -16888,23 +16839,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"orbit-db-kvstore@npm:~1.9.0":
-  version: 1.9.0
-  resolution: "orbit-db-kvstore@npm:1.9.0"
-  dependencies:
-    orbit-db-store: ~3.3.0
-  checksum: e8b5231d7c258ce945fe08999e3235fcbc85fadf216bf512f39d7b97151cdcb8c3c19568a185fb7a0bf84e64e4a70894108ebd5ddc6569e8bd1769cff71159c4
+"orbit-db-kvstore@npm:~1.12.0":
+  version: 1.12.0
+  resolution: "orbit-db-kvstore@npm:1.12.0"
+  peerDependencies:
+    orbit-db-store: 4.x
+  checksum: b1109fb66e3c513eeb0ea34abf16f3b3db6b75a08a7452d8fa226de558d726042f310f424fdebc60afb2d816b8b557039401e92095ab87ebaa994895d54bc507
   languageName: node
   linkType: hard
 
-"orbit-db-pubsub@npm:~0.5.5":
-  version: 0.5.7
-  resolution: "orbit-db-pubsub@npm:0.5.7"
+"orbit-db-pubsub@npm:~0.6.0":
+  version: 0.6.0
+  resolution: "orbit-db-pubsub@npm:0.6.0"
   dependencies:
     ipfs-pubsub-peer-monitor: ~0.0.5
     logplease: ~1.2.14
     p-series: ^1.1.0
-  checksum: ace856a4b626067b85a5a4c24060695bc09c608becb7641a0e74968a14d057786f75e00094aace5f4387c8f8bee3c688f2c814786929a00c85922d44f48eef7b
+  checksum: 16033af0f14a8151ed302eb35808516db1e89704897d88b144f089593d5347f2268f61f892268152578f5e97e0728bc4d8b2085433050ae7f8000912d9f0736b
   languageName: node
   linkType: hard
 
@@ -16918,46 +16869,46 @@ __metadata:
   languageName: node
   linkType: hard
 
-"orbit-db-store@npm:~3.3.0":
-  version: 3.3.1
-  resolution: "orbit-db-store@npm:3.3.1"
+"orbit-db-store@npm:~4.0.1":
+  version: 4.0.1
+  resolution: "orbit-db-store@npm:4.0.1"
   dependencies:
-    ipfs-log: ~4.6.2
+    ipfs-log: ~5.0.0
     it-to-stream: ^0.1.2
     logplease: ^1.2.14
-    orbit-db-io: ~0.2.0
+    orbit-db-io: ~0.3.0
     p-each-series: ^2.1.0
     p-map: ^4.0.0
     p-queue: ^6.6.1
     readable-stream: ~3.6.0
-  checksum: 6ad52fa05e24a081dc396b7979eb4ee7ec639530b8ffc0b35aca4dd0f331d971896a9fab60890ebd06bfabb62ed4cf02e5ff04b1e702f337097b38ccff188a8a
+  checksum: c29ee337e5421fe8e9997b661cd7015cea80518e27997ad3e59dbec6bf02518ef18de1ed6d6218a9f1ee81e70f276d99da0c85bbcfd24b045c79df98f2fc2139
   languageName: node
   linkType: hard
 
-"orbit-db@npm:^0.24.2":
-  version: 0.24.2
-  resolution: "orbit-db@npm:0.24.2"
+"orbit-db@npm:^0.26.0":
+  version: 0.26.0
+  resolution: "orbit-db@npm:0.26.0"
   dependencies:
-    cids: ^0.7.1
+    cids: ^1.0.0
     ipfs-pubsub-1on1: ~0.0.6
     is-node: ^1.0.2
     localstorage-down: ^0.6.7
     logplease: ^1.2.14
-    multihashes: ^0.4.12
-    orbit-db-access-controllers: ^0.2.2
+    multihashes: ~3.0.1
+    orbit-db-access-controllers: ^0.3.0
     orbit-db-cache: ~0.3.0
-    orbit-db-counterstore: ~1.9.0
-    orbit-db-docstore: ~1.9.0
-    orbit-db-eventstore: ~1.9.0
-    orbit-db-feedstore: ~1.9.0
+    orbit-db-counterstore: ~1.12.0
+    orbit-db-docstore: ~1.12.0
+    orbit-db-eventstore: ~1.12.0
+    orbit-db-feedstore: ~1.12.0
     orbit-db-identity-provider: ~0.3.0
-    orbit-db-io: ~0.2.0
+    orbit-db-io: ~0.3.0
     orbit-db-keystore: ~0.3.0
-    orbit-db-kvstore: ~1.9.0
-    orbit-db-pubsub: ~0.5.5
+    orbit-db-kvstore: ~1.12.0
+    orbit-db-pubsub: ~0.6.0
     orbit-db-storage-adapter: ~0.5.3
-    orbit-db-store: ~3.3.0
-  checksum: e27f6b24c1369d9be916daffb73c0ebf26af988ce8875afd9bb41546ab925e850e43dfa97419a764b4c50bfc4dcf891a00e3277b99b94652ff36138109d055ae
+    orbit-db-store: ~4.0.1
+  checksum: 5468734749d439ef889d18ce057b847da005382d1ec1d1c8a7844f9a05d348fc6879a855c1296228c4c475d67081f62ae1c115a0c712730155e255d8e0f65c8b
   languageName: node
   linkType: hard
 
@@ -17135,13 +17086,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-map@npm:^1.1.1, p-map@npm:~1.1.1":
-  version: 1.1.1
-  resolution: "p-map@npm:1.1.1"
-  checksum: 79902cd65eb6e88e6f1992e7e5e4fd4356bc87fd6a1c0ee41cf9efab779f1af57122eb3381d85e08cecbd31e40ed7e6a8e0404631662fca3183008a85f1828d3
-  languageName: node
-  linkType: hard
-
 "p-map@npm:^2.1.0":
   version: 2.1.0
   resolution: "p-map@npm:2.1.0"
@@ -17164,6 +17108,13 @@ __metadata:
   dependencies:
     aggregate-error: ^3.0.0
   checksum: d51e630d72b7c38bc9e396710e7a068f0b813fe4db6f4a2d1ce2972e7fa11142c763c3aa39bcfd77c0133688c1ebfdd9b38fa3ac4c6ada20b62df26239c5c0e4
+  languageName: node
+  linkType: hard
+
+"p-map@npm:~1.1.1":
+  version: 1.1.1
+  resolution: "p-map@npm:1.1.1"
+  checksum: 79902cd65eb6e88e6f1992e7e5e4fd4356bc87fd6a1c0ee41cf9efab779f1af57122eb3381d85e08cecbd31e40ed7e6a8e0404631662fca3183008a85f1828d3
   languageName: node
   linkType: hard
 
@@ -17242,10 +17193,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-whilst@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "p-whilst@npm:1.0.0"
-  checksum: a3e25ebba89099b25900f895617654e6764a85f1415d45cfd56fbf3da259c1e6c9ea85b8040b04147ade0fccd7da740c088e5d77b501c4fcc9ff369cdad23bd3
+"p-whilst@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "p-whilst@npm:2.1.0"
+  checksum: 7f79701a39ed7a83fba494cbc68c6cf8ddb004d43ea03ef3992de017e6d7ffe38e374a2e6b836a4475d31f21a7583452614b4903301948f0c3b2eb4d0f84a7ef
   languageName: node
   linkType: hard
 
@@ -18563,7 +18514,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protons@npm:^1.0.1, protons@npm:^1.0.2":
+"protons@npm:^1.0.1":
   version: 1.2.1
   resolution: "protons@npm:1.2.1"
   dependencies:
@@ -21820,26 +21771,6 @@ resolve@1.12.0:
   bin:
     ts-node: dist/bin.js
   checksum: a18a31d2cb16115fbea1afca35931e536f7d4eb894b9b40b0c2ff550da81cc55e89218d8cc23277fb2545201597447e67f093aecded1bc6bebc073a8dcb86ac6
-  languageName: node
-  linkType: hard
-
-"ts-node@npm:^8.10.2":
-  version: 8.10.2
-  resolution: "ts-node@npm:8.10.2"
-  dependencies:
-    arg: ^4.1.0
-    diff: ^4.0.1
-    make-error: ^1.1.1
-    source-map-support: ^0.5.17
-    yn: 3.1.1
-  peerDependencies:
-    typescript: ">=2.7"
-  bin:
-    ts-node: dist/bin.js
-    ts-node-script: dist/bin-script.js
-    ts-node-transpile-only: dist/bin-transpile.js
-    ts-script: dist/bin-script-deprecated.js
-  checksum: cd6e023e073d65ea346cf4a5b70bfd1e7c7f342c967a23a83038fd3462067558a4dda4fc8b238e6709db69aca3847590a93b4c52ae001e23ed9fef3b4fecbc71
   languageName: node
   linkType: hard
 
