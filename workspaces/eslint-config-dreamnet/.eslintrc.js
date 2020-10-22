@@ -42,6 +42,7 @@ module.exports = {
     'lodash/prefer-noop': 'off',
     'lodash/prefer-spread': 'off',
     'promise/no-callback-in-promise': 'off',
+    'space-before-function-paren': ['error', 'never'],
     'linebreak-style': 'error',
     'max-len': ['warn', { code: 120 }],
     'no-await-in-loop': 'warn',
