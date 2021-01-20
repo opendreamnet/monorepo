@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@dreamnet/app": "workspace:^0.1.0",
-    "@dreamnet/eslint-config-dreamnet": "workspace:^0.1.0",
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",

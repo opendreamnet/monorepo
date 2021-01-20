@@ -9,16 +9,15 @@
   "scripts": {
     "posttest": "eslint --fix --ext .ts src/",
     "clean": "shx rm -rf dist/",
-    "build": "yarn run clean && tsc -b",
-    "prepack": "yarn run build && oclif-dev readme"
+    "build": "yarn run clean && tsc -b"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^0.1.0",
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
     "@types/eslint": "7.2.0",
     "@types/rimraf": "3.0.0",
-    "eslint": "^7.5.0",
+    "eslint": "^7.10.0",
     "rimraf": "^3.0.2",
-    "ts-node": "^8.10.2",
+    "ts-node": "^9.0.0",
     "typescript": "^3.9.7"
   },
   "author": {
@@ -38,6 +37,6 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "orbit-db": "^0.24.2"
+    "orbit-db": "^0.26.0"
   }
 }

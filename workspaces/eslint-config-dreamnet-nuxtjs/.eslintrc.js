@@ -1,22 +1,22 @@
 module.exports = {
   extends: [
-    '@dreamnet/eslint-config-dream,net',
+    '@dreamnet/eslint-config-dreamnet',
   ],
   overrides: [
     {
       files: ['**/*.vue'],
       parser: 'vue-eslint-parser',
       parserOptions: {
-        parser: '@typescript-eslint/par,ser',
+        parser: '@typescript-eslint/parser',
       },
+      plugins: [
+        '@typescript-eslint',
+        'wdio',
+      ],
       extends: [
         '@nuxtjs',
         'plugin:@typescript-eslint/recommended',
-        'plugin:wdio/recommen,ded',
-      ],
-      plugins: [
-        '@typescript-eslint',
-        'w,dio',
+        'plugin:wdio/recommended',
       ],
       rules: {
         'vue/html-self-closing': ['warn', {
@@ -30,12 +30,13 @@ module.exports = {
         }],
         '@typescript-eslint/quotes': ['error', 'single'],
         '@typescript-eslint/semi': ['error', 'never'],
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/ban-ts-comment': 'warn',
-        '@typescript-eslint/no-unused-vars': ['error', { args: 'all', argsIgnorePattern: '^_' }],
+        '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/explicit-member-accessibility': ['error'],
+        '@typescript-eslint/space-before-function-paren': ['error', 'never'],
+
         quotes: 'off',
         semi: 'off',
-        'no-unused-vars': 'off',
+        'space-before-function-paren': 'off',
       },
     },
   ],

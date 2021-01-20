@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/eslint-config-dreamnet",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "ESLint config for DreamNet projects.",
   "license": "MIT",
   "main": "index.js",

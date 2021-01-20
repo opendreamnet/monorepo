@@ -1,0 +1,30 @@
+name: "@dreamnet/eslint-config-dreamnet-nuxtjs"
+on:
+  push:
+    paths:
+      - workspaces/eslint-config-dreamnet-nuxtjs/**.js
+      - workspaces/eslint-config-dreamnet-nuxtjs/**.ts
+      - workspaces/eslint-config-dreamnet-nuxtjs/**.json
+
+jobs:
+  build:
+    name: Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Setup
+        working-directory: workspaces/eslint-config-dreamnet-nuxtjs
+        run: yarn install
+
+      - name: Publish
+        working-directory: workspaces/eslint-config-dreamnet-nuxtjs
+        run: yarn npm publish --access public --tolerate-republish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
