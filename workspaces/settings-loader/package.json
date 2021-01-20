@@ -1,0 +1,54 @@
+{
+  "name": "@dreamnet/settings-loader",
+  "version": "1.0.0",
+  "description": "A simple YAML settings loader.",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint --fix --ext .ts,.js src/",
+    "clean": "shx rm -rf dist/",
+    "build:node": "tsc -b",
+    "build": "yarn run clean && yarn run build:node && bundlesize"
+  },
+  "dependencies": {
+    "js-yaml": "^4.0.0",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
+    "@types/js-yaml": "^4.0.0",
+    "bundlesize": "^0.18.1",
+    "eslint": "^7.18.0",
+    "shx": "^0.3.3",
+    "typescript": "^3.9"
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/index.js",
+      "maxSize": "1 kB"
+    }
+  ],
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "engines": {
+    "node": ">= 10"
+  },
+  "author": {
+    "name": "Iván Bravo Bravo",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/settings-loader"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  }
+}

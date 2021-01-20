@@ -1583,6 +1583,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@dreamnet/settings-loader@workspace:workspaces/settings-loader":
+  version: 0.0.0-use.local
+  resolution: "@dreamnet/settings-loader@workspace:workspaces/settings-loader"
+  dependencies:
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0"
+    "@types/js-yaml": ^4.0.0
+    bundlesize: ^0.18.1
+    eslint: ^7.18.0
+    js-yaml: ^4.0.0
+    lodash: ^4.17.20
+    shx: ^0.3.3
+    typescript: ^3.9
+  languageName: unknown
+  linkType: soft
+
 "@eslint/eslintrc@npm:^0.1.3":
   version: 0.1.3
   resolution: "@eslint/eslintrc@npm:0.1.3"
@@ -1616,6 +1631,24 @@ __metadata:
     minimatch: ^3.0.4
     strip-json-comments: ^3.1.1
   checksum: 049c98898934100aa5ad4912242ecbec136454787c00776a236e5321c73176dbc813917445a3d50d230a5a84531a99ec0e2885dd7a6838be68b46b6720fa1459
+  languageName: node
+  linkType: hard
+
+"@eslint/eslintrc@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@eslint/eslintrc@npm:0.3.0"
+  dependencies:
+    ajv: ^6.12.4
+    debug: ^4.1.1
+    espree: ^7.3.0
+    globals: ^12.1.0
+    ignore: ^4.0.6
+    import-fresh: ^3.2.1
+    js-yaml: ^3.13.1
+    lodash: ^4.17.20
+    minimatch: ^3.0.4
+    strip-json-comments: ^3.1.1
+  checksum: 00e87c194672eb85dcea22ba749fb3cabdd9768e952e748b2c727940f06691c873369d75cf3bddb239301eca8c38de6e098b0de4839fa7c16a2062e536e8ff5a
   languageName: node
   linkType: hard
 
@@ -3656,6 +3689,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-yaml@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@types/js-yaml@npm:4.0.0"
+  checksum: 7a4431db3069988c5fa7fd00be45f18f6e355ab227b3ba23c993eeb949ee6ee39bf7180663b94f5a2378bece277ec4c49f26a27189edc263da7eeb6cd4a09d27
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.3, @types/json-schema@npm:^7.0.4":
   version: 7.0.5
   resolution: "@types/json-schema@npm:7.0.5"
@@ -5118,6 +5158,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"argparse@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "argparse@npm:2.0.1"
+  checksum: 160b7a25d2a7097fd5fdf25eb8a99e037340078f70e6c7cfdef305837ed14d54570b2b13261bcae26c8cd44ad6e9a7136a0110d815ac65a7891c69c7bf2f4afd
+  languageName: node
+  linkType: hard
+
 "argsarray@npm:0.0.1":
   version: 0.0.1
   resolution: "argsarray@npm:0.0.1"
@@ -5449,6 +5496,15 @@ __metadata:
     follow-redirects: 1.5.10
     is-buffer: ^2.0.2
   checksum: be5f8504a1adcb74e4a0353238a81e129f181c7ad65c13feda589c793fcf148e09afe721df808ac6ed2ffcdb95f9b7143e2c44d1bc90056b3e2523f5ed3e2fbd
+  languageName: node
+  linkType: hard
+
+"axios@npm:0.21.1, axios@npm:^0.21.1":
+  version: 0.21.1
+  resolution: "axios@npm:0.21.1"
+  dependencies:
+    follow-redirects: ^1.10.0
+  checksum: 864fb7b5d077d236737f10adca53bf451a93f35a15271f56fba8da07265a02d26b7d881b935a6697dc6adb0549ea3e56d2eecb403edaa3bb78f6479901c10f69
   languageName: node
   linkType: hard
 
@@ -6893,6 +6949,28 @@ __metadata:
     bundlesize-init: src/init-status.js
     bundlesize-pipe: pipe.js
   checksum: 2fa5efd98a9cbde8ac264ad2075d58b26932ec0d1b8dc8f4541433aadc738309ee60723fc7fa08c9a102c8e7d0c91d4268b19f827e5443f0cca539f254fefe80
+  languageName: node
+  linkType: hard
+
+"bundlesize@npm:^0.18.1":
+  version: 0.18.1
+  resolution: "bundlesize@npm:0.18.1"
+  dependencies:
+    axios: ^0.21.1
+    brotli-size: 0.1.0
+    bytes: ^3.1.0
+    ci-env: ^1.4.0
+    commander: ^2.20.0
+    cosmiconfig: ^5.2.1
+    github-build: ^1.2.2
+    glob: ^7.1.4
+    gzip-size: ^4.0.0
+    prettycli: ^1.4.3
+  bin:
+    bundlesize: index.js
+    bundlesize-init: src/init-status.js
+    bundlesize-pipe: pipe.js
+  checksum: 7cdf134ecf69665bafb4efd21e556aedd6daf8ba1aaef0f7a5adf1d23a50c0a4d6090f0aa9be748b75695223a177605d6397ea089eb58718b710e5c562139640
   languageName: node
   linkType: hard
 
@@ -10172,6 +10250,53 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint@npm:^7.18.0":
+  version: 7.18.0
+  resolution: "eslint@npm:7.18.0"
+  dependencies:
+    "@babel/code-frame": ^7.0.0
+    "@eslint/eslintrc": ^0.3.0
+    ajv: ^6.10.0
+    chalk: ^4.0.0
+    cross-spawn: ^7.0.2
+    debug: ^4.0.1
+    doctrine: ^3.0.0
+    enquirer: ^2.3.5
+    eslint-scope: ^5.1.1
+    eslint-utils: ^2.1.0
+    eslint-visitor-keys: ^2.0.0
+    espree: ^7.3.1
+    esquery: ^1.2.0
+    esutils: ^2.0.2
+    file-entry-cache: ^6.0.0
+    functional-red-black-tree: ^1.0.1
+    glob-parent: ^5.0.0
+    globals: ^12.1.0
+    ignore: ^4.0.6
+    import-fresh: ^3.0.0
+    imurmurhash: ^0.1.4
+    is-glob: ^4.0.0
+    js-yaml: ^3.13.1
+    json-stable-stringify-without-jsonify: ^1.0.1
+    levn: ^0.4.1
+    lodash: ^4.17.20
+    minimatch: ^3.0.4
+    natural-compare: ^1.4.0
+    optionator: ^0.9.1
+    progress: ^2.0.0
+    regexpp: ^3.1.0
+    semver: ^7.2.1
+    strip-ansi: ^6.0.0
+    strip-json-comments: ^3.1.0
+    table: ^6.0.4
+    text-table: ^0.2.0
+    v8-compile-cache: ^2.0.3
+  bin:
+    eslint: bin/eslint.js
+  checksum: 5c6f6ca0eb6c3738a0d14d3441a23f045ef9e7f73aaba4848aea0877c5fd50ec42937ccdaf53fb9107694f5700a9989bca55334b7b17e5d3be2f6e69a42241fa
+  languageName: node
+  linkType: hard
+
 "eslint@npm:^7.9.0":
   version: 7.9.0
   resolution: "eslint@npm:7.9.0"
@@ -11565,6 +11690,15 @@ __metadata:
   dependencies:
     axios: 0.19.0
   checksum: a9141032ece401c1f6dec6a4c36f7ed7c8143310306be30628a1834023056dd5cf66519f5684b1b3d4b919a8f9a60343fff9be8c7483a3aebcf6d9a9e8bd287a
+  languageName: node
+  linkType: hard
+
+"github-build@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "github-build@npm:1.2.2"
+  dependencies:
+    axios: 0.21.1
+  checksum: 323b1ca94cea551a55edcd8c5399512f3bb52a91824721f0ea1753928b82fc70ae035a84693f1b91fe4afda9269738156d345f1e8e9cc92cba14dfeeee0d0302
   languageName: node
   linkType: hard
 
@@ -13954,6 +14088,17 @@ __metadata:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: 2eb95464e5263aedc20ae2d9280f0e29b00adab15ece080ec42473d7055efaab24b904108644d115f687efe05a5bde02972b883aafa93607c4c108f667a56fa7
+  languageName: node
+  linkType: hard
+
+"js-yaml@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "js-yaml@npm:4.0.0"
+  dependencies:
+    argparse: ^2.0.1
+  bin:
+    js-yaml: bin/js-yaml.js
+  checksum: ee9b16cdbba690ec70f46d61737b28b35e26e6d51606c466de7fa876d3517de0cfdffd2e1ef21263d5ca3b32659d2e4c65255f50d6e236f022305bce72242d46
   languageName: node
   linkType: hard
 
@@ -20598,7 +20743,7 @@ resolve@1.12.0:
   languageName: node
   linkType: hard
 
-"shelljs@npm:^0.8.1":
+"shelljs@npm:^0.8.1, shelljs@npm:^0.8.4":
   version: 0.8.4
   resolution: "shelljs@npm:0.8.4"
   dependencies:
@@ -20628,6 +20773,18 @@ resolve@1.12.0:
   bin:
     shx: lib/cli.js
   checksum: 75224dd939476d1d318e4b216095f794743bb982b677578c06e875e973241022077cf87823db1370577c3993b3a10c7cb771405016d575743810d7a09b0f228f
+  languageName: node
+  linkType: hard
+
+"shx@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "shx@npm:0.3.3"
+  dependencies:
+    minimist: ^1.2.3
+    shelljs: ^0.8.4
+  bin:
+    shx: lib/cli.js
+  checksum: 0658009ba63b8043cc44bb19c1086196115606d4ce3db8ce34940479aa3a232fd5e7b75c0072a577978785fde49f13c745169c8760690dbf3b90c02600ff507c
   languageName: node
   linkType: hard
 
@@ -22221,7 +22378,7 @@ resolve@1.12.0:
   languageName: node
   linkType: hard
 
-"typescript@^3.3, typescript@^3.9.2, typescript@^3.9.5, typescript@^3.9.7":
+"typescript@^3.3, typescript@^3.9, typescript@^3.9.2, typescript@^3.9.5, typescript@^3.9.7":
   version: 3.9.7
   resolution: "typescript@npm:3.9.7"
   bin:
@@ -22231,7 +22388,7 @@ resolve@1.12.0:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3.3#builtin<compat/typescript>, typescript@patch:typescript@^3.9.2#builtin<compat/typescript>, typescript@patch:typescript@^3.9.5#builtin<compat/typescript>, typescript@patch:typescript@^3.9.7#builtin<compat/typescript>":
+"typescript@patch:typescript@^3.3#builtin<compat/typescript>, typescript@patch:typescript@^3.9#builtin<compat/typescript>, typescript@patch:typescript@^3.9.2#builtin<compat/typescript>, typescript@patch:typescript@^3.9.5#builtin<compat/typescript>, typescript@patch:typescript@^3.9.7#builtin<compat/typescript>":
   version: 3.9.7
   resolution: "typescript@patch:typescript@npm%3A3.9.7#builtin<compat/typescript>::version=3.9.7&hash=5b02a2"
   bin:
