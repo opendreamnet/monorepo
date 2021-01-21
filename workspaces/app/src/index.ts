@@ -38,9 +38,9 @@ const isElectronMain = typeof process !== 'undefined'
   && !isNil(process.versions.electron)
 
 /**
- * Indicates if NodeJS can be accessed.
+ * Indicates whether there is access to the NodeJS engine.
  */
-const hasNodeIntegration = isNode || isElectronRenderer || isElectronMain
+const hasNodeIntegration = isNode || isElectronMain
 
 /**
  * Application Name.
@@ -52,7 +52,6 @@ let appName: string
  */
 export function getName(): string {
   if (!appName && isNode) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const pkg = require('parent-package-json')(null, 1)
 
     if (pkg) {
@@ -105,13 +104,19 @@ export const is = {
   windows: getPlatform() === 'win32',
   linux: getPlatform() === 'linux',
   android: getPlatform() === 'android',
+  dev: process.env.NODE_ENV !== 'production',
 }
+
+/**
+ *
+ */
+export const isDev = process.env.NODE_ENV !== 'production'
 
 /**
  *
  * @param choices
  */
-export function choice(choices: { [key: string]: any; }, defaultValue?: any): any {
+export function choice(choices: Record<string, unknown>, defaultValue?: unknown): unknown {
   for (const key of keys(choices)) {
     if (!isNil(is[key]) && is[key] === true) {
       return choices[key]
@@ -121,7 +126,6 @@ export function choice(choices: { [key: string]: any; }, defaultValue?: any): an
   return defaultValue
 }
 
-/* eslint-disable @typescript-eslint/no-var-requires, no-empty */
 function getElectronPath(name: string, ...paths: string[]): string | null {
   let basePath = ''
 
@@ -148,7 +152,6 @@ function getElectronPath(name: string, ...paths: string[]): string | null {
 
   return null
 }
-/* eslint-enable @typescript-eslint/no-var-requires, no-empty */
 
 /**
  *
@@ -170,9 +173,7 @@ export function getPath(name: string, ...paths: string[]): string | null {
 
   let basePath = ''
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const fs = require('fs')
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const os = require('os')
   const getPlatformPath = require('platform-folders').default
 
@@ -195,7 +196,7 @@ export function getPath(name: string, ...paths: string[]): string | null {
       basePath = choice({
         windows: path.resolve(os.homedir(), 'AppData', 'Roaming'),
         macos: path.resolve(os.homedir(), 'Library', 'Application Support'),
-      }, path.resolve(os.homedir(), '.config'))
+      }, path.resolve(os.homedir(), '.config')) as string
       break
 
     case 'userData':

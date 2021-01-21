@@ -1357,7 +1357,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dreamnet/app@workspace:^0.1.0, @dreamnet/app@workspace:workspaces/app":
+"@dreamnet/app@workspace:^1.0.0, @dreamnet/app@workspace:workspaces/app":
   version: 0.0.0-use.local
   resolution: "@dreamnet/app@workspace:workspaces/app"
   dependencies:
@@ -1389,7 +1389,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dreamnet/deploy@workspace:workspaces/deploy"
   dependencies:
-    "@dreamnet/app": "workspace:^0.1.0"
+    "@dreamnet/app": "workspace:^1.0.0"
     "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0"
     "@oclif/command": ^1
     "@oclif/config": ^1

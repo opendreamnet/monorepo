@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/app",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Utilities for DreamNet applications.",
   "license": "MIT",
   "source": "src/index.ts",
@@ -12,7 +12,7 @@
     "lint": "eslint --ext .ts,.tsx,.js,.jsx,.vue src/",
     "test": "ts-mocha test/**/*.ts --recursive --exit",
     "clean": "shx rm -rf dist/",
-    "build:web": "microbundle --format umd --external none --no-sourcemap --compress --tsconfig tsconfig.web.json --output dist/dreamapp.umd.js",
+    "build:web": "microbundle --format umd --external none --compress --tsconfig tsconfig.web.json --output dist/dreamapp.umd.js",
     "build:node": "tsc -b",
     "build": "yarn run clean && yarn run build:web && yarn run build:node && bundlesize",
     "prepack": "yarn run build"
