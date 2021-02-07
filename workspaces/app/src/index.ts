@@ -153,12 +153,14 @@ function getElectronPath(name: string, ...paths: string[]): string | null {
   return null
 }
 
+type PathName = 'cwd' | 'home' | 'temp' | 'appData' | 'userData' | 'downloads' | 'cache' | 'savegames' | 'desktop' | 'downloads' | 'music' | 'pictures' | 'videos'
+
 /**
  *
  * @param name
  * @param paths
  */
-export function getPath(name: string, ...paths: string[]): string | null {
+export function getPath(name: PathName, ...paths: string[]): string | null {
   if (!hasNodeIntegration) {
     return null
   }

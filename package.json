@@ -19,16 +19,6 @@
   "engines": {
     "node": ">= 10"
   },
-  "dependenciesMeta": {
-    "vue-essential-slices": {
-      "unplugged": true
-    }
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-eslint": "^4.5.4",
-    "lerna": "^3.22.1",
-    "lerna-wizard": "^1.1.1"
-  },
   "dependencies": {
     "youch": "^2.0.10"
   }

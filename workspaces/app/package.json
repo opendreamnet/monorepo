@@ -14,7 +14,7 @@
     "clean": "shx rm -rf dist/",
     "build:web": "microbundle --format umd --external none --compress --tsconfig tsconfig.web.json --output dist/dreamapp.umd.js",
     "build:node": "tsc -b",
-    "build": "yarn run clean && yarn run build:web && yarn run build:node && bundlesize",
+    "build": "yarn run clean && yarn run build:web && yarn run build:node",
     "prepack": "yarn run build"
   },
   "dependencies": {
@@ -33,7 +33,6 @@
     "@types/lodash": "4.14.151",
     "@types/selenium-webdriver": "4.0.9",
     "babel-plugin-lodash": "^3.3.4",
-    "bundlesize": "^0.18.0",
     "chromedriver": "^85.0.1",
     "eslint": "^7.0.0",
     "microbundle": "^0.12.0",
@@ -42,16 +41,6 @@
     "ts-mocha": "^7.0.0",
     "typescript": "^3.9.2"
   },
-  "bundlesize": [
-    {
-      "path": "./dist/index.js",
-      "maxSize": "2 kB"
-    },
-    {
-      "path": "./dist/dreamapp.umd.js",
-      "maxSize": "5 kB"
-    }
-  ],
   "files": [
     "dist/",
     "src/"

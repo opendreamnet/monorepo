@@ -1,0 +1,34 @@
+name: "@dreamnet/logplease (legacy)"
+on:
+  push:
+    paths:
+      - workspaces/logplease/**.js
+      - workspaces/logplease/**.ts
+      - workspaces/logplease/**.json
+
+jobs:
+  build:
+    name: Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Setup
+        working-directory: workspaces/logplease
+        run: yarn install
+
+      - name: Build
+        working-directory: workspaces/logplease
+        run: yarn run build
+
+      - name: Publish
+        working-directory: workspaces/logplease
+        run: yarn npm publish --access public --tolerate-republish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

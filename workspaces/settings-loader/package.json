@@ -10,7 +10,7 @@
     "lint": "eslint --fix --ext .ts,.js src/",
     "clean": "shx rm -rf dist/",
     "build:node": "tsc -b",
-    "build": "yarn run clean && yarn run build:node && bundlesize"
+    "build": "yarn run clean && yarn run build:node"
   },
   "dependencies": {
     "js-yaml": "^4.0.0",
@@ -19,17 +19,10 @@
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
     "@types/js-yaml": "^4.0.0",
-    "bundlesize": "^0.18.1",
     "eslint": "^7.18.0",
     "shx": "^0.3.3",
     "typescript": "^3.9"
   },
-  "bundlesize": [
-    {
-      "path": "./dist/index.js",
-      "maxSize": "1 kB"
-    }
-  ],
   "files": [
     "dist/",
     "src/"
