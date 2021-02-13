@@ -7,7 +7,7 @@ export class DreamLinkCluster extends IPFSCluster {
    * @readonly
    * @type {string}
    */
-  get label(): string {
+  public get label(): string {
     return 'DreamLink Cluster'
   }
 
@@ -17,7 +17,7 @@ export class DreamLinkCluster extends IPFSCluster {
    * @readonly
    * @type {string}
    */
-  get customGatewayURL(): string {
+  public get defaultGatewayURL(): string {
     return 'https://link.dreamnet.tech'
   }
 
@@ -27,7 +27,7 @@ export class DreamLinkCluster extends IPFSCluster {
    * @readonly
    * @type {string}
    */
-  get customHost(): string {
+  public get defaultAddress(): string {
     return '/dns4/cluster.link.dreamnet.tech/tcp/443/https'
   }
 }

@@ -1,28 +1,17 @@
 import { isEmpty } from 'lodash'
 import { Release } from '../modules/release'
-import { DNSRecord } from '../modules/types'
+import { DnsRecord } from '../types'
 
 export interface DnsProvider {
   setup?(): Promise<void>;
   validate?(): void;
-  link(): Promise<DNSRecord>;
+  link(): Promise<DnsRecord>;
 }
 
-/**
- *
- *
- * @export
- * @abstract
- * @class DNSProvider
- */
 export abstract class DnsProvider {
-  /**
-   *
-   *
-   * @type {Release}
-   * @memberof DNSProvider
-   */
-  release: Release
+  public release: Release
+
+  protected _zone?: string
 
   /**
    *
@@ -30,83 +19,36 @@ export abstract class DnsProvider {
    * @type {(string | null)}
    * @memberof DNSProvider
    */
-  _zone: string | null = null
+  protected _record?: string
 
-  /**
-   *
-   *
-   * @type {(string | null)}
-   * @memberof DNSProvider
-   */
-  _record: string | null = null
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {string}
-   * @memberof Provider
-   */
-  get name(): string {
+  public get name(): string {
     return this.constructor.name
   }
 
-  /**
-   *
-   *
-   * @readonly
-   * @type {string}
-   */
-  get label(): string {
+  public get label(): string {
     return this.constructor.name
   }
 
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof DNSProvider
-   */
-  get zone(): string | null {
-    return this._zone || null
+  public get zone(): string | undefined {
+    return this._zone
   }
 
-  /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   * @memberof DNSProvider
-   */
-  get record(): string | null {
-    return this._record || null
+  public get record(): string | undefined {
+    return this._record
   }
 
-  /**
-   * Creates an instance of DNSProvider.
-
-   * @param {Release} release
-   * @memberof DNSProvider
-   */
-  constructor(release: Release) {
+  public constructor(release: Release) {
     this.release = release
   }
 
-  /**
-   *
-   *
-   * @returns {Promise<DNSRecord>}
-   * @memberof DNSProvider
-   */
-  async run(): Promise<DNSRecord> {
-    let record: DNSRecord
+  public async run(): Promise<DnsRecord> {
+    let record: DnsRecord
 
     try {
-      this.release.emit('dns_begin', this)
+      this.release.emit('dns:begin', this)
 
       if (isEmpty(this.release.cid)) {
-        throw new Error('Missing CID: No provider has been able to upload the release.')
+        throw new Error('Missing CID: No provider has been able to upload the release?')
       }
 
       if (this.validate) {
@@ -119,12 +61,14 @@ export abstract class DnsProvider {
 
       record = await this.link()
 
-      this.release.emit('dns_success', record, this)
+      this.release.emit('dns:success', record, this)
     } catch (error) {
-      this.release.emit('dns_fail', error, this)
+      this.release.emit('dns:fail', error, this)
       throw error
     }
 
     return record
   }
 }
+
+export type DnsProviderEntity = DnsProvider | string

@@ -1,23 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "ESNext",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "sourceMap": true,
     "strict": true,
-    "strictNullChecks": false,
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "isolatedModules": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": true,
     "declaration": true,
     "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "removeComments": false
-  },
-  "exclude": [
-    "node_modules",
-    "test",
-    "**/*.spec.ts"
-  ]
+    "removeComments": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "incremental": true
+  }
  }

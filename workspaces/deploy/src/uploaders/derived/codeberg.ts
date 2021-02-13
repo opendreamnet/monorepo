@@ -1,4 +1,4 @@
-import { Gitea } from '../gitea'
+import { Gitea } from '../common/gitea'
 
 export class Codeberg extends Gitea {
   /**
@@ -7,17 +7,17 @@ export class Codeberg extends Gitea {
    * @readonly
    * @type {string}
    */
-  get label(): string {
-    return 'Codeberg.org'
+  public get label(): string {
+    return 'Codeberg'
   }
 
   /**
    *
    *
    * @readonly
-   * @type {string}
+   * @type {(string | undefined)}
    */
-  get baseURL(): string {
-    return super.baseURL || 'https://codeberg.org/api/v1'
+  public get defaultBaseURL(): string | undefined {
+    return 'https://codeberg.org/api/v1'
   }
 }

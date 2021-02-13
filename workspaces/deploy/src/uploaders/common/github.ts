@@ -1,21 +1,18 @@
+/* eslint-disable camelcase */
 import fs from 'fs'
 import { Octokit } from '@octokit/rest'
-import { GitRelease, GitReleaseAsset } from '../modules/types'
-import { Git } from './mixins/git'
-import { Provider } from './base/base'
+import { GitRelease, GitReleaseAsset } from '../../types/git'
+import { Git } from '../base/git'
 
-export interface Github {
-  octokit?: Octokit;
-}
+export class Github extends Git {
+  public octokit: Octokit
 
-// eslint-disable-next-line new-cap
-export class Github extends Git(Provider) {
   /**
    *
    *
    * @returns {Promise<void>}
    */
-  async setup(): Promise<void> {
+  public async setup(): Promise<void> {
     this.octokit = new Octokit({ auth: this.token })
   }
 
@@ -24,7 +21,7 @@ export class Github extends Git(Provider) {
    *
    * @returns {(Promise<GitRelease|null>)}
    */
-  async fetchRelease(): Promise<GitRelease|null> {
+  public async fetchRelease(): Promise<GitRelease|null> {
     if (!this.octokit) {
       throw new Error('Octokit has not been created!')
     }
@@ -51,7 +48,7 @@ export class Github extends Git(Provider) {
    *
    * @returns {Promise<GitRelease>}
    */
-  async createRelease(): Promise<GitRelease> {
+  public async createRelease(): Promise<GitRelease> {
     if (!this.octokit) {
       throw new Error('Octokit has not been created!')
     }
@@ -59,7 +56,6 @@ export class Github extends Git(Provider) {
     const response = await this.octokit.repos.createRelease({
       owner: this.owner as string,
       repo: this.repo as string,
-      // eslint-disable-next-line camelcase
       tag_name: this.tagName as string,
       name: this.releaseName,
       prerelease: true,
@@ -74,27 +70,35 @@ export class Github extends Git(Provider) {
    *
    * @returns {Promise<GitReleaseAsset>}
    */
-  async uploadReleaseAsset(): Promise<GitReleaseAsset> {
+  public async uploadReleaseAsset(): Promise<GitReleaseAsset> {
     if (!this.octokit) {
       throw new Error('Octokit has not been created!')
     }
 
-    const file = this.release.file
+    const responses = []
 
-    const response = await this.octokit.repos.uploadReleaseAsset({
-      owner: this.owner as string,
-      repo: this.repo as string,
-      // eslint-disable-next-line camelcase
-      release_id: this.gitRelease.id,
-      name: file.name,
-      headers: {
-        'content-length': file.stats.size,
-        'content-type': file.mimetype,
-      },
-      // @ts-ignore
-      data: fs.createReadStream(file.path),
-    })
+    for (const file of this.release.files) {
+      if (file.isDirectory) {
+        continue
+      }
 
-    return response.data
+      // eslint-disable-next-line no-await-in-loop
+      const response = await this.octokit.repos.uploadReleaseAsset({
+        owner: this.owner!,
+        repo: this.repo!,
+        release_id: this.gitRelease!.id,
+        name: file.name,
+        headers: {
+          'content-length': file.stats.size,
+          'content-type': file.mimetype,
+        },
+        // @ts-ignore
+        data: fs.createReadStream(file.path),
+      })
+
+      responses.push(response.data)
+    }
+
+    return responses[0]
   }
 }

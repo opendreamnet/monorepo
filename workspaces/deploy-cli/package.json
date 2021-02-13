@@ -1,0 +1,61 @@
+{
+  "name": "@dreamnet/deploy-cli",
+  "description": "Deploy files and folders to different file providers.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "posttest": "yarn run lint",
+    "prepack": "yarn run build",
+    "clean": "shx rm -rf dist",
+    "lint": "eslint src --ext .ts",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md",
+    "build": "yarn run clean && tsc -b && oclif-dev readme"
+  },
+  "dependencies": {
+    "@dreamnet/deploy": "workspace:^1",
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^3",
+    "lodash": "^4.17.20",
+    "ora": "^5.3.0",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
+    "@oclif/dev-cli": "^1.26.0",
+    "eslint": "^7.20.0",
+    "shx": "^0.3.3",
+    "typescript": "^3.9.9"
+  },
+  "bin": {
+    "deploy": "./bin/run"
+  },
+  "oclif": {
+    "bin": "deploy"
+  },
+  "author": {
+    "name": "Ivan Bravo Bravo",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/deploy-cli"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "files": [
+    "/bin",
+    "/dist"
+  ],
+  "engines": {
+    "node": ">=12"
+  }
+}

@@ -3,9 +3,8 @@
 /.nyc_output
 /dist
 /lib
-/package-lock.json
-/tmp
-/node_modules
-/test_files
 tsconfig.tsbuildinfo
+/tmp
+/test_files
+node_modules
 .env

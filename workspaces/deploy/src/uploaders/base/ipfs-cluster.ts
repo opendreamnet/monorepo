@@ -1,9 +1,9 @@
-import fs from 'fs'
-import { cloneDeep, isArray } from 'lodash'
-import { CID  } from 'ipfs-http-client'
+import CID from 'cids'
 import ipfsCluster from 'ipfs-cluster-api'
-import { UrlHash } from '../../modules/types'
+import { map, isArray } from 'lodash'
+import { UploadResult } from '../../types'
 import { IPFS } from './ipfs'
+import { releaseFileToObject } from '../../modules/utils'
 
 /**
  *
@@ -19,8 +19,8 @@ export class IPFSCluster extends IPFS {
    * @readonly
    * @type {string}
    */
-  get label(): string {
-    return this.host ? `IPFS Cluster (${this.host})` : super.name
+  public get label(): string {
+    return `IPFS Cluster (${this.address})`
   }
 
   /**
@@ -29,7 +29,7 @@ export class IPFSCluster extends IPFS {
    * @readonly
    * @type {string}
    */
-  get customHost(): string {
+  public get defaultAddress(): string {
     return '/ip4/127.0.0.1/tcp/9094'
   }
 
@@ -38,25 +38,19 @@ export class IPFSCluster extends IPFS {
    *
    * @returns {Promise<void>}
    */
-  async setup(): Promise<void> {
+  public async setup(): Promise<void> {
     this.ipfs = ipfsCluster(this.options)
   }
 
   /**
    *
    *
-   * @returns {Promise<any>}
+   * @returns {Promise<unknown>}
    */
-  async upload(): Promise<any> {
-    const files = cloneDeep(this.release.files).map(file => {
-      if (!file.isDirectory) {
-        file.content = fs.createReadStream(file.path)
-        file.path = file.relpath
-      }
+  public async upload(): Promise<unknown> {
+    const files =  map(this.release.files, releaseFileToObject)
 
-      return file
-    })
-
+    // @ts-ignore
     const response = await this.ipfs.add(files, {
       name: this.release.name,
       recursive: true,
@@ -73,9 +67,10 @@ export class IPFSCluster extends IPFS {
    *
    *
    * @param {*} response
-   * @returns {Promise<UrlHash>}
+   * @returns {Promise<UploadResult>}
    */
-  async parse(response: any): Promise<UrlHash> {
+  public async parse(response: unknown): Promise<UploadResult> {
+    // @ts-ignore
     const cid = new CID(response[response.length - 1].hash).toString()
 
     return {
@@ -89,7 +84,8 @@ export class IPFSCluster extends IPFS {
    *
    * @returns {Promise<void>}
    */
-  async pin(): Promise<void> {
+  public async pin(): Promise<void> {
+    // @ts-ignore
     await this.ipfs.pin.add(this.cid, { timeout: 5 * 60 * 1000 })
   }
 
@@ -98,7 +94,8 @@ export class IPFSCluster extends IPFS {
    *
    * @returns {Promise<void>}
    */
-  async unpin(): Promise<void> {
+  public async unpin(): Promise<void> {
+    // @ts-ignore
     await this.ipfs.pin.rm(this.release.previousCID)
   }
 }

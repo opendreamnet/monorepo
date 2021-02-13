@@ -1,70 +1,83 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { isEmpty, isPlainObject, isNil } from 'lodash'
+import { isEmpty, isNil, isPlainObject } from 'lodash'
+import { Multiaddress, UploadResult } from '../../types'
 import { Release } from '../../modules/release'
-import { UrlHash } from '../../modules/types'
+import { getMultiaddr } from '../../modules/utils'
 
 export interface Provider {
   /**
-   *
+   * The file/folder to be uploaded
    *
    * @type {Release}
    */
   release: Release;
 
   /**
-   *
+   * Url of the uploaded file
    *
    * @type {(string | null)}
    */
   url?: string;
 
   /**
-   *
+   * IPFS CID of the uploaded file
    *
    * @type {(string | null)}
    */
   cid?: string;
 
   /**
+   * Connection multiaddress
    *
-   *
-   * @type {*}
+   * @type {Multiaddress}
    */
-  _headers: any;
+  multi: Multiaddress
 
   /**
+   * Connection multiaddress string
    *
+   * @type {string}
+   */
+  _address: string
+
+  /**
+   * Headers for the request
+   *
+   * @type {unknown}
+   */
+  _headers: Record<string, unknown>;
+
+  /**
+   * Username for Basic HTTP Authorization
    *
    * @type {(string | null)}
    */
   _username?: string;
 
   /**
-   *
+   * Password for Basic HTTP Authorization
    *
    * @type {(string | null)}
    */
   _password?: string;
 
   /**
-   *
+   * Token for HTTP Authorization
    *
    * @type {(string | null)}
    */
   _token?: string;
 
   /**
-   *
+   * Secret for HTTP Authorization
    *
    * @type {(string | null)}
    */
   _secret?: string;
 
   /**
-   *
-   *
-   * @memberof Provider
+   * Validate that the required information is correct
    */
   validate?(): void;
 
@@ -78,17 +91,18 @@ export interface Provider {
   /**
    *
    *
-   * @returns {Promise<any>}
+   * @returns {Promise<unknown>}
    */
-  upload(): Promise<any>;
+  upload(): Promise<unknown>;
 
   /**
    *
    *
    * @param {*} response
-   * @returns {Promise<UrlHash>}
+   * @returns {Promise<UploadResult>}
    */
-  parse(response): Promise<UrlHash>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  parse(response: unknown): Promise<UploadResult>;
 
   /**
    *
@@ -108,52 +122,62 @@ export interface Provider {
 
 export class Provider {
   /**
-   *
+   * Provider's technical name.
    *
    * @readonly
    * @type {string}
    */
-  get name(): string {
+  public get name(): string {
     return this.constructor.name
   }
 
   /**
-   *
+   * Friendly provider name.
    *
    * @readonly
    * @type {string}
    */
-  get label(): string {
+  public get label(): string {
     return this.constructor.name
   }
 
   /**
-   *
+   * Release location.
    *
    * @readonly
    * @type {string}
    */
-  get path(): string {
-    return this.release.path
+  public get filepath(): string {
+    return this.release.filepath
   }
 
   /**
-   *
+   * Indicates if the release is a directory.
    *
    * @readonly
    * @type {boolean}
    */
-  get isDirectory(): boolean {
-    return this.release.stats.isDirectory()
+  public get isDirectory(): boolean {
+    return this.release.filestat.isDirectory()
   }
 
   /**
-   *
+   * Indicates if this provider supports directory upload.
    *
    * @readonly
    * @type {boolean}
    */
-  get hasDirectorySupport(): boolean {
+  public get hasDirectorySupport(): boolean {
+    return true
+  }
+
+  /**
+   * Indicates if the provider has been prepared and is ready to use.
+   *
+   * @readonly
+   * @type {boolean}
+   */
+  public get enabled(): boolean {
     return true
   }
 
@@ -161,24 +185,39 @@ export class Provider {
    *
    *
    * @readonly
-   * @type {boolean}
+   * @type {(string | undefined)}
    */
-  get enabled(): boolean {
-    return true
+  public get defaultAddress(): string | undefined {
+    return undefined
   }
 
   /**
-   *
+   * Connection multiaddress string
    *
    * @readonly
-   * @type {*}
+   * @type {(string | undefined)}
    */
-  get headers(): any {
-    const headers: any = {}
+  public get address(): string | undefined {
+    return this._address || process.env[`DEPLOY_${this.name.toUpperCase()}_ADDRESS`] || this.defaultAddress
+  }
+
+  /**
+   * Headers for the request.
+   *
+   * @readonly
+   * @type {Record<string, unknown>}
+   */
+  public get headers(): Record<string, unknown> {
+    const headers: Record<string, unknown> = {}
 
     if (!isEmpty(this.username) && !isEmpty(this.password)) {
+      // Basic HTTP Authorization
       const token = Buffer.from(`${this.username}:${this.password}`).toString('base64')
       headers.Authorization = `Basic ${token}`
+    }
+
+    if (!isEmpty(this.token) && isEmpty(this.secret)) {
+      headers.Authorization = `Bearer ${this.token}`
     }
 
     return {
@@ -188,44 +227,44 @@ export class Provider {
   }
 
   /**
-   *
+   * Username for Basic HTTP Authorization
    *
    * @readonly
    * @type {(string | undefined)}
    */
-  get username(): string | undefined {
+  public get username(): string | undefined {
     return this._username || process.env[`DEPLOY_${this.name.toUpperCase()}_USERNAME`]
   }
 
   /**
-   *
+   * Password for Basic HTTP Authorization
    *
    * @readonly
    * @type {(string | undefined)}
    */
-  get password(): string | undefined {
+  public get password(): string | undefined {
     return this._password || process.env[`DEPLOY_${this.name.toUpperCase()}_PASSWORD`]
   }
 
   /**
-   *
+   * Token for HTTP Authorization
    *
    * @readonly
    * @type {(string | undefined)}
    */
-  get token(): string | undefined {
+  public get token(): string | undefined {
     return this._token ||
       process.env[`DEPLOY_${this.name.toUpperCase()}_TOKEN`] ||
       process.env[`DEPLOY_${this.name.toUpperCase()}_KEY`]
   }
 
   /**
-   *
+   * Secret for HTTP Authorization
    *
    * @readonly
    * @type {(string | undefined)}
    */
-  get secret(): string | undefined {
+  public get secret(): string | undefined {
     return this._secret || process.env[`DEPLOY_${this.name.toUpperCase()}_SECRET`]
   }
 
@@ -234,8 +273,19 @@ export class Provider {
    *
    * @param {Release} release
    */
-  constructor(release: Release) {
+  public constructor(release: Release) {
     this.release = release
+  }
+
+  /**
+   *
+   *
+   * @param {string} value
+   * @return {*}  {this}
+   */
+  public setAddress(value: string): this {
+    this._address = value
+    return this
   }
 
   /**
@@ -244,7 +294,7 @@ export class Provider {
    * @param {string} value
    * @returns {this}
    */
-  setUsername(value: string): this {
+  public setUsername(value: string): this {
     this._username = value
     return this
   }
@@ -255,7 +305,7 @@ export class Provider {
    * @param {string} value
    * @returns {this}
    */
-  setPassword(value: string): this {
+  public setPassword(value: string): this {
     this._password = value
     return this
   }
@@ -266,7 +316,7 @@ export class Provider {
    * @param {(string)} [value]
    * @returns {this}
    */
-  setToken(value?: string): this {
+  public setToken(value?: string): this {
     this._token = value
     return this
   }
@@ -277,7 +327,7 @@ export class Provider {
    * @param {(string)} value
    * @returns {this}
    */
-  setSecret(value?: string): this {
+  public setSecret(value?: string): this {
     this._secret = value
     return this
   }
@@ -289,9 +339,9 @@ export class Provider {
    * @param {string} [value]
    * @returns {this}
    */
-  setHeader(key: string|{ [key: string]: any }, value?: string|null): this {
+  public setHeader(key: string | Record<string, unknown>, value?: string): this {
     if (isPlainObject(key)) {
-      this._headers = key
+      this._headers = key as Record<string, unknown>
     } else if (isNil(value)) {
       delete this._headers[key as string]
     } else {
@@ -302,18 +352,22 @@ export class Provider {
   }
 
   /**
+   * Upload the release to the provider.
    *
-   *
-   * @returns {Promise<UrlHash>}
+   * @returns {Promise<UploadResult>}
    */
-  async run(): Promise<UrlHash> {
-    let parsed: UrlHash
+  public async run(): Promise<UploadResult> {
+    let result: UploadResult
 
     try {
-      this.release.emit('upload_begin', this)
+      this.release.emit('upload:begin', this)
 
-      if (!this.hasDirectorySupport && this.release.isDirectory) {
+      if (this.release.isDirectory && !this.hasDirectorySupport) {
         throw new Error(`You can't upload a directory to ${this.name}!`)
+      }
+
+      if (this.address) {
+        this.multi = getMultiaddr(this.address)
       }
 
       if (this.validate) {
@@ -326,47 +380,49 @@ export class Provider {
 
       const response = await this.upload()
 
-      parsed = await this.parse(response)
+      result = await this.parse(response)
 
-      this.release.emit('upload_success', parsed, this)
+      this.release.emit('upload:success', result, this)
     } catch (error) {
-      this.release.emit('upload_fail', error, this)
+      this.release.emit('upload:fail', error, this)
       throw error
     }
 
-    this.url = parsed.url
-    this.cid = parsed.cid
+    this.url = result.url
+    this.cid = result.cid
 
-    try {
-      if (this.pin) {
-        this.release.emit('pin_begin', this)
+    if (this.pin) {
+      try {
+        this.release.emit('pin:begin', this)
 
         await this.pin()
 
-        this.release.emit('pin_success', this.cid, this)
+        this.release.emit('pin:success', this.cid, this)
+      } catch (error) {
+        this.release.emit('pin:fail', error, this)
+        throw error
       }
-    } catch (error) {
-      this.release.emit('pin_fail', error, this)
-      throw error
     }
 
-    try {
-      if (this.unpin && this.release.previousCID && this.release.previousCID !== this.cid) {
-        this.release.emit('unpin_begin', this)
+    if (this.unpin && this.release.previousCID && this.release.previousCID !== this.cid) {
+      try {
+        this.release.emit('unpin:begin', this)
 
         await this.unpin()
 
-        this.release.emit('unpin_success', this)
+        this.release.emit('unpin:success', this)
+      } catch (error) {
+        this.release.emit('unpin:fail', error, this)
+        throw error
       }
-    } catch (error) {
-      this.release.emit('unpin_fail', error, this)
-      throw error
     }
 
     return {
-      provider: this.constructor.name,
+      provider: this.name,
       url: this.url,
       cid: this.cid,
     }
   }
 }
+
+export type ProviderEntity = Provider | string

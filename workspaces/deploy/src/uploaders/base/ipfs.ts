@@ -1,6 +1,9 @@
-import ipfsHttpClient, { multiaddr, globSource, CID  } from 'ipfs-http-client'
-import { UrlHash } from '../../modules/types'
+import CID from 'cids'
+import ipfsHttpClient from 'ipfs-http-client'
+import { map } from 'lodash'
+import { UploadResult } from '../../types'
 import { Provider } from './base'
+import { releaseFileToObject } from '../../modules/utils'
 
 /**
  *
@@ -15,21 +18,14 @@ export class IPFS extends Provider {
    *
    * @type {*}
    */
-  ipfs?: any
+  public ipfs?: unknown
 
   /**
    *
    *
    * @type {string}
    */
-  _gateway?: string
-
-  /**
-   *
-   *
-   * @type {string}
-   */
-  _host?: string
+  public _gateway?: string
 
   /**
    *
@@ -37,8 +33,8 @@ export class IPFS extends Provider {
    * @readonly
    * @type {string}
    */
-  get label(): string {
-    return this.host ? `IPFS (${this.host})` : super.label
+  public get label(): string {
+    return `IPFS (${this.address})`
   }
 
   /**
@@ -47,17 +43,7 @@ export class IPFS extends Provider {
    * @readonly
    * @type {string}
    */
-  get gatewayURL(): string {
-    return this._gateway || process.env[`DEPLOY_${this.name.toUpperCase()}_GATEWAY`] || this.customGatewayURL
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {string}
-   */
-  get customGatewayURL(): string {
+  public get defaultGatewayURL(): string {
     return 'https://gateway.ipfs.io'
   }
 
@@ -67,8 +53,8 @@ export class IPFS extends Provider {
    * @readonly
    * @type {string}
    */
-  get host(): string {
-    return this._host || process.env[`DEPLOY_${this.name.toUpperCase()}_HOST`] || this.customHost
+  public get gatewayURL(): string {
+    return this._gateway || process.env[`DEPLOY_${this.name.toUpperCase()}_GATEWAY`] || this.defaultGatewayURL
   }
 
   /**
@@ -77,18 +63,8 @@ export class IPFS extends Provider {
    * @readonly
    * @type {string}
    */
-  get customHost(): string {
+  public get defaultAddress(): string | undefined {
     return '/ip4/127.0.0.1/tcp/5001'
-  }
-
-  /**
-   *
-   *
-   * @readonly
-   * @type {string}
-   */
-  get protocol(): string {
-    return this.host.includes('https') ? 'https' : 'http'
   }
 
   /**
@@ -97,13 +73,11 @@ export class IPFS extends Provider {
    * @readonly
    * @type {object}
    */
-  get options(): { [key: string]: string } {
-    const addr = multiaddr(this.host).nodeAddress()
-
+  public get options(): Record<string, unknown> {
     return {
-      host: addr.address,
-      port: addr.port,
-      protocol: this.protocol,
+      host: this.multi.address,
+      port: this.multi.port,
+      protocol: this.multi.ssl ? 'https' : 'http',
       headers: this.headers,
     }
   }
@@ -114,7 +88,7 @@ export class IPFS extends Provider {
    * @param {string} value
    * @returns
    */
-  setGateway(value: string): this {
+  public setGateway(value: string): this {
     this._gateway = value
     return this
   }
@@ -122,21 +96,10 @@ export class IPFS extends Provider {
   /**
    *
    *
-   * @param {string} value
-   * @returns
    */
-  setHost(value: string): this {
-    this._host = value
-    return this
-  }
-
-  /**
-   *
-   *
-   */
-  validate(): void {
-    if (!this.host) {
-      throw new Error(`Missing host: DEPLOY_${this.name.toUpperCase()}_HOST`)
+  public validate(): void {
+    if (!this.address) {
+      throw new Error(`Missing multiaddress: DEPLOY_${this.name.toUpperCase()}_ADDRESS`)
     }
 
     if ((!this.username && this.password) || (!this.password && this.username)) {
@@ -152,7 +115,7 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
    *
    * @returns {Promise<void>}
    */
-  async setup(): Promise<void> {
+  public async setup(): Promise<void> {
     this.ipfs = ipfsHttpClient(this.options)
   }
 
@@ -161,28 +124,31 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
    *
    * @returns {Promise<any>}
    */
-  async upload(): Promise<any> {
-    const files: any[] = []
+  public async upload(): Promise<unknown> {
+    const files =  map(this.release.files, releaseFileToObject)
 
-    for await (const file of this.ipfs.add(globSource(this.release.path, { recursive: true }))) {
-      files.push(file)
-    }
+    // @ts-ignore
+    const response = await this.ipfs.add(files, {
+      name: this.release.name,
+      recursive: true,
+    })
 
-    return files
+    return response
   }
 
   /**
    *
    *
    * @param {*} files
-   * @returns {Promise<UrlHash>}
+   * @returns {Promise<UploadResult>}
    */
-  async parse(files: any): Promise<UrlHash> {
-    const hash = new CID(files[files.length - 1].cid).toString()
+  public async parse(files: unknown): Promise<UploadResult> {
+    // @ts-ignore
+    const cid = new CID(files.cid).toString()
 
     return {
-      cid: hash,
-      url: `${this.gatewayURL}/ipfs/${hash}`,
+      cid,
+      url: `${this.gatewayURL}/ipfs/${cid}`,
     }
   }
 
@@ -191,7 +157,8 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
    *
    * @returns {Promise<void>}
    */
-  async pin(): Promise<void> {
+  public async pin(): Promise<void> {
+    // @ts-ignore
     await this.ipfs.pin.add(this.cid, { timeout: 5 * 60 * 1000 })
   }
 
@@ -200,7 +167,8 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
    *
    * @returns {Promise<void>}
    */
-  async unpin(): Promise<void> {
+  public async unpin(): Promise<void> {
+    // @ts-ignore
     await this.ipfs.pin.rm(this.release.previousCID)
   }
 }

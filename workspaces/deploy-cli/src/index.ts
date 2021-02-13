@@ -1,23 +1,28 @@
-/* eslint-disable no-console */
-import path from 'path'
 import { Command, flags } from '@oclif/command'
-import * as ora from 'ora'
 import { upperFirst } from 'lodash'
-import Youch from 'youch'
-import forTerminal from 'youch-terminal'
-import { UrlHash, DNSRecord } from './modules/types'
-import { DnsProvider } from './dnslink'
-import { Release, storage, Provider } from '.'
-// import '../secrets'
+import * as ora from 'ora'
+import path from 'path'
+import { Provider, Release, storage, DnsRecord, UploadResult } from '@dreamnet/deploy'
 
 class Deploy extends Command {
-  static description = ''
+  /**
+   *
+   *
+   * @static
+   */
+  public static description = 'Upload a file or folder to the specified providers.'
 
-  static flags = {
-    // add --version flag to show CLI version
+  /**
+   *
+   *
+   * @static
+   */
+  public static flags = {
+    // show the application version
     version: flags.version({ char: 'v' }),
+    // show help information
     help: flags.help({ char: 'h' }),
-
+    // file providers
     provider: flags.string({
       multiple: true,
       options: [
@@ -29,49 +34,79 @@ class Deploy extends Command {
         'gitea',
         'dreamlink',
         'dreamlink-cluster',
-        'antopie',
         'codeberg',
         'teknik',
+        'minio',
         'mega',
-        'googledrive',
-        'gdrive',
       ],
       required: true,
       char: 'p',
+      description: 'file providers',
     }),
-
+    // dns providers
     dns: flags.string({
       multiple: true,
       options: ['cloudflare'],
       char: 'd',
+      description: 'dns providers',
     }),
-
+    // release name
     name: flags.string({
       char: 'n',
+      description: 'release name',
     }),
-
-    storagePath: flags.string({
+    // path to CID's storage file
+    storage: flags.string({
       char: 's',
+      description: 'path to CID\'s storage file',
     }),
   }
 
-  static args = [
-    {
-      name: 'release',
-      required: true,
-    },
-  ]
+  /**
+   *
+   *
+   * @static
+   */
+  public static args = [{ name: 'file', required: true }]
 
-  // eslint-disable-next-line import/namespace
-  spinner: ora.Ora = ora.default()
+  /**
+   *
+   *
+   * @type {ora.Ora}
+   */
+  public spinner: ora.Ora = ora.default()
 
-  async run(): Promise<void> {
+  public async run(): Promise<void> {
+    const release = await this.createRelease()
+
+    this.log('------------------------------------------')
+    this.log(`| ${release.filepath}`)
+    this.log(`| Root: ${release.rootPath}`)
+    this.log('------------------------------------------')
+    this.log(`| Name: ${release.name}`)
+    this.log(`| Is directory: ${release.isDirectory}`)
+    this.log(`| Is encrypted: ${release.cryptr !== undefined}`)
+    this.log(`| Files: ${release.files.length}`)
+    this.log(`| Providers: ${release.providers.length}`)
+    this.log(`| DNS: ${release.dnsProviders.length}`)
+    this.log('------------------------------------------\n')
+
+    const response = await release.run()
+
+    this.log('')
+
+    this.log(JSON.stringify(response))
+  }
+
+  public async createRelease(): Promise<Release> {
     const { args, flags } = this.parse(Deploy)
 
-    const release = new Release(args.release)
+    const release = new Release(args.file)
 
+    // Release name
     release.setName(flags.name)
 
+    // File providers
     flags.provider.forEach(provider => {
       switch (provider) {
       case 'ipfs':
@@ -87,9 +122,9 @@ class Deploy extends Command {
       case 'pinata':
       case 'github':
       case 'gitea':
-      case 'antopie':
       case 'codeberg':
       case 'teknik':
+      case 'minio':
         release.addProvider(upperFirst(provider))
         break
 
@@ -100,15 +135,11 @@ class Deploy extends Command {
       case 'dreamlink-cluster':
         release.addProvider('DreamLinkCluster')
         break
-
-      case 'googledrive':
-      case 'gdrive':
-        release.addProvider('GoogleDrive')
-        break
       }
     })
 
     if (flags.dns) {
+      // DNS providers
       flags.dns.forEach(provider => {
         switch (provider) {
         case 'cloudflare':
@@ -118,21 +149,22 @@ class Deploy extends Command {
       })
     }
 
-    if (flags.storagePath) {
-      storage.setFilepath(flags.storagePath)
-      this.log(`Storage path: ${path.resolve(flags.storagePath)}`)
+    if (flags.storage) {
+      // CID storage
+      storage.setFilepath(flags.storage)
+      this.log(`Storage path: ${path.resolve(flags.storage)}`)
     }
 
-    release.on('upload_begin', (provider: Provider) => {
+    release.on('upload:begin', (provider: Provider) => {
       this.spinner.start(`Uploading to ${provider.label}...`)
     })
 
-    release.on('upload_success', (result: UrlHash, provider: Provider) => {
+    release.on('upload:success', (result: UploadResult, provider: Provider) => {
       this.spinner.succeed(`Uploaded to ${provider.label}.`)
       this.spinner.info(`${result.url}`)
     })
 
-    release.on('upload_fail', (error: any, provider: Provider) => {
+    release.on('upload:fail', (error: Error, provider: Provider) => {
       this.spinner.fail(`Upload to ${provider.label} failed: ${error.message}`)
 
       /*
@@ -146,59 +178,54 @@ class Deploy extends Command {
       */
     })
 
-    release.on('pin_begin', (provider: Provider) => {
+    release.on('pin:begin', (provider: Provider) => {
       this.spinner.start(`Pinning to ${provider.label}...`)
     })
 
-    release.on('pin_success', (cid: string, provider: Provider) => {
+    release.on('pin:success', (cid: string, provider: Provider) => {
       this.spinner.succeed(`Pinned to ${provider.label}.`)
       this.spinner.info(cid)
     })
 
-    release.on('pin_fail', (error: Error, provider: Provider) => {
+    release.on('pin:fail', (error: Error, provider: Provider) => {
       this.spinner.fail(`Pin to ${provider.label} failed: ${error.message}`)
     })
 
-    release.on('unpin_begin', (provider: Provider) => {
+    release.on('unpin:begin', (provider: Provider) => {
       this.spinner.start(`Unpinning old version from ${provider.label}...`)
     })
 
-    release.on('unpin_success', (provider: Provider) => {
+    release.on('unpin:success', (provider: Provider) => {
       this.spinner.succeed(`Unpinned from ${provider.label}.`)
       this.spinner.info(`${provider.release.previousCID}`)
     })
 
-    release.on('unpin_fail', (error: Error, provider: Provider) => {
+    release.on('unpin:fail', (error: Error, provider: Provider) => {
       this.spinner.fail(`Unpin from ${provider.label} failed: ${error.message}`)
     })
 
-    release.on('dns_begin', (provider: DnsProvider) => {
+    release.on('dns:begin', (provider: Provider) => {
       this.spinner.start(`Updating ${provider.label} DNS...`)
     })
 
-    release.on('dns_fail', (error: Error, provider: DnsProvider) => {
+    release.on('dns:fail', (error: Error, provider: Provider) => {
       this.spinner.fail(`${provider.label} DNS update has failed: ${error.message}`)
     })
 
-    release.on('dns_success', (result: DNSRecord, provider: DnsProvider) => {
+    release.on('dns:success', (result: DnsRecord, provider: Provider) => {
       this.spinner.succeed(`${provider.label} DNS updated.`)
       this.spinner.info(`${result.record} = ${result.content}`)
     })
 
     release.on('fail', (error: Error) => {
-      try {
-        const output = new Youch(error, {}).toJSON()
-        console.log(forTerminal(output))
-      } catch (error2) {
-        console.trace(error)
-        // throw error
-      }
+      // eslint-disable-next-line no-console
+      console.trace(error)
     })
 
-    const response = await release.run()
+    await release.init()
 
-    this.log(JSON.stringify(response))
+    return release
   }
 }
 
-export default Deploy
+export = Deploy

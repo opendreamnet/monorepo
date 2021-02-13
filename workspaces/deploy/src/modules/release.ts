@@ -1,19 +1,19 @@
 /* eslint-disable no-await-in-loop */
-import path from 'path'
-import { EventEmitter } from 'events'
-import { isArray } from 'lodash'
-import fs from 'fs-extra'
-import rfs from 'recursive-fs'
-import normalize from 'normalize-path'
-import mime from 'mime-types'
 import Cryptr from 'cryptr'
-import * as Providers from '../uploaders'
-import { Provider } from '../uploaders'
+import { EventEmitter } from 'events'
+import fs from 'fs-extra'
+import { isArray } from 'lodash'
+import mime from 'mime-types'
+import normalize from 'normalize-path'
+import path from 'path'
+import rfs from 'recursive-fs'
 import * as DnsProviders from '../dnslink'
-import { DnsProvider } from '../dnslink'
-import { ReleaseFile, UrlHash, ProviderEntity, DNSProviderEntity as DnsProviderEntity } from './types'
-import { isProvider } from './utils'
+import { DnsProvider, DnsProviderEntity } from '../dnslink'
+import * as Providers from '../uploaders'
+import { Provider, ProviderEntity } from '../uploaders'
 import { storage } from './storage'
+import { ReleaseFile, UploadResult } from '../types'
+import { isProvider } from './utils'
 
 export interface Release {
   /**
@@ -21,7 +21,7 @@ export interface Release {
    *
    * @type {string}
    */
-  path: string;
+  filepath: string;
 
   /**
    *
@@ -49,7 +49,7 @@ export interface Release {
    *
    * @type {fs.Stats}
    */
-  stats: fs.Stats;
+  filestat: fs.Stats;
 
   /**
    *
@@ -64,28 +64,28 @@ export class Release extends EventEmitter {
    *
    *
    */
-  initialized = false
+  public initialized = false
 
   /**
    *
    *
    * @type {ReleaseFile[]}
    */
-  files: ReleaseFile[] = []
+  public files: ReleaseFile[] = []
 
   /**
    *
    *
    * @type {Provider[]}
    */
-  providers: Provider[] = []
+  public providers: Provider[] = []
 
   /**
    *
    *
    * @type {DnsProvider[]}
    */
-  dnsProviders: DnsProvider[] = []
+  public dnsProviders: DnsProvider[] = []
 
   /**
    *
@@ -93,8 +93,8 @@ export class Release extends EventEmitter {
    * @readonly
    * @type {boolean}
    */
-  get isDirectory(): boolean {
-    return this.stats.isDirectory()
+  public get isDirectory(): boolean {
+    return this.filestat.isDirectory()
   }
 
   /**
@@ -103,12 +103,16 @@ export class Release extends EventEmitter {
    * @readonly
    * @type {(ReleaseFile | null)}
    */
-  get file(): ReleaseFile | null {
+  public get file(): ReleaseFile | null {
     if (this.isDirectory) {
       return null
     }
 
     return this.files[0]
+  }
+
+  public get rootPath(): string {
+    return this.files[0].relpath
   }
 
   /**
@@ -117,7 +121,7 @@ export class Release extends EventEmitter {
    * @readonly
    * @type {(string | null)}
    */
-  get cid(): string | null {
+  public get cid(): string | null {
     for (const provider of this.providers) {
       if (provider.cid) {
         return provider.cid
@@ -130,14 +134,14 @@ export class Release extends EventEmitter {
   /**
    * Creates an instance of Release.
    *
-   * @param {string} releasePath
+   * @param {string} filepath
    * @param {string} [version]
    */
-  constructor(releasePath: string) {
+  public constructor(filepath: string) {
     super()
 
-    this.path = path.resolve(releasePath)
-    this.stats = fs.statSync(releasePath)
+    this.filepath = path.resolve(filepath)
+    this.filestat = fs.statSync(filepath)
 
     if (process.env.DEPLOY_NAME) {
       this.setName(process.env.DEPLOY_NAME)
@@ -154,7 +158,7 @@ export class Release extends EventEmitter {
    * @param {string} value
    * @returns {this}
    */
-  setName(value: string): this {
+  public setName(value?: string): this {
     this.name = value
     return this
   }
@@ -165,7 +169,7 @@ export class Release extends EventEmitter {
    * @param {string} value
    * @returns {this}
    */
-  setEncryptKey(value: string): this {
+  public setEncryptKey(value: string): this {
     this.cryptr = new Cryptr(value)
     return this
   }
@@ -175,7 +179,7 @@ export class Release extends EventEmitter {
    *
    * @returns {this}
    */
-  clearEncryptKey(): this {
+  public clearEncryptKey(): this {
     this.cryptr = undefined
     return this
   }
@@ -186,7 +190,7 @@ export class Release extends EventEmitter {
    * @param {string} value
    * @returns {this}
    */
-  setPreviousCID(value: string): this {
+  public setPreviousCID(value: string): this {
     this.previousCID = value
     return this
   }
@@ -196,7 +200,7 @@ export class Release extends EventEmitter {
    *
    * @returns {this}
    */
-  clearPreviousCID(): this {
+  public clearPreviousCID(): this {
     this.previousCID = undefined
     return this
   }
@@ -206,9 +210,9 @@ export class Release extends EventEmitter {
    *
    * @returns {Promise<void>}
    */
-  async init(): Promise<void> {
+  public async init(): Promise<void> {
     const [files] = await Promise.all([
-      this._getFiles(),
+      this.getFiles(),
       storage.init(),
     ])
 
@@ -222,32 +226,32 @@ export class Release extends EventEmitter {
    *
    * @returns {Promise<ReleaseFile[]>}
    */
-  async _getFiles(): Promise<ReleaseFile[]> {
+  protected async getFiles(): Promise<ReleaseFile[]> {
     const list: ReleaseFile[] = []
 
-    const strip = path.dirname(this.path)
+    const strip = path.dirname(this.filepath)
 
     // Release file/directory
     list.push({
-      path: this.path,
-      relpath: normalize(this.path.replace(strip, '')),
-      name: path.basename(this.path),
-      mimetype: mime.lookup(this.path),
-      stats: this.stats,
-      isDirectory: this.stats.isDirectory(),
+      path: this.filepath,
+      relpath: normalize(this.filepath.replace(strip, '')),
+      name: path.basename(this.filepath),
+      mimetype: mime.lookup(this.filepath) as string,
+      stats: this.filestat,
+      isDirectory: this.filestat.isDirectory(),
     })
 
     if (this.isDirectory) {
-      const { files } = await rfs.read(this.path)
+      const { files } = await rfs.read(this.filepath)
 
       files.forEach((filepath: string) => {
-        filepath = path.resolve(this.path, filepath)
+        filepath = path.resolve(this.filepath, filepath)
 
         list.push({
           path: filepath,
           relpath: normalize(filepath.replace(strip, '')),
           name: path.basename(filepath),
-          mimetype: mime.lookup(filepath),
+          mimetype: mime.lookup(filepath) as string,
           stats: fs.statSync(filepath),
           isDirectory: false,
         })
@@ -263,7 +267,7 @@ export class Release extends EventEmitter {
    * @param {(ProviderEntity | ProviderEntity[])} provider
    * @returns {this}
    */
-  addProvider(provider: ProviderEntity | ProviderEntity[]): this {
+  public addProvider(provider: ProviderEntity | ProviderEntity[]): this {
     if (isArray(provider)) {
       provider.forEach(prov => {
         this.addProvider(prov)
@@ -271,7 +275,7 @@ export class Release extends EventEmitter {
     } else {
       try {
         if (!isProvider(provider)) {
-          // eslint-disable-next-line import/namespace
+          // @ts-ignore
           provider = new Providers[provider](this) as Provider
         }
 
@@ -290,7 +294,7 @@ export class Release extends EventEmitter {
    * @param {(DnsProviderEntity | DnsProviderEntity[])} provider
    * @returns {this}
    */
-  addDnsProvider(provider: DnsProviderEntity | DnsProviderEntity[]): this {
+  public addDnsProvider(provider: DnsProviderEntity | DnsProviderEntity[]): this {
     if (isArray(provider)) {
       provider.forEach(prov => {
         this.addDnsProvider(prov)
@@ -298,7 +302,7 @@ export class Release extends EventEmitter {
     } else {
       try {
         if (!(provider instanceof DnsProvider)) {
-          // eslint-disable-next-line import/namespace
+          // @ts-ignore
           provider = new DnsProviders[provider](this) as DnsProvider
         }
 
@@ -314,19 +318,22 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @returns {Promise<UrlHash[]>}
+   * @returns {Promise<UploadResult[]>}
    */
-  async run(): Promise<UrlHash[]> {
+  public async run(): Promise<UploadResult[]> {
     if (!this.initialized) {
       await this.init()
     }
 
-    if (this.name) {
+    if (this.name && !this.previousCID) {
+      // Get the IPFS CID of the previous release,
+      // to do unpin.
       this.previousCID = storage.get(this.name)
     }
 
-    const response: UrlHash[] = []
+    const response: UploadResult[] = []
 
+    // Upload the release to each provider.
     for (const provider of this.providers) {
       try {
         const parsed = await provider.run()
@@ -336,6 +343,7 @@ export class Release extends EventEmitter {
       }
     }
 
+    // Update DNS providers.
     for (const provider of this.dnsProviders) {
       try {
         await provider.run()
@@ -345,6 +353,7 @@ export class Release extends EventEmitter {
     }
 
     if (this.name && this.cid) {
+      // Store the new IPFS CID.
       storage.save(this.name, this.cid)
     }
 

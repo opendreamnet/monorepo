@@ -1,4 +1,4 @@
-import { Gitea } from '../gitea'
+import { Gitea } from '../common/gitea'
 
 export class Teknik extends Gitea {
   /**
@@ -7,7 +7,7 @@ export class Teknik extends Gitea {
    * @readonly
    * @type {string}
    */
-  get label(): string {
+  public get label(): string {
     return 'Teknik.io'
   }
 
@@ -15,9 +15,9 @@ export class Teknik extends Gitea {
    *
    *
    * @readonly
-   * @type {string}
+   * @type {(string | undefined)}
    */
-  get baseURL(): string {
-    return super.baseURL || 'https://git.teknik.io/api/v1'
+  public get defaultBaseURL(): string | undefined {
+    return 'https://git.teknik.io/api/v1'
   }
 }

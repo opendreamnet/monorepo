@@ -3,19 +3,19 @@ import * as app from '@dreamnet/app'
 import fs from 'fs-extra'
 
 class Storage {
-  initialized = false
+  public initialized = false
 
-  payload: any = {}
+  public payload: Record<string, string> = {}
 
-  filepath: string
+  public filepath!: string
 
-  async init(): Promise<void> {
+  public async init(): Promise<void> {
     if (this.initialized) {
       return
     }
 
     if (!this.filepath || !fs.existsSync(this.filepath)) {
-      this.filepath = app.getPath('userData', 'storage.json')
+      this.filepath = app.getPath('userData', 'storage.json') as string
     } else if (fs.lstatSync(this.filepath).isDirectory()) {
       this.filepath = path.resolve(this.filepath, 'storage.json')
     }
@@ -29,17 +29,17 @@ class Storage {
     this.initialized = true
   }
 
-  setFilepath(value: string): this {
+  public setFilepath(value: string): this {
     this.filepath = value
     return this
   }
 
-  save(name: string, value: string): void {
+  public save(name: string, value: string): void {
     this.payload[name] = value
     fs.writeJSONSync(this.filepath, this.payload, { spaces: 2 })
   }
 
-  get(name: string): string | null {
+  public get(name: string): string | undefined {
     return this.payload[name]
   }
 }

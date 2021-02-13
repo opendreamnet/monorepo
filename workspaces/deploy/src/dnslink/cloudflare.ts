@@ -1,41 +1,38 @@
 // import cf from 'cloudflare'
-import updateCloudflareDnslink from 'dnslink-cloudflare'
+import updateDnsLink from 'dnslink-cloudflare'
 import { isEmpty } from 'lodash'
-
-import { DNSRecord, DNSLink } from '../modules/types'
+import { DnsRecord, DnsLink } from '../types'
 import { DnsProvider } from './base'
 
 export class Cloudflare extends DnsProvider {
-  // api: any
+  protected _email?: string
 
-  _email: string | null = null
+  protected _key?: string
 
-  _key: string | null = null
+  protected _token?: string
 
-  _token: string | null = null
-
-  get email(): string | null {
-    return this._email || process.env.DEPLOY_CLOUDFLARE_EMAIL || null
+  public get email(): string | undefined {
+    return this._email || process.env.DEPLOY_CLOUDFLARE_EMAIL
   }
 
-  get key(): string | null {
-    return this._key || process.env.DEPLOY_CLOUDFLARE_KEY || null
+  public get key(): string | undefined {
+    return this._key || process.env.DEPLOY_CLOUDFLARE_KEY
   }
 
-  get token(): string | null {
-    return this._token || process.env.DEPLOY_CLOUDFLARE_TOKEN || null
+  public get token(): string | undefined {
+    return this._token || process.env.DEPLOY_CLOUDFLARE_TOKEN
   }
 
-  get zone(): string | null {
-    return this._zone || process.env.DEPLOY_CLOUDFLARE_ZONE || null
+  public get zone(): string | undefined {
+    return this._zone || process.env.DEPLOY_CLOUDFLARE_ZONE
   }
 
-  get record(): string | null {
-    return this._record || process.env.DEPLOY_CLOUDFLARE_RECORD || null
+  public get record(): string | undefined {
+    return this._record || process.env.DEPLOY_CLOUDFLARE_RECORD
   }
 
-  get api(): { [key: string]: string } {
-    const options: { [key: string]: string } = {}
+  public get api(): Record<string, string> {
+    const options: Record<string, string> = {}
 
     if (this.token) {
       options.token = this.token
@@ -47,7 +44,7 @@ export class Cloudflare extends DnsProvider {
     return options
   }
 
-  get options(): DNSLink {
+  public get options(): DnsLink {
     return {
       zone: this.zone as string,
       record: this.record as string,
@@ -55,7 +52,7 @@ export class Cloudflare extends DnsProvider {
     }
   }
 
-  validate(): void {
+  public validate(): void {
     if ((isEmpty(this.key) && isEmpty(this.email)) && isEmpty(this.token)) {
       throw new Error(`Missing credentials:
 
@@ -74,8 +71,8 @@ DEPLOY_CLOUDFLARE_TOKEN`)
     }
   }
 
-  async link(): Promise<DNSRecord> {
-    const content = await updateCloudflareDnslink(this.api, this.options)
+  public async link(): Promise<DnsRecord> {
+    const content = await updateDnsLink(this.api, this.options)
 
     return {
       record: this.options.record,

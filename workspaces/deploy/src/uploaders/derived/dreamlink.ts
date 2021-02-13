@@ -14,7 +14,7 @@ export class DreamLink extends IPFS {
    * @readonly
    * @type {string}
    */
-  get label(): string {
+  public get label(): string {
     return 'DreamLink'
   }
 
@@ -24,7 +24,7 @@ export class DreamLink extends IPFS {
    * @readonly
    * @type {string}
    */
-  get customGatewayURL(): string {
+  public get defaultGatewayURL(): string {
     return 'https://link.dreamnet.tech'
   }
 
@@ -34,7 +34,7 @@ export class DreamLink extends IPFS {
    * @readonly
    * @type {string}
    */
-  get customHost(): string {
+  public get defaultAddress(): string {
     return '/dns4/api.link.dreamnet.tech/tcp/443/https'
   }
 }

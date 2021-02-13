@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "@dreamnet/eslint-config-dreamnet"
+  ],
+  "rules": {
+    "node/no-missing-import": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
+  }
+}

@@ -1,10 +1,10 @@
-import util from 'util'
 import fs from 'fs'
 import { find } from 'lodash'
-import { Storage, MutableFile } from 'megajs'
+import { MutableFile, Storage } from 'megajs'
 import slash from 'slash'
-import { UrlHash } from '../modules/types'
-import { Provider } from './base/base'
+import util from 'util'
+import { UploadResult } from '../../types'
+import { Provider } from '../base/base'
 
 export class MEGA extends Provider {
   /**
@@ -12,28 +12,28 @@ export class MEGA extends Provider {
    *
    * @type {Storage}
    */
-  storage: Storage
+  public storage!: Storage
 
   /**
    *
    *
    * @type {string}
    */
-  _email?: string
+  public _email?: string
 
   /**
    *
    *
    * @type {string}
    */
-  _password?: string
+  public _password?: string
 
   /**
    *
    *
    * @type {string}
    */
-  _folder?: string
+  public _folder?: string
 
   /**
    *
@@ -41,7 +41,7 @@ export class MEGA extends Provider {
    * @readonly
    * @type {boolean}
    */
-  get hasDirectorySupport(): boolean {
+  public get hasDirectorySupport(): boolean {
     return false
   }
 
@@ -51,7 +51,7 @@ export class MEGA extends Provider {
    * @readonly
    * @type {(string | undefined)}
    */
-  get email(): string | undefined {
+  public get email(): string | undefined {
     return this._email || process.env.DEPLOY_MEGA_EMAIL
   }
 
@@ -61,7 +61,7 @@ export class MEGA extends Provider {
    * @readonly
    * @type {(string | undefined)}
    */
-  get password(): string | undefined {
+  public get password(): string | undefined {
     return this._password || process.env.DEPLOY_MEGA_PASSWORD
   }
 
@@ -71,7 +71,7 @@ export class MEGA extends Provider {
    * @readonly
    * @type {(string | undefined)}
    */
-  get folder(): string | undefined {
+  public get folder(): string | undefined {
     return this._folder || process.env.DEPLOY_MEGA_FOLDER
   }
 
@@ -81,7 +81,7 @@ export class MEGA extends Provider {
    * @param {string} value
    * @returns {this}
    */
-  setEmail(value: string): this {
+  public setEmail(value: string): this {
     this._email = value
     return this
   }
@@ -92,7 +92,7 @@ export class MEGA extends Provider {
    * @param {string} value
    * @returns {this}
    */
-  setPassword(value: string): this {
+  public setPassword(value: string): this {
     this._password = value
     return this
   }
@@ -103,7 +103,7 @@ export class MEGA extends Provider {
    * @param {string} value
    * @returns {this}
    */
-  setFolder(value: string): this {
+  public setFolder(value: string): this {
     this._folder = value
     return this
   }
@@ -112,7 +112,7 @@ export class MEGA extends Provider {
    *
    *
    */
-  validate(): void {
+  public validate(): void {
     if (!this.email) {
       throw new Error('Missing email: DEPLOY_MEGA_EMAIL')
     }
@@ -127,11 +127,11 @@ export class MEGA extends Provider {
    *
    * @returns {Promise<void>}
    */
-  setup(): Promise<void> {
+  public setup(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.storage = new Storage({
-        email: this.email,
-        password: this.password,
+        email: this.email!,
+        password: this.password!,
         keepalive: false,
       }, (error: Error) => {
         if (error) {
@@ -148,13 +148,12 @@ export class MEGA extends Provider {
    *
    * @returns {Promise<any>}
    */
-  async upload(): Promise<any> {
+  public async upload(): Promise<unknown> {
     const folderStorage = await this.getFolderStorage()
 
-    // eslint-disable-next-line no-return-await
-    return await new Promise((resolve, reject) => {
-      fs.createReadStream(this.release.file.path)
-      .pipe(folderStorage.upload(this.release.file.name))
+    return new Promise((resolve, reject) => {
+      fs.createReadStream(this.release.file!.path)
+      .pipe(folderStorage.upload(this.release.file!.name))
       .on('complete', (file: MutableFile) => {
         file.link({}, (error, url) => {
           if (error) {
@@ -174,12 +173,12 @@ export class MEGA extends Provider {
    *
    *
    * @param {*} response
-   * @returns {Promise<UrlHash>}
+   * @returns {Promise<UploadResult>}
    */
-  async parse(response: any): Promise<UrlHash> {
+  public async parse(response: unknown): Promise<UploadResult> {
     return {
-      cid: null,
-      url: response,
+      cid: undefined,
+      url: response as string,
     }
   }
 
@@ -188,7 +187,7 @@ export class MEGA extends Provider {
    *
    * @returns {Promise<MutableFile>}
    */
-  async getFolderStorage(): Promise<MutableFile> {
+  public async getFolderStorage(): Promise<MutableFile> {
     let mutable = this.storage.root
 
     if (this.folder) {

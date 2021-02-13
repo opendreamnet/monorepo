@@ -1,13 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "es2017",
     "outDir": "dist",
-    "rootDir": "src",
-    "typeRoots": [
-      "src/types"
-    ]
+    "rootDir": "src"
   },
   "include": [
-    "src/**/*"
+    "./src/**/*"
   ]
 }

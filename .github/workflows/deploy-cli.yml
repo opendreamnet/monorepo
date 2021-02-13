@@ -1,11 +1,11 @@
-name: "@dreamnet/deploy"
+name: "@dreamnet/deploy-cli"
 
 on:
   push:
     paths:
-      - workspaces/deploy/**.js
-      - workspaces/deploy/**.ts
-      - workspaces/deploy/**.json
+      - workspaces/deploy-cli/**.js
+      - workspaces/deploy-cli/**.ts
+      - workspaces/deploy-cli/**.json
 
 jobs:
   build:
@@ -21,11 +21,11 @@ jobs:
           node-version: "14"
 
       - name: Setup
-        working-directory: workspaces/deploy
+        working-directory: workspaces/deploy-cli
         run: yarn install
 
       - name: Publish
-        working-directory: workspaces/deploy
+        working-directory: workspaces/deploy-cli
         run: yarn npm publish --access public --tolerate-republish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

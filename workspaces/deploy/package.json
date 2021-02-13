@@ -1,76 +1,65 @@
 {
   "name": "@dreamnet/deploy",
-  "version": "0.1.2",
   "description": "Deploy files and folders to different file providers.",
+  "version": "1.0.0",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
-  "bin": "./bin/run",
   "scripts": {
-    "lint": "eslint --ext .js,.ts,.vue src/",
+    "posttest": "yarn run lint",
+    "prepack": "yarn run build",
+    "clean": "shx rm -rf dist",
+    "lint": "eslint src --ext .ts",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "clean": "shx rm -rf dist/",
-    "exec": "./bin/run",
-    "build": "yarn run clean && tsc -b"
-  },
-  "lint-staged": {
-    "src/*.{js,ts,vue}": "eslint --fix"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "dev": "tsc -b -w",
+    "build": "tsc -b"
   },
   "dependencies": {
-    "@dreamnet/app": "workspace:^1.0.0",
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
-    "@oclif/command": "^1",
-    "@oclif/config": "^1",
-    "@oclif/plugin-help": "^2",
-    "@octokit/rest": "^17.9.0",
-    "axios": "^0.20.0",
-    "base-path-converter": "^1.0.2",
+    "@dreamnet/app": "workspace:^1",
+    "@octokit/rest": "^18.1.0",
+    "axios": "^0.21.1",
+    "cids": "^1.1.5",
     "cloudflare": "^2.7.0",
     "cryptr": "^6.0.2",
     "dnslink-cloudflare": "^3.0.0",
     "dotenv": "^8.2.0",
     "form-data": "^3.0.0",
-    "fs-extra": "^9.0.0",
-    "googleapis": "^51.0.0",
+    "fs-extra": "^9.1.0",
     "ipfs-cluster-api": "^0.0.9",
     "ipfs-http-client": "^47.0.1",
-    "lodash": "^4.17.15",
-    "megajs": "^0.17.0",
+    "lodash": "^4.17.20",
+    "megajs": "^0.17.2",
+    "mime-types": "^2.1.28",
+    "minio": "^7.0.18",
+    "multiaddr": "^8.1.2",
     "normalize-path": "^3.0.0",
+    "ora": "^5.3.0",
     "recursive-fs": "^2.1.0",
-    "slash": "^3.0.0",
-    "tslib": "^1",
-    "youch-terminal": "^1.0.0"
+    "slash": "^3.0.0"
   },
   "devDependencies": {
-    "@oclif/dev-cli": "^1",
-    "@oclif/test": "^1",
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
     "@types/chai": "^4",
-    "@types/cryptr": "4.0.0",
-    "@types/fs-extra": "8.1.0",
-    "@types/lodash": "4.14.150",
+    "@types/cryptr": "4.0.1",
+    "@types/fs-extra": "9.0.6",
+    "@types/lodash": "4.14.168",
     "@types/megajs": "0.14.1",
-    "@types/mocha": "^5",
-    "@types/node": "^10",
+    "@types/mime-types": "^2.1.0",
+    "@types/minio": "^7.0.7",
+    "@types/mocha": "^8",
+    "@types/node": "^14",
     "@types/normalize-path": "3.0.0",
     "@types/slash": "3.0.0",
     "chai": "^4",
-    "eslint": "^7.9.0",
-    "eslint-config-oclif": "^3.1",
-    "eslint-config-oclif-typescript": "^0.2.0",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.3.0",
-    "mocha": "^5",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.19.0",
+    "microbundle": "^0.13.0",
+    "mocha": "^8",
     "nyc": "^15.1.0",
-    "shx": "^0.3.2",
-    "ts-node": "^9.0.0",
-    "typescript": "^3.3"
+    "shx": "^0.3.3",
+    "ts-node": "^9.1.1",
+    "typescript": "^3.9.9"
   },
   "author": {
     "name": "Iván Bravo Bravo",
@@ -86,15 +75,11 @@
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/issues"
   },
-  "oclif": {
-    "bin": "deploy"
-  },
   "files": [
-    "/bin",
     "/dist",
     "/src"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12"
   }
 }
