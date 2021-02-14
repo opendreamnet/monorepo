@@ -1,4 +1,5 @@
 name: "@dreamnet/queue"
+
 on:
   push:
     paths:
@@ -14,18 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Node.js 12.x
+      - name: Install Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: "12"
+          node-version: "14"
 
       - name: Setup
         working-directory: workspaces/queue
         run: yarn install
-
-      - name: Build
-        working-directory: workspaces/queue
-        run: yarn run build
 
       - name: Publish
         working-directory: workspaces/queue

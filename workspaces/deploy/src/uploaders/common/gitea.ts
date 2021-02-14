@@ -95,7 +95,7 @@ export class Gitea extends Git {
       throw new Error('Axios has not been created!')
     }
 
-    const responses = []
+    const responses: GitReleaseAsset[] = []
 
     for (const file of this.release.files) {
       if (file.isDirectory) {

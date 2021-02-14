@@ -1,61 +1,52 @@
 {
-  "name": "@dreamnet/deploy-cli",
-  "description": "CLI utility for @dreamnet/deploy",
+  "name": "@dreamnet/mnemonic",
   "version": "1.0.0",
+  "description": "Generate Mnemonic code from any string input.",
   "license": "MIT",
   "source": "src/index.ts",
-  "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "posttest": "yarn run lint",
     "prepack": "yarn run build",
+    "lint": "eslint --fix --ext .ts src",
     "clean": "shx rm -rf dist",
-    "lint": "eslint src --ext .ts",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "dev": "tsc -b -w",
+    "watch": "tsc -b -w",
     "build": "tsc -b"
   },
   "dependencies": {
-    "@dreamnet/deploy": "workspace:^1",
-    "@oclif/command": "^1",
-    "@oclif/config": "^1",
-    "@oclif/plugin-help": "^3",
-    "lodash": "^4.17.20",
-    "ora": "^5.3.0",
-    "tslib": "^1"
+    "pbkdf2": "^3.1.1",
+    "randombytes": "^2.1.0"
   },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1",
-    "@oclif/dev-cli": "^1.26.0",
+    "@types/create-hash": "^1.2.2",
+    "@types/pbkdf2": "^3.1.0",
+    "@types/randombytes": "^2.0.0",
     "eslint": "^7.20.0",
+    "microbundle": "^0.13.0",
     "shx": "^0.3.3",
+    "ts-node": "^9.1.1",
     "typescript": "^3.9.9"
   },
-  "bin": {
-    "deploy": "./bin/run"
-  },
-  "oclif": {
-    "bin": "deploy"
-  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
   "author": {
-    "name": "Ivan Bravo Bravo",
+    "name": "Iván Bravo Bravo",
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/dreamnettech/monorepo.git",
-    "directory": "workspaces/deploy-cli"
+    "directory": "workspaces/app"
   },
   "bugs": {
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/issues"
   },
-  "files": [
-    "/bin",
-    "/dist"
-  ],
   "engines": {
-    "node": ">=12"
+    "node": ">= 12"
   }
 }

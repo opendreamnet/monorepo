@@ -1,25 +1,12 @@
 {
   "name": "@dreamnet/monorepo",
-  "version": "0.1.0",
   "description": "Monorepo for the DreamNet ecosystem.",
-  "author": {
-    "name": "Iván Bravo Bravo",
-    "email": "ivan@dreamnet.tech",
-    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dreamnettech/monorepo.git"
-  },
-  "license": "MIT",
+  "version": "1.0.0",
   "private": true,
   "workspaces": [
     "workspaces/*"
   ],
   "engines": {
-    "node": ">= 10"
-  },
-  "dependencies": {
-    "youch": "^2.0.10"
+    "node": ">=12"
   }
 }

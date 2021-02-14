@@ -104,19 +104,32 @@ export const is = {
   windows: getPlatform() === 'win32',
   linux: getPlatform() === 'linux',
   android: getPlatform() === 'android',
-  dev: process.env.NODE_ENV !== 'production',
+  dev: hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null,
 }
 
 /**
  *
  */
-export const isDev = process.env.NODE_ENV !== 'production'
+export const isDev = hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null
+
+export interface Choices {
+  browser?: unknown
+  webWorker?: unknown
+  electron?: { any?: unknown, renderer?: unknown, main?: unknown }
+  node?: unknown
+  nodeIntegration?: unknown
+  macos?: unknown
+  windows?: unknown
+  linux?: unknown
+  android?: unknown
+  dev?: unknown
+}
 
 /**
  *
  * @param choices
  */
-export function choice(choices: Record<string, unknown>, defaultValue?: unknown): unknown {
+export function choice(choices: Choices, defaultValue?: unknown): unknown {
   for (const key of keys(choices)) {
     if (!isNil(is[key]) && is[key] === true) {
       return choices[key]
@@ -153,7 +166,7 @@ function getElectronPath(name: string, ...paths: string[]): string | null {
   return null
 }
 
-type PathName = 'cwd' | 'home' | 'temp' | 'appData' | 'userData' | 'downloads' | 'cache' | 'savegames' | 'desktop' | 'downloads' | 'music' | 'pictures' | 'videos'
+export type PathName = 'cwd' | 'home' | 'temp' | 'temporary' | 'temporal' | 'appData' | 'userData' | 'downloads' | 'cache' | 'savegames' | 'desktop' | 'downloads' | 'music' | 'pictures' | 'videos'
 
 /**
  *

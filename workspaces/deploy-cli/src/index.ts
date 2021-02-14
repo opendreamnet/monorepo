@@ -91,7 +91,7 @@ class Deploy extends Command {
     this.log(`| DNS: ${release.dnsProviders.length}`)
     this.log('------------------------------------------\n')
 
-    const response = await release.run()
+    const response = await release.deploy()
 
     this.log('')
 

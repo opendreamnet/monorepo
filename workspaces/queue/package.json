@@ -1,24 +1,27 @@
 {
   "name": "@dreamnet/queue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Small library to create managed queues.",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "main": "dist/queue.js",
-  "module": "dist/queue.module.js",
+  "exports": "dist/queue.modern.js",
   "unpkg": "dist/queue.umd.js",
   "scripts": {
-    "lint": "eslint --fix --ext .ts,.js src/",
-    "clean": "shx rm -rf dist/",
-    "watch": "microbundle watch",
-    "build": "yarn run clean && microbundle"
+    "prepack": "yarn run build",
+    "lint": "eslint --fix --ext .ts,.js src",
+    "clean": "shx rm -rf dist",
+    "watch": "microbundle watch -f cjs",
+    "build:web": "microbundle -f modern,umd --external none --target node --compress",
+    "build:node": "microbundle -f cjs --target node",
+    "build": "yarn run build:node && yarn run build:web"
   },
   "dependencies": {
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
     "eslint": "^7.18.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
@@ -30,9 +33,6 @@
     "dist/",
     "src/"
   ],
-  "engines": {
-    "node": ">= 10"
-  },
   "author": {
     "name": "Contributors",
     "email": "ivan@dreamnet.tech",
@@ -46,5 +46,8 @@
   "bugs": {
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "engines": {
+    "node": ">= 12"
   }
 }

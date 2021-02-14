@@ -1,11 +1,11 @@
-name: "@dreamnet/logplease (legacy)"
+name: "@dreamnet/mnemonic"
 
 on:
   push:
     paths:
-      - workspaces/logplease/**.js
-      - workspaces/logplease/**.ts
-      - workspaces/logplease/**.json
+      - workspaces/mnemonic/**.js
+      - workspaces/mnemonic/**.ts
+      - workspaces/mnemonic/**.json
 
 jobs:
   build:
@@ -21,15 +21,11 @@ jobs:
           node-version: "14"
 
       - name: Setup
-        working-directory: workspaces/logplease
+        working-directory: workspaces/mnemonic
         run: yarn install
 
-      - name: Build
-        working-directory: workspaces/logplease
-        run: yarn run build
-
       - name: Publish
-        working-directory: workspaces/logplease
+        working-directory: workspaces/mnemonic
         run: yarn npm publish --access public --tolerate-republish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

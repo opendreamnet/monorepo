@@ -3,10 +3,16 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "strictPropertyInitialization": false,
     "typeRoots": [
       "src/types"
     ]
   },
+  "references": [
+    {
+      "path": "../app/tsconfig.json"
+    }
+  ],
   "include": [
     "src/**/*"
   ]

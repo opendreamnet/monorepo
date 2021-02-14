@@ -1,7 +1,8 @@
 import EventEmitter from 'events'
 import { take, merge, reject, debounce } from 'lodash'
 
-type Callback = (...args) => unknown
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type Callback = (...args: unknown[]) => Promise<unknown>
 
 export interface QueueOptions {
   concurrent?: number
@@ -115,15 +116,14 @@ export class Queue extends EventEmitter {
       return
     }
 
-    console.log('_work')
-
     this.working = true
 
     do {
-      // eslint-disable-next-line no-await-in-loop
-      await wait(this.options.delay)
+      if (this.options.delay) {
+        await wait(this.options.delay)
+      }
 
-      const workload = []
+      const workload: Promise<unknown>[] = []
 
       const tasks = take(this.tasks, this.options.concurrent)
 
@@ -132,26 +132,22 @@ export class Queue extends EventEmitter {
 
         workload.push(
           Promise.resolve(this.fn(data.task))
-            .then((value) => {
-              this.emit('task:success', data, value)
-              return value
-            })
-            .catch((error) => {
-              this.emit('task:failed', data, error)
+          .then((value: unknown) => {
+            this.emit('task:success', data, value)
+          })
+          .catch((error) => {
+            this.emit('task:failed', data, error)
 
-              if (this.options.retry) {
-                this.add(data.task)
-              }
-
-              return error
-            })
-            .finally(() => {
-              this.drop(data.id)
-            }),
+            if (this.options.retry) {
+              this.add(data.task)
+            }
+          })
+          .finally(() => {
+            this.drop(data.id)
+          }),
         )
       })
 
-      // eslint-disable-next-line no-await-in-loop
       await Promise.all(workload)
     } while (this.started && !this.isEmpty)
 

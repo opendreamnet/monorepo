@@ -320,7 +320,7 @@ export class Release extends EventEmitter {
    *
    * @returns {Promise<UploadResult[]>}
    */
-  public async run(): Promise<UploadResult[]> {
+  public async deploy(): Promise<UploadResult[]> {
     if (!this.initialized) {
       await this.init()
     }

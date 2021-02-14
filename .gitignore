@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-### Node template
+# Node template
+
 # Logs
 /logs
 *.log
@@ -56,11 +57,10 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# Yarn 2
+# Yarn v2
 .yarn/cache/
 .yarn/build-state.yml
 .yarn/install-state.gz
-#yarn.lock
 
 # dotenv environment variables file
 .env
@@ -95,5 +95,8 @@ sw.*
 # Vim swap files
 *.swp
 
-# For now the tools will remain local.
-workspaces/tools
+# Typescript build info
+tsconfig.tsbuildinfo
+
+# Dirty local tests
+test.ts

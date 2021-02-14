@@ -75,7 +75,7 @@ export class Github extends Git {
       throw new Error('Octokit has not been created!')
     }
 
-    const responses = []
+    const responses: GitReleaseAsset[] = []
 
     for (const file of this.release.files) {
       if (file.isDirectory) {

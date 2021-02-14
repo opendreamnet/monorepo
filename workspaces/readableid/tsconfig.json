@@ -4,6 +4,11 @@
     "outDir": "dist",
     "rootDir": "src"
   },
+  "references": [
+    {
+      "path": "../mnemonic/tsconfig.json"
+    }
+  ],
   "include": [
     "src/**/*"
   ]
