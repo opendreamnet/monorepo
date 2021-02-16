@@ -1439,7 +1439,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dreamnet/mnemonic@workspace:^1, @dreamnet/mnemonic@workspace:workspaces/mnemonic":
+"@dreamnet/mnemonic@workspace:^1.0.1, @dreamnet/mnemonic@workspace:workspaces/mnemonic":
   version: 0.0.0-use.local
   resolution: "@dreamnet/mnemonic@workspace:workspaces/mnemonic"
   dependencies:
@@ -1483,7 +1483,7 @@ __metadata:
   resolution: "@dreamnet/readableid@workspace:workspaces/readableid"
   dependencies:
     "@dreamnet/eslint-config-dreamnet": "workspace:^1"
-    "@dreamnet/mnemonic": "workspace:^1"
+    "@dreamnet/mnemonic": "workspace:^1.0.1"
     "@types/chance": 1.1.1
     "@types/eslint": 7.2.6
     "@types/lodash": 4.14.168
