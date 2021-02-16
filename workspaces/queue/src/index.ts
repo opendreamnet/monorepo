@@ -1,5 +1,5 @@
 import EventEmitter from 'events'
-import { take, merge, reject, debounce } from 'lodash'
+import { take, merge, reject, debounce, DebouncedFunc } from 'lodash'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type Callback = (...args: unknown[]) => Promise<unknown>
@@ -36,7 +36,7 @@ export class Queue extends EventEmitter {
 
   public working = false
 
-  public work: () => Promise<void>
+  public work: DebouncedFunc<() => Promise<void>>
 
   public tasks: TaskData[] = []
 

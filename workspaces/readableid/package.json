@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/readableid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate Mnemonic code from any input: string, number, array, object. Easy to read ID's.",
   "license": "MIT",
   "source": "src/index.ts",

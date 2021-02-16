@@ -12,7 +12,7 @@
     "strictPropertyInitialization": true,
     "noImplicitAny": false,
     "composite": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "removeComments": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
