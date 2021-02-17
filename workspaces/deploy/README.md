@@ -180,7 +180,7 @@ release.on('fail', (error: Error) => {
 
 ### Minio
 
-- `DEPLOY_MINIO_GATEWAY`: (default by address: `http://127.0.0.1:9000`) Url to access the public files.
+- `DEPLOY_MINIO_GATEWAY`: Public url to access the files. (If not provided, a url will be returned valid for 7 days)
 - `DEPLOY_MINIO_ADDRESS` (default: `/ip4/127.0.0.1/tcp/9000/http`)
 - `DEPLOY_MINIO_SSL` (default by address: `false`)
 - `DEPLOY_MINIO_BUCKET` (required)

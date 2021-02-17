@@ -1,13 +1,12 @@
 {
   "name": "@dreamnet/app",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Utilities for DreamNet applications.",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
-  "main": "dist/app.js",
-  "exports": "dist/app.modern.js",
-  "unpkg": "dist/app.umd.js",
+  "main": "dist/index.js",
+  "unpkg": "dist/index.umd.js",
   "scripts": {
     "prepack": "yarn run build",
     "lint": "eslint --fix --ext .ts,.js src",
@@ -15,7 +14,7 @@
     "clean": "shx rm -rf dist",
     "watch": "microbundle watch -f cjs",
     "build:web": "microbundle -f modern,umd --external none",
-    "build:node": "microbundle -f cjs --target node --compress",
+    "build:node": "tsc -b",
     "build": "yarn run build:node && yarn run build:web"
   },
   "dependencies": {

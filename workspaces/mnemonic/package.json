@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/mnemonic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generate Mnemonic code from any string input.",
   "license": "MIT",
   "source": "src/index.ts",

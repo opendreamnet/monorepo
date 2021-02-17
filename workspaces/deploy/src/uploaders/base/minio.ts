@@ -61,8 +61,8 @@ export class Minio extends Provider {
     return this._folder || process.env[`DEPLOY_${this.name.toUpperCase()}_FOLDER`] || ''
   }
 
-  public get gatewayURL(): string {
-    return this._gateway || process.env[`DEPLOY_${this.name.toUpperCase()}_GATEWAY`] || this.multi.url
+  public get gatewayURL(): string | undefined {
+    return this._gateway || process.env[`DEPLOY_${this.name.toUpperCase()}_GATEWAY`]
   }
 
   public get ssl(): boolean {
@@ -94,7 +94,7 @@ export class Minio extends Provider {
     return this
   }
 
-  public setGatewayURL(value: string): this {
+  public setGatewayURL(value?: string): this {
     this._gateway = value
     return this
   }
@@ -170,7 +170,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
     return this.client.fPutObject(this.bucket!, objectName, filepath, metaData)
   }
 
-  protected getFileURL(objectName: string, expiry?: number): Promise<string> {
+  protected getFileURL(objectName: string, expiry = 7): Promise<string> {
     return this.client.presignedGetObject(this.bucket!, objectName, expiry)
   }
 }

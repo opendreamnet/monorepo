@@ -1,7 +1,7 @@
 {
   "name": "@dreamnet/deploy-cli",
   "description": "CLI utility for @dreamnet/deploy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
