@@ -137,8 +137,14 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
         continue
       }
 
+      let objectName = path.posix.join(this.folder, file.relpath)
+
+      if (objectName[0] === '/') {
+        objectName = objectName.substr(1)
+      }
+
       // eslint-disable-next-line no-await-in-loop
-      await this.putFile(file.path, { objectName: path.posix.join(this.folder, file.relpath) })
+      await this.putFile(file.path, { objectName })
     }
 
     if (this.gatewayURL) {
