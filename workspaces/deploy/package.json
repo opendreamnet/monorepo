@@ -1,7 +1,7 @@
 {
   "name": "@dreamnet/deploy",
   "description": "Deploy files and folders to different file providers.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
@@ -16,7 +16,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@dreamnet/app": "workspace:^1",
+    "@dreamnet/app": "workspace:^1.1.1",
     "@octokit/rest": "^18.1.0",
     "axios": "^0.21.1",
     "cids": "^1.1.5",

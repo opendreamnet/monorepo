@@ -1271,7 +1271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dreamnet/app@workspace:^1, @dreamnet/app@workspace:workspaces/app":
+"@dreamnet/app@workspace:^1.1.1, @dreamnet/app@workspace:workspaces/app":
   version: 0.0.0-use.local
   resolution: "@dreamnet/app@workspace:workspaces/app"
   dependencies:
@@ -1318,7 +1318,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dreamnet/deploy@workspace:workspaces/deploy"
   dependencies:
-    "@dreamnet/app": "workspace:^1"
+    "@dreamnet/app": "workspace:^1.1.1"
     "@dreamnet/eslint-config-dreamnet": "workspace:^1"
     "@octokit/rest": ^18.1.0
     "@types/chai": ^4
