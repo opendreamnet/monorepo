@@ -176,7 +176,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
     return this.client.fPutObject(this.bucket!, objectName, filepath, metaData)
   }
 
-  protected getFileURL(objectName: string, expiry = 7): Promise<string> {
+  protected getFileURL(objectName: string, expiry = 604800): Promise<string> {
     return this.client.presignedGetObject(this.bucket!, objectName, expiry)
   }
 }
