@@ -9,6 +9,8 @@ export class Git extends Http {
 
   protected _tagName?: string
 
+  protected _target?: string
+
   protected _releaseName?: string
 
   public gitRelease?: GitRelease
@@ -23,6 +25,10 @@ export class Git extends Http {
 
   public get tagName(): string | undefined {
     return this._tagName || process.env[`DEPLOY_${this.name.toUpperCase()}_TAG`] || process.env.DEPLOY_GIT_TAG
+  }
+
+  public get target(): string | undefined {
+    return this._target || process.env[`DEPLOY_${this.name.toUpperCase()}_TARGET`] || process.env.DEPLOY_GIT_TARGET
   }
 
   public get releaseName(): string | undefined {
@@ -44,6 +50,11 @@ export class Git extends Http {
 
   public setTagName(value: string): this {
     this._tagName = value
+    return this
+  }
+
+  public setTarget(value: string): this {
+    this._target = value
     return this
   }
 

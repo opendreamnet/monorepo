@@ -77,6 +77,7 @@ export class Gitea extends Git {
 
     const response = await this.axios.post(`/repos/${this.owner}/${this.repo}/releases`, {
       tag_name: this.tagName as string,
+      target_commitish: this.target,
       name: this.releaseName,
       prerelease: true,
       draft: false,

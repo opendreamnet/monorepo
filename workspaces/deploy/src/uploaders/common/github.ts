@@ -54,9 +54,10 @@ export class Github extends Git {
     }
 
     const response = await this.octokit.repos.createRelease({
-      owner: this.owner as string,
-      repo: this.repo as string,
-      tag_name: this.tagName as string,
+      owner: this.owner!,
+      repo: this.repo!,
+      tag_name: this.tagName!,
+      target_commitish: this.target,
       name: this.releaseName,
       prerelease: true,
       draft: false,
