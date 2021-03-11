@@ -22,7 +22,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: workspaces/downloader
-        run: yarn workspaces focus @dreamnet/downloader
+        run: yarn install
 
       - name: Publish
         working-directory: workspaces/downloader
