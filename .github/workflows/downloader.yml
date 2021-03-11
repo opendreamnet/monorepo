@@ -1,0 +1,31 @@
+name: "@dreamnet/downloader"
+
+on:
+  push:
+    paths:
+      - workspaces/downloader/**.js
+      - workspaces/downloader/**.ts
+      - workspaces/downloader/**.json
+
+jobs:
+  build:
+    name: Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Install Dependencies
+        working-directory: workspaces/downloader
+        run: yarn workspaces focus @dreamnet/downloader
+
+      - name: Publish
+        working-directory: workspaces/downloader
+        run: yarn npm publish --access public --tolerate-republish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

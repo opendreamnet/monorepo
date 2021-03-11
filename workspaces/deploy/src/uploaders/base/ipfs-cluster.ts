@@ -45,48 +45,25 @@ export class IPFSCluster extends IPFS {
   /**
    *
    *
-   * @returns {Promise<unknown>}
-   */
-  public async upload(): Promise<unknown> {
-    const files =  map(this.release.files, releaseFileToObject)
-
-    // @ts-ignore
-    const response = await this.ipfs.add(files, {
-      name: this.release.name,
-      recursive: true,
-    })
-
-    if (!isArray(response) || response.length === 0) {
-      throw new Error(`IPFS Cluster invalid response: ${response}`)
-    }
-
-    return response
-  }
-
-  /**
-   *
-   *
    * @param {*} response
    * @returns {Promise<UploadResult>}
    */
   public async parse(response: unknown): Promise<UploadResult> {
+    let cid: string
+
+    if (isArray(response)) {
+      cid = new CID(response[response.length - 1].hash).toString()
     // @ts-ignore
-    const cid = new CID(response[response.length - 1].hash).toString()
+    } else if (response.replication_factor_min && this.release.cid) {
+      cid = this.release.cid
+    } else {
+      throw new Error(`IPFS Cluster invalid response: ${response}`)
+    }
 
     return {
       cid,
       url: `${this.gatewayURL}/ipfs/${cid}`,
     }
-  }
-
-  /**
-   *
-   *
-   * @returns {Promise<void>}
-   */
-  public async pin(): Promise<void> {
-    // @ts-ignore
-    await this.ipfs.pin.add(this.cid, { timeout: 5 * 60 * 1000 })
   }
 
   /**

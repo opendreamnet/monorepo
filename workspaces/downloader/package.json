@@ -1,0 +1,74 @@
+{
+  "name": "@dreamnet/downloader",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "unpkg": "dist/index.umd.js",
+  "scripts": {
+    "prepack": "yarn run build",
+    "lint": "eslint --fix --ext .ts,.js src",
+    "test": "ts-mocha test/**/*.ts --recursive --exit",
+    "clean": "shx rm -rf dist",
+    "dev": "tsc -w",
+    "build:node": "tsc -b",
+    "build": "yarn run build:node"
+  },
+  "dependencies": {
+    "@dreamnet/app": "workspace:workspaces/app",
+    "@giphy/js-fetch-api": "^2.4.0",
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
+    "content-disposition": "^0.5.3",
+    "go-ipfs": "^0.8.0",
+    "ipfsd-ctl": "^7.2.0",
+    "is-ipfs": "^4.0.0",
+    "isomorphic-fetch": "^3.0.0",
+    "lodash": "^4.17.15",
+    "luxon": "^1.26.0",
+    "mime": "^2.5.2",
+    "pretty-bytes": "^5.6.0",
+    "sanitize-filename": "^1.6.3",
+    "simple-eta": "^3.0.2",
+    "urijs": "^1.19.6",
+    "webtorrent": "^0.115.2",
+    "ytdl-core": "^4.5.0"
+  },
+  "devDependencies": {
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
+    "@types/content-disposition": "^0",
+    "@types/lodash": "4.14.151",
+    "@types/luxon": "^1",
+    "@types/mime": "^2",
+    "@types/pretty-bytes": "^5",
+    "@types/urijs": "^1",
+    "@types/webtorrent": "^0",
+    "eslint": "^7.0.0",
+    "shx": "^0.3.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^3.9.9"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "author": {
+    "name": "Iván Bravo Bravo",
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/app"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "engines": {
+    "node": ">= 12"
+  }
+}

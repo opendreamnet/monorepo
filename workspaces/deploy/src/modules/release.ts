@@ -3,6 +3,7 @@ import Cryptr from 'cryptr'
 import { EventEmitter } from 'events'
 import fs from 'fs-extra'
 import { isArray } from 'lodash'
+import axios from 'axios'
 import mime from 'mime-types'
 import normalize from 'normalize-path'
 import path from 'path'
@@ -14,50 +15,7 @@ import { Provider, ProviderEntity } from '../uploaders'
 import { storage } from './storage'
 import { ReleaseFile, UploadResult } from '../types'
 import { isProvider } from './utils'
-
-export interface Release {
-  /**
-   *
-   *
-   * @type {string}
-   */
-  filepath: string;
-
-  /**
-   *
-   *
-   * @type {string}
-   */
-  name?: string;
-
-  /**
-   *
-   *
-   * @type {string}
-   */
-  version?: string;
-
-  /**
-   *
-   *
-   * @type {Cryptr}
-   */
-  cryptr?: Cryptr;
-
-  /**
-   *
-   *
-   * @type {fs.Stats}
-   */
-  filestat: fs.Stats;
-
-  /**
-   *
-   *
-   * @type {string}
-   */
-  previousCID?: string;
-}
+import gateways from '../data/gateways.json'
 
 export class Release extends EventEmitter {
   /**
@@ -65,6 +23,54 @@ export class Release extends EventEmitter {
    *
    */
   public initialized = false
+
+  /**
+   *
+   *
+   */
+  public filepath: string
+
+  /**
+   *
+   *
+   */
+  public name?: string
+
+  /**
+   *
+   *
+   */
+  public version?: string
+
+  /**
+   *
+   *
+   */
+  public cryptr?: Cryptr
+
+  /**
+   *
+   *
+   */
+  public filestat: fs.Stats
+
+  /**
+   *
+   *
+   */
+   public cid?: string
+
+  /**
+   *
+   *
+   */
+  public previousCID?: string
+
+  /**
+   *
+   *
+   */
+   public useCaching = false
 
   /**
    *
@@ -111,31 +117,19 @@ export class Release extends EventEmitter {
     return this.files[0]
   }
 
+  /**
+   *
+   *
+   * @readonly
+   */
   public get rootPath(): string {
     return this.files[0].relpath
   }
 
   /**
-   *
-   *
-   * @readonly
-   * @type {(string | null)}
-   */
-  public get cid(): string | null {
-    for (const provider of this.providers) {
-      if (provider.cid) {
-        return provider.cid
-      }
-    }
-
-    return null
-  }
-
-  /**
    * Creates an instance of Release.
    *
-   * @param {string} filepath
-   * @param {string} [version]
+   * @param filepath
    */
   public constructor(filepath: string) {
     super()
@@ -155,8 +149,7 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @param {string} value
-   * @returns {this}
+   * @param [value]
    */
   public setName(value?: string): this {
     this.name = value
@@ -166,8 +159,17 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @param {string} value
-   * @returns {this}
+   * @param value
+   */
+  public setCaching(value: boolean): this {
+    this.useCaching = value
+    return this
+  }
+
+  /**
+   *
+   *
+   * @param value
    */
   public setEncryptKey(value: string): this {
     this.cryptr = new Cryptr(value)
@@ -177,7 +179,6 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @returns {this}
    */
   public clearEncryptKey(): this {
     this.cryptr = undefined
@@ -187,8 +188,7 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @param {string} value
-   * @returns {this}
+   * @param value
    */
   public setPreviousCID(value: string): this {
     this.previousCID = value
@@ -198,7 +198,6 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @returns {this}
    */
   public clearPreviousCID(): this {
     this.previousCID = undefined
@@ -208,7 +207,6 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @returns {Promise<void>}
    */
   public async init(): Promise<void> {
     const [files] = await Promise.all([
@@ -224,7 +222,6 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @returns {Promise<ReleaseFile[]>}
    */
   protected async getFiles(): Promise<ReleaseFile[]> {
     const list: ReleaseFile[] = []
@@ -264,8 +261,7 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @param {(ProviderEntity | ProviderEntity[])} provider
-   * @returns {this}
+   * @param provider
    */
   public addProvider(provider: ProviderEntity | ProviderEntity[]): this {
     if (isArray(provider)) {
@@ -291,8 +287,7 @@ export class Release extends EventEmitter {
   /**
    *
    *
-   * @param {(DnsProviderEntity | DnsProviderEntity[])} provider
-   * @returns {this}
+   * @param provider
    */
   public addDnsProvider(provider: DnsProviderEntity | DnsProviderEntity[]): this {
     if (isArray(provider)) {
@@ -317,8 +312,6 @@ export class Release extends EventEmitter {
 
   /**
    *
-   *
-   * @returns {Promise<UploadResult[]>}
    */
   public async deploy(): Promise<UploadResult[]> {
     if (!this.initialized) {
@@ -326,18 +319,21 @@ export class Release extends EventEmitter {
     }
 
     if (this.name && !this.previousCID) {
-      // Get the IPFS CID of the previous release,
-      // to do unpin.
+      // Get the IPFS CID of the previous release
       this.previousCID = storage.get(this.name)
     }
 
-    const response: UploadResult[] = []
+    const responses: UploadResult[] = []
 
     // Upload the release to each provider.
     for (const provider of this.providers) {
       try {
-        const parsed = await provider.run()
-        response.push(parsed)
+        const response = await provider.run()
+        responses.push(response)
+
+        if (response.cid && !this.cid) {
+          this.cid = response.cid
+        }
       } catch (error) {
         this.emit('fail', error, provider)
       }
@@ -352,11 +348,46 @@ export class Release extends EventEmitter {
       }
     }
 
-    if (this.name && this.cid) {
-      // Store the new IPFS CID.
-      storage.save(this.name, this.cid)
+    if (this.cid) {
+      if (this.name) {
+        // Store the new IPFS CID.
+        storage.save(this.name, this.cid)
+      }
+
+      if (this.useCaching) {
+        // Cache gateways
+        await this.cacheCID()
+      }
     }
 
-    return response
+    return responses
+  }
+
+  /**
+   *
+   *
+   * @protected
+   * @return {*}
+   */
+  protected async cacheCID(): Promise<void> {
+    if (!this.cid) {
+      throw new Error('Unable to cache CID. This release has not been uploaded to IPFS.')
+    }
+
+    for (const uri of gateways) {
+      const url = uri.replace(':hash', this.cid)
+
+      try {
+        this.emit('cache:begin', url)
+
+        await axios.head(url, {
+          timeout: 60 * 60,
+        })
+
+        this.emit('cache:success', url)
+      } catch (err) {
+        this.emit('cache:fail', err, url)
+      }
+    }
   }
 }

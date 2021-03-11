@@ -139,6 +139,19 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
   /**
    *
    *
+   * @return {*}
+   */
+  public async pin(): Promise<unknown> {
+    // @ts-ignore
+    return this.ipfs.pin.add(this.release.cid, {
+      name: this.release.name,
+      timeout: 5 * 60 * 1000,
+    })
+  }
+
+  /**
+   *
+   *
    * @param {*} files
    * @returns {Promise<UploadResult>}
    */
@@ -150,16 +163,6 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
       cid,
       url: `${this.gatewayURL}/ipfs/${cid}`,
     }
-  }
-
-  /**
-   *
-   *
-   * @returns {Promise<void>}
-   */
-  public async pin(): Promise<void> {
-    // @ts-ignore
-    await this.ipfs.pin.add(this.cid, { timeout: 5 * 60 * 1000 })
   }
 
   /**

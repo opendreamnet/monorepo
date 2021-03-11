@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "@dreamnet/eslint-config-dreamnet"
+  ],
+  "rules": {
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "promise/catch-or-return": "off"
+  }
+}

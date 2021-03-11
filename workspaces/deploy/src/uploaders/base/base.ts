@@ -7,77 +7,57 @@ import { getMultiaddr } from '../../modules/utils'
 
 export interface Provider {
   /**
-   * The file/folder to be uploaded
-   *
-   * @type {Release}
+   * The file/folder to be uploaded.
    */
   release: Release;
 
   /**
-   * Url of the uploaded file
-   *
-   * @type {(string | null)}
+   * Url of the uploaded file.
    */
   url?: string;
 
   /**
-   * IPFS CID of the uploaded file
-   *
-   * @type {(string | null)}
+   * IPFS CID of the uploaded file.
    */
   cid?: string;
 
   /**
-   * Connection multiaddress
-   *
-   * @type {Multiaddress}
+   * Connection multiaddress.
    */
   multi: Multiaddress
 
   /**
-   * Connection multiaddress string
-   *
-   * @type {string}
+   * Connection multiaddress string.
    */
   _address: string
 
   /**
-   * Headers for the request
-   *
-   * @type {unknown}
+   * Request headers.
    */
   _headers: Record<string, unknown>;
 
   /**
-   * Username for Basic HTTP Authorization
-   *
-   * @type {(string | null)}
+   * Username for Basic HTTP Authorization.
    */
   _username?: string;
 
   /**
-   * Password for Basic HTTP Authorization
-   *
-   * @type {(string | null)}
+   * Password for Basic HTTP Authorization.
    */
   _password?: string;
 
   /**
-   * Token for HTTP Authorization
-   *
-   * @type {(string | null)}
+   * Token for HTTP Authorization.
    */
   _token?: string;
 
   /**
-   * Secret for HTTP Authorization
-   *
-   * @type {(string | null)}
+   * Secret for HTTP Authorization.
    */
   _secret?: string;
 
   /**
-   * Validate that the required information is correct
+   * Validate input.
    */
   validate?(): void;
 
@@ -107,9 +87,8 @@ export interface Provider {
   /**
    *
    *
-   * @returns {Promise<void>}
    */
-  pin?(): Promise<void>;
+  pin?(): Promise<unknown>;
 
   /**
    *
@@ -125,7 +104,6 @@ export class Provider {
    * Provider's technical name.
    *
    * @readonly
-   * @type {string}
    */
   public get name(): string {
     return this.constructor.name
@@ -135,7 +113,6 @@ export class Provider {
    * Friendly provider name.
    *
    * @readonly
-   * @type {string}
    */
   public get label(): string {
     return this.constructor.name
@@ -145,7 +122,6 @@ export class Provider {
    * Release location.
    *
    * @readonly
-   * @type {string}
    */
   public get filepath(): string {
     return this.release.filepath
@@ -155,7 +131,6 @@ export class Provider {
    * Indicates if the release is a directory.
    *
    * @readonly
-   * @type {boolean}
    */
   public get isDirectory(): boolean {
     return this.release.filestat.isDirectory()
@@ -165,7 +140,6 @@ export class Provider {
    * Indicates if this provider supports directory upload.
    *
    * @readonly
-   * @type {boolean}
    */
   public get hasDirectorySupport(): boolean {
     return true
@@ -175,7 +149,6 @@ export class Provider {
    * Indicates if the provider has been prepared and is ready to use.
    *
    * @readonly
-   * @type {boolean}
    */
   public get enabled(): boolean {
     return true
@@ -185,27 +158,24 @@ export class Provider {
    *
    *
    * @readonly
-   * @type {(string | undefined)}
    */
   public get defaultAddress(): string | undefined {
     return undefined
   }
 
   /**
-   * Connection multiaddress string
+   * Connection multiaddress string.
    *
    * @readonly
-   * @type {(string | undefined)}
    */
   public get address(): string | undefined {
     return this._address || process.env[`DEPLOY_${this.name.toUpperCase()}_ADDRESS`] || this.defaultAddress
   }
 
   /**
-   * Headers for the request.
+   * Request headers.
    *
    * @readonly
-   * @type {Record<string, unknown>}
    */
   public get headers(): Record<string, unknown> {
     const headers: Record<string, unknown> = {}
@@ -227,30 +197,27 @@ export class Provider {
   }
 
   /**
-   * Username for Basic HTTP Authorization
+   * Username for Basic HTTP Authorization.
    *
    * @readonly
-   * @type {(string | undefined)}
    */
   public get username(): string | undefined {
     return this._username || process.env[`DEPLOY_${this.name.toUpperCase()}_USERNAME`]
   }
 
   /**
-   * Password for Basic HTTP Authorization
+   * Password for Basic HTTP Authorization.
    *
    * @readonly
-   * @type {(string | undefined)}
    */
   public get password(): string | undefined {
     return this._password || process.env[`DEPLOY_${this.name.toUpperCase()}_PASSWORD`]
   }
 
   /**
-   * Token for HTTP Authorization
+   * Token for HTTP Authorization.
    *
    * @readonly
-   * @type {(string | undefined)}
    */
   public get token(): string | undefined {
     return this._token ||
@@ -259,10 +226,9 @@ export class Provider {
   }
 
   /**
-   * Secret for HTTP Authorization
+   * Secret for HTTP Authorization.
    *
    * @readonly
-   * @type {(string | undefined)}
    */
   public get secret(): string | undefined {
     return this._secret || process.env[`DEPLOY_${this.name.toUpperCase()}_SECRET`]
@@ -271,17 +237,14 @@ export class Provider {
   /**
    * Creates an instance of Base.
    *
-   * @param {Release} release
+   * @param release
    */
   public constructor(release: Release) {
     this.release = release
   }
 
   /**
-   *
-   *
-   * @param {string} value
-   * @return {*}  {this}
+   * @param value
    */
   public setAddress(value: string): this {
     this._address = value
@@ -291,8 +254,7 @@ export class Provider {
   /**
    *
    *
-   * @param {string} value
-   * @returns {this}
+   * @param value
    */
   public setUsername(value: string): this {
     this._username = value
@@ -302,8 +264,7 @@ export class Provider {
   /**
    *
    *
-   * @param {string} value
-   * @returns {this}
+   * @param value
    */
   public setPassword(value: string): this {
     this._password = value
@@ -313,8 +274,7 @@ export class Provider {
   /**
    *
    *
-   * @param {(string)} [value]
-   * @returns {this}
+   * @param [value]
    */
   public setToken(value?: string): this {
     this._token = value
@@ -324,8 +284,7 @@ export class Provider {
   /**
    *
    *
-   * @param {(string)} value
-   * @returns {this}
+   * @param [value]
    */
   public setSecret(value?: string): this {
     this._secret = value
@@ -335,9 +294,8 @@ export class Provider {
   /**
    *
    *
-   * @param {(string|object)} key
-   * @param {string} [value]
-   * @returns {this}
+   * @param key
+   * @param [value]
    */
   public setHeader(key: string | Record<string, unknown>, value?: string): this {
     if (isPlainObject(key)) {
@@ -353,56 +311,55 @@ export class Provider {
 
   /**
    * Upload the release to the provider.
-   *
-   * @returns {Promise<UploadResult>}
    */
   public async run(): Promise<UploadResult> {
-    let result: UploadResult
-
-    try {
-      this.release.emit('upload:begin', this)
-
-      if (this.release.isDirectory && !this.hasDirectorySupport) {
-        throw new Error(`You can't upload a directory to ${this.name}!`)
-      }
-
-      if (this.address) {
-        this.multi = getMultiaddr(this.address)
-      }
-
-      if (this.validate) {
-        this.validate()
-      }
-
-      if (this.setup) {
-        await this.setup()
-      }
-
-      const response = await this.upload()
-
-      result = await this.parse(response)
-
-      this.release.emit('upload:success', result, this)
-    } catch (error) {
-      this.release.emit('upload:fail', error, this)
-      throw error
+    if (this.address) {
+      this.multi = getMultiaddr(this.address)
     }
 
-    this.url = result.url
-    this.cid = result.cid
+    if (this.validate) {
+      this.validate()
+    }
 
-    if (this.pin) {
+    if (this.setup) {
+      await this.setup()
+    }
+
+    let response: unknown
+    let result: UploadResult
+
+    if (this.pin && this.release.cid) {
       try {
         this.release.emit('pin:begin', this)
 
-        await this.pin()
+        response = await this.pin()
+        result = await this.parse(response)
 
-        this.release.emit('pin:success', this.cid, this)
+        this.release.emit('pin:success', result, this)
       } catch (error) {
         this.release.emit('pin:fail', error, this)
         throw error
       }
+    } else {
+      try {
+        this.release.emit('upload:begin', this)
+
+        if (this.release.isDirectory && !this.hasDirectorySupport) {
+          throw new Error(`Unable to upload a directory to ${this.name}!`)
+        }
+
+        response = await this.upload()
+        result = await this.parse(response)
+
+        this.release.emit('upload:success', result, this)
+      } catch (error) {
+        this.release.emit('upload:fail', error, this)
+        throw error
+      }
     }
+
+    this.url = result.url
+    this.cid = result.cid
 
     if (this.unpin && this.release.previousCID && this.release.previousCID !== this.cid) {
       try {

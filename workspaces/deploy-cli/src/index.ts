@@ -60,6 +60,14 @@ class Deploy extends Command {
       char: 's',
       description: 'path to CID\'s storage file',
     }),
+    caching: flags.boolean({
+      char: 'c',
+      description: 'enable the IPFS Caching in different public gateways'
+    }),
+    encrypt: flags.string({
+      char: 'k',
+      description: 'encryption key for output'
+    })
   }
 
   /**
@@ -84,8 +92,8 @@ class Deploy extends Command {
     this.log(`| Root: ${release.rootPath}`)
     this.log('------------------------------------------')
     this.log(`| Name: ${release.name}`)
-    this.log(`| Is directory: ${release.isDirectory}`)
-    this.log(`| Is encrypted: ${release.cryptr !== undefined}`)
+    this.log(`| Directory: ${release.isDirectory}`)
+    this.log(`| Encrypted: ${release.cryptr !== undefined}`)
     this.log(`| Files: ${release.files.length}`)
     this.log(`| Providers: ${release.providers.length}`)
     this.log(`| DNS: ${release.dnsProviders.length}`)
@@ -105,6 +113,16 @@ class Deploy extends Command {
 
     // Release name
     release.setName(flags.name)
+
+    if (flags.encrypt) {
+      // Encryption key
+      release.setEncryptKey(flags.encrypt)
+    }
+
+    if (flags.caching) {
+      // IPFS caching
+      release.setCaching(flags.caching)
+    }
 
     // File providers
     flags.provider.forEach(provider => {
@@ -161,21 +179,14 @@ class Deploy extends Command {
 
     release.on('upload:success', (result: UploadResult, provider: Provider) => {
       this.spinner.succeed(`Uploaded to ${provider.label}.`)
-      this.spinner.info(`${result.url}`)
+
+      if (!release.cryptr) {
+        this.spinner.info(`${result.url}`)
+      }
     })
 
     release.on('upload:fail', (error: Error, provider: Provider) => {
       this.spinner.fail(`Upload to ${provider.label} failed: ${error.message}`)
-
-      /*
-      if (error.response) {
-        console.warn(error.response)
-      }
-
-      if (error.request) {
-        console.warn(error.request)
-      }
-      */
     })
 
     release.on('pin:begin', (provider: Provider) => {
@@ -184,7 +195,10 @@ class Deploy extends Command {
 
     release.on('pin:success', (cid: string, provider: Provider) => {
       this.spinner.succeed(`Pinned to ${provider.label}.`)
-      this.spinner.info(cid)
+
+      if (!release.cryptr) {
+        this.spinner.info(cid)
+      }
     })
 
     release.on('pin:fail', (error: Error, provider: Provider) => {
@@ -197,7 +211,10 @@ class Deploy extends Command {
 
     release.on('unpin:success', (provider: Provider) => {
       this.spinner.succeed(`Unpinned from ${provider.label}.`)
-      this.spinner.info(`${provider.release.previousCID}`)
+
+      if (!release.cryptr) {
+        this.spinner.info(`${provider.release.previousCID}`)
+      }
     })
 
     release.on('unpin:fail', (error: Error, provider: Provider) => {
@@ -209,13 +226,32 @@ class Deploy extends Command {
     })
 
     release.on('dns:fail', (error: Error, provider: Provider) => {
-      this.spinner.fail(`${provider.label} DNS update has failed: ${error.message}`)
+      this.spinner.fail(`${provider.label} DNS failed: ${error.message}`)
     })
 
     release.on('dns:success', (result: DnsRecord, provider: Provider) => {
       this.spinner.succeed(`${provider.label} DNS updated.`)
-      this.spinner.info(`${result.record} = ${result.content}`)
+
+      if (!release.cryptr) {
+        this.spinner.info(`${result.record} = ${result.content}`)
+      }
     })
+
+    release.on('cache:begin', (url: string) => {
+      const uri = new URL(url)
+      this.spinner.start(`Caching to ${uri.hostname}...`)
+    })
+
+    release.on('cache:fail', (error: Error, url: string) => {
+      const uri = new URL(url)
+      this.spinner.fail(`Cache to ${uri.hostname} failed: ${error.message}`)
+    })
+
+    release.on('cache:success', (url: string) => {
+      const uri = new URL(url)
+      this.spinner.succeed(`Cached to ${uri.hostname}`)
+    })
+    
 
     release.on('fail', (error: Error) => {
       // eslint-disable-next-line no-console

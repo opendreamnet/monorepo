@@ -1,12 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "es2020",
     "outDir": "dist",
-    "rootDir": "src",
-    "strictPropertyInitialization": false,
-    "typeRoots": [
-      "src/types"
-    ]
+    "rootDir": "src"
   },
   "references": [
     {
@@ -14,7 +11,6 @@
     }
   ],
   "include": [
-    "src/**/*",
-    "src/data/gateways.json"
+    "src/**/*"
   ]
 }
