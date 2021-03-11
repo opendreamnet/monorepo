@@ -6,6 +6,7 @@ on:
       - workspaces/downloader/**.js
       - workspaces/downloader/**.ts
       - workspaces/downloader/**.json
+  workflow_dispatch:
 
 jobs:
   build:
