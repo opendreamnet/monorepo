@@ -381,7 +381,7 @@ export class Release extends EventEmitter {
         this.emit('cache:begin', url)
 
         await axios.head(url, {
-          timeout: 60 * 60,
+          timeout: 1 * 60 * 1000,
         })
 
         this.emit('cache:success', url)

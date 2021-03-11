@@ -16,7 +16,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@dreamnet/deploy": "workspace:^1.2.0",
+    "@dreamnet/deploy": "workspace:^1.2",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^3",
