@@ -6,6 +6,7 @@ on:
       - workspaces/eslint-config-dreamnet-nuxtjs/**.js
       - workspaces/eslint-config-dreamnet-nuxtjs/**.ts
       - workspaces/eslint-config-dreamnet-nuxtjs/**.json
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,7 +21,7 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Setup
+      - name: Install Dependencies
         working-directory: workspaces/eslint-config-dreamnet-nuxtjs
         run: yarn install
 

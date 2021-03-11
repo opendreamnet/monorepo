@@ -6,6 +6,7 @@ on:
       - workspaces/deploy-cli/**.js
       - workspaces/deploy-cli/**.ts
       - workspaces/deploy-cli/**.json
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,7 +21,7 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Setup
+      - name: Install Dependencies
         working-directory: workspaces/deploy-cli
         run: yarn install
 

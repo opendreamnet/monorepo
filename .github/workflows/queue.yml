@@ -6,6 +6,7 @@ on:
       - workspaces/queue/**.js
       - workspaces/queue/**.ts
       - workspaces/queue/**.json
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,7 +21,7 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Setup
+      - name: Install Dependencies
         working-directory: workspaces/queue
         run: yarn install
 

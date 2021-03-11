@@ -5,6 +5,7 @@ on:
       - workspaces/settings-loader/**.js
       - workspaces/settings-loader/**.ts
       - workspaces/settings-loader/**.json
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,7 +20,7 @@ jobs:
         with:
           node-version: "12"
 
-      - name: Setup
+      - name: Install Dependencies
         working-directory: workspaces/settings-loader
         run: yarn install
 
