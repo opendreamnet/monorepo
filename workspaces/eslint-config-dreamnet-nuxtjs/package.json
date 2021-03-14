@@ -1,31 +1,15 @@
 {
   "name": "@dreamnet/eslint-config-dreamnet-nuxtjs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "ESLint config for DreamNet projects in NuxtJS.",
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1",
-    "@nuxtjs/eslint-config": "^5.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.15.0",
-    "@typescript-eslint/parser": "^4.15.0",
-    "eslint": "^7.20.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-lodash": "^7.1.0",
-    "eslint-plugin-mocha": "^8.0.0",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-wdio": "^7.0.0"
-  },
-  "peerDependencies": {
-    "@nuxtjs/eslint-config": "^5",
-    "@typescript-eslint/eslint-plugin": "^4",
-    "@typescript-eslint/parser": "^4",
-    "eslint": "^7",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-lodash": "^7",
-    "eslint-plugin-mocha": "^8",
-    "eslint-plugin-promise": "^4",
-    "eslint-plugin-wdio": "^7"
+    "@nuxtjs/eslint-config": "^6.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-vue": "^7.7.0"
   },
   "author": {
     "name": "Iván Bravo Bravo",
@@ -39,5 +23,8 @@
   "bugs": {
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

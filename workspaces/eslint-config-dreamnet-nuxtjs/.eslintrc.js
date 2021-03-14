@@ -11,23 +11,13 @@ module.exports = {
       },
       plugins: [
         '@typescript-eslint',
-        'wdio',
       ],
       extends: [
         '@nuxtjs',
+        'plugin:nuxt/recommended',
         'plugin:@typescript-eslint/recommended',
-        'plugin:wdio/recommended',
       ],
       rules: {
-        'vue/html-self-closing': ['warn', {
-          html: {
-            void: 'always',
-            normal: 'never',
-            component: 'always',
-          },
-          svg: 'always',
-          math: 'always',
-        }],
         '@typescript-eslint/quotes': ['error', 'single'],
         '@typescript-eslint/semi': ['error', 'never'],
         '@typescript-eslint/ban-ts-comment': 'off',

@@ -1,26 +1,19 @@
 {
   "name": "@dreamnet/eslint-config-dreamnet",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "ESLint config for DreamNet projects.",
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.15.0",
-    "@typescript-eslint/parser": "^4.15.0",
-    "eslint": "^7.20.0",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-lodash": "^7.1.0",
-    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-lodash": "^7.2.0",
+    "eslint-plugin-mocha": "^8.1.0",
     "eslint-plugin-promise": "^4.3.1"
   },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4",
-    "@typescript-eslint/parser": "^4",
-    "eslint": "^7",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-lodash": "^7",
-    "eslint-plugin-mocha": "^8",
-    "eslint-plugin-promise": "^4"
+    "eslint": "^7"
   },
   "author": {
     "name": "Iván Bravo Bravo",
@@ -35,5 +28,8 @@
   "bugs": {
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

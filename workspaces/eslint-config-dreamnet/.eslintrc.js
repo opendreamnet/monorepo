@@ -7,24 +7,23 @@ module.exports = {
     es6: true,
   },
   plugins: [
+    'import',
     'promise',
     'lodash',
     'mocha',
   ],
   extends: [
+    'plugin:import/errors',
+    'plugin:import/warnings',
     'plugin:promise/recommended',
     'plugin:lodash/recommended',
     'plugin:mocha/recommended',
   ],
   rules: {
+    // General Code Rules
+
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
-    'mocha/prefer-arrow-callback': 'error',
-    'lodash/import-scope': ['error', 'member'],
-    'lodash/prefer-constant': 'off',
-    'lodash/prefer-includes': 'warn',
-    'lodash/prefer-lodash-method': 'off',
-    'lodash/prefer-noop': 'off',
     'prefer-spread': 'error',
     'space-before-function-paren': ['error', 'never'],
     'linebreak-style': 'error',
@@ -52,6 +51,29 @@ module.exports = {
     'quote-props': ['error', 'as-needed'],
     'spaced-comment': 'warn',
     'object-curly-spacing': ['error', 'always'],
+
+    // Import
+
+    'import/order': 'error',
+    'import/first': 'error',
+    'import/no-mutable-exports': 'error',
+    'import/no-unresolved': 'off',
+    'import/named': 'error',
+
+    // Lodash
+
+    'lodash/import-scope': ['error', 'member'],
+    'lodash/prefer-constant': 'off',
+    'lodash/prefer-includes': 'warn',
+    'lodash/prefer-lodash-method': 'off',
+    'lodash/prefer-noop': 'off',
+
+    // Mocha
+
+    'mocha/prefer-arrow-callback': 'error',
+
+    // Unicorn
+
     'unicorn/prefer-includes': 'off',
     'unicorn/prefer-text-content': 'off',
   },
@@ -76,32 +98,11 @@ module.exports = {
         semi: 'off',
         'space-before-function-paren': 'off',
       },
-    },
-    {
-      files: ['**/*.js', '**/*.jsx'],
-      plugins: [
-        'import',
-      ],
-      extends: [
-        'plugin:import/errors',
-        'plugin:import/warnings',
-      ],
-      rules: {
-        'import/named': 'error',
-        'import/no-cycle': 'off',
-        'import/no-extraneous-dependencies': 'off',
-        'import/no-webpack-loader-syntax': 'off',
-        'import/order': 'error',
-        'import/prefer-default-export': 'off',
-        'import/no-duplicates': 'off',
-      }
     }
   ],
   settings: {
-    'import/extensions': [
-      '.js',
-      '.jsx',
-      '.ts',
-    ],
+    'import/resolver': {
+      node: { extensions: ['.js', '.mjs'] }
+    }
   },
 }
