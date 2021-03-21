@@ -1,21 +1,21 @@
 /* eslint-disable no-await-in-loop */
-import Cryptr from 'cryptr'
 import { EventEmitter } from 'events'
+import path from 'path'
+import Cryptr from 'cryptr'
 import fs from 'fs-extra'
 import { isArray } from 'lodash'
 import axios from 'axios'
 import mime from 'mime-types'
 import normalize from 'normalize-path'
-import path from 'path'
 import rfs from 'recursive-fs'
 import * as DnsProviders from '../dnslink'
 import { DnsProvider, DnsProviderEntity } from '../dnslink'
 import * as Providers from '../uploaders'
 import { Provider, ProviderEntity } from '../uploaders'
-import { storage } from './storage'
 import { ReleaseFile, UploadResult } from '../types'
-import { isProvider } from './utils'
 import gateways from '../data/gateways.json'
+import { storage } from './storage'
+import { isProvider } from './utils'
 
 export class Release extends EventEmitter {
   /**
@@ -70,7 +70,13 @@ export class Release extends EventEmitter {
    *
    *
    */
-   public useCaching = false
+  public useCaching = false
+
+  /**
+   *
+   *
+   */
+  public cacheTimeout = 30 * 1000
 
   /**
    *
@@ -161,8 +167,13 @@ export class Release extends EventEmitter {
    *
    * @param value
    */
-  public setCaching(value: boolean): this {
+  public setCaching(value: boolean, timeout?: number): this {
     this.useCaching = value
+
+    if (timeout) {
+      this.cacheTimeout = timeout
+    }
+
     return this
   }
 
@@ -381,7 +392,7 @@ export class Release extends EventEmitter {
         this.emit('cache:begin', url)
 
         await axios.head(url, {
-          timeout: 1 * 60 * 1000,
+          timeout: this.cacheTimeout,
         })
 
         this.emit('cache:success', url)

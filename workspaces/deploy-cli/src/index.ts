@@ -64,6 +64,9 @@ class Deploy extends Command {
       char: 'c',
       description: 'enable the IPFS Caching in different public gateways'
     }),
+    cachingTimeout: flags.integer({
+      description: 'ipfs caching timeout'
+    }),
     encrypt: flags.string({
       char: 'k',
       description: 'encryption key for output'
@@ -121,7 +124,7 @@ class Deploy extends Command {
 
     if (flags.caching) {
       // IPFS caching
-      release.setCaching(flags.caching)
+      release.setCaching(flags.caching, flags.cachingTimeout)
     }
 
     // File providers

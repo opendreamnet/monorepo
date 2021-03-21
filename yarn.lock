@@ -1460,7 +1460,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dreamnet/deploy-cli@workspace:workspaces/deploy-cli"
   dependencies:
-    "@dreamnet/deploy": "workspace:^1.2.1"
+    "@dreamnet/deploy": "workspace:^1.2.2"
     "@dreamnet/eslint-config-dreamnet": "workspace:^1"
     "@oclif/command": ^1
     "@oclif/config": ^1
@@ -1477,7 +1477,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dreamnet/deploy@workspace:^1.2.1, @dreamnet/deploy@workspace:workspaces/deploy":
+"@dreamnet/deploy@workspace:^1.2.2, @dreamnet/deploy@workspace:workspaces/deploy":
   version: 0.0.0-use.local
   resolution: "@dreamnet/deploy@workspace:workspaces/deploy"
   dependencies:

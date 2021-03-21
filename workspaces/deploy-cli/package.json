@@ -1,7 +1,7 @@
 {
   "name": "@dreamnet/deploy-cli",
   "description": "CLI utility for @dreamnet/deploy",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@dreamnet/deploy": "workspace:^1.2.1",
+    "@dreamnet/deploy": "workspace:^1.2.2",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^3",
