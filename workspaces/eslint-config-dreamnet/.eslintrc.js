@@ -41,7 +41,7 @@ module.exports = {
     'no-unused-vars': ['warn', { args: 'all', argsIgnorePattern: '^_' }],
     'valid-jsdoc': 'off',
     'class-methods-use-this': 'off',
-    'comma-dangle': ['warn', 'always-multiline'],
+    'comma-dangle': ['error', 'never'],
     'func-names': 'off',
     'global-require': 'off',
     'prefer-arrow-callback': 'error',
@@ -75,7 +75,7 @@ module.exports = {
     // Unicorn
 
     'unicorn/prefer-includes': 'off',
-    'unicorn/prefer-text-content': 'off',
+    'unicorn/prefer-text-content': 'off'
   },
   overrides: [
     {
