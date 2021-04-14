@@ -40,6 +40,6 @@
     "shx": "^0.3.3"
   },
   "dependencies": {
-    "randomcolor": "^0.5.4"
+    "randomcolor": "^0.6.2"
   }
 }
