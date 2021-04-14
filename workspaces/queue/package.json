@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/queue",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Small library to create managed queues.",
   "license": "MIT",
   "source": "src/index.ts",
@@ -10,6 +10,7 @@
   "scripts": {
     "prepack": "yarn run build",
     "lint": "eslint --fix --ext .ts,.js src",
+    "test": "ts-mocha test/**/*.ts --recursive --exit",
     "clean": "shx rm -rf dist",
     "watch": "microbundle watch -f cjs",
     "build:web": "microbundle -f modern,umd --external none --target node --compress",
@@ -21,11 +22,16 @@
   },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/source-map-support": "^0",
     "eslint": "^7.18.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
     "microbundle": "^0.12.4",
+    "nyc": "^15.1.0",
     "shx": "^0.3.3",
+    "source-map-support": "^0.5.19",
+    "ts-mocha": "^8.0.0",
     "typescript": "^3.9.7"
   },
   "files": [

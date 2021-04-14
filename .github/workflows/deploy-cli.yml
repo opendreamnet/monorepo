@@ -1,12 +1,12 @@
 name: "@dreamnet/deploy-cli"
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - workspaces/deploy-cli/**.js
       - workspaces/deploy-cli/**.ts
       - workspaces/deploy-cli/**.json
-  workflow_dispatch:
 
 jobs:
   build:
@@ -14,18 +14,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 📁 Checkout
+        uses: actions/checkout@v2
 
-      - name: Install Node.js 14.x
+      - name: 📦 Cache node_modules
+        uses: actions/cache@v2.1.4
+        env:
+          cache-name: monorepo-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-
+
+      - name: ⚙️ Install Node.js 14.x
         uses: actions/setup-node@v1
         with:
           node-version: "14"
 
-      - name: Install Dependencies
+      - name: 👨🏻‍💻 Install Dependencies
         working-directory: workspaces/deploy-cli
         run: yarn install
 
-      - name: Publish
+      - name: 🚀 Publish
         working-directory: workspaces/deploy-cli
         run: yarn npm publish --access public --tolerate-republish
         env:

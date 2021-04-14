@@ -100,3 +100,6 @@ tsconfig.tsbuildinfo
 
 # Dirty local tests
 test.ts
+
+# Visual Studio Code
+.vscode

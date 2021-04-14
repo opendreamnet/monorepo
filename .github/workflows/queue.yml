@@ -1,12 +1,12 @@
 name: "@dreamnet/queue"
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - workspaces/queue/**.js
       - workspaces/queue/**.ts
       - workspaces/queue/**.json
-  workflow_dispatch:
 
 jobs:
   build:
@@ -14,18 +14,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 📁 Checkout
+        uses: actions/checkout@v2
 
-      - name: Install Node.js 14.x
+      - name: 📦 Cache node_modules
+        uses: actions/cache@v2.1.4
+        env:
+          cache-name: monorepo-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-
+
+      - name: ⚙️ Install Node.js 14.x
         uses: actions/setup-node@v1
         with:
           node-version: "14"
 
-      - name: Install Dependencies
+      - name: 👨🏻‍💻 Install Dependencies
         working-directory: workspaces/queue
         run: yarn install
 
-      - name: Publish
+      - name: 👨🏻‍💻 Lint
+        working-directory: workspaces/queue
+        run: yarn run lint
+
+      - name: 👨🏻‍💻 Tests
+        working-directory: workspaces/queue
+        run: yarn run test
+
+      - name: 🚀 Publish
         working-directory: workspaces/queue
         run: yarn npm publish --access public --tolerate-republish
         env:

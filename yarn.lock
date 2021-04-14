@@ -1646,12 +1646,17 @@ __metadata:
   resolution: "@dreamnet/queue@workspace:workspaces/queue"
   dependencies:
     "@dreamnet/eslint-config-dreamnet": "workspace:^1"
+    "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@types/source-map-support": ^0
     eslint: ^7.18.0
     husky: ^4.3.8
     lint-staged: ^10.5.3
     lodash: ^4.17.20
     microbundle: ^0.12.4
+    nyc: ^15.1.0
     shx: ^0.3.3
+    source-map-support: ^0.5.19
+    ts-mocha: ^8.0.0
     typescript: ^3.9.7
   languageName: unknown
   linkType: soft
@@ -2451,6 +2456,19 @@ __metadata:
     js-yaml: ^3.13.1
     resolve-from: ^5.0.0
   checksum: f7f3b1c922bf5e36a7f747b2a80fedc9c2e1ebd7e03dc73082fca7c1066cc4e2e2ac39827aded6a087c32294e9c032ff3e50bc9041fcf757b4a38ca97418b652
+  languageName: node
+  linkType: hard
+
+"@istanbuljs/nyc-config-typescript@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@istanbuljs/nyc-config-typescript@npm:1.0.1"
+  dependencies:
+    "@istanbuljs/schema": ^0.1.2
+  peerDependencies:
+    nyc: ">=15"
+    source-map-support: "*"
+    ts-node: "*"
+  checksum: 28c19a10ee0d9d46cf8602ffe296c43997b3b6d153f6c15dda99e4a25f7ed56cc5bc43574a0d24aa3685e5155fb09a50291115662820a1849044c91dd5d513d3
   languageName: node
   linkType: hard
 
@@ -3354,6 +3372,15 @@ __metadata:
   dependencies:
     slash: "*"
   checksum: 67cd718eb98a19e5563917d86312fa389f0c82d4b0205daa30beb693919efa093afae15a3633666f8c791a50ac8683285c6c6e120214931de89ecd352df9fb16
+  languageName: node
+  linkType: hard
+
+"@types/source-map-support@npm:^0":
+  version: 0.5.3
+  resolution: "@types/source-map-support@npm:0.5.3"
+  dependencies:
+    source-map: ^0.6.0
+  checksum: b91a22010f83efbcde37861af7d57fc7c62fef2510a6cb39ed3316ee31c6e76cf98445589a0cbb97b9262490b3e3d03748bdc5a1f640b3a03f6965d02eda82d4
   languageName: node
   linkType: hard
 
@@ -14287,7 +14314,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12, source-map-support@npm:~0.5.19":
+"source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.19, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12, source-map-support@npm:~0.5.19":
   version: 0.5.19
   resolution: "source-map-support@npm:0.5.19"
   dependencies:
