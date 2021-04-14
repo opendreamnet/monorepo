@@ -42,7 +42,7 @@
     "@dreamnet/eslint-config-dreamnet": "workspace:^1",
     "@types/chai": "^4",
     "@types/cryptr": "4.0.1",
-    "@types/fs-extra": "9.0.6",
+    "@types/fs-extra": "9.0.11",
     "@types/lodash": "4.14.168",
     "@types/megajs": "0.14.1",
     "@types/mime-types": "^2.1.0",
