@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.1 (2021-04-15)
+
+
+### Bug Fixes
+
+* loading an empty file caused `payload` to be `undefined`. ([639cfcc](https://github.com/dreamnettech/monorepo/commit/639cfccf44e48dc52464406df084d4d3eac26dce))
+
 ## 1.2.0 (2021-04-15)
 
 
