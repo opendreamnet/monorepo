@@ -1,7 +1,7 @@
 /* eslint-disable prefer-arrow-callback */
 
 import assert from 'assert'
-import { Queue, Task } from '../src'
+import { Queue, Task } from '../src/queue'
 
 async function worker(task: Task): Promise<any> {
   await new Promise((resolve) => {

@@ -1,12 +1,17 @@
 name: "@dreamnet/app"
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - workspaces/app/**.js
       - workspaces/app/**.ts
-      - workspaces/app/**.json
-  workflow_dispatch:
+    branches:
+      - master
+
+env:
+  WORK_DIR: workspaces/app
+  NODE_ENV: production
 
 jobs:
   build:
@@ -14,19 +19,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 📁 Checkout
+        uses: actions/checkout@v2
 
-      - name: Install Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: 📦 Cache node_modules
+        uses: actions/cache@v2.1.4
+        env:
+          cache-name: monorepo-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-
+
+      - name: ⚙️ Install Node.js 14.x
+        uses: actions/setup-node@v2
         with:
           node-version: "14"
 
-      - name: Install Dependencies
-        working-directory: workspaces/app
+      - name: 👨🏻‍💻 Install Dependencies
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn install
 
-      - name: Publish
-        working-directory: workspaces/app
+      - name: 🚀 Publish
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn npm publish --access public --tolerate-republish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

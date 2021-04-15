@@ -6,7 +6,12 @@ on:
     paths:
       - workspaces/queue/**.js
       - workspaces/queue/**.ts
-      - workspaces/queue/**.json
+    branches:
+      - master
+
+env:
+  WORK_DIR: workspaces/queue
+  NODE_ENV: production
 
 jobs:
   build:
@@ -28,24 +33,24 @@ jobs:
             ${{ runner.os }}-${{ env.cache-name }}-
 
       - name: ⚙️ Install Node.js 14.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: "14"
 
       - name: 👨🏻‍💻 Install Dependencies
-        working-directory: workspaces/queue
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn install
 
-      - name: 👨🏻‍💻 Lint
-        working-directory: workspaces/queue
+      - name: ✍️ Lint
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn run lint
 
-      - name: 👨🏻‍💻 Tests
-        working-directory: workspaces/queue
+      - name: 🧪 Tests
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn run test
 
       - name: 🚀 Publish
-        working-directory: workspaces/queue
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn npm publish --access public --tolerate-republish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

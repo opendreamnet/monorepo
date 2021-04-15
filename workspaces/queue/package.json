@@ -3,19 +3,20 @@
   "version": "1.1.0",
   "description": "Small library to create managed queues.",
   "license": "MIT",
-  "source": "src/index.ts",
-  "types": "dist/index.d.ts",
-  "main": "dist/index.js",
-  "unpkg": "dist/index.umd.js",
+  "source": "src/queue.ts",
+  "types": "dist/queue.d.ts",
+  "main": "dist/queue.js",
+  "unpkg": "dist/queue.umd.js",
   "scripts": {
-    "prepack": "yarn run build",
+    "prepack": "yarn run release",
     "lint": "eslint --fix --ext .ts,.js src",
     "test": "ts-mocha test/**/*.ts --recursive --exit",
     "clean": "shx rm -rf dist",
-    "watch": "microbundle watch -f cjs",
-    "build:web": "microbundle -f modern,umd --external none --target node --compress",
+    "watch": "tsc -w",
+    "build:web": "webpack",
     "build:node": "tsc -b",
-    "build": "yarn run build:node && yarn run build:web"
+    "build": "yarn run build:node && yarn run build:web",
+    "release": "yarn run build && yarn dlx standard-version && git push --follow-tags"
   },
   "dependencies": {
     "lodash": "^4.17.20"
@@ -23,24 +24,28 @@
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@types/source-map-support": "^0",
     "eslint": "^7.18.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
-    "microbundle": "^0.12.4",
-    "nyc": "^15.1.0",
     "shx": "^0.3.3",
-    "source-map-support": "^0.5.19",
+    "ts-loader": "^8.1.0",
     "ts-mocha": "^8.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "webpack": "^5.33.2",
+    "webpack-cli": "^4.6.0"
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "queue-v",
+    "releaseCommitMessageFormat": "chore(release): queue@{{currentTag}}"
   },
   "files": [
     "dist/",
     "src/"
   ],
   "author": {
-    "name": "Contributors",
-    "email": "ivan@dreamnet.tech",
+    "name": "Ivan Bravo Bravo",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },
   "repository": {
@@ -53,6 +58,6 @@
     "url": "https://github.com/dreamnettech/monorepo/issues"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 14"
   }
 }
