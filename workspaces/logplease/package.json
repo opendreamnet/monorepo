@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/haadcode/logplease#readme",
   "devDependencies": {
-    "buffer": "^5.5.0",
+    "buffer": "^6.0.3",
     "microbundle": "^0.13.0",
     "mocha": "^7.1.1",
     "shx": "^0.3.3"
