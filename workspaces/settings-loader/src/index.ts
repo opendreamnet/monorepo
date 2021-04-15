@@ -69,11 +69,6 @@ export function createProxied<T extends ProxiedSettings>(instance: new(options?:
       }
 
       return Reflect.set(target, p, value, receiver)
-    },
-    defineProperty(target, p, attributes) {
-      const response = Reflect.defineProperty(target.payload, p, attributes)
-      target.autosave()
-      return response
     }
   })
 }
