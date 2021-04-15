@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/queue",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Small library to create managed queues.",
   "license": "MIT",
   "source": "src/queue.ts",
