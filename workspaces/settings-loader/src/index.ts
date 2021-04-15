@@ -13,8 +13,8 @@ export function recursiveProxyHandler<T extends object>(setFunc: () => void): Pr
         return Reflect.get(target, p, receiver)
       }
     },
-    set(target, p, value, receiver) {
-      const response = Reflect.set(target, p, value, receiver)
+    defineProperty(target, p, attributes) {
+      const response = Reflect.defineProperty(target, p, attributes)
       setFunc()
       return response
     }
@@ -56,12 +56,12 @@ export function createProxied<T extends ProxiedSettings>(instance: new(options?:
         return target.payload[p.toString()]
       }
     },
-    set(target, p, value, receiver) {
+    defineProperty(target, p, attributes) {
       if (p in target) {
-        return Reflect.set(target, p, value, receiver)
+        return Reflect.defineProperty(target, p, attributes)
       }
 
-      const response = Reflect.set(target.payload, p, value, receiver)
+      const response = Reflect.defineProperty(target.payload, p, attributes)
       target.autosave()
       return response
     }
