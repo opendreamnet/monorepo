@@ -189,7 +189,7 @@ export class Settings {
    * Load the settings file.
    */
   public load(): void {
-    this.payload = yaml.load(fs.readFileSync(this.filepath, 'utf-8')) as Record<string, unknown>
+    this.payload = yaml.load(fs.readFileSync(this.filepath, 'utf-8')) as Record<string, unknown> || {}
   }
 
   /**
