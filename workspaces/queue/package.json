@@ -8,7 +8,6 @@
   "main": "dist/queue.js",
   "unpkg": "dist/queue.umd.js",
   "scripts": {
-    "prepack": "yarn run release",
     "lint": "eslint --fix --ext .ts,.js src",
     "test": "ts-mocha test/**/*.ts --recursive --exit",
     "clean": "shx rm -rf dist",
@@ -16,7 +15,7 @@
     "build:web": "webpack",
     "build:node": "tsc -b",
     "build": "yarn run build:node && yarn run build:web",
-    "release": "yarn run build && yarn dlx standard-version && git push --follow-tags"
+    "release": "yarn dlx standard-version && git push --follow-tags"
   },
   "dependencies": {
     "lodash": "^4.17.20"

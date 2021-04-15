@@ -39,7 +39,7 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn install
+        run: yarn workspaces focus @dreamnet/queue
 
       - name: ✍️ Lint
         working-directory: ${{ env.WORK_DIR }}
@@ -49,8 +49,16 @@ jobs:
         working-directory: ${{ env.WORK_DIR }}
         run: yarn run test
 
+      - name: 🏗️ Build
+        working-directory: ${{ env.WORK_DIR }}
+        run: yarn run build
+
+      - name: ✨ Release
+        working-directory: ${{ env.WORK_DIR }}
+        run: yarn run release
+
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn npm publish --access public --tolerate-republish
+        run: yarn npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
