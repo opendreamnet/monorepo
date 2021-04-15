@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.2 (2021-04-15)
+
+
+### Bug Fixes
+
+* `save` is called when setting base class properties. ([b02c847](https://github.com/dreamnettech/monorepo/commit/b02c8478e88bb526a2e87a1c82a6d9171b3106ea))
+
 ### 1.2.1 (2021-04-15)
 
 
