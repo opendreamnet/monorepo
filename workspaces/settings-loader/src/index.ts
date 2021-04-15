@@ -17,11 +17,6 @@ export function recursiveProxyHandler<T extends object>(setFunc: () => void): Pr
       const response = Reflect.set(target, p, value, receiver)
       setFunc()
       return response
-    },
-    defineProperty(target, p, attributes) {
-      const response = Reflect.defineProperty(target, p, attributes)
-      setFunc()
-      return response
     }
   }
 }
@@ -51,24 +46,24 @@ export function recursiveProxyHandler<T extends object>(setFunc: () => void): Pr
 export function createProxied<T extends ProxiedSettings>(instance: new(options?: SettingsOptions) => T, options?: SettingsOptions): T {
   return new Proxy(new instance(options), {
     get(target, p, receiver) {
-      if (p in target.payload) {
-        try {
-          return new Proxy(target.payload[p.toString()] as object, recursiveProxyHandler(target.autosave.bind(target)))
-        } catch (err) {
-          return target.payload[p.toString()]
-        }
+      if (p in target) {
+        return Reflect.get(target, p, receiver)
       }
 
-      return Reflect.get(target, p, receiver)
+      try {
+        return new Proxy(target.payload[p.toString()] as object, recursiveProxyHandler(target.autosave.bind(target)))
+      } catch (err) {
+        return target.payload[p.toString()]
+      }
     },
     set(target, p, value, receiver) {
-      if (p in target.payload) {
-        const response = Reflect.set(target.payload, p, value, receiver)
-        target.autosave()
-        return response
+      if (p in target) {
+        return Reflect.set(target, p, value, receiver)
       }
 
-      return Reflect.set(target, p, value, receiver)
+      const response = Reflect.set(target.payload, p, value, receiver)
+      target.autosave()
+      return response
     }
   })
 }
