@@ -24,7 +24,7 @@ jobs:
 
       - run: |
           git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.email actions@users.noreply.github.com
 
       - name: 📦 Cache node_modules
         uses: actions/cache@v2.1.4
@@ -43,7 +43,7 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn workspaces focus @dreamnet/queue
+        run: yarn workspaces focus
 
       - name: ✍️ Lint
         working-directory: ${{ env.WORK_DIR }}

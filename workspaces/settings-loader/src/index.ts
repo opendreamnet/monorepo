@@ -1,6 +1,30 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import fs from 'fs'
+import path from 'path'
 import yaml from 'js-yaml'
 import { get, set, merge } from 'lodash'
+
+export function recursiveProxyHandler<T extends object>(setFunc: () => void): ProxyHandler<T> {
+  return {
+    get(target, p, receiver) {
+      try {
+        return new Proxy(target[p.toString()], recursiveProxyHandler(setFunc))
+      } catch (err) {
+        return Reflect.get(target, p, receiver)
+      }
+    },
+    set(target, p, value, receiver) {
+      const response = Reflect.set(target, p, value, receiver)
+      setFunc()
+      return response
+    },
+    defineProperty(target, p, attributes) {
+      const response = Reflect.defineProperty(target, p, attributes)
+      setFunc()
+      return response
+    }
+  }
+}
 
 export interface SettingsOptions {
   /**
@@ -21,23 +45,108 @@ export class Settings {
   public payload: Record<string, unknown> = {}
 
   public options: SettingsOptions = {
-    autoSave: true,
+    autoSave: true
   }
 
-  public filepath = './settings.yml'
+  public filepath = path.resolve(process.cwd(), 'settings.yml')
+
+  /**
+   * Creates a proxied version that allows access to
+   * the payload using the properties of the class.
+   *
+   * @remarks
+   * If `options.autoSave` is true then the payload will
+   * be saved whenever a value is set to a property.
+   *
+   * @example
+   * ```
+   * // settings.yml:
+   * // user:
+   * //   name: "Ivan Bravo"
+   * //   email: "kolessios@example.com"
+   * const settings = Settings.createProxied()
+   * settings.user.name // "Ivan Bravo"
+   * settings.user.email = 'ivan@example.com' // Saved to file
+   * ```
+   *
+   * @param [options]
+   */
+  public static createProxied(options?: SettingsOptions): ProxiedSettings {
+    return new Proxy(new ProxiedSettings(options), {
+      get(target, p, receiver) {
+        if (p in target.payload) {
+          try {
+            return new Proxy(target.payload[p.toString()] as object, recursiveProxyHandler(target.autosave.bind(target)))
+          } catch (err) {
+            return target.payload[p.toString()]
+          }
+        }
+
+        return Reflect.get(target, p, receiver)
+      },
+      set(target, p, value, receiver) {
+        if (p in target.payload) {
+          const response = Reflect.set(target.payload, p, value, receiver)
+          target.autosave()
+          return response
+        }
+
+        return Reflect.set(target, p, value, receiver)
+      },
+      defineProperty(target, p, attributes) {
+        const response = Reflect.defineProperty(target.payload, p, attributes)
+        target.autosave()
+        return response
+      }
+    })
+  }
+
+  /**
+   * Same as `new Settings(options)`
+   *
+   * @param [options]
+   */
+  public static create(options?: SettingsOptions): Settings {
+    return new Settings(options)
+  }
 
   public constructor(options?: SettingsOptions) {
     if (options) {
-      this.options = merge(this.options, options)
+      this.setOptions(options)
     }
 
     if (this.options.filepath) {
-      this.filepath = options.filepath
+      this.filepath = this.options.filepath
     }
 
     if (this.options.autoLoad) {
       this.load()
     }
+  }
+
+  /**
+   *
+   *
+   * @param value
+   */
+  public setFilepath(value: string): this {
+    this.options.filepath = value
+
+    if (this.options.autoLoad) {
+      this.load()
+    }
+
+    return this
+  }
+
+  /**
+   *
+   *
+   * @param options
+   */
+  public setOptions(options: SettingsOptions): this {
+    this.options = merge(this.options, options)
+    return this
   }
 
   /**
@@ -57,7 +166,6 @@ export class Settings {
    *
    * @param key
    * @param [defaultValue]
-   * @returns get
    */
   public get(key: string, defaultValue?: unknown): unknown {
     return get(this.payload, key, defaultValue)
@@ -85,4 +193,18 @@ export class Settings {
     const payload = yaml.dump(this.payload)
     fs.writeFileSync(this.filepath, payload)
   }
+
+  /**
+   *
+   *
+   */
+  public autosave(): void {
+    if (this.options.autoSave) {
+      this.save()
+    }
+  }
+}
+
+export class ProxiedSettings extends Settings {
+  [index: string]: unknown
 }

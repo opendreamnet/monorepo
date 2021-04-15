@@ -16,6 +16,10 @@ jobs:
       - name: 📁 Checkout
         uses: actions/checkout@v2
 
+      - run: |
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+
       - name: 📦 Cache node_modules
         uses: actions/cache@v2.1.4
         env:
@@ -33,14 +37,18 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: workspaces/settings-loader
-        run: yarn install
+        run: yarn workspaces focus
 
       - name: 🏗️ Build
-        working-directory: workspaces/settings-loader
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn run build
+
+      - name: ✨ Release
+        working-directory: ${{ env.WORK_DIR }}
+        run: yarn run release
 
       - name: Publish
         working-directory: workspaces/settings-loader
-        run: yarn npm publish --access public --tolerate-republish
+        run: yarn npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

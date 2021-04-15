@@ -1,38 +1,42 @@
 {
   "name": "@dreamnet/settings-loader",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A simple YAML settings loader.",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint --fix --ext .ts,.js src/",
+    "lint": "eslint --fix --ext .ts,.js src",
     "clean": "shx rm -rf dist/",
-    "build:node": "tsc -b",
-    "build": "yarn run clean && yarn run build:node"
+    "watch": "tsc -w",
+    "build": "tsc -b",
+    "release": "yarn dlx standard-version && git push --follow-tags"
   },
   "dependencies": {
-    "js-yaml": "^4.0.0",
-    "lodash": "^4.17.20"
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
     "@types/js-yaml": "^4.0.0",
-    "eslint": "^7.18.0",
+    "eslint": "^7.24.0",
     "shx": "^0.3.3",
+    "ts-node": "^9.1.1",
     "typescript": "^3.9"
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "settings-loader-v",
+    "releaseCommitMessageFormat": "chore(release): settings-loader@{{currentTag}}"
   },
   "files": [
     "dist/",
     "src/"
   ],
-  "engines": {
-    "node": ">= 10"
-  },
   "author": {
     "name": "Iván Bravo Bravo",
-    "email": "ivan@dreamnet.tech",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },
   "repository": {
@@ -43,5 +47,8 @@
   "bugs": {
     "email": "ivan@dreamnet.tech",
     "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "engines": {
+    "node": ">= 14"
   }
 }

@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "strict": true,
     "noImplicitAny": false,
     "composite": true,
