@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/settings-loader",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A simple YAML settings loader.",
   "license": "MIT",
   "source": "src/index.ts",
