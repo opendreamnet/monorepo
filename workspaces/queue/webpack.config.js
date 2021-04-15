@@ -11,7 +11,7 @@ module.exports = {
     filename: 'queue.umd.js',
     library: {
       type: 'umd',
-      name: 'queue'
+      name: 'dreamnet'
     }
   }
 }
