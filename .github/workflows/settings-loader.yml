@@ -1,11 +1,16 @@
 name: "@dreamnet/settings-loader"
 on:
+  workflow_dispatch:
   push:
     paths:
       - workspaces/settings-loader/**.js
       - workspaces/settings-loader/**.ts
-      - workspaces/settings-loader/**.json
-  workflow_dispatch:
+    branches:
+      - master
+
+env:
+  WORK_DIR: workspaces/settings-loader
+  NODE_ENV: production
 
 jobs:
   build:
@@ -30,14 +35,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-
 
-      - name: ⚙️ Install Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: ⚙️ Install Node.js 14.x
+        uses: actions/setup-node@v2
         with:
-          node-version: "12"
+          node-version: "14"
 
       - name: 👨🏻‍💻 Install Dependencies
-        working-directory: workspaces/settings-loader
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn workspaces focus
+
+      - name: ✍️ Lint
+        working-directory: ${{ env.WORK_DIR }}
+        run: yarn run lint
 
       - name: 🏗️ Build
         working-directory: ${{ env.WORK_DIR }}
@@ -47,8 +56,8 @@ jobs:
         working-directory: ${{ env.WORK_DIR }}
         run: yarn run release
 
-      - name: Publish
-        working-directory: workspaces/settings-loader
+      - name: 🚀 Publish
+        working-directory: ${{ env.WORK_DIR }}
         run: yarn npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
