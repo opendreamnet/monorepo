@@ -26,6 +26,68 @@ export function recursiveProxyHandler<T extends object>(setFunc: () => void): Pr
   }
 }
 
+/**
+ * Creates a proxied version that allows access to
+ * the payload using the properties of the class.
+ *
+ * @remarks
+ * If `options.autoSave` is true then the payload will
+ * be saved whenever a value is set to a property.
+ *
+ * @example
+ * ```
+ * // settings.yml:
+ * // user:
+ * //   name: "Ivan Bravo"
+ * //   email: "kolessios@example.com"
+ * const settings = Settings.createProxied()
+ * settings.user.name // "Ivan Bravo"
+ * settings.user.email = 'ivan@example.com' // Saved to file
+ * ```
+ *
+ * @param instance
+ * @param [options]
+ */
+export function createProxied<T extends ProxiedSettings>(instance: new(options?: SettingsOptions) => T, options?: SettingsOptions): T {
+  return new Proxy(new instance(options), {
+    get(target, p, receiver) {
+      if (p in target.payload) {
+        try {
+          return new Proxy(target.payload[p.toString()] as object, recursiveProxyHandler(target.autosave.bind(target)))
+        } catch (err) {
+          return target.payload[p.toString()]
+        }
+      }
+
+      return Reflect.get(target, p, receiver)
+    },
+    set(target, p, value, receiver) {
+      if (p in target.payload) {
+        const response = Reflect.set(target.payload, p, value, receiver)
+        target.autosave()
+        return response
+      }
+
+      return Reflect.set(target, p, value, receiver)
+    },
+    defineProperty(target, p, attributes) {
+      const response = Reflect.defineProperty(target.payload, p, attributes)
+      target.autosave()
+      return response
+    }
+  })
+}
+
+/**
+ * Same as `new Settings(options)`
+ *
+ * @param instance
+ * @param [options]
+ */
+export function create<T extends Settings>(instance: new(options?: SettingsOptions) => T, options?: SettingsOptions): T {
+  return new instance(options)
+}
+
 export interface SettingsOptions {
   /**
    * Settings file location.
@@ -72,33 +134,7 @@ export class Settings {
    * @param [options]
    */
   public static createProxied(options?: SettingsOptions): ProxiedSettings {
-    return new Proxy(new ProxiedSettings(options), {
-      get(target, p, receiver) {
-        if (p in target.payload) {
-          try {
-            return new Proxy(target.payload[p.toString()] as object, recursiveProxyHandler(target.autosave.bind(target)))
-          } catch (err) {
-            return target.payload[p.toString()]
-          }
-        }
-
-        return Reflect.get(target, p, receiver)
-      },
-      set(target, p, value, receiver) {
-        if (p in target.payload) {
-          const response = Reflect.set(target.payload, p, value, receiver)
-          target.autosave()
-          return response
-        }
-
-        return Reflect.set(target, p, value, receiver)
-      },
-      defineProperty(target, p, attributes) {
-        const response = Reflect.defineProperty(target.payload, p, attributes)
-        target.autosave()
-        return response
-      }
-    })
+    return createProxied(ProxiedSettings, options)
   }
 
   /**
@@ -107,7 +143,7 @@ export class Settings {
    * @param [options]
    */
   public static create(options?: SettingsOptions): Settings {
-    return new Settings(options)
+    return create(Settings, options)
   }
 
   public constructor(options?: SettingsOptions) {
