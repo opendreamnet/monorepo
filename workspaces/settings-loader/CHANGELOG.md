@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.4 (2021-04-15)
+
+
+### Bug Fixes
+
+* proxied changes are not saved x2 ([489b8ba](https://github.com/dreamnettech/monorepo/commit/489b8ba05b6984d72cc12ce5c06e4a94dc7b2274))
+
 ### 1.2.3 (2021-04-15)
 
 
