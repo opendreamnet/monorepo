@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-${{ env.cache-name }}-
 
       - name: ⚙️ Install Node.js 14.x
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2.1.5
         with:
           node-version: "14"
 
