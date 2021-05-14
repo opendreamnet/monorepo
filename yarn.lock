@@ -1313,7 +1313,9 @@ __metadata:
     platform-folders: ^0.5.3
     selenium-webdriver: ^4.0.0-beta.3
     shx: ^0.3.3
+    ts-loader: ^9.1.2
     ts-mocha: ^8.0.0
+    ts-node: ^9.1.1
     typescript: ^3.9.9
     webpack: ^5.37.0
     webpack-cli: ^4.7.0
@@ -18937,6 +18939,21 @@ resolve@1.17.0:
     typescript: "*"
     webpack: "*"
   checksum: d74d6fa6846b27763ae5927dc0f07d156909e8d5302e1514668da7404c89ad0494b656b6a971a89c344d34d419b5b63db24346cfea1a4b03a2ee539b66d10629
+  languageName: node
+  linkType: hard
+
+"ts-loader@npm:^9.1.2":
+  version: 9.1.2
+  resolution: "ts-loader@npm:9.1.2"
+  dependencies:
+    chalk: ^4.1.0
+    enhanced-resolve: ^5.0.0
+    micromatch: ^4.0.0
+    semver: ^7.3.4
+  peerDependencies:
+    typescript: "*"
+    webpack: "*"
+  checksum: 159e576eec2329bea1e92d87c3cdccb47110a167a766aa45888a74797240356aa639d6e6b46f3cddea3c3caa773e70af8956a2fab00d3fe38b415361f5f89168
   languageName: node
   linkType: hard
 
