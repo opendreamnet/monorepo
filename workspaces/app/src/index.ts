@@ -1,13 +1,13 @@
-import { isNil, keys, startCase } from 'lodash'
 import path from 'path'
+import { isNil, keys, startCase } from 'lodash'
 
 /**
- * Indicate if it is a web platform.
+ * Indicates if the platform is a web browser.
  */
 const isBrowser = typeof window !== 'undefined' && !isNil(window.document)
 
 /**
- * Indicates if it is a webworker platform.
+ * Indicates if the platform is a webworker.
  */
 const isWebWorker = typeof self !== 'undefined'
   && self.constructor
@@ -17,11 +17,10 @@ const isWebWorker = typeof self !== 'undefined'
  * Indicates if the platform is NodeJS.
  */
 const isNode = typeof process !== 'undefined'
-  && !isNil(process.versions)
-  && !isNil(process.versions.node)
+  && !isNil(process.versions?.node)
 
 /**
- * Indicates if the platform is the ElectronJS renderer.
+ * Indicates if the platform is the ElectronJS renderer process.
  */
 const isElectronRenderer = typeof process !== 'undefined'
   // @ts-ignore
@@ -30,20 +29,19 @@ const isElectronRenderer = typeof process !== 'undefined'
   && process.type === 'renderer'
 
 /**
- * Indicates if the platform is the ElectronJS main.
+ * Indicates if the platform is the ElectronJS main process.
  */
 const isElectronMain = typeof process !== 'undefined'
-  && !isNil(process.versions)
   // @ts-ignore
-  && !isNil(process.versions.electron)
+  && !isNil(process.versions?.electron)
 
 /**
- * Indicates whether there is access to the NodeJS engine.
+ * Indicates if the platform has access to the NodeJS engine.
  */
 const hasNodeIntegration = isNode || isElectronMain
 
 /**
- * Application Name.
+ * Application name.
  */
 let appName: string
 
@@ -96,7 +94,7 @@ export const is = {
   electron: {
     any: isElectronRenderer || isElectronMain,
     renderer: isElectronRenderer,
-    main: isElectronMain,
+    main: isElectronMain
   },
   node: isNode,
   nodeIntegration: hasNodeIntegration,
@@ -104,7 +102,7 @@ export const is = {
   windows: getPlatform() === 'win32',
   linux: getPlatform() === 'linux',
   android: getPlatform() === 'android',
-  dev: hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null,
+  dev: hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null
 }
 
 /**
@@ -139,7 +137,7 @@ export function choice(choices: Choices, defaultValue?: unknown): unknown {
   return defaultValue
 }
 
-function getElectronPath(name: string, ...paths: string[]): string | null {
+function getElectronPath(name: string, ...paths: string[]): string | undefined {
   let basePath = ''
 
   try {
@@ -163,7 +161,7 @@ function getElectronPath(name: string, ...paths: string[]): string | null {
     return path.resolve(basePath, ...paths)
   } catch (error) { }
 
-  return null
+  return undefined
 }
 
 export type PathName = 'cwd' | 'home' | 'temp' | 'temporary' | 'temporal' | 'appData' | 'userData' | 'downloads' | 'cache' | 'savegames' | 'desktop' | 'downloads' | 'music' | 'pictures' | 'videos'
@@ -173,9 +171,9 @@ export type PathName = 'cwd' | 'home' | 'temp' | 'temporary' | 'temporal' | 'app
  * @param name
  * @param paths
  */
-export function getPath(name: PathName, ...paths: string[]): string | null {
+export function getPath(name: PathName, ...paths: string[]): string | undefined {
   if (!hasNodeIntegration) {
-    return null
+    return undefined
   }
 
   if (isElectronMain || isElectronRenderer) {
@@ -210,12 +208,12 @@ export function getPath(name: PathName, ...paths: string[]): string | null {
     case 'appData':
       basePath = choice({
         windows: path.resolve(os.homedir(), 'AppData', 'Roaming'),
-        macos: path.resolve(os.homedir(), 'Library', 'Application Support'),
+        macos: path.resolve(os.homedir(), 'Library', 'Application Support')
       }, path.resolve(os.homedir(), '.config')) as string
       break
 
     case 'userData':
-      return getPath('appData', 'DreamNet', getName(), ...paths)
+      return getPath('appData', 'dreamnet', getName(), ...paths)
 
     case 'downloads': {
       const commonPath = getPath('home', 'Downloads')

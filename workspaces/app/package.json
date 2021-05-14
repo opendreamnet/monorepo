@@ -6,43 +6,49 @@
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
-  "unpkg": "dist/index.umd.js",
+  "unpkg": "dist/app.umd.js",
   "scripts": {
-    "prepack": "yarn run build",
     "lint": "eslint --fix --ext .ts,.js src",
     "test": "ts-mocha test/**/*.ts --recursive --exit",
-    "clean": "shx rm -rf dist",
-    "watch": "microbundle watch -f cjs",
-    "build:web": "microbundle -f modern,umd --external none",
+    "clean": "shx rm -rf tsconfig.tsbuildinfo dist",
+    "watch": "tsc -w",
+    "build:web": "webpack",
     "build:node": "tsc -b",
-    "build": "yarn run build:node && yarn run build:web"
+    "build": "yarn run build:node && yarn run build:web",
+    "release": "yarn dlx standard-version && git push --follow-tags"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "parent-package-json": "^2.0.1",
-    "platform-folders": "^0.5.1"
+    "platform-folders": "^0.5.3"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
+    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
     "@types/chromedriver": "81.0.0",
-    "@types/eslint": "6.8.1",
-    "@types/lodash": "4.14.151",
-    "@types/selenium-webdriver": "4.0.9",
-    "chromedriver": "^85.0.1",
-    "eslint": "^7.0.0",
-    "microbundle": "^0.12.0",
-    "selenium-webdriver": "^4.0.0-alpha.7",
-    "shx": "^0.3.2",
-    "ts-mocha": "^7.0.0",
-    "typescript": "^3.9.9"
+    "@types/eslint": "7.2.10",
+    "@types/lodash": "4.14.169",
+    "@types/selenium-webdriver": "4.0.12",
+    "chromedriver": "^90.0.0",
+    "eslint": "^7.26.0",
+    "selenium-webdriver": "^4.0.0-beta.3",
+    "shx": "^0.3.3",
+    "ts-mocha": "^8.0.0",
+    "typescript": "^3.9.9",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "app-v",
+    "releaseCommitMessageFormat": "chore(release): app@{{currentTag}}"
   },
   "files": [
     "dist/",
     "src/"
   ],
   "author": {
-    "name": "Iván Bravo Bravo",
-    "email": "ivan@dreamnet.tech",
+    "name": "Ivan Bravo Bravo",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },
   "repository": {
@@ -55,6 +61,6 @@
     "url": "https://github.com/dreamnettech/monorepo/issues"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 14"
   }
 }
