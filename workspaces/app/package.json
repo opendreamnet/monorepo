@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/app",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Utilities for DreamNet applications.",
   "license": "MIT",
   "source": "src/index.ts",
