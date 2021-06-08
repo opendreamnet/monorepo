@@ -1,4 +1,4 @@
-name: "@dreamnet/app"
+name: "@opendreamnet/app"
 
 on:
   workflow_dispatch:

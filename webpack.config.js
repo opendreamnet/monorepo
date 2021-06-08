@@ -1,4 +1,4 @@
-const path = require('path')
+/* eslint-disable */
 
 module.exports = {
   // Chosen mode tells webpack to use its built-in optimizations accordingly.
@@ -8,11 +8,22 @@ module.exports = {
   devtool: 'source-map',
 
   // Don't follow/bundle these modules, but request them at runtime from the environment
-  externals: ['os', 'path', 'fs', 'platform-folders', 'electron'],
+  externals: ['electron'],
+
+  output: {
+    library: {
+      type: 'umd',
+      name: 'odn'
+    }
+  },
 
   resolve: {
     // extensions that are used
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+
+    alias: {
+      'platform-folders': false,
+    }
   },
 
   module: {
@@ -21,7 +32,38 @@ module.exports = {
         // Include ts and tsx
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: 'ts-loader'
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              rootMode: 'upward'
+            }
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                target: 'esnext',
+                module: 'esnext',
+                declaration: false,
+                composite: false
+              }
+            }
+          }
+        ]
+      },
+      {
+        // Include js and jsx
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              rootMode: 'upward'
+            }
+          }
+        ]
       }
     ]
   },
@@ -29,5 +71,7 @@ module.exports = {
   optimization: {
     // rename export names to shorter names
     minimize: process.env.NODE_ENV === 'production'
-  }
+  },
+
+  plugins: []
 }

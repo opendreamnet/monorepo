@@ -1,15 +1,15 @@
-# @dreamnet/app
+# @opendreamnet/app
 
 [![Version](https://img.shields.io/npm/v/app.svg)](https://npmjs.org/package/app)
-[![Downloads/week](https://img.shields.io/npm/dw/@dreamnet/app.svg)](https://npmjs.org/package/@dreamnet/app)
-![License](https://img.shields.io/npm/l/@dreamnet/app.svg)
+[![Downloads/week](https://img.shields.io/npm/dw/@opendreamnet/app.svg)](https://npmjs.org/package/@opendreamnet/app)
+![License](https://img.shields.io/npm/l/@opendreamnet/app.svg)
 
 Utility functions for various applications.
 
 ## Usage
 
 ```ts
-import * as app from '@dreamnet/app'
+import * as app from '@opendreamnet/app'
 
 // NodeJS: package.productName || package.displayName || package.name
 // Browser: DreamApp
