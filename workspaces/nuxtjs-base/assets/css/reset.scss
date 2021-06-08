@@ -1,0 +1,89 @@
+body {
+  @apply bg-background text-snow;
+  font-feature-settings: "liga", "ss01", "zero", "cv11", "frac", "calt", "tnum";
+}
+
+hr {
+  @apply border-menus-light mb-3;
+}
+
+dialog {
+  @apply bg-transparent p-0 text-snow;
+  max-width: 95vw;
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0, 0.90);
+}
+
+dialog + .backdrop {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0,0,0, 0.90);
+}
+
+._dialog_overlay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+}
+
+.title {
+  @apply text-snow-lighter font-semibold;
+}
+
+.tippy-content {
+  @apply bg-menus-light shadow-2xl;
+  @apply p-3 #{!important};
+
+  p:not(:last-child) {
+    @apply mb-3;
+  }
+
+  code {
+    @apply bg-primary-dark;
+  }
+
+  ul {
+    @apply list-disc;
+
+    li {
+      @apply text-sm ml-3;
+
+      &:not(:last-child) {
+        @apply mb-2;
+      }
+    }
+  }
+}
+
+.tippy-arrow {
+  @apply text-menus-light #{!important};
+}
+
+.code {
+  @apply rounded px-1 text-sm break-words shadow-sm;
+  background-color: #444950;
+}
+
+.code-pre {
+  @apply text-xs overflow-auto bg-black p-2 break-words whitespace-pre-wrap;
+  max-height: 100px;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url("https://odn.pw/ipfs/QmZwnqdy1nZdjY5Gp7b9iYgMwnS3Vnh9TrkvCoPWJQaZgv?filename=Inter-roman.var.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: 'Italic';
+  src: url("https://odn.pw/ipfs/Qmcg9bXJGEgqPnQGA6sTp1zJMB6sLuxrPWRR1qP8pjUou4?filename=Inter-italic.var.woff2") format("woff2");
+}

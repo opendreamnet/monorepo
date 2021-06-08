@@ -1,0 +1,49 @@
+.field {
+  @apply mb-3;
+
+  .field-help {
+    @apply block text-xs text-gray-600;
+  }
+}
+
+.label {
+  @apply block font-bold mb-3;
+}
+
+label[for],
+select.input {
+  @apply cursor-pointer;
+}
+
+.input {
+  @apply border border-input-dark bg-input shadow-sm text-snow-light;
+  @apply p-2 rounded w-full;
+  @include transition('color, box-shadow');
+  outline: none !important;
+
+  &:not([readonly]):not([disabled]) {
+    &:hover {
+      @apply text-snow-lighter;
+    }
+
+    &:focus {
+      @apply text-snow-lighter shadow-lg;
+    }
+  }
+
+  &::placeholder {
+    @apply text-snow-darker;
+  }
+
+  &[readonly] {
+    @apply cursor-default;
+  }
+
+  &[disabled] {
+    @apply opacity-75 cursor-not-allowed;
+  }
+
+  &.input--sm {
+    @apply text-sm;
+  }
+}
