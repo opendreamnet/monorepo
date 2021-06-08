@@ -41,7 +41,11 @@
     "platform-folders": "^0.5.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
     "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
+    "@types/babel__core": "^7",
+    "@types/babel__preset-env": "^7",
     "@types/eslint": "7.2.13",
     "@types/lodash": "4.14.170",
     "@types/selenium-webdriver": "4.0.13",
