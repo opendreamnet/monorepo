@@ -4,6 +4,11 @@
     "outDir": "dist",
     "rootDir": "src"
   },
+  "references": [
+    {
+      "path": "../app/tsconfig.json"
+    }
+  ],
   "include": [
     "src/**/*",
     "src/data/ipfs-gateways.json"
