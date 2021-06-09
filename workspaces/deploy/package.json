@@ -36,7 +36,7 @@
     "normalize-path": "^3.0.0",
     "ora": "^5.3.0",
     "recursive-fs": "^2.1.0",
-    "slash": "^3.0.0"
+    "slash": "^4.0.0"
   },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1",
