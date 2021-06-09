@@ -1,0 +1,106 @@
+{
+  "name": "@opendreamnet/ipfs",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "unpkg": "dist/ipfs.umd.js",
+  "scripts": {
+    "lint": "eslint --fix --ext .ts,.js src",
+    "test": "ts-mocha test/**/*.ts --recursive --exit",
+    "clean": "shx rm -rf dist tsconfig.tsbuildinfo",
+    "watch:node": "tsc -w",
+    "watch:web": "webpack watch",
+    "build:web": "webpack",
+    "build:node": "tsc -b",
+    "build": "yarn run build:node && yarn run build:web",
+    "release": "yarn dlx standard-version && git push --follow-tags"
+  },
+  "browser": {
+    "fs": false,
+    "fs-extra": false,
+    "go-ipfs": false,
+    "recursive-fs": false
+  },
+  "dependencies": {
+    "@fidian/dynamic-buffer": "^1.0.0",
+    "@opendreamnet/app": "workspace:workspaces/app",
+    "buffer": "^6.0.3",
+    "fs-extra": "^10.0.0",
+    "go-ipfs": "^0.8.0",
+    "ipfs": "^0.55.1",
+    "ipfs-http-client": "^50.0.0",
+    "ipfsd-ctl": "^8.0.2",
+    "it-all": "^1.0.5",
+    "it-to-stream": "^1.0.0",
+    "lodash": "^4.17.21",
+    "mime": "^2.5.2",
+    "node-abort-controller": "^2.0.0",
+    "normalize-path": "^3.0.0",
+    "process": "^0.11.10",
+    "recursive-fs": "^2.1.0",
+    "sanitize-filename": "^1.6.3",
+    "speedometer": "^1.1.0",
+    "stream-to-blob": "^2.0.1",
+    "stream-to-blob-url": "^3.0.2",
+    "urijs": "^1.19.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@babel/preset-typescript": "^7.13.0",
+    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
+    "@types/babel__core": "^7",
+    "@types/babel__preset-env": "^7",
+    "@types/eslint": "^7",
+    "@types/fs-extra": "9.0.11",
+    "@types/lodash": "4.14.169",
+    "@types/mime": "^2",
+    "@types/normalize-path": "3.0.0",
+    "@types/urijs": "^1",
+    "@types/webpack-bundle-analyzer": "^4",
+    "assert": "^2.0.0",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-imports": "^2.0.0",
+    "constants-browserify": "^1.0.0",
+    "eslint": "^7.26.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "shx": "^0.3.3",
+    "stream-browserify": "^3.0.0",
+    "ts-loader": "^9.1.2",
+    "ts-node": "^9.1.1",
+    "typescript": "3.9.9",
+    "webpack": "^5.37.0",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.7.0"
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "ipfs-v",
+    "releaseCommitMessageFormat": "chore(release): ipfs@{{currentTag}}"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "author": {
+    "name": "Ivan Bravo Bravo",
+    "email": "kolessios@gmail.com",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/ipfs"
+  },
+  "bugs": {
+    "email": "ivan@dreamnet.tech",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
+  "engines": {
+    "node": ">= 14"
+  }
+}
