@@ -87,7 +87,8 @@ exports.setNuxtConfig = (config) => {
     //
     publicRuntimeConfig: {
       name: process.env.npm_package_displayName,
-      description: process.env.npm_package_description
+      description: process.env.npm_package_description,
+      version: process.env.npm_package_version
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build

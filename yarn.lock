@@ -4001,7 +4001,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opendreamnet/app@workspace:^1.1.1, @opendreamnet/app@workspace:workspaces/app":
+"@opendreamnet/app@workspace:^1.1.1, @opendreamnet/app@workspace:^1.1.3, @opendreamnet/app@workspace:workspaces/app":
   version: 0.0.0-use.local
   resolution: "@opendreamnet/app@workspace:workspaces/app"
   dependencies:
@@ -4038,9 +4038,9 @@ __metadata:
     "@babel/core": ^7.14.3
     "@babel/preset-env": ^7.14.2
     "@babel/preset-typescript": ^7.13.0
-    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet"
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1.3.0"
     "@fidian/dynamic-buffer": ^1.0.0
-    "@opendreamnet/app": "workspace:workspaces/app"
+    "@opendreamnet/app": "workspace:^1.1.3"
     "@types/babel__core": ^7
     "@types/babel__preset-env": ^7
     "@types/eslint": ^7
