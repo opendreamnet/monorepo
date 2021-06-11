@@ -58,6 +58,9 @@ export class IPFS extends EventEmitter {
    */
   public ready = false
 
+  /**
+   * Error occurred during setup.
+   */
   public error?: Error
 
   /**
@@ -286,10 +289,13 @@ export class IPFS extends EventEmitter {
       return Promise.resolve()
     }
 
-    return new Promise((resolve) => {
-      this.once('ready', () => {
-        resolve()
-      })
+    if (this.error) {
+      return Promise.reject(this.error)
+    }
+
+    return new Promise((resolve, reject) => {
+      this.once('error', (err) => reject(err))
+      this.once('ready', () => resolve())
     })
   }
 
@@ -314,7 +320,12 @@ export class IPFS extends EventEmitter {
 
     this.records.push(record)
 
-    await record.setup()
+    try {
+      await record.setup()
+    } catch (err) {
+      this.remove(cid)
+      throw err
+    }
 
     return record
   }
