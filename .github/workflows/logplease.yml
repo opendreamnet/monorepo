@@ -3,9 +3,8 @@ name: "@dreamnet/logplease (legacy)"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/logplease/**.js
-      - workspaces/logplease/**.ts
+    tags:
+      - logplease-v*
   
 jobs:
   build:
