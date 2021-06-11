@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.1.0...ipfs-v1.2.0) (2021-06-11)
+
+
+### Features
+
+* added error handling in `Record` ([78a5e10](https://github.com/dreamnettech/monorepo/commit/78a5e109f8307925ab9664067f0521f822a29462))
+
+
+### Bug Fixes
+
+* improved error handling during `setup()` and `add()` ([9a207b4](https://github.com/dreamnettech/monorepo/commit/9a207b4e48211dc7ce64b277fe89c083483b044f))
+
 ## [1.1.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.0.1...ipfs-v1.1.0) (2021-06-11)
 
 
