@@ -83,6 +83,8 @@ export class IPFS extends EventEmitter {
 
   public constructor(options: Options = {}) {
     super()
+    this.setMaxListeners(50)
+
     this.options = merge(this.options, options)
     this.setup()
   }
@@ -117,12 +119,12 @@ export class IPFS extends EventEmitter {
           config: {
             Addresses: {
               Swarm: [
-                // DreamNet
-                '/dns4/wrtc-star1.dreamnet.tech/tcp/443/wss/p2p-webrtc-star'
+                // OpenDreamNet
+                '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
               ],
               Delegates: [
-                // DreamNet
-                '/dns4/link1-ws.dreamnet.tech/tcp/443/https',
+                // OpenDreamNet (Web Gateway)
+                '/dns4/node1.dreamlink.cloud/tcp/443/https',
 
                 // IPFS
                 '/dns4/node0.delegate.ipfs.io/tcp/443/https',
@@ -131,6 +133,23 @@ export class IPFS extends EventEmitter {
                 '/dns4/node3.delegate.ipfs.io/tcp/443/https'
               ]
             }
+          },
+          /*
+          preload: {
+            addresses: [
+              // OpenDreamNet (Web Gateway)
+              '/dns4/node1.dreamlink.cloud/tcp/443/https',
+
+              // IPFS
+              '/dns4/node0.preload.ipfs.io/https',
+              '/dns4/node1.preload.ipfs.io/https',
+              '/dns4/node2.preload.ipfs.io/https',
+              '/dns4/node3.preload.ipfs.io/https'
+            ]
+          },
+          */
+          EXPERIMENTAL: {
+            ipnsPubsub: true
           }
         }
       }
@@ -214,8 +233,8 @@ export class IPFS extends EventEmitter {
     if (this.isBrowserNode) {
       if (this.options.opendreamnet) {
         nodes = [
-          // OpenDreamNet
-          '/dns4/node1.opendreamnet.cloud/tcp/443/wss/p2p/12D3KooWAuvHjmNSAxekkpqp9c5Hgcht7JJcZjQDjGUuLvYUDLPe'
+          // OpenDreamNet (Swarm Websocket)
+          '/dns4/node1-ws.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWAuvHjmNSAxekkpqp9c5Hgcht7JJcZjQDjGUuLvYUDLPe'
         ]
       }
     } else {
@@ -231,7 +250,7 @@ export class IPFS extends EventEmitter {
 
       if (this.options.opendreamnet) {
         // OpenDreamNet
-        nodes.push('/dnsaddr/node1.opendreamnet.cloud', '/dnsaddr/node2.opendreamnet.cloud')
+        nodes.push('/dnsaddr/node1.dreamlink.cloud', '/dnsaddr/node2.dreamlink.cloud')
       }
     }
 
