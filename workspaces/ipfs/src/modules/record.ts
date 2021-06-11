@@ -104,6 +104,11 @@ export class Record extends EventEmitter {
   }
 
   /**
+   * Error occurred during setup.
+   */
+  public error?: Error
+
+  /**
    *
    * @protected
    */
@@ -233,10 +238,13 @@ export class Record extends EventEmitter {
       return Promise.resolve()
     }
 
-    return new Promise((resolve) => {
-      this.once('ready', () => {
-        resolve()
-      })
+    if (this.error) {
+      return Promise.reject(this.error)
+    }
+
+    return new Promise((resolve, reject) => {
+      this.once('error', (err) => reject(err))
+      this.once('ready', () => resolve())
     })
   }
 
@@ -244,11 +252,17 @@ export class Record extends EventEmitter {
    * Fetch the metadata and creates the files list.
    */
   public async setup(): Promise<void> {
-    await this.fetchMetadata()
-    await this.createFiles()
+    try {
+      await this.fetchMetadata()
+      await this.createFiles()
 
-    this.ready = true
-    this.emit('ready')
+      this.ready = true
+      this.emit('ready')
+    } catch (err) {
+      this.error = err
+      this.emit('error', err)
+      throw err
+    }
 
     if (is.nodeIntegration && this.options.autoDownload) {
       // Download to a location on the disk.
