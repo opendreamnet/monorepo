@@ -16,7 +16,7 @@
     "build:web": "webpack",
     "build:node": "tsc -b",
     "build": "yarn run build:node && yarn run build:web",
-    "release": "yarn dlx standard-version && git push --follow-tags"
+    "release": "yarn standard-version"
   },
   "browser": {
     "fs": false,
@@ -69,6 +69,7 @@
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "shx": "^0.3.3",
+    "standard-version": "^9.3.0",
     "stream-browserify": "^3.0.0",
     "ts-loader": "^9.1.2",
     "ts-node": "^9.1.1",

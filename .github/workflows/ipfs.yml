@@ -3,11 +3,8 @@ name: "@opendreamnet/ipfs"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/ipfs/**.js
-      - workspaces/ipfs/**.ts
-    branches:
-      - master
+    tags:
+      - ipfs-v*
 
 env:
   WORK_DIR: workspaces/ipfs
@@ -52,10 +49,6 @@ jobs:
       - name: 🏗️ Build
         working-directory: ${{ env.WORK_DIR }}
         run: yarn run build
-
-      - name: ✨ Release
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn run release
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
