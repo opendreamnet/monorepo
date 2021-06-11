@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* **ipfs:** increased the number of event ([2124133](https://github.com/dreamnettech/monorepo/commit/2124133162792eecf34aa638650fc48f8663b990))
+* **ipfs:** increased the number of event listeners to 50 ([2124133](https://github.com/dreamnettech/monorepo/commit/2124133162792eecf34aa638650fc48f8663b990))
 
 ### 1.0.1 (2021-06-09)
 
