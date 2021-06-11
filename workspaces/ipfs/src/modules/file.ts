@@ -9,11 +9,11 @@ import toStream from 'it-to-stream'
 import AbortController from 'node-abort-controller'
 import streamToBlob from 'stream-to-blob'
 import streamToBlobURL from 'stream-to-blob-url'
-import URI from 'urijs'
-import { merge, toNumber, isNil } from 'lodash'
+import { merge, toNumber } from 'lodash'
 import { is } from '@opendreamnet/app'
 import { Link, Time } from '../types/ipfs'
 import { DownloadOptions, Record } from './record'
+import { getGatewayURI, getGatewayURIS, GatewayOptions } from './utils'
 
 function changeName(linkpath: string, value: string): string {
   const name = path.basename(linkpath)
@@ -34,27 +34,6 @@ function changeRoot(linkpath: string, value: string): string {
 export function sanitizeName(linkpath: string): string {
   const name = path.basename(linkpath)
   return changeName(linkpath, sanitize(name))
-}
-
-export type GatewayOptions = {
-  /**
-   * Gateway base address.
-   *
-   * @default https://ipfs.io
-   */
-  url?: string
-  /**
-   * True to include the file name.
-   *
-   * @default true
-   */
-  name?: boolean
-  /**
-   * True to force the file to download. (Disable preview in browser)
-   *
-   * @default undefined
-   */
-  download?: boolean
 }
 
 export class File extends EventEmitter {
@@ -364,19 +343,18 @@ export class File extends EventEmitter {
    * @param [options={}]
    */
   public getURL(options: GatewayOptions = {}): string {
-    options = merge({ name: true, url: 'https://ipfs.io' } as GatewayOptions, options)
+    options = merge({ filename: this.name } as GatewayOptions, options)
+    return getGatewayURI(this.cid, options).href()
+  }
 
-    const uri = new URI(options.url).directory('ipfs').filename(this.cid)
-
-    if (options.name && this.name) {
-      uri.query({ filename: this.name })
-    }
-
-    if (!isNil(options.download)) {
-      uri.query({ download: options.download ? 'true' : 'false' })
-    }
-
-    return uri.href()
+  /**
+   * Returns a list of URLs of the file to public IPFS gateways.
+   *
+   * @param [options={}]
+   */
+  public getURLS(options: GatewayOptions = {}): string[] {
+    options = merge({ filename: this.name } as GatewayOptions, options)
+    return getGatewayURIS(this.cid, options).map((uri) => uri.href())
   }
 
   /*

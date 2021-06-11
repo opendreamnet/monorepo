@@ -7,10 +7,10 @@ import fs from 'fs-extra'
 import AbortController from 'node-abort-controller'
 import speedometer from 'speedometer'
 import { getPath, is } from '@opendreamnet/app'
-
 import { Link, File as IpfsFile, Peer } from '../types/ipfs'
 import { IPFS } from './ipfs'
 import { File } from'./file'
+import { getGatewayURI, getGatewayURIS, GatewayOptions } from './utils'
 
 export type DownloadOptions = {
   /**
@@ -218,6 +218,7 @@ export class Record extends EventEmitter {
    */
   public constructor(public ipfs: IPFS, public cid: string, options: RecordOptions = {}) {
     super()
+    this.setMaxListeners(50)
 
     this.options.autoDownloadToRepo = !ipfs.isBrowserNode
     this.options = merge(this.options, options)
@@ -485,6 +486,26 @@ export class Record extends EventEmitter {
     } finally {
       this.trackFinish()
     }
+  }
+
+  /**
+   * Returns the URL of the record to an IPFS gateway.
+   *
+   * @param [options={}]
+   */
+   public getURL(options: GatewayOptions = {}): string {
+    options = merge({ filename: this.name } as GatewayOptions, options)
+    return getGatewayURI(this.cid, options).href()
+  }
+
+  /**
+   * Returns a list of URLs of the record to public IPFS gateways.
+   *
+   * @param [options={}]
+   */
+  public getURLS(options: GatewayOptions = {}): string[] {
+    options = merge({ filename: this.name } as GatewayOptions, options)
+    return getGatewayURIS(this.cid, options).map((uri) => uri.href())
   }
 
   public stop(): boolean {

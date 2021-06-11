@@ -3,8 +3,10 @@ import path from 'path'
 import { is } from '@opendreamnet/app'
 import normalize from 'normalize-path'
 import rfs from 'recursive-fs'
-import { isString, isArray } from 'lodash'
+import URI from 'urijs'
+import { isString, isArray, merge, isNil, clone } from 'lodash'
 import { FileObject, FileContent } from '../types/ipfs'
+import gatewayURLS from '../data/ipfs-gateways.json'
 import { UploadSource } from './ipfs'
 
 export function isFileContent(source: unknown): source is FileContent {
@@ -65,4 +67,47 @@ export async function sourceToFileObject(source: UploadSource | UploadSource[] |
   }
 
   return files
+}
+
+export type GatewayOptions = {
+  /**
+   * Gateway base address.
+   *
+   * @default https://ipfs.io
+   */
+  url?: string
+  /**
+   * File name.
+   *
+   * @default undefined
+   */
+  filename?: string
+  /**
+   * True to force the file to download. (Disable preview in browser)
+   *
+   * @default undefined
+   */
+  download?: boolean
+}
+
+export function getGatewayURI(cid: string, options: GatewayOptions = {}): URI {
+  options = merge({ url: 'https://dweb.link' } as GatewayOptions, options)
+
+  const uri = new URI(options.url).directory('ipfs').filename(cid)
+
+  if (options.filename) {
+    uri.query({ filename: options.filename })
+  }
+
+  if (!isNil(options.download)) {
+    uri.query({ download: options.download ? 'true' : 'false' })
+  }
+
+  return uri
+}
+
+export function getGatewayURIS(cid: string, options: GatewayOptions = {}): URI[] {
+  return clone(gatewayURLS).map((url: string) => {
+    return getGatewayURI(cid, merge(options, { url }))
+  })
 }
