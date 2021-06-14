@@ -22,7 +22,7 @@
     "@oclif/plugin-help": "^3",
     "lodash": "^4.17.20",
     "ora": "^5.3.0",
-    "tslib": "^1"
+    "tslib": "^2"
   },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1",
