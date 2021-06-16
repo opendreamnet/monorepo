@@ -2488,9 +2488,8 @@ __metadata:
     "@dreamnet/eslint-config-dreamnet": "workspace:^1"
     "@giphy/js-fetch-api": ^2.4.0
     "@opendreamnet/app": "workspace:workspaces/app"
-    "@opendreamnet/ipfs": "workspace:workspaces/ipfs"
     "@types/content-disposition": ^0
-    "@types/lodash": 4.14.168
+    "@types/lodash": 4.14.151
     "@types/luxon": ^1
     "@types/mime": ^2
     "@types/pretty-bytes": ^5
@@ -2498,23 +2497,23 @@ __metadata:
     "@types/webtorrent": ^0
     axios: ^0.21.1
     cheerio: ^1.0.0-rc.5
-    cheerio-select-tmp: ^0.1.1
     content-disposition: ^0.5.3
-    eslint: ^7.24.0
-    is-ipfs: ^5.0.0
+    eslint: ^7.0.0
+    go-ipfs: ^0.8.0
+    ipfsd-ctl: ^7.2.0
+    is-ipfs: ^4.0.0
     isomorphic-fetch: ^3.0.0
-    lodash: ^4.17.21
+    lodash: ^4.17.15
     luxon: ^1.26.0
     mime: ^2.5.2
     pretty-bytes: ^5.6.0
     sanitize-filename: ^1.6.3
-    shx: ^0.3.3
+    shx: ^0.3.2
     simple-eta: ^3.0.2
-    speedometer: ^1.1.0
     ts-node: ^9.1.1
     typescript: ^3.9.9
     urijs: ^1.19.6
-    webtorrent: ^0.117.0
+    webtorrent: ^0.115.2
     ytdl-core: ^4.5.0
   languageName: unknown
   linkType: soft
@@ -4831,6 +4830,13 @@ __metadata:
   version: 3.0.2
   resolution: "@types/less@npm:3.0.2"
   checksum: 7a1d5794b85128b5fdc68b96efb31a7bf9dab9f5085e5d337c27c64a1ac3587c74e46e6d8073066181dfffda6454e7977c9e055649fcfe5def9a38458dda9565
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:4.14.151":
+  version: 4.14.151
+  resolution: "@types/lodash@npm:4.14.151"
+  checksum: cb283e957925dab794f85d4a8b2977022b6ac48870047db50ed42b5531efa1a6f835601f26f8a745c23148173a4d0679549ed5a54ed926c3de668e9c0382e22b
   languageName: node
   linkType: hard
 
@@ -7707,19 +7713,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cheerio-select-tmp@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "cheerio-select-tmp@npm:0.1.1"
-  dependencies:
-    css-select: ^3.1.2
-    css-what: ^4.0.0
-    domelementtype: ^2.1.0
-    domhandler: ^4.0.0
-    domutils: ^2.4.4
-  checksum: 6e9331f38749ac5a63aad4fd98baeac4cbd810600f1bcf5ed483034d800313c31a11d1227af672184487105a69dacf899752aa0902e5a9c94ee69e8d209d51f6
-  languageName: node
-  linkType: hard
-
 "cheerio-select@npm:^1.3.0":
   version: 1.4.0
   resolution: "cheerio-select@npm:1.4.0"
@@ -8888,19 +8881,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-select@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "css-select@npm:3.1.2"
-  dependencies:
-    boolbase: ^1.0.0
-    css-what: ^4.0.0
-    domhandler: ^4.0.0
-    domutils: ^2.4.3
-    nth-check: ^2.0.0
-  checksum: c06346140ea596220896980b8ce62e7dbc9fc4c902a0858d97ba933f538aecc96fed57967c15793faf76f2a6bab5385650d0a3637e07f498f75c39ce2c9764ab
-  languageName: node
-  linkType: hard
-
 "css-select@npm:^4.1.2":
   version: 4.1.2
   resolution: "css-select@npm:4.1.2"
@@ -8945,13 +8925,6 @@ __metadata:
   version: 3.4.2
   resolution: "css-what@npm:3.4.2"
   checksum: f9f258ad625f54485981aac75bed584984310fee33d3ba9a25fbb9e84d5abbf2a13ff8599fd0c13a76f96accc3dc6e569679bf84047fc6c0148268ca8248e008
-  languageName: node
-  linkType: hard
-
-"css-what@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "css-what@npm:4.0.0"
-  checksum: 2116d25ed233597bfe0b2fb50b56076f5dfc1665f602f8a367bbaa8d086ce91c188d92a47118fa0daf35118456b0a0e537241f89b34b4d98161d63da63740471
   languageName: node
   linkType: hard
 
@@ -9689,7 +9662,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domelementtype@npm:^2.0.1, domelementtype@npm:^2.1.0, domelementtype@npm:^2.2.0":
+"domelementtype@npm:^2.0.1, domelementtype@npm:^2.2.0":
   version: 2.2.0
   resolution: "domelementtype@npm:2.2.0"
   checksum: 70af22cd69a8e0c0cd4fbbba0459991aacb015f60765050b4a6d1750fd201b4bd4fd1e6922e945200f9cc725cd61be1cd393a3b9b576187759e3b046f33a4a30
@@ -9722,7 +9695,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domutils@npm:^2.4.3, domutils@npm:^2.4.4, domutils@npm:^2.5.2, domutils@npm:^2.6.0":
+"domutils@npm:^2.5.2, domutils@npm:^2.6.0":
   version: 2.6.0
   resolution: "domutils@npm:2.6.0"
   dependencies:
@@ -10695,6 +10668,55 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint@npm:^7.0.0, eslint@npm:^7.28.0":
+  version: 7.28.0
+  resolution: "eslint@npm:7.28.0"
+  dependencies:
+    "@babel/code-frame": 7.12.11
+    "@eslint/eslintrc": ^0.4.2
+    ajv: ^6.10.0
+    chalk: ^4.0.0
+    cross-spawn: ^7.0.2
+    debug: ^4.0.1
+    doctrine: ^3.0.0
+    enquirer: ^2.3.5
+    escape-string-regexp: ^4.0.0
+    eslint-scope: ^5.1.1
+    eslint-utils: ^2.1.0
+    eslint-visitor-keys: ^2.0.0
+    espree: ^7.3.1
+    esquery: ^1.4.0
+    esutils: ^2.0.2
+    fast-deep-equal: ^3.1.3
+    file-entry-cache: ^6.0.1
+    functional-red-black-tree: ^1.0.1
+    glob-parent: ^5.1.2
+    globals: ^13.6.0
+    ignore: ^4.0.6
+    import-fresh: ^3.0.0
+    imurmurhash: ^0.1.4
+    is-glob: ^4.0.0
+    js-yaml: ^3.13.1
+    json-stable-stringify-without-jsonify: ^1.0.1
+    levn: ^0.4.1
+    lodash.merge: ^4.6.2
+    minimatch: ^3.0.4
+    natural-compare: ^1.4.0
+    optionator: ^0.9.1
+    progress: ^2.0.0
+    regexpp: ^3.1.0
+    semver: ^7.2.1
+    strip-ansi: ^6.0.0
+    strip-json-comments: ^3.1.0
+    table: ^6.0.9
+    text-table: ^0.2.0
+    v8-compile-cache: ^2.0.3
+  bin:
+    eslint: bin/eslint.js
+  checksum: 9d49d53ed56a1f1ccba9c71482722a91f2423432df70a3694d36ea478f0e3bb058034f170219f34f3d6b5cd5d47510b269b75e2b4117f88a3241b1db9cb95828
+  languageName: node
+  linkType: hard
+
 "eslint@npm:^7.10.0, eslint@npm:^7.18.0, eslint@npm:^7.19.0, eslint@npm:^7.20.0, eslint@npm:^7.24.0":
   version: 7.24.0
   resolution: "eslint@npm:7.24.0"
@@ -10835,55 +10857,6 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: 08f99befd764fbd6ea811e9eec27d5c6b9dc9d1bbfe5ffa1016e4f1fe526a4f45ea127c4e30c554c423ee55eb290ce9af4fb7fedf9b7af3f84076a444c2bbdf6
-  languageName: node
-  linkType: hard
-
-"eslint@npm:^7.28.0":
-  version: 7.28.0
-  resolution: "eslint@npm:7.28.0"
-  dependencies:
-    "@babel/code-frame": 7.12.11
-    "@eslint/eslintrc": ^0.4.2
-    ajv: ^6.10.0
-    chalk: ^4.0.0
-    cross-spawn: ^7.0.2
-    debug: ^4.0.1
-    doctrine: ^3.0.0
-    enquirer: ^2.3.5
-    escape-string-regexp: ^4.0.0
-    eslint-scope: ^5.1.1
-    eslint-utils: ^2.1.0
-    eslint-visitor-keys: ^2.0.0
-    espree: ^7.3.1
-    esquery: ^1.4.0
-    esutils: ^2.0.2
-    fast-deep-equal: ^3.1.3
-    file-entry-cache: ^6.0.1
-    functional-red-black-tree: ^1.0.1
-    glob-parent: ^5.1.2
-    globals: ^13.6.0
-    ignore: ^4.0.6
-    import-fresh: ^3.0.0
-    imurmurhash: ^0.1.4
-    is-glob: ^4.0.0
-    js-yaml: ^3.13.1
-    json-stable-stringify-without-jsonify: ^1.0.1
-    levn: ^0.4.1
-    lodash.merge: ^4.6.2
-    minimatch: ^3.0.4
-    natural-compare: ^1.4.0
-    optionator: ^0.9.1
-    progress: ^2.0.0
-    regexpp: ^3.1.0
-    semver: ^7.2.1
-    strip-ansi: ^6.0.0
-    strip-json-comments: ^3.1.0
-    table: ^6.0.9
-    text-table: ^0.2.0
-    v8-compile-cache: ^2.0.3
-  bin:
-    eslint: bin/eslint.js
-  checksum: 9d49d53ed56a1f1ccba9c71482722a91f2423432df70a3694d36ea478f0e3bb058034f170219f34f3d6b5cd5d47510b269b75e2b4117f88a3241b1db9cb95828
   languageName: node
   linkType: hard
 
@@ -13716,6 +13689,30 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"ipfs-utils@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "ipfs-utils@npm:5.0.1"
+  dependencies:
+    abort-controller: ^3.0.0
+    any-signal: ^2.1.0
+    buffer: ^6.0.1
+    electron-fetch: ^1.7.2
+    err-code: ^2.0.0
+    fs-extra: ^9.0.1
+    is-electron: ^2.2.0
+    iso-url: ^1.0.0
+    it-glob: 0.0.10
+    it-to-stream: ^0.1.2
+    merge-options: ^2.0.0
+    nanoid: ^3.1.3
+    native-abort-controller: 0.0.3
+    native-fetch: ^2.0.0
+    node-fetch: ^2.6.0
+    stream-to-it: ^0.2.0
+  checksum: 353a5732700dbe62de778898613f944b2a7489f06cbd116547ef6bfa4c3dbc9b093288d1dfcf66c1b00862f72bc730affcd9c79de44ce60e13d3675879e1f211
+  languageName: node
+  linkType: hard
+
 "ipfs-utils@npm:^6.0.6":
   version: 6.0.8
   resolution: "ipfs-utils@npm:6.0.8"
@@ -13774,6 +13771,31 @@ fsevents@~2.3.1:
   bin:
     jsipfs: src/cli.js
   checksum: 387ae6f73efa4b32488930f059fb2a9ef47d82c9437a7136078025a9f2495fb3f62d2da4695fc6c5f3a68a9a6fa2de4b3cefcb79031c695fc30cfb3c7eff16ee
+  languageName: node
+  linkType: hard
+
+"ipfsd-ctl@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "ipfsd-ctl@npm:7.2.0"
+  dependencies:
+    "@hapi/boom": ^9.1.0
+    "@hapi/hapi": ^20.0.0
+    debug: ^4.1.1
+    execa: ^5.0.0
+    fs-extra: ^9.0.0
+    ipfs-utils: ^5.0.1
+    joi: ^17.2.1
+    merge-options: ^3.0.1
+    multiaddr: ^8.0.0
+    nanoid: ^3.1.3
+    p-wait-for: ^3.1.0
+    temp-write: ^4.0.0
+  peerDependencies:
+    go-ipfs: "*"
+    ipfs: "*"
+    ipfs-client: "*"
+    ipfs-http-client: "*"
+  checksum: 215e2fc4f238fa7225068d7e57ccb058a322cd13e45c417961e8078e87a6fff4eb6b0736017c8a5ecdf7ecc3e0c40b59bb8f9129a8c4603e568f809ce7779003
   languageName: node
   linkType: hard
 
@@ -14245,6 +14267,21 @@ fsevents@~2.3.1:
   dependencies:
     ip-regex: ^4.0.0
   checksum: 9929f2f33d46f85f1c603d360796e2ce97ac718ffa95611412c1959b59b839a8e7c8aa35e495812c9061ff3a23cab8a818ec54064fa2428c46f86d11114b289f
+  languageName: node
+  linkType: hard
+
+"is-ipfs@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "is-ipfs@npm:4.0.0"
+  dependencies:
+    cids: ^1.1.6
+    iso-url: ^1.1.3
+    mafmt: ^8.0.4
+    multiaddr: ^8.1.2
+    multibase: ^4.0.2
+    multihashes: ^4.0.2
+    uint8arrays: ^2.1.3
+  checksum: 460f388ed54b1b74ec0537afc13ba60b8252c04016771b68ca0f3125b5e568d594b7b86b14a82ead9c27954096541374bf758c0692ac2fa9e3be6d57a0561cfa
   languageName: node
   linkType: hard
 
@@ -14820,6 +14857,16 @@ fsevents@~2.3.1:
   version: 1.0.6
   resolution: "it-first@npm:1.0.6"
   checksum: 42cfe79ef6ad4e1501fab168dc95e22d60e8b4004c7fafddbce0c88da4f18c09fdbdc4f84a8e36e5a74fa34fc97ca5885e15bc7f0d5fbd51e11703252b828b9d
+  languageName: node
+  linkType: hard
+
+"it-glob@npm:0.0.10":
+  version: 0.0.10
+  resolution: "it-glob@npm:0.0.10"
+  dependencies:
+    fs-extra: ^9.0.1
+    minimatch: ^3.0.4
+  checksum: 51037ce423c47711e89e7b5afdbca46c98abfb23c578bfcc5e554964f0e6a9c88854bfed22b169b035af6c0af74b767958257eb900198ca53463114e8d2076a1
   languageName: node
   linkType: hard
 
@@ -16762,16 +16809,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"lt_donthave@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "lt_donthave@npm:1.0.1"
-  dependencies:
-    debug: ^4.2.0
-    unordered-array-remove: ^1.0.2
-  checksum: f593c70d3de965ea411457e7ba29db1876c8a933cb218b9e92f5a6dea5b7a3f93265953ebb8f8ff8bb6d78a9dc6ac1ba1e8146121257a15b1ab3df4ac2bcf776
-  languageName: node
-  linkType: hard
-
 "ltgt@npm:^2.1.2":
   version: 2.2.1
   resolution: "ltgt@npm:2.2.1"
@@ -16793,6 +16830,15 @@ fsevents@~2.3.1:
     miniget: ^4.0.0
     sax: ^1.2.4
   checksum: 91704b87482705af70a924bd9a3bbafb698a7f9180493c2802c23a465789337b72b96ade3e56076f1b72a7516b9af111fd7233314a7410ce54e51d5574ead77c
+  languageName: node
+  linkType: hard
+
+"mafmt@npm:^8.0.4":
+  version: 8.0.4
+  resolution: "mafmt@npm:8.0.4"
+  dependencies:
+    multiaddr: ^8.0.0
+  checksum: 83ebb607965f5dd88c6317ca0c24f136b77e236d36e196ca365f4576b18d8a53f320a5c2edb7dc7605be52bbc993b7d49bff826147e15f12f9ce2414ac432cb1
   languageName: node
   linkType: hard
 
@@ -17822,6 +17868,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"native-abort-controller@npm:0.0.3":
+  version: 0.0.3
+  resolution: "native-abort-controller@npm:0.0.3"
+  dependencies:
+    globalthis: ^1.0.1
+  peerDependencies:
+    abort-controller: "*"
+  checksum: eea1cda38899722dbc0e06c130fbfe547805390bcd255b6a20aac3c4b629359740eb67f9b2c5640d36093af5f6dd0bfaeb6d4e13a0e64c0f12e83e5c0f263945
+  languageName: node
+  linkType: hard
+
 "native-abort-controller@npm:^1.0.3":
   version: 1.0.3
   resolution: "native-abort-controller@npm:1.0.3"
@@ -17831,7 +17888,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"native-fetch@npm:^2.0.1":
+"native-fetch@npm:^2.0.0, native-fetch@npm:^2.0.1":
   version: 2.0.1
   resolution: "native-fetch@npm:2.0.1"
   dependencies:
@@ -21921,7 +21978,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"shx@npm:^0.3.3":
+"shx@npm:^0.3.2, shx@npm:^0.3.3":
   version: 0.3.3
   resolution: "shx@npm:0.3.3"
   dependencies:
@@ -24636,9 +24693,9 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"webtorrent@npm:^0.117.0":
-  version: 0.117.0
-  resolution: "webtorrent@npm:0.117.0"
+"webtorrent@npm:^0.115.2":
+  version: 0.115.4
+  resolution: "webtorrent@npm:0.115.4"
   dependencies:
     addr-to-ip-port: ^1.5.1
     bitfield: ^4.0.0
@@ -24655,7 +24712,6 @@ typescript@~4.2:
     http-node: "github:feross/http-node#webtorrent"
     immediate-chunk-store: ^2.1.1
     load-ip-set: ^2.1.2
-    lt_donthave: ^1.0.1
     memory-chunk-store: ^1.3.1
     mime: ^2.5.0
     multistream: ^4.1.0
@@ -24684,7 +24740,7 @@ typescript@~4.2:
     ut_metadata: ^3.5.2
     ut_pex: ^2.0.1
     utp-native: ^2.3.0
-  checksum: 4576e99f7ceb51766f5c81c8d3a48e457f74aca4b394ec30c6546b45ee1aa21d3dea940cb4e5af8241f5289a5abfdfc793c4b2779b0568dac4a545931c46ea61
+  checksum: 963ab215b80655295692b1013666636b3ed9b7ff5726c28102ae490313bdac51345d2402d81efdbba8fbd37512c6c565a75c2bb8e1d68ed0b1f1c8ff7052f764
   languageName: node
   linkType: hard
 

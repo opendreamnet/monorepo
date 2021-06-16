@@ -19,8 +19,8 @@
   },
   "standard-version": {
     "path": ".",
-    "tag-prefix": "nuxtjs-v",
-    "releaseCommitMessageFormat": "chore(release): nuxtjs@{{currentTag}}"
+    "tag-prefix": "nuxtjs-base-v",
+    "releaseCommitMessageFormat": "chore(release): nuxtjs-base@{{currentTag}}"
   },
   "author": {
     "name": "Ivan Bravo Bravo",

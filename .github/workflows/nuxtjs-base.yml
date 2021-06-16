@@ -3,12 +3,8 @@ name: "@opendreamnet/nuxtjs-base"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/nuxtjs-base/**.js
-      - workspaces/nuxtjs-base/**.ts
-      - workspaces/nuxtjs-base/**.vue
-    branches:
-      - master
+    tags:
+      - nuxtjs-base-v*
 
 env:
   WORK_DIR: workspaces/nuxtjs-base
@@ -49,10 +45,6 @@ jobs:
       - name: ✍️ Lint
         working-directory: ${{ env.WORK_DIR }}
         run: yarn run lint
-
-      - name: ✨ Release
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn run release
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
