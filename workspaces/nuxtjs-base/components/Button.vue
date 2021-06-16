@@ -48,7 +48,7 @@ export default Vue.extend({
 
   &[disabled],
   &.button--disabled {
-    @apply opacity-50 cursor-not-allowed;
+    @apply opacity-50 cursor-not-allowed pointer-events-none;
   }
 
   &.button--active,
@@ -104,9 +104,11 @@ export default Vue.extend({
     @apply bg-button-light shadow-lg;
   }
 
+  /*
   &:focus {
     @apply bg-black;
   }
+  */
 
   /* Primary */
 
