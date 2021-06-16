@@ -16,8 +16,8 @@ select.input {
 }
 
 .input {
-  @apply border border-input-dark bg-input shadow-sm text-snow-light;
-  @apply p-2 rounded w-full;
+  @apply border border-input-light bg-input shadow-sm text-snow-light;
+  @apply p-2 w-full;
   @include transition('color, box-shadow');
   outline: none !important;
 
@@ -43,7 +43,19 @@ select.input {
     @apply opacity-75 cursor-not-allowed;
   }
 
+  &.input--xs {
+    @apply text-xs p-1;
+  }
+
   &.input--sm {
-    @apply text-sm;
+    @apply text-sm p-1;
+  }
+
+  &.input--lg {
+    @apply text-sm p-3;
+  }
+
+  &.input--xl {
+    @apply text-sm p-3;
   }
 }
