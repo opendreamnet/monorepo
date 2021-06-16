@@ -82,7 +82,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .box {
   @apply flex flex-col;
-  @apply bg-menus shadow rounded;
+  @apply bg-menus shadow-lg rounded;
 
   .box__header {
     @apply px-6 py-3 bg-menus-dark rounded-tr rounded-tl;
