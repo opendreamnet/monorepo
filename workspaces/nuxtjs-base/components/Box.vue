@@ -88,11 +88,11 @@ export default Vue.extend({
     @apply px-6 py-3 bg-menus-dark rounded-tr rounded-tl;
 
     .title {
-      @apply font-semibold text-lg text-snow-lighter space-x-2;
+      @apply font-semibold text-snow-lighter space-x-2;
     }
 
     .subtitle {
-      @apply font-light text-snow-light;
+      @apply text-sm font-light;
     }
   }
 
@@ -108,12 +108,6 @@ export default Vue.extend({
 
   .box__body {
     @apply flex-1 p-6 leading-relaxed;
-
-    &::v-deep {
-      p:not(:last-child) {
-        @apply mb-3;
-      }
-    }
   }
 
   .box__footer {
