@@ -3,11 +3,8 @@ name: "@dreamnet/downloader"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/downloader/**.js
-      - workspaces/downloader/**.ts
-    branches:
-      - master
+    tags:
+      - downloader-v*
 
 env:
   WORK_DIR: workspaces/downloader

@@ -3,11 +3,8 @@ name: "@dreamnet/queue"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/queue/**.js
-      - workspaces/queue/**.ts
-    branches:
-      - master
+    tags:
+      - queue-v*
 
 env:
   WORK_DIR: workspaces/queue

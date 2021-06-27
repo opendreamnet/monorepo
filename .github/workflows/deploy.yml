@@ -3,11 +3,8 @@ name: "@dreamnet/deploy"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/deploy/**.js
-      - workspaces/deploy/**.ts
-    branches:
-      - master
+    tags:
+      - deploy-v*
   
 env:
   WORK_DIR: workspaces/deploy

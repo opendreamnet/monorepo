@@ -3,11 +3,8 @@ name: "@dreamnet/readableid"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/readableid/**.js
-      - workspaces/readableid/**.ts
-    branches:
-      - master
+    tags:
+      - readableid-v*
   
 env:
   WORK_DIR: workspaces/readableid

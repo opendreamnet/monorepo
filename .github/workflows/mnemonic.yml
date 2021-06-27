@@ -3,11 +3,8 @@ name: "@dreamnet/mnemonic"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/mnemonic/**.js
-      - workspaces/mnemonic/**.ts
-    branches:
-      - master
+    tags:
+      - mnemonic-v*
 
 env:
   WORK_DIR: workspaces/mnemonic

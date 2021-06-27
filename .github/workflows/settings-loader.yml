@@ -2,11 +2,8 @@ name: "@dreamnet/settings-loader"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/settings-loader/**.js
-      - workspaces/settings-loader/**.ts
-    branches:
-      - master
+    tags:
+      - settings-loader-v*
 
 env:
   WORK_DIR: workspaces/settings-loader

@@ -3,11 +3,8 @@ name: "@opendreamnet/app"
 on:
   workflow_dispatch:
   push:
-    paths:
-      - workspaces/app/**.js
-      - workspaces/app/**.ts
-    branches:
-      - master
+    tags:
+      - app-v*
 
 env:
   WORK_DIR: workspaces/app
