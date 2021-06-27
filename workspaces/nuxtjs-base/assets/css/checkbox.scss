@@ -5,23 +5,29 @@ input[type="checkbox"] {
 }
 
 .checkbox {
+  @apply flex-shrink-0;
+  width: $checkbox-size;
+  height: $checkbox-size;
+
   input[type="checkbox"] {
-    @apply opacity-0 pointer-events-none absolute;
+    @apply opacity-0 pointer-events-none absolute w-0 h-0;
   }
 
   input[type="checkbox"] + label {
-    @apply inline-block;
+    @apply inline-block rounded border-2 border-transparent;
+    @apply relative;
     width: $checkbox-size;
     height: $checkbox-size;
   }
 
   input[type="checkbox"] + label::before {
     @apply inline-block rounded border-2 border-transparent bg-input;
-    @include transition("border-color, shadow");
+    @apply absolute transition-all;
     content: "";
-    vertical-align: bottom;
     width: $checkbox-size;
     height: $checkbox-size;
+    top: -2px;
+    left: -2px;
   }
 
   input[type="checkbox"]:hover + label::before {
