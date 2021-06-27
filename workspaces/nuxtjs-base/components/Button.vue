@@ -1,5 +1,7 @@
 <template>
-  <component :is="el" class="button" :class="css" v-bind="$attrs" v-on="$listeners">
+  <component
+    :is="el" class="button" :class="css"
+    v-bind="$attrs" v-on="$listeners">
     <slot />
   </component>
 </template>
@@ -35,7 +37,7 @@ export default Vue.extend({
   @apply px-5 text-sm text-snow-lighter rounded font-semibold uppercase tracking-wide;
   @apply outline-none #{!important};
   @include transition('background-color, color, box-shadow');
-  height: 40px;
+  height: $input-height;
   min-width: 64px;
 
   &::v-deep {
@@ -77,22 +79,22 @@ export default Vue.extend({
 
   &.button--xs {
     @apply text-xs;
-    height: 30px;
+    height: $input-xs-height;
   }
 
   &.button--sm {
     @apply text-sm;
-    height: 35px;
+    height: $input-sm-height;
   }
 
   &.button--lg {
-    @apply px-6 text-lg;
-    height: 45px;
+    @apply text-lg;
+    height: $input-lg-height;
   }
 
   &.button--xl {
-    @apply px-6 text-xl;
-    height: 50px;
+    @apply text-xl;
+    height: $input-xl-height;
   }
 
   /* Default theme */
