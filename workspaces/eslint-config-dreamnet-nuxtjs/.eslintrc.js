@@ -24,6 +24,19 @@ module.exports = {
         '@typescript-eslint/explicit-member-accessibility': ['error'],
         '@typescript-eslint/space-before-function-paren': ['error', 'never'],
 
+        'vue/html-closing-bracket-newline': ['warn', {
+          'singleline': 'never',
+          'multiline': 'never'
+        }],
+        'vue/max-attributes-per-line': ['warn', {
+          'singleline': {
+            'max': 3
+          },
+          'multiline': {
+            'max': 3
+          }
+        }],
+
         quotes: 'off',
         semi: 'off',
         'space-before-function-paren': 'off',
