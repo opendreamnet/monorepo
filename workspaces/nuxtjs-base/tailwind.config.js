@@ -39,6 +39,12 @@ const theme = {
     yellow: '#EBCB8B', // warnings
     green: '#A3BE8C', // success
     pink: '#B48EAD' // rarely used for UI elements
+  },
+
+  primary: {
+    light: '#a1abe8',
+    DEFAULT: '#7887de',
+    dark: '#4f63d4'
   }
 }
 
@@ -68,11 +74,7 @@ module.exports = {
 
         background: darken(theme.night.darker),
 
-        primary: {
-          light: '#a1abe8',
-          DEFAULT: '#7887de',
-          dark: '#4f63d4'
-        },
+        primary: theme.primary,
         menus: {
           light: lighten(theme.night.darker, 3),
           DEFAULT: theme.night.darker,
@@ -108,7 +110,76 @@ module.exports = {
           DEFAULT: theme.frost.blue,
           dark: darken(theme.frost.blue)
         }
-      }
+      },
+
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.snow.DEFAULT'),
+            '[class~="lead"]': {
+              color: theme('colors.snow.light')
+            },
+            a: {
+              color: theme('colors.primary.DEFAULT'),
+              '&:hover': {
+                color: theme('colors.primary.light')
+              }
+            },
+            strong: {
+              color: theme('colors.snow.light')
+            },
+            'ol > li::before': {
+              color: theme('colors.snow.DEFAULT')
+            },
+            'ul > li::before': {
+              backgroundColor: theme('colors.snow.lighter')
+            },
+            hr: {
+              borderColor: theme('colors.menus.light')
+            },
+            blockquote: {
+              color: theme('colors.snow.darker'),
+              borderLeftColor: theme('colors.snow.lighter')
+            },
+            h1: {
+              color: theme('colors.snow.lighter')
+            },
+            h2: {
+              color: theme('colors.snow.lighter')
+            },
+            h3: {
+              color: theme('colors.snow.lighter')
+            },
+            h4: {
+              color: theme('colors.snow.lighter')
+            },
+            'figure figcaption': {
+              color: theme('colors.snow.DEFAULT')
+            },
+            code: {
+              color: theme('colors.snow.DEFAULT'),
+              backgroundColor: '#444950',
+              paddingLeft: '0.25rem',
+              paddingRight: '0.25rem',
+              borderRadius: '0.25rem'
+            },
+            'code::before': {
+              content: 'none'
+            },
+            'code::after': {
+              content: 'none'
+            },
+            'a code': {
+              color: theme('colors.snow.darker')
+            },
+            pre: {
+              color: theme('colors.snow.DEFAULT'),
+              backgroundColor: theme('colors.black'),
+              maxHeight: '400px'
+            }
+          }
+        }
+      })
     }
   },
   variants: {},
