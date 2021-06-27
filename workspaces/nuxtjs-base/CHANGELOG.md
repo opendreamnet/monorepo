@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.1.0...nuxtjs-base-v1.1.1) (2021-06-27)
+
+
+### Bug Fixes
+
+* **nuxtjs-base:** changed min-width to width of dialogs for mobile devices. ([303a8a3](https://github.com/dreamnettech/monorepo/commit/303a8a3ed3c230ba914769c6046514f8ec6c1072))
+
 ## [1.1.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.0.3...nuxtjs-base-v1.1.0) (2021-06-27)
 
 
