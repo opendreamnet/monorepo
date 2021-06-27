@@ -62,6 +62,11 @@ exports.setNuxtConfig = (config) => {
     modules: [
     ],
 
+    // https://github.com/nuxt-community/style-resources-module
+    styleResources: {
+      scss: '@opendreamnet/nuxtjs-base/assets/css/functions.scss'
+    },
+
     // PWA module configuration: https://go.nuxtjs.dev/pwa
     pwa: {
       meta: {
