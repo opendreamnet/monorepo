@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.0.3...nuxtjs-base-v1.1.0) (2021-06-27)
+
+
+### Features
+
+* **nuxtjs-base:** input and button improvements ([5a4ae71](https://github.com/dreamnettech/monorepo/commit/5a4ae719e90d0591195573ccf4f8ba52ee7a002d))
+
+
+### Bug Fixes
+
+* **nuxtjs-base:** added styleResources ([9843d7b](https://github.com/dreamnettech/monorepo/commit/9843d7bc30fc85ffe1b91acb364cb78bec1ba1b0))
+* **nuxtjs-base:** added styling for @tailwindcss/typography ([b17c37a](https://github.com/dreamnettech/monorepo/commit/b17c37a7c999d1228d55989ef3ace549a6542e8d))
+* **nuxtjs-base:** adjustments to dialogues and other elements ([3f72c5e](https://github.com/dreamnettech/monorepo/commit/3f72c5e0be729c01a28d6d20eca18568e809211b))
+* **nuxtjs-base:** adjustments to the box ([8bcf69d](https://github.com/dreamnettech/monorepo/commit/8bcf69d68c83edcf2c0ada4e8f77e31f2fd58055))
+* **nuxtjs-base:** small adjustments to the checkbox ([7661f7f](https://github.com/dreamnettech/monorepo/commit/7661f7fe75860ffc9bb7be928a36cae3386e298d))
+
 ### 1.0.3 (2021-06-16)
 
 
