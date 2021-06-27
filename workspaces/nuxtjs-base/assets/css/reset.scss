@@ -13,7 +13,7 @@ hr {
 dialog {
   @apply bg-transparent p-0 text-snow;
   max-width: 95vw;
-  min-width: 65ch;
+  width: 65ch;
 }
 
 dialog::backdrop {
