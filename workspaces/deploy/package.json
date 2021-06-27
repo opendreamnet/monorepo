@@ -16,8 +16,8 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@dreamnet/app": "workspace:^1.1.1",
     "@octokit/rest": "^18.1.0",
+    "@opendreamnet/app": "workspace:^1.1.1",
     "axios": "^0.21.1",
     "cids": "^1.1.5",
     "cloudflare": "^2.7.0",
