@@ -1,6 +1,6 @@
 {
   "name": "@dreamnet/eslint-config-dreamnet-nuxtjs",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "ESLint config for DreamNet projects in NuxtJS.",
   "license": "MIT",
   "main": "index.js",
