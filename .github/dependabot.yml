@@ -6,11 +6,7 @@ updates:
   schedule:
     interval: daily
     time: '00:00'
-  open-pull-requests-limit: 10
-  reviewers:
-    - kolessios
-  assignees:
-    - kolessios
+  open-pull-requests-limit: 3
   commit-message:
     prefix: fix
     prefix-development: chore
@@ -21,11 +17,7 @@ updates:
   schedule:
     interval: daily
     time: '00:00'
-  open-pull-requests-limit: 10
-  reviewers:
-    - kolessios
-  assignees:
-    - kolessios
+  open-pull-requests-limit: 3
   commit-message:
     prefix: fix
     prefix-development: chore
