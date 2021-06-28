@@ -12,18 +12,18 @@ function darken(col, amount = 5) {
 //
 const theme = {
   night: {
-    light: '#4C566A', // UI elements like indent- and wrap guide marker
-    DEFAULT: '#434C5E', // selection- and text highlighting color
-    dark: '#3B4252', // elevated, more prominent or focused UI elements
-    darker: '#2E3440' // elements background
+    light: '#4C566A', // nord3: UI elements like indent- and wrap guide marker
+    DEFAULT: '#434C5E', // nord2: selection- and text highlighting color
+    dark: '#3B4252', // nord1: elevated, more prominent or focused UI elements
+    darker: '#2E3440' // nord0: elements background
   },
 
   snow: {
-    darker: darken('#b2b2b2', 20),
-    dark: darken('#b2b2b2', 10),
-    DEFAULT: '#b2b2b2',
-    light: lighten('#b2b2b2', 10),
-    lighter: lighten('#b2b2b2', 20)
+    darker: darken('#D8DEE9', 20),
+    dark: darken('#D8DEE9', 10),
+    DEFAULT: '#D8DEE9',
+    light: '#E5E9F0',
+    lighter: '#ECEFF4'
   },
 
   frost: {
@@ -71,10 +71,9 @@ module.exports = {
         snow: theme.snow,
         frost: theme.frost,
         aurora: theme.aurora,
-
-        background: darken(theme.night.darker),
-
         primary: theme.primary,
+        background: '#242933',
+
         menus: {
           light: lighten(theme.night.darker, 3),
           DEFAULT: theme.night.darker,

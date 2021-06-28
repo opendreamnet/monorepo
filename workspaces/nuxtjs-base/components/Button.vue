@@ -34,11 +34,10 @@ export default Vue.extend({
 
 .button {
   @apply inline-flex items-center justify-center relative;
-  @apply px-5 text-sm text-snow-lighter rounded font-semibold uppercase tracking-wide;
+  @apply px-5 text-sm text-snow-lighter rounded-3xl font-semibold uppercase tracking-wide;
   @apply outline-none #{!important};
   @include transition('background-color, color, box-shadow');
   height: $input-height;
-  min-width: 64px;
 
   &::v-deep {
     .icon {
@@ -201,11 +200,11 @@ export default Vue.extend({
     @apply rounded-none;
 
     &:first-child {
-      @apply rounded-l;
+      @apply rounded-l-full;
     }
 
     &:last-child {
-      @apply rounded-r;
+      @apply rounded-r-full;
     }
   }
 }

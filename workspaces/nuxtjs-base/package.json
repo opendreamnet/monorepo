@@ -20,7 +20,45 @@
   "standard-version": {
     "path": ".",
     "tag-prefix": "nuxtjs-base-v",
-    "releaseCommitMessageFormat": "chore(release): nuxtjs-base@{{currentTag}}"
+    "releaseCommitMessageFormat": "chore(release): nuxtjs-base@{{currentTag}}",
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "improvement",
+        "section": "Improvements"
+      },
+      {
+        "type": "docs",
+        "section": "Others"
+      },
+      {
+        "type": "style",
+        "section": "Design"
+      },
+      {
+        "type": "refactor",
+        "section": "Others"
+      },
+      {
+        "type": "perf",
+        "section": "Improvements"
+      },
+      {
+        "type": "test",
+        "hidden": true
+      },
+      {
+        "type": "chore",
+        "section": "Others"
+      }
+    ]
   },
   "author": {
     "name": "Ivan Bravo Bravo",
