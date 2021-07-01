@@ -1,7 +1,10 @@
 <template>
   <component
-    :is="el" class="button" :class="css"
-    v-bind="$attrs" v-on="$listeners">
+    :is="el"
+    class="button"
+    :class="css"
+    v-bind="$attrs"
+    v-on="$listeners">
     <slot />
   </component>
 </template>
