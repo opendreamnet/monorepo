@@ -29,13 +29,13 @@ module.exports = {
           'multiline': 'never'
         }],
         'vue/max-attributes-per-line': ['warn', {
-          'singleline': {
-            'max': 3,
-            'allowFirstLine': true
+          singleline: {
+            max: 3,
+            allowFirstLine: true
           },
-          'multiline': {
-            'max': 1,
-            'allowFirstLine': true
+          multiline: {
+            max: 1,
+            allowFirstLine: true
           }
         }],
 
