@@ -30,10 +30,12 @@ module.exports = {
         }],
         'vue/max-attributes-per-line': ['warn', {
           'singleline': {
-            'max': 3
+            'max': 3,
+            'allowFirstLine': true
           },
           'multiline': {
-            'max': 3
+            'max': 1,
+            'allowFirstLine': true
           }
         }],
 
