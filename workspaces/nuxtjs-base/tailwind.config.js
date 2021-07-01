@@ -186,11 +186,12 @@ module.exports = {
   purge: {
     // https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
     content: [
-      './components/**/*.{vue,js}',
-      './layouts/**/*.vue',
-      './pages/**/*.vue',
-      './plugins/**/*.{js,ts}',
-      './nuxt.config.{js,ts}'
+      'components/**/*.vue',
+      'layouts/**/*.vue',
+      'pages/**/*.vue',
+      'plugins/**/*.ts',
+      'nuxt.config.js',
+      'nuxt.config.ts'
     ]
   }
 }
