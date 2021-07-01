@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.1.2...nuxtjs-base-v1.1.3) (2021-07-01)
+
+
+### Bug Fixes
+
+* **nuxtjs-base:** possible fix for nuxt-community/tailwindcss-module[#359](https://github.com/nuxt-community/tailwindcss-module/issues/359) ([b0f6525](https://github.com/dreamnettech/monorepo/commit/b0f6525158b88f0b3b8f0dcd04e9316e8af60000))
+
 ### [1.1.2](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.1.1...nuxtjs-base-v1.1.2) (2021-06-28)
 
 
