@@ -55,11 +55,6 @@ export default Vue.extend({
     @apply opacity-50 cursor-not-allowed pointer-events-none;
   }
 
-  &.button--active,
-  &.nuxt-link-exact-active {
-    @apply bg-primary;
-  }
-
   &.button--loading {
     @apply text-transparent pointer-events-none #{!important};
     text-shadow: none !important;
