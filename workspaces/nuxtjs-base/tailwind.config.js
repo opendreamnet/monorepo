@@ -75,9 +75,11 @@ module.exports = {
         background: '#242933',
 
         menus: {
+          lighten: lighten(theme.night.darker, 6),
           light: lighten(theme.night.darker, 3),
           DEFAULT: theme.night.darker,
-          dark: darken(theme.night.darker, 3)
+          dark: darken(theme.night.darker, 3),
+          darker: darken(theme.night.darker, 6)
         },
         input: {
           light: lighten(theme.night.dark),
