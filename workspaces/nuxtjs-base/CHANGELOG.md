@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.1.3...nuxtjs-base-v1.2.0) (2021-07-05)
+
+
+### Features
+
+* added "lighten" and "darken" options to "menus". ([cea8a0f](https://github.com/dreamnettech/monorepo/commit/cea8a0ff7b73f58662145dd2e316cba7c9161993))
+
+
+### Bug Fixes
+
+* removed "button--active" style in button. ([14d857c](https://github.com/dreamnettech/monorepo/commit/14d857c3063d013a0c562c97aaeba253413f2934))
+
 ### [1.1.3](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.1.2...nuxtjs-base-v1.1.3) (2021-07-01)
 
 
