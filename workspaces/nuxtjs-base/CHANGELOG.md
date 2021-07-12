@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.2.0...nuxtjs-base-v1.3.0) (2021-07-12)
+
+
+### Features
+
+* small improvements to colors. jit mode removed. ([0e2b57c](https://github.com/dreamnettech/monorepo/commit/0e2b57ced2e9df46bd6acc5da3074d69bcdbfd42))
+* small input improvements. added border and rounding. ([332ec4b](https://github.com/dreamnettech/monorepo/commit/332ec4b26b5276f091c9cda867ea3ce016d27610))
+
+
+### Bug Fixes
+
+* tooltips not visible when inside a <dialog> ([b88eb08](https://github.com/dreamnettech/monorepo/commit/b88eb08aab9d82810f4c59e8be3e7be77300ca81))
+
+
+### Others
+
+* transition-all for button. ([7231bf0](https://github.com/dreamnettech/monorepo/commit/7231bf066fd1f4ca7616f7feaf4925f60b21616c))
+
+
+### Improvements
+
+* small box improvements, added padding modifiers. ([20071db](https://github.com/dreamnettech/monorepo/commit/20071db0cdf17329008864cfe4f1a90efae343ed))
+
 ## [1.2.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.1.3...nuxtjs-base-v1.2.0) (2021-07-05)
 
 
