@@ -33,13 +33,15 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@keyframes spinAround{from{transform:rotate(0)}to{transform:rotate(359deg)}}
+@keyframes spinAround{
+  from{transform:rotate(0)}
+  to{transform:rotate(359deg)}
+}
 
 .button {
-  @apply inline-flex items-center justify-center relative;
+  @apply inline-flex items-center justify-center relative transition-all;
   @apply px-5 text-sm text-snow-lighter rounded-3xl font-semibold uppercase tracking-wide;
   @apply outline-none #{!important};
-  @include transition('background-color, color, box-shadow');
   height: $input-height;
 
   &::v-deep {
