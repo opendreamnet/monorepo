@@ -84,8 +84,54 @@ export default Vue.extend({
   @apply flex flex-col;
   @apply bg-menus shadow-lg rounded;
 
+  &:not(.box--header--p0) {
+    .box__header {
+      @apply px-9 py-4;
+    }
+  }
+
+  &:not(.box--body--p0) {
+    .box__body {
+      @apply p-9;
+    }
+  }
+
+  &:not(.box--footer--p0) {
+    .box__footer {
+      @apply px-9 py-4;
+    }
+  }
+
+  &.box--xs {
+    .box__header {
+      @apply px-3 py-2;
+    }
+
+    .box__body {
+      @apply p-3;
+    }
+
+    .box__footer {
+      @apply px-3 py-2;
+    }
+  }
+
+  &.box--sm {
+    .box__header {
+      @apply px-6 py-2;
+    }
+
+    .box__body {
+      @apply p-6;
+    }
+
+    .box__footer {
+      @apply px-6 py-2;
+    }
+  }
+
   .box__header {
-    @apply px-6 py-3 bg-menus-dark rounded-tr rounded-tl;
+    @apply bg-menus-dark rounded-tr rounded-tl;
 
     .title {
       @apply font-bold text-snow-lighter space-x-2;
@@ -107,16 +153,11 @@ export default Vue.extend({
   }
 
   .box__body {
-    @apply flex-1 p-6;
+    @apply flex-1;
   }
 
   .box__footer {
-    @apply px-6 py-3;
-    @apply border-t border-menus-light;
-  }
-
-  .box__buttons {
-
+    @apply border-t border-menus-lighten;
   }
 }
 </style>
