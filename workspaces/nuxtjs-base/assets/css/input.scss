@@ -8,7 +8,8 @@ select.input {
 }
 
 .input {
-  @apply bg-input shadow-sm text-snow-light transition-all;
+  @apply bg-input shadow-sm text-snow-light rounded transition-all;
+  @apply border border-input-dark;
   @apply py-2 px-4 w-full;
   @apply outline-none #{!important};
   height: $input-height;
