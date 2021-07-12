@@ -14,6 +14,7 @@ import { is } from '@opendreamnet/app'
 import { Link, Time } from '../types/ipfs'
 import { DownloadOptions, Record } from './record'
 import { getGatewayURI, getGatewayURIS, GatewayOptions } from './utils'
+import { IPFS } from './ipfs'
 
 function changeName(linkpath: string, value: string): string {
   const name = path.basename(linkpath)
@@ -80,7 +81,7 @@ export class File extends EventEmitter {
   }
 
   /**
-   * File CID.
+   * File mode.
    *
    * @readonly
    */
@@ -89,7 +90,7 @@ export class File extends EventEmitter {
   }
 
   /**
-   * File CID.
+   * Modification time.
    *
    * @readonly
    */
@@ -98,13 +99,21 @@ export class File extends EventEmitter {
   }
 
   /**
+   * IPFS node.
+   *
+   * @readonly
+   */
+  public get ipfs(): IPFS {
+    return this.record.ipfs
+  }
+
+  /**
    * IPFS API.
    *
    * @readonly
-   * @protected
    */
-  protected get api(): any {
-    return this.record.ipfs.node.api
+  public get api(): any {
+    return this.ipfs.node.api
   }
 
   protected abort?: AbortController
@@ -261,7 +270,9 @@ export class File extends EventEmitter {
       }
 
       this.done = true
-      this.emit('done')
+      this.emit('downloaded')
+      this.record.emit('downloaded', this)
+      this.ipfs.emit('downloaded', this)
     })
 
     return readable
@@ -335,6 +346,43 @@ export class File extends EventEmitter {
     }
 
     return await streamToBlobURL(this.getReadStream(), this.mimetype)
+  }
+
+  /**
+   * Requests the browser to download the file.
+   *
+   * @param filename
+   */
+  public async downloadAsBlob(filename: string): Promise<void> {
+    if (!is.browser) {
+      throw new Error('This function is only available in web browser.')
+    }
+
+    // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
+    const blobUrl = URL.createObjectURL(await this.getBlob())
+
+    // Create a link element
+    const link = document.createElement('a')
+
+    // Set link's href to point to the Blob URL
+    link.href = blobUrl
+    link.download = filename
+
+    // Append link to the body
+    document.body.appendChild(link)
+
+    // Dispatch click event on the link
+    // This is necessary as link.click() does not work on the latest firefox
+    link.dispatchEvent(
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      })
+    )
+
+    // Remove link from body
+    document.body.removeChild(link)
   }
 
   /**
