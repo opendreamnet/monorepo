@@ -19,8 +19,8 @@ const theme = {
   },
 
   snow: {
-    darker: darken('#D8DEE9', 20),
-    dark: darken('#D8DEE9', 10),
+    darker: '#82858c',
+    dark: '#adb2ba',
     DEFAULT: '#D8DEE9',
     light: '#E5E9F0',
     lighter: '#ECEFF4'
@@ -49,7 +49,6 @@ const theme = {
 }
 
 module.exports = {
-  mode: 'jit',
   important: true,
   theme: {
     extend: {
@@ -84,7 +83,7 @@ module.exports = {
         input: {
           light: lighten(theme.night.dark),
           DEFAULT: theme.night.dark,
-          dark: darken(theme.night.dark)
+          dark: darken(theme.night.dark, 8)
         },
         button: {
           light: lighten(theme.night.dark),
@@ -184,16 +183,5 @@ module.exports = {
     }
   },
   variants: {},
-  plugins: [],
-  purge: {
-    // https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
-    content: [
-      'components/**/*.vue',
-      'layouts/**/*.vue',
-      'pages/**/*.vue',
-      'plugins/**/*.ts',
-      'nuxt.config.js',
-      'nuxt.config.ts'
-    ]
-  }
+  plugins: []
 }
