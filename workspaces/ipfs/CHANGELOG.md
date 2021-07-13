@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.2.0...ipfs-v1.3.0) (2021-07-13)
+
+
+### Features
+
+* added new parameters: [autoStart, autoLoadRefs, autoLoadPins, timeout, privateKey], added PublicKey and PrivateKey for easier key handling, added "completed" status after "ready" and more... ([d045395](https://github.com/dreamnettech/monorepo/commit/d0453953164d5c1386420a6b018e9a13ee1ab141))
+* changed 'done' event to 'downloaded'. added downloadAsBlob() ([419b021](https://github.com/dreamnettech/monorepo/commit/419b0217ed206b2e2720b118401741983715cd80))
+
 ## [1.2.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.1.0...ipfs-v1.2.0) (2021-06-11)
 
 
