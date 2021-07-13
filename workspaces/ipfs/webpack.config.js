@@ -21,7 +21,9 @@ module.exports = merge(config, {
       path: require.resolve('path-browserify'),
       assert: require.resolve('assert/'),
       stream: require.resolve('stream-browserify'),
-      constants: require.resolve('constants-browserify')
+      constants: require.resolve('constants-browserify'),
+      vm: require.resolve('vm-browserify'),
+      crypto: require.resolve('crypto-browserify'),
     }
   },
 
