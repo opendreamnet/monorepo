@@ -205,6 +205,16 @@ export class Record extends EventEmitter {
   public isDirectory = false
 
   /**
+   * True when the IPFS object is stored in the node.
+   */
+  public isStored?: boolean
+
+  /**
+   * True when the IPFS object is pinned.
+   */
+  public isPinned?: boolean
+
+  /**
    * IPFS API
    *
    * @readonly
@@ -312,7 +322,7 @@ export class Record extends EventEmitter {
       throw links.reason
     }
 
-    // Stats
+    // Size
     if (stats.status === 'fulfilled') {
       this.length = toNumber(stats.value.CumulativeSize)
     } else {
@@ -329,6 +339,20 @@ export class Record extends EventEmitter {
           this.isDirectory = true
         }
       })
+    }
+
+    // Is Stored?
+    if (this.ipfs.options.autoLoadRefs) {
+      this.isStored = this.ipfs.isStored(this.cid)
+    } else {
+      this.isStored = undefined
+    }
+
+    // Is Pinned?
+    if (this.ipfs.options.autoLoadPins) {
+      this.isPinned = this.ipfs.isPinned(this.cid)
+    } else {
+      this.isPinned = undefined
     }
 
     this.emit('metadata')
@@ -461,7 +485,8 @@ export class Record extends EventEmitter {
       const abspath = path.resolve(options.directory, options.name)
 
       this.done = true
-      this.emit('done', abspath)
+      this.emit('downloaded', abspath)
+      this.ipfs.emit('downloaded', this)
 
       return abspath
     } catch (err) {
@@ -494,7 +519,8 @@ export class Record extends EventEmitter {
       }
 
       this.done = true
-      this.emit('done')
+      this.emit('downloaded')
+      this.ipfs.emit('downloaded', this)
     } catch (err) {
       this.emit('error', err)
     } finally {

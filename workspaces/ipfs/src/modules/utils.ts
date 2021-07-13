@@ -111,3 +111,7 @@ export function getGatewayURIS(cid: string, options: GatewayOptions = {}): URI[]
     return getGatewayURI(cid, merge(options, { url }))
   })
 }
+
+export function encode64(data: Uint8Array): string {
+  return btoa(String.fromCharCode.apply(null, Array.from(data)))
+}
