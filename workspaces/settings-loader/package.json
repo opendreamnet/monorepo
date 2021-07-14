@@ -20,7 +20,7 @@
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:^1.0.0",
     "@types/js-yaml": "^4.0.0",
-    "@types/node": "^14.14.39",
+    "@types/node": "^16.3.2",
     "eslint": "^7.24.0",
     "shx": "^0.3.3",
     "ts-node": "^9.1.1",
