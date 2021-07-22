@@ -5,7 +5,7 @@ import { DnsRecord } from '../types'
 export interface DnsProvider {
   setup?(): Promise<void>;
   validate?(): void;
-  link(): Promise<DnsRecord>;
+  exec(): Promise<DnsRecord>;
 }
 
 export abstract class DnsProvider {
@@ -59,7 +59,7 @@ export abstract class DnsProvider {
         await this.setup()
       }
 
-      record = await this.link()
+      record = await this.exec()
 
       this.release.emit('dns:success', record, this)
     } catch (error) {
