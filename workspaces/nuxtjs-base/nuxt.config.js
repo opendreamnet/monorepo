@@ -5,6 +5,10 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development'
+}
+
 exports.tailwindConfig = tailwindConfig
 
 exports.setNuxtConfig = (config) => {
@@ -20,7 +24,9 @@ exports.setNuxtConfig = (config) => {
       htmlAttrs: {
         lang: 'en'
       },
-      meta: [],
+      meta: [
+        { name: 'format-detection', content: 'telephone=no' }
+      ],
       link: []
     },
 
@@ -87,6 +93,12 @@ exports.setNuxtConfig = (config) => {
     //
     markdownit: {
       runtime: true // Support `$md()`
+    },
+
+    // https://github.com/nuxt-community/gtm-module
+    // Used for basic analytics and displaying the coookie consent alert.
+    gtm: {
+      id: process.env.GOOGLE_TAG_MANAGER_ID
     },
 
     //
