@@ -1,6 +1,6 @@
+import path from 'path'
 import mime from 'mime-types'
 import { Client, ClientOptions, ItemBucketMetadata } from 'minio'
-import path from 'path'
 import { UploadResult } from '../../types'
 import { Provider } from './base'
 
@@ -75,7 +75,7 @@ export class Minio extends Provider {
       port: this.multi.port,
       useSSL: this.ssl,
       accessKey: this.token as string,
-      secretKey: this.secret as string,
+      secretKey: this.secret as string
     }
   }
 
@@ -157,7 +157,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
   public async parse(response: unknown): Promise<UploadResult> {
     return {
       cid: undefined,
-      url: response as string,
+      url: response as string
     }
   }
 
@@ -170,7 +170,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
 
     metaData = {
       'Content-Type': mimetype,
-      ...metaData,
+      ...metaData
     }
 
     return this.client.fPutObject(this.bucket!, objectName, filepath, metaData)

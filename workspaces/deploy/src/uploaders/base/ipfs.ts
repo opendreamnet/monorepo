@@ -2,8 +2,8 @@ import CID from 'cids'
 import ipfsHttpClient from 'ipfs-http-client'
 import { map } from 'lodash'
 import { UploadResult } from '../../types'
-import { Provider } from './base'
 import { releaseFileToObject } from '../../modules/utils'
+import { Provider } from './base'
 
 /**
  *
@@ -78,7 +78,7 @@ export class IPFS extends Provider {
       host: this.multi.address,
       port: this.multi.port,
       protocol: this.multi.ssl ? 'https' : 'http',
-      headers: this.headers,
+      headers: this.headers
     }
   }
 
@@ -130,7 +130,7 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
     // @ts-ignore
     const response = await this.ipfs.add(files, {
       name: this.release.name,
-      recursive: true,
+      recursive: true
     })
 
     return response
@@ -145,7 +145,7 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
     // @ts-ignore
     return this.ipfs.pin.add(this.release.cid, {
       name: this.release.name,
-      timeout: 5 * 60 * 1000,
+      timeout: 5 * 60 * 1000
     })
   }
 
@@ -161,7 +161,7 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
 
     return {
       cid,
-      url: `${this.gatewayURL}/ipfs/${cid}`,
+      url: `${this.gatewayURL}/ipfs/${cid}`
     }
   }
 

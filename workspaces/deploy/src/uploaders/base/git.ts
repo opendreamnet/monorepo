@@ -87,7 +87,7 @@ export class Git extends Http {
     return {
       cid: undefined,
       // @ts-ignore
-      url: response.browser_download_url,
+      url: response.browser_download_url
     }
   }
 

@@ -1,8 +1,8 @@
 import fs from 'fs'
+import util from 'util'
 import { find } from 'lodash'
 import { MutableFile, Storage } from 'megajs'
 import slash from 'slash'
-import util from 'util'
 import { UploadResult } from '../../types'
 import { Provider } from '../base/base'
 
@@ -132,7 +132,7 @@ export class MEGA extends Provider {
       this.storage = new Storage({
         email: this.email!,
         password: this.password!,
-        keepalive: false,
+        keepalive: false
       }, (error: Error) => {
         if (error) {
           reject(error)
@@ -178,7 +178,7 @@ export class MEGA extends Provider {
   public async parse(response: unknown): Promise<UploadResult> {
     return {
       cid: undefined,
-      url: response as string,
+      url: response as string
     }
   }
 

@@ -30,7 +30,7 @@ export class Github extends Git {
       const response = await this.octokit.repos.getReleaseByTag({
         owner: this.owner as string,
         repo: this.repo as string,
-        tag: this.tagName as string,
+        tag: this.tagName as string
       })
 
       return response.data
@@ -60,7 +60,7 @@ export class Github extends Git {
       target_commitish: this.target,
       name: this.releaseName,
       prerelease: true,
-      draft: false,
+      draft: false
     })
 
     return response.data
@@ -91,10 +91,10 @@ export class Github extends Git {
         name: file.name,
         headers: {
           'content-length': file.stats.size,
-          'content-type': file.mimetype,
+          'content-type': file.mimetype
         },
         // @ts-ignore
-        data: fs.createReadStream(file.path),
+        data: fs.createReadStream(file.path)
       })
 
       responses.push(response.data)

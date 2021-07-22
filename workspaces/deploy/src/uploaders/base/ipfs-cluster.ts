@@ -1,9 +1,8 @@
 import CID from 'cids'
 import ipfsCluster from 'ipfs-cluster-api'
-import { map, isArray } from 'lodash'
+import { isArray } from 'lodash'
 import { UploadResult } from '../../types'
 import { IPFS } from './ipfs'
-import { releaseFileToObject } from '../../modules/utils'
 
 /**
  *
@@ -62,7 +61,7 @@ export class IPFSCluster extends IPFS {
 
     return {
       cid,
-      url: `${this.gatewayURL}/ipfs/${cid}`,
+      url: `${this.gatewayURL}/ipfs/${cid}`
     }
   }
 
