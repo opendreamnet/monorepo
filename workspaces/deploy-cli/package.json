@@ -1,35 +1,18 @@
 {
-  "name": "@dreamnet/deploy-cli",
-  "description": "CLI utility for @dreamnet/deploy",
+  "name": "@opendreamnet/deploy-cli",
+  "description": "CLI utility for @opendreamnet/deploy",
   "version": "1.2.2",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "posttest": "yarn run lint",
-    "prepack": "yarn run build",
-    "clean": "shx rm -rf dist",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint --fix --ext .ts,.js src",
+    "clean": "shx rm -rf tsconfig.tsbuildinfo dist",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "dev": "tsc -b -w",
-    "build": "tsc -b"
-  },
-  "dependencies": {
-    "@dreamnet/deploy": "workspace:^1.2.2",
-    "@oclif/command": "^1",
-    "@oclif/config": "^1",
-    "@oclif/plugin-help": "^3",
-    "lodash": "^4.17.20",
-    "ora": "^5.3.0",
-    "tslib": "^1"
-  },
-  "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
-    "@oclif/dev-cli": "^1.26.0",
-    "eslint": "^7.20.0",
-    "shx": "^0.3.3",
-    "typescript": "^3.9.9"
+    "watch": "tsc -w",
+    "build": "tsc -b",
+    "release": "standard-version"
   },
   "bin": {
     "deploy": "./bin/run"
@@ -39,7 +22,7 @@
   },
   "author": {
     "name": "Ivan Bravo Bravo",
-    "email": "ivan@dreamnet.tech",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },
   "repository": {
@@ -48,14 +31,76 @@
     "directory": "workspaces/deploy-cli"
   },
   "bugs": {
-    "email": "ivan@dreamnet.tech",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/issues"
   },
   "files": [
     "/bin",
     "/dist"
   ],
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "deploy-cli-v",
+    "releaseCommitMessageFormat": "chore(release): deploy-cli@{{currentTag}}",
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "improvement",
+        "section": "Improvements"
+      },
+      {
+        "type": "docs",
+        "section": "Miscellaneous changes"
+      },
+      {
+        "type": "style",
+        "section": "Design"
+      },
+      {
+        "type": "refactor",
+        "section": "Miscellaneous changes"
+      },
+      {
+        "type": "perf",
+        "section": "Improvements"
+      },
+      {
+        "type": "test",
+        "hidden": true
+      },
+      {
+        "type": "chore",
+        "section": "Miscellaneous changes"
+      }
+    ]
+  },
   "engines": {
     "node": ">=12"
+  },
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^3",
+    "@opendreamnet/deploy": "workspace:workspaces/deploy",
+    "lodash": "^4.17.21",
+    "ora": "^5.4.1",
+    "tslib": "^2"
+  },
+  "devDependencies": {
+    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
+    "@oclif/dev-cli": "^1.26.0",
+    "eslint": "^7.31.0",
+    "eslint-config-oclif": "^3.1.0",
+    "eslint-config-oclif-typescript": "^0.2.0",
+    "shx": "^0.3.3",
+    "standard-version": "^9.3.1",
+    "typescript": "^3.9.9"
   }
 }

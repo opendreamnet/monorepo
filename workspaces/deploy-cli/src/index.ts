@@ -1,8 +1,8 @@
+import path from 'path'
 import { Command, flags } from '@oclif/command'
 import { upperFirst } from 'lodash'
 import * as ora from 'ora'
-import path from 'path'
-import { Provider, Release, storage, DnsRecord, UploadResult } from '@dreamnet/deploy'
+import { Provider, Release, storage, DnsRecord, UploadResult } from '@opendreamnet/deploy'
 
 class Deploy extends Command {
   /**
@@ -22,6 +22,7 @@ class Deploy extends Command {
     version: flags.version({ char: 'v' }),
     // show help information
     help: flags.help({ char: 'h' }),
+
     // file providers
     provider: flags.string({
       multiple: true,
@@ -38,35 +39,42 @@ class Deploy extends Command {
         'teknik',
         'minio',
         'mega',
+        'slate'
       ],
       required: true,
       char: 'p',
-      description: 'file providers',
+      description: 'file providers'
     }),
+
     // dns providers
     dns: flags.string({
       multiple: true,
       options: ['cloudflare'],
       char: 'd',
-      description: 'dns providers',
+      description: 'dns providers'
     }),
+
     // release name
     name: flags.string({
       char: 'n',
-      description: 'release name',
+      description: 'release name'
     }),
+
     // path to CID's storage file
     storage: flags.string({
       char: 's',
-      description: 'path to CID\'s storage file',
+      description: 'path to CID\'s storage file'
     }),
+
     caching: flags.boolean({
       char: 'c',
       description: 'enable the IPFS Caching in different public gateways'
     }),
+
     cachingTimeout: flags.integer({
       description: 'ipfs caching timeout'
     }),
+
     encrypt: flags.string({
       char: 'k',
       description: 'encryption key for output'
@@ -106,7 +114,7 @@ class Deploy extends Command {
 
     this.log('')
 
-    this.log(JSON.stringify(response))
+    this.log(JSON.stringify(response, null, 2))
   }
 
   public async createRelease(): Promise<Release> {
@@ -146,6 +154,7 @@ class Deploy extends Command {
       case 'codeberg':
       case 'teknik':
       case 'minio':
+      case 'slate':
         release.addProvider(upperFirst(provider))
         break
 
@@ -254,7 +263,6 @@ class Deploy extends Command {
       const uri = new URL(url)
       this.spinner.succeed(`Cached to ${uri.hostname}`)
     })
-    
 
     release.on('fail', (error: Error) => {
       // eslint-disable-next-line no-console
