@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^18.7.0",
-    "@opendreamnet/app": "workspace:^1.1.1",
+    "@opendreamnet/app": "workspace:workspaces/app",
     "axios": "^0.21.1",
     "cids": "^1.1.7",
     "cryptr": "^6.0.2",
@@ -100,7 +100,7 @@
     "slash": "^3.0.0"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
+    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
     "@types/chai": "^4",
     "@types/cryptr": "4.0.1",
     "@types/fs-extra": "9.0.12",
