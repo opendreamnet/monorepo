@@ -7,6 +7,7 @@ export { Minio } from './base/minio'
 
 // Services
 export { Pinata } from './common/pinata'
+export { Slate } from './common/slate'
 export { Github } from './common/github'
 export { Gitea } from './common/gitea'
 export { MEGA } from './common/mega'
