@@ -1,5 +1,5 @@
 {
-  "name": "@dreamnet/deploy",
+  "name": "@opendreamnet/deploy",
   "description": "Deploy files and folders to different file providers.",
   "version": "1.2.2",
   "license": "MIT",
@@ -7,63 +7,15 @@
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
-    "posttest": "yarn run lint",
-    "prepack": "yarn run build",
-    "clean": "shx rm -rf dist",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint --fix --ext .ts,.js src",
+    "clean": "shx rm -rf tsconfig.tsbuildinfo dist",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "dev": "tsc -b -w",
+    "watch": "tsc -w",
     "build": "tsc -b"
-  },
-  "dependencies": {
-    "@octokit/rest": "^18.1.0",
-    "@opendreamnet/app": "workspace:^1.1.1",
-    "axios": "^0.21.1",
-    "cids": "^1.1.5",
-    "cloudflare": "^2.7.0",
-    "cryptr": "^6.0.2",
-    "dnslink-cloudflare": "^3.0.0",
-    "dotenv": "^8.2.0",
-    "form-data": "^3.0.0",
-    "fs-extra": "^9.1.0",
-    "ipfs-cluster-api": "^0.0.9",
-    "ipfs-http-client": "^47.0.1",
-    "lodash": "^4.17.20",
-    "megajs": "^0.17.2",
-    "mime-types": "^2.1.28",
-    "minio": "^7.0.18",
-    "multiaddr": "^8.1.2",
-    "normalize-path": "^3.0.0",
-    "ora": "^5.3.0",
-    "recursive-fs": "^2.1.0",
-    "slash": "^3.0.0"
-  },
-  "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
-    "@types/chai": "^4",
-    "@types/cryptr": "4.0.1",
-    "@types/fs-extra": "9.0.6",
-    "@types/lodash": "4.14.168",
-    "@types/megajs": "0.14.1",
-    "@types/mime-types": "^2.1.0",
-    "@types/minio": "^7.0.7",
-    "@types/mocha": "^8",
-    "@types/node": "^14",
-    "@types/normalize-path": "3.0.0",
-    "@types/slash": "3.0.0",
-    "chai": "^4",
-    "cross-env": "^7.0.3",
-    "eslint": "^7.19.0",
-    "microbundle": "^0.13.0",
-    "mocha": "^8",
-    "nyc": "^15.1.0",
-    "shx": "^0.3.3",
-    "ts-node": "^9.1.1",
-    "typescript": "^3.9.9"
   },
   "author": {
     "name": "Iván Bravo Bravo",
-    "email": "ivan@dreamnet.tech",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
   },
   "repository": {
@@ -72,14 +24,100 @@
     "directory": "workspaces/deploy"
   },
   "bugs": {
-    "email": "ivan@dreamnet.tech",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/issues"
   },
   "files": [
     "/dist",
     "/src"
   ],
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "deploy-v",
+    "releaseCommitMessageFormat": "chore(release): deploy@{{currentTag}}",
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "improvement",
+        "section": "Improvements"
+      },
+      {
+        "type": "docs",
+        "section": "Miscellaneous changes"
+      },
+      {
+        "type": "style",
+        "section": "Design"
+      },
+      {
+        "type": "refactor",
+        "section": "Miscellaneous changes"
+      },
+      {
+        "type": "perf",
+        "section": "Improvements"
+      },
+      {
+        "type": "test",
+        "hidden": true
+      },
+      {
+        "type": "chore",
+        "section": "Miscellaneous changes"
+      }
+    ]
+  },
   "engines": {
     "node": ">=12"
+  },
+  "dependencies": {
+    "@octokit/rest": "^18.7.0",
+    "@opendreamnet/app": "workspace:^1.1.1",
+    "axios": "^0.21.1",
+    "cids": "^1.1.7",
+    "cryptr": "^6.0.2",
+    "dotenv": "^10.0.0",
+    "form-data": "^4.0.0",
+    "fs-extra": "^10.0.0",
+    "ipfs-cluster-api": "^0.0.9",
+    "ipfs-http-client": "^50.1.2",
+    "lodash": "^4.17.21",
+    "megajs": "^0.17.2",
+    "mime-types": "^2.1.31",
+    "minio": "^7.0.18",
+    "multiaddr": "^10.0.0",
+    "normalize-path": "^3.0.0",
+    "ora": "^5.4.1",
+    "recursive-fs": "^2.1.0",
+    "slash": "^3.0.0"
+  },
+  "devDependencies": {
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
+    "@types/chai": "^4",
+    "@types/cryptr": "4.0.1",
+    "@types/fs-extra": "9.0.12",
+    "@types/lodash": "4.14.171",
+    "@types/megajs": "0.14.2",
+    "@types/mime-types": "^2.1.0",
+    "@types/minio": "^7.0.8",
+    "@types/mocha": "^8",
+    "@types/node": "^16",
+    "@types/normalize-path": "3.0.0",
+    "@types/slash": "3.0.0",
+    "chai": "^4",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.31.0",
+    "mocha": "^9",
+    "nyc": "^15.1.0",
+    "shx": "^0.3.3",
+    "ts-node": "^10.1.0",
+    "typescript": "^3.9.9"
   }
 }

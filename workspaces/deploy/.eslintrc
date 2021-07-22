@@ -4,6 +4,7 @@
   ],
   "rules": {
     "node/no-missing-import": "off",
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off", 
+    "no-await-in-loop": "off"
   }
 }
