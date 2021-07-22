@@ -47,10 +47,6 @@ jobs:
         working-directory: ${{ env.WORK_DIR }}
         run: yarn workspaces focus
 
-      - name: ✍️ Lint
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn run lint
-
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
         run: yarn npm publish --access public
