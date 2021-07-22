@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { EventEmitter } from 'events'
 import path from 'path'
 import Cryptr from 'cryptr'
@@ -76,7 +75,7 @@ export class Release extends EventEmitter {
    *
    *
    */
-  public cacheTimeout = 30 * 1000
+  public cacheTimeout = 5 * 1000
 
   /**
    *
@@ -222,7 +221,7 @@ export class Release extends EventEmitter {
   public async init(): Promise<void> {
     const [files] = await Promise.all([
       this.getFiles(),
-      storage.init(),
+      storage.init()
     ])
 
     this.files = files
@@ -246,7 +245,7 @@ export class Release extends EventEmitter {
       name: path.basename(this.filepath),
       mimetype: mime.lookup(this.filepath) as string,
       stats: this.filestat,
-      isDirectory: this.filestat.isDirectory(),
+      isDirectory: this.filestat.isDirectory()
     })
 
     if (this.isDirectory) {
@@ -261,7 +260,7 @@ export class Release extends EventEmitter {
           name: path.basename(filepath),
           mimetype: mime.lookup(filepath) as string,
           stats: fs.statSync(filepath),
-          isDirectory: false,
+          isDirectory: false
         })
       })
     }
@@ -392,7 +391,7 @@ export class Release extends EventEmitter {
         this.emit('cache:begin', url)
 
         await axios.head(url, {
-          timeout: this.cacheTimeout,
+          timeout: this.cacheTimeout
         })
 
         this.emit('cache:success', url)
