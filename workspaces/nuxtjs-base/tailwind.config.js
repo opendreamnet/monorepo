@@ -27,24 +27,24 @@ const theme = {
   },
 
   frost: {
-    green: '#8FBCBB', // stand out and get more visual attention
-    cyan: '#88C0D0', // primary UI elements with main usage purposes
+    green: '#9fc6c5', // stand out and get more visual attention
+    cyan: '#94c4d1', // primary UI elements with main usage purposes
     gray: '#81A1C1', // secondary UI elements that also require more visual attention than other elements
-    blue: '#5E81AC' // tertiary UI elements that require more visual attention
+    blue: '#94afd1' // tertiary UI elements that require more visual attention
   },
 
   aurora: {
-    red: '#BF616A', // errors
-    orange: '#D08770', // rarely used for UI elements
-    yellow: '#EBCB8B', // warnings
+    red: '#f0a8af', // errors
+    orange: '#d99e8c', // rarely used for UI elements
+    yellow: '#f0d8a8', // warnings
     green: '#A3BE8C', // success
-    pink: '#B48EAD' // rarely used for UI elements
+    pink: '#c2a3bc' // rarely used for UI elements
   },
 
   primary: {
-    light: '#a1abe8',
-    DEFAULT: '#7887de',
-    dark: '#4f63d4'
+    light: lighten('#7db8e8', 10),
+    DEFAULT: '#7db8e8',
+    dark: darken('#7db8e8', 10)
   }
 }
 
@@ -109,6 +109,31 @@ module.exports = {
           light: lighten(theme.frost.blue),
           DEFAULT: theme.frost.blue,
           dark: darken(theme.frost.blue)
+        },
+        orange: {
+          light: lighten(theme.aurora.orange),
+          DEFAULT: theme.aurora.orange,
+          dark: darken(theme.aurora.orange)
+        },
+        pink: {
+          light: lighten(theme.aurora.pink),
+          DEFAULT: theme.aurora.pink,
+          dark: darken(theme.aurora.pink)
+        },
+        gray: {
+          light: lighten(theme.frost.gray),
+          DEFAULT: theme.frost.gray,
+          dark: darken(theme.frost.gray)
+        },
+        cyan: {
+          light: lighten(theme.frost.cyan),
+          DEFAULT: theme.frost.cyan,
+          dark: darken(theme.frost.cyan)
+        },
+        green: {
+          light: lighten(theme.frost.green),
+          DEFAULT: theme.frost.green,
+          dark: darken(theme.frost.green)
         }
       },
 
@@ -120,9 +145,9 @@ module.exports = {
               color: theme('colors.snow.light')
             },
             a: {
-              color: theme('colors.primary.DEFAULT'),
+              color: theme('colors.primary.light'),
               '&:hover': {
-                color: theme('colors.primary.light')
+                color: theme('colors.primary.DEFAULT')
               }
             },
             strong: {
@@ -158,7 +183,7 @@ module.exports = {
             },
             code: {
               color: theme('colors.snow.DEFAULT'),
-              backgroundColor: '#444950',
+              backgroundColor: theme('colors.menus.darker'),
               paddingLeft: '0.25rem',
               paddingRight: '0.25rem',
               borderRadius: '0.25rem'
@@ -174,7 +199,7 @@ module.exports = {
             },
             pre: {
               color: theme('colors.snow.DEFAULT'),
-              backgroundColor: theme('colors.black'),
+              backgroundColor: theme('colors.menus.darker'),
               maxHeight: '400px'
             }
           }
