@@ -1,6 +1,6 @@
-import multiaddr from 'multiaddr'
-import { toNumber } from 'lodash'
 import fs from 'fs'
+import { multiaddr } from 'multiaddr'
+import { toNumber } from 'lodash'
 import { Provider } from '../uploaders'
 import { Multiaddress as MultiaddressPlus, ReleaseFile } from '../types'
 import { FileObject } from '../types/ipfs'
@@ -65,7 +65,7 @@ export function getMultiaddr(address: string): MultiaddressPlus {
     port,
     protocol,
     ssl: protocol === 'https',
-    url: port === 80 || port === 443 ? `${protocol}://${nodeAddress.address}` : `${protocol}://${nodeAddress.address}:${port}`,
+    url: port === 80 || port === 443 ? `${protocol}://${nodeAddress.address}` : `${protocol}://${nodeAddress.address}:${port}`
   }
 }
 
@@ -80,7 +80,7 @@ export function releaseFileToObject(file: ReleaseFile): FileObject {
   const payload: FileObject = {
     path: file.relpath,
     mode: file.stats.mode,
-    mtime: file.stats.mtime,
+    mtime: file.stats.mtime
   }
 
   if (!file.isDirectory) {

@@ -73,12 +73,6 @@ export interface ReleaseFile {
   isDirectory: boolean;
 }
 
-export interface DnsLink {
-  zone: string;
-  record: string;
-  link: string;
-}
-
 export interface DnsRecord {
   record: string;
   content: string;
