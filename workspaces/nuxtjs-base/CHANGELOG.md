@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.3.0...nuxtjs-base-v1.4.0) (2021-07-22)
+
+
+### Features
+
+* primary color updated, extra colors added. ([23aade5](https://github.com/dreamnettech/monorepo/commit/23aade53816e806bae77767776f02878ccb7e75b))
+
+
+### Design
+
+* smaller box padding. ([3cd652f](https://github.com/dreamnettech/monorepo/commit/3cd652f788e0abb646ee4632b7e8c7b0c6c4b76e))
+
+
+### Others
+
+* added gtm base config. ([109ae47](https://github.com/dreamnettech/monorepo/commit/109ae47c93757f812830c650760c9bef8c012698))
+* removed unused dependencies. ([631cf4e](https://github.com/dreamnettech/monorepo/commit/631cf4e368dbfed4f7ea64418c509633f44d1b85))
+* removed unused files. ([1a96e96](https://github.com/dreamnettech/monorepo/commit/1a96e96dedb88a0e6bb91059d54c40940096dad7))
+
 ## [1.3.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.2.0...nuxtjs-base-v1.3.0) (2021-07-12)
 
 
