@@ -86,19 +86,19 @@ export default Vue.extend({
 
   &:not(.box--header--p0) {
     .box__header {
-      @apply px-9 py-4;
+      @apply px-7 py-4;
     }
   }
 
   &:not(.box--body--p0) {
     .box__body {
-      @apply p-9;
+      @apply p-7;
     }
   }
 
   &:not(.box--footer--p0) {
     .box__footer {
-      @apply px-9 py-4;
+      @apply px-7 py-4;
     }
   }
 
@@ -153,7 +153,7 @@ export default Vue.extend({
   }
 
   .box__body {
-    @apply flex-1;
+    @apply flex-1 relative;
   }
 
   .box__footer {
