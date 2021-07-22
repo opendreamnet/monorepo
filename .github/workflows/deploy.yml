@@ -40,7 +40,11 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn install
+        run: yarn workspaces focus
+
+      - name: 🏗️ Build
+        working-directory: ${{ env.WORK_DIR }}
+        run: yarn run build
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
