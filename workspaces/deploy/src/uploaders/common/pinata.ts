@@ -62,7 +62,7 @@ export class Pinata extends Http {
       // @ts-ignore
       cid: response.IpfsHash,
       // @ts-ignore
-      url: `${this.gateway}/ipfs/${response.IpfsHash}`,
+      url: `${this.gateway}/ipfs/${response.IpfsHash}`
     }
   }
 
@@ -76,7 +76,7 @@ export class Pinata extends Http {
     if (this.release.name && this.isDirectory) {
       // Root directory name.
       this.formData.append('pinataMetadata', JSON.stringify({
-        name: this.release.name,
+        name: this.release.name
       }))
     }
   }

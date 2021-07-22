@@ -192,7 +192,7 @@ export class Provider {
 
     return {
       ...headers,
-      ...this._headers,
+      ...this._headers
     }
   }
 
@@ -377,7 +377,7 @@ export class Provider {
     return {
       provider: this.name,
       url: this.url,
-      cid: this.cid,
+      cid: this.cid
     }
   }
 }

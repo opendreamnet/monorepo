@@ -17,7 +17,7 @@ export class Teknik extends Gitea {
    * @readonly
    * @type {(string | undefined)}
    */
-  public get defaultBaseURL(): string | undefined {
+  public get defaultBaseUrl(): string | undefined {
     return 'https://git.teknik.io/api/v1'
   }
 }

@@ -11,7 +11,7 @@ export class Gitea extends Git {
    * @type {string}
    */
   public get label(): string {
-    return `Gitea (${this.baseURL})`
+    return `Gitea (${this.baseUrl})`
   }
 
   /**
@@ -20,7 +20,7 @@ export class Gitea extends Git {
    * @readonly
    * @type {string}
    */
-  public get fileField(): string {
+  public get formDataField(): string {
     return 'attachment'
   }
 
@@ -80,7 +80,7 @@ export class Gitea extends Git {
       target_commitish: this.target,
       name: this.releaseName,
       prerelease: true,
-      draft: false,
+      draft: false
     })
 
     return response.data
@@ -109,8 +109,8 @@ export class Gitea extends Git {
       const response = await this.axios.request({
         ...this.uploadOptions,
         params: {
-          name: file.name,
-        },
+          name: file.name
+        }
       })
 
       responses.push(response.data)

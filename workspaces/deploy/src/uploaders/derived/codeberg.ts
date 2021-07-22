@@ -17,7 +17,7 @@ export class Codeberg extends Gitea {
    * @readonly
    * @type {(string | undefined)}
    */
-  public get defaultBaseURL(): string | undefined {
+  public get defaultBaseUrl(): string | undefined {
     return 'https://codeberg.org/api/v1'
   }
 }

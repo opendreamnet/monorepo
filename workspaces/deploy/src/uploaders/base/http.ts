@@ -1,59 +1,41 @@
+import fs from 'fs'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import FormData from 'form-data'
-import fs from 'fs'
 import { ReleaseFile } from '../../types'
 import { Provider } from './base'
 
 export interface Http {
   /**
    *
-   *
-   * @type {FormData}
    */
   formData: FormData;
 
   /**
    *
-   *
-   * @type {AxiosInstance}
    */
   axios?: AxiosInstance;
 
   /**
    *
-   *
-   * @type {string}
    */
   _baseURL?: string
 
   /**
    *
-   *
-   * @type {string}
    */
   readonly uploadURL: string;
 
   /**
    *
-   * @type {string}
    */
   readonly unpinURL?: string;
 }
 
-/**
- *
- *
- * @export
- * @abstract
- * @class Http
- * @extends {Provider}
- */
 export class Http extends Provider {
   /**
    * Friendly provider name.
    *
    * @readonly
-   * @type {string}
    */
   public get label(): string {
     return this.uploadURL ? `Http (${this.uploadURL})` : super.label
@@ -63,9 +45,8 @@ export class Http extends Provider {
    *
    *
    * @readonly
-   * @type {string}
    */
-  public get fileField(): string {
+  public get formDataField(): string {
     return 'file'
   }
 
@@ -73,9 +54,8 @@ export class Http extends Provider {
    *
    *
    * @readonly
-   * @type {(string | undefined)}
    */
-  public get defaultBaseURL(): string | undefined {
+  public get defaultBaseUrl(): string | undefined {
     return undefined
   }
 
@@ -83,23 +63,21 @@ export class Http extends Provider {
    *
    *
    * @readonly
-   * @type {string}
    */
-  public get baseURL(): string | undefined {
-    return this._baseURL || process.env[`DEPLOY_${this.name.toUpperCase()}_BASEURL`] || this.defaultBaseURL
+  public get baseUrl(): string | undefined {
+    return this._baseURL || process.env[`DEPLOY_${this.name.toUpperCase()}_BASEURL`] || this.defaultBaseUrl
   }
 
   /**
    *
    *
    * @readonly
-   * @type {AxiosRequestConfig}
    */
   public get options(): AxiosRequestConfig {
     return {
-      baseURL: this.baseURL,
+      baseURL: this.baseUrl,
       timeout: 5 * 1000,
-      headers: this.headers,
+      headers: this.headers
     }
   }
 
@@ -107,7 +85,6 @@ export class Http extends Provider {
    *
    *
    * @readonly
-   * @type {AxiosRequestConfig}
    */
   public get uploadOptions(): AxiosRequestConfig {
     return {
@@ -117,15 +94,12 @@ export class Http extends Provider {
       timeout: (60 * 60 * 1000),
       url: this.uploadURL,
       data: this.formData,
-      headers: this.formData.getHeaders(this.headers),
+      headers: this.formData.getHeaders(this.headers)
     }
   }
 
   /**
    *
-   *
-   * @param {string} value
-   * @return {*}  {this}
    */
   public setBaseURL(value: string): this {
     this._baseURL = value
@@ -134,8 +108,6 @@ export class Http extends Provider {
 
   /**
    *
-   *
-   * @returns {Promise<void>}
    */
   public async setup?(): Promise<void> {
     this.axios = axios.create(this.options)
@@ -143,8 +115,6 @@ export class Http extends Provider {
 
   /**
    *
-   *
-   * @returns {Promise<any>}
    */
   public async upload(): Promise<unknown> {
     if (!this.axios) {
@@ -175,7 +145,7 @@ export class Http extends Provider {
     await this.axios.request({
       method: 'DELETE',
       url: `${this.unpinURL}/${this.release.previousCID}`,
-      timeout: (15 * 60 * 1000),
+      timeout: (15 * 60 * 1000)
     })
   }
 
@@ -196,9 +166,9 @@ export class Http extends Provider {
         return
       }
 
-      this.formData.append(this.fileField, fs.createReadStream(file.path), {
+      this.formData.append(this.formDataField, fs.createReadStream(file.path), {
         filename: file.name,
-        filepath: file.relpath,
+        filepath: file.relpath
       })
     })
   }
