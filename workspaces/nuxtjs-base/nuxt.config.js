@@ -25,7 +25,8 @@ exports.setNuxtConfig = (config) => {
         lang: 'en'
       },
       meta: [
-        { name: 'format-detection', content: 'telephone=no' }
+        { name: 'format-detection', content: 'telephone=no' },
+        { name: 'monetization', content: process.env.META_MONETIZATION || '$ilp.uphold.com/ZjjF93fX8YKy' }
       ],
       link: []
     },
