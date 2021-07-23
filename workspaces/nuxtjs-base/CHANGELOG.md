@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.0...nuxtjs-base-v1.4.1) (2021-07-23)
+
+
+### Improvements
+
+* added meta tag for monetization ([f54bb3d](https://github.com/dreamnettech/monorepo/commit/f54bb3d5ec8aa02b4c3491848dd5ec57dd02b00b))
+
 ## [1.4.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.3.0...nuxtjs-base-v1.4.0) (2021-07-22)
 
 
