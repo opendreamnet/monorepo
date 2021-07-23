@@ -25,7 +25,7 @@ export class DreamLink extends IPFS {
    * @type {string}
    */
   public get defaultGatewayURL(): string {
-    return 'https://link.dreamnet.tech'
+    return 'https://fs.dreamlink.cloud'
   }
 
   /**
@@ -35,6 +35,6 @@ export class DreamLink extends IPFS {
    * @type {string}
    */
   public get defaultAddress(): string {
-    return '/dns4/api.link.dreamnet.tech/tcp/443/https'
+    return '/dns4/api.dreamlink.cloud/tcp/443/https'
   }
 }

@@ -18,7 +18,7 @@ export class DreamLinkCluster extends IPFSCluster {
    * @type {string}
    */
   public get defaultGatewayURL(): string {
-    return 'https://link.dreamnet.tech'
+    return 'https://fs.dreamlink.cloud'
   }
 
   /**
@@ -28,6 +28,6 @@ export class DreamLinkCluster extends IPFSCluster {
    * @type {string}
    */
   public get defaultAddress(): string {
-    return '/dns4/cluster.link.dreamnet.tech/tcp/443/https'
+    return '/dns4/cluster.dreamlink.cloud/tcp/443/https'
   }
 }
