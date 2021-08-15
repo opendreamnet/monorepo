@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
 import path from 'path'
 import { getPath, is } from '@opendreamnet/app'
-import { merge, find, reject, last, attempt, set, sampleSize } from 'lodash'
+import { merge, find, reject, last, attempt, set } from 'lodash'
 import all from 'it-all'
 import Ctl from 'ipfsd-ctl'
 import fs from 'fs-extra'
@@ -213,16 +213,16 @@ export class IPFS extends EventEmitter {
       if (this.options.opendreamnet) {
         const wrtcServers = [
           '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-          '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-          '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-          '/dns4/node4-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
+          '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
+          // '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
+          // '/dns4/node4-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
         ]
 
         // This node wants to use the OpenDreamNet servers.
         options.ipfsOptions = {
           config: {
             Addresses: {
-              Swarm: sampleSize(wrtcServers, 2)
+              Swarm: wrtcServers
             }
           },
           EXPERIMENTAL: {
