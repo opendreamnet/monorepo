@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.3.0...ipfs-v1.3.1) (2021-08-15)
+
+
+### Bug Fixes
+
+* connection to the same wrtc servers instead of selecting 2 at random. ([1942b7c](https://github.com/dreamnettech/monorepo/commit/1942b7c35795818ebd8248bce2ec8bb3dd1b51a6))
+
 ## [1.3.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.2.0...ipfs-v1.3.0) (2021-07-13)
 
 
