@@ -1,5 +1,5 @@
 import fs from 'fs'
-import axios, { AxiosRequestConfig } from 'axios'
+import { AxiosRequestConfig } from 'axios'
 import { DeployResult, ReleaseFile } from '../../types'
 import { Http } from '../base/http'
 

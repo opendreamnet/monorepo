@@ -1,6 +1,7 @@
 import fs from 'fs'
 import util from 'util'
 import { find } from 'lodash'
+// eslint-disable-next-line import/named
 import { MutableFile, Storage } from 'megajs'
 import slash from 'slash'
 import { DeployResult } from '../../types'
