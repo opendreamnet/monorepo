@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/dreamnettech/monorepo/compare/deploy-cli-v1.3.1...deploy-cli-v1.4.0) (2021-08-19)
+
+
+### Features
+
+* support for deploy@v1.4.0 ([bd610cf](https://github.com/dreamnettech/monorepo/commit/bd610cf4c2cdbbba6cf13281700c1617fc5cf624))
+
 ### [1.3.1](https://github.com/dreamnettech/monorepo/compare/deploy-cli-v1.3.0...deploy-cli-v1.3.1) (2021-07-23)
 
 
