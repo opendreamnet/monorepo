@@ -70,7 +70,7 @@ export class Http extends Provider {
   public getOptions(): AxiosRequestConfig {
     return {
       baseURL: this.baseUrl,
-      timeout: 5 * 1000,
+      timeout: 10 * 1000,
       headers: this.headers
     }
   }
@@ -91,7 +91,7 @@ export class Http extends Provider {
       method: 'POST',
       maxContentLength: Infinity,
       maxBodyLength: Infinity,
-      timeout: (60 * 60 * 1000),
+      timeout: (30 * 60 * 1000),
       url: this.uploadUrl,
       data: formData,
       headers: formData.getHeaders(this.headers)

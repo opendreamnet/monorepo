@@ -80,7 +80,9 @@ export class Pinata extends Http {
       }
     }
 
-    const response = await this.axios.post('/pinning/pinByHash', data)
+    const response = await this.axios.post('/pinning/pinByHash', data, {
+      timeout: (5 * 60 * 1000)
+    })
 
     return response.data
   }
