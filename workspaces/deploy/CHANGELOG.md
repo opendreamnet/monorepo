@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/dreamnettech/monorepo/compare/deploy-v1.3.1...deploy-v1.4.0) (2021-08-19)
+
+
+### Features
+
+* added nft.storage and web3.storage ([fa5c731](https://github.com/dreamnettech/monorepo/commit/fa5c73192a6ffcb68949612f6706ca06e4ea2b85))
+* added support for finding previous CID using release name ([046b01c](https://github.com/dreamnettech/monorepo/commit/046b01c25f36cde23efe935cb3b52dbbf73c9dbd))
+* added support for only pinning on pinata.cloud ([1062991](https://github.com/dreamnettech/monorepo/commit/106299104b87804f3cba4e58ce1da72b8fbe2247))
+* added support for only pinning on slate ([fab9a2e](https://github.com/dreamnettech/monorepo/commit/fab9a2ec730815e8164c66328150266a41c89eaa))
+
+
+### Bug Fixes
+
+* ipfs provider not working ([451faf3](https://github.com/dreamnettech/monorepo/commit/451faf3818d69afa0cea1fb91111d0b9e6877f1b))
+* removed unpin support on web3.storage ([70ce0a8](https://github.com/dreamnettech/monorepo/commit/70ce0a89cc702a838ce6907752fff4cbc6e8575d))
+* typescript error ([de23aa6](https://github.com/dreamnettech/monorepo/commit/de23aa6b4e4810982a0982e294e80bfe6210825c))
+
+
+### Miscellaneous changes
+
+* code improvements ([eafe245](https://github.com/dreamnettech/monorepo/commit/eafe245dc88d2184f164dfa9140b8d6b5f1a3d3c))
+* dreamlink-cluster code improvements ([e7700a2](https://github.com/dreamnettech/monorepo/commit/e7700a2539f2b789b138352c51598245ba019040))
+* improvements in the api and the code in general ([20b3aa9](https://github.com/dreamnettech/monorepo/commit/20b3aa9b6683b36ba1381d802d2444ba1d6c8ac7))
+* in case of error during `pin` now it will try to upload the file instead of throwing error ([e881074](https://github.com/dreamnettech/monorepo/commit/e8810741d649cea3a20fd7dbd0559f97bd177ca7))
+* lint fixed ([3104e9c](https://github.com/dreamnettech/monorepo/commit/3104e9c03a1b3127f42cf0d75568a37ef201aab9))
+* release name is now required ([d32201a](https://github.com/dreamnettech/monorepo/commit/d32201a5f0ac1ca171ca47a9d8bcb306247edeb8))
+* removed ipfs-http-client from empty "declare module" ([7cd5ad4](https://github.com/dreamnettech/monorepo/commit/7cd5ad449ddeb3078b9c1e4ee35ca98fa248d022))
+* timeout adjustments ([4c9049d](https://github.com/dreamnettech/monorepo/commit/4c9049d8f97a118923d2fa61ae8404b9a8fc8dcf))
+
 ### [1.3.1](https://github.com/dreamnettech/monorepo/compare/deploy-v1.3.0...deploy-v1.3.1) (2021-07-23)
 
 
