@@ -320,7 +320,7 @@ export class Provider {
     }
 
     let response: any
-    let result: DeployResult
+    let result: DeployResult | undefined
 
     // Find previous CID.
     if (!this.release.previousCID && this.getPreviousCID && this.release.name) {
@@ -366,6 +366,10 @@ export class Provider {
         this.release.emit('upload:fail', error, this)
         throw error
       }
+    }
+
+    if (!result) {
+      throw new Error('No result!')
     }
 
     this.url = result.url
