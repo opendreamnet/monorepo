@@ -37,7 +37,7 @@ export class Release extends EventEmitter {
    * @remarks
    * Used to search for past versions and unpin it.
    */
-  public name?: string
+  public name: string
 
   /**
    * Cryptr instance to encrypt the results.
@@ -147,7 +147,7 @@ export class Release extends EventEmitter {
    *
    * @param [value]
    */
-  public setName(value?: string): this {
+  public setName(value: string): this {
     this.name = value
     return this
   }
