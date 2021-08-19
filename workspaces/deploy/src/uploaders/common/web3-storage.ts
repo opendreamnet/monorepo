@@ -82,13 +82,13 @@ export class Web3Storage extends Provider {
   /**
    * Unpin the file.
    */
-  public async unpin(cid: string): Promise<void> {
+  /* public async unpin(cid: string): Promise<void> {
     if (!this.client) {
       throw new Error('No client!')
     }
 
     await this.client.delete(cid)
-  }
+  } */
 
   /**
    * Handles the provider's response when uploading a file.
