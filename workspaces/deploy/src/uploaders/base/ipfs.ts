@@ -1,5 +1,5 @@
 import CID from 'cids'
-import ipfsHttpClient from 'ipfs-http-client'
+import * as ipfsHttpClient from 'ipfs-http-client'
 import { map } from 'lodash'
 import { DeployResult } from '../../types'
 import { releaseFileToObject } from '../../modules/utils'
@@ -11,7 +11,7 @@ export class IPFS extends Provider {
    *
    * @type {*}
    */
-  public ipfs?: unknown
+  public ipfs?: ReturnType<typeof ipfsHttpClient.create>
 
   /**
    *
@@ -100,15 +100,17 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
    * Initialization.
    */
   public async setup(): Promise<void> {
-    this.ipfs = ipfsHttpClient(this.options)
+    this.ipfs = ipfsHttpClient.create(this.options)
   }
 
   /**
-   *
-   *
-   * @returns {Promise<any>}
+   * Upload the file.
    */
   public async upload(): Promise<unknown> {
+    if (!this.ipfs) {
+      throw new Error('No IPFS!')
+    }
+
     const files =  map(this.release.files, releaseFileToObject)
 
     // @ts-ignore
@@ -121,26 +123,26 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
   }
 
   /**
+   * Pin the file that has already been uploaded
+   * to another IPFS provider.
    *
-   *
-   * @return {*}
+   * @remarks
+   * This prevents the file from being uploaded multiple times.
    */
-  public async pin(): Promise<unknown> {
-    // @ts-ignore
-    return this.ipfs.pin.add(this.release.cid, {
-      name: this.release.name,
+  public async pin(cid: string): Promise<any> {
+    if (!this.ipfs) {
+      throw new Error('No IPFS!')
+    }
+
+    return this.ipfs.pin.add(new CID(cid), {
       timeout: 5 * 60 * 1000
     })
   }
 
   /**
-   *
-   *
-   * @param {*} files
-   * @returns {Promise<DeployResult>}
+   * Handles the provider's response when uploading a file.
    */
-  public async parse(files: unknown): Promise<DeployResult> {
-    // @ts-ignore
+  public async parse(files: any): Promise<DeployResult> {
     const cid = new CID(files.cid).toString()
 
     return {
@@ -150,12 +152,13 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
   }
 
   /**
-   *
-   *
-   * @returns {Promise<void>}
+   * Unpin the file.
    */
-  public async unpin(): Promise<void> {
-    // @ts-ignore
-    await this.ipfs.pin.rm(this.release.previousCID)
+  public async unpin(cid: string): Promise<void> {
+    if (!this.ipfs) {
+      throw new Error('No IPFS!')
+    }
+
+    await this.ipfs.pin.rm(cid)
   }
 }
