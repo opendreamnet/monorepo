@@ -5,16 +5,9 @@ import { DeployResult } from '../../types'
 import { releaseFileToObject } from '../../modules/utils'
 import { Provider } from './base'
 
-/**
- *
- *
- * @export
- * @class IPFS
- * @extends {Provider}
- */
 export class IPFS extends Provider {
   /**
-   *
+   * IPFS Client.
    *
    * @type {*}
    */
@@ -28,10 +21,9 @@ export class IPFS extends Provider {
   public _gateway?: string
 
   /**
-   *
+   * Friendly name.
    *
    * @readonly
-   * @type {string}
    */
   public get label(): string {
     return `IPFS (${this.address})`
@@ -41,7 +33,6 @@ export class IPFS extends Provider {
    *
    *
    * @readonly
-   * @type {string}
    */
   public get defaultGatewayURL(): string {
     return 'https://dweb.link'
@@ -51,7 +42,6 @@ export class IPFS extends Provider {
    *
    *
    * @readonly
-   * @type {string}
    */
   public get gatewayURL(): string {
     return this._gateway || process.env[`DEPLOY_${this.name.toUpperCase()}_GATEWAY`] || this.defaultGatewayURL
@@ -61,17 +51,15 @@ export class IPFS extends Provider {
    *
    *
    * @readonly
-   * @type {string}
    */
   public get defaultAddress(): string | undefined {
     return '/ip4/127.0.0.1/tcp/5001'
   }
 
   /**
-   *
+   * IPFS Options.
    *
    * @readonly
-   * @type {object}
    */
   public get options(): Record<string, unknown> {
     return {
@@ -86,7 +74,6 @@ export class IPFS extends Provider {
    *
    *
    * @param {string} value
-   * @returns
    */
   public setGateway(value: string): this {
     this._gateway = value
@@ -94,8 +81,7 @@ export class IPFS extends Provider {
   }
 
   /**
-   *
-   *
+   * Input validation.
    */
   public validate(): void {
     if (!this.address) {
@@ -111,9 +97,7 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
   }
 
   /**
-   *
-   *
-   * @returns {Promise<void>}
+   * Initialization.
    */
   public async setup(): Promise<void> {
     this.ipfs = ipfsHttpClient(this.options)

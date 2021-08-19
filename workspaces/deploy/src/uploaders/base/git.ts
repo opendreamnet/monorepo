@@ -83,10 +83,8 @@ export class Git extends Http {
     return this.uploadReleaseAsset()
   }
 
-  public async parse(response: unknown): Promise<DeployResult> {
+  public async parse(response: any): Promise<DeployResult> {
     return {
-      cid: undefined,
-      // @ts-ignore
       url: response.browser_download_url
     }
   }

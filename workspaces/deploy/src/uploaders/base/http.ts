@@ -47,7 +47,6 @@ export class Http extends Provider {
 
   /**
    *
-   *
    * @readonly
    */
   public get defaultBaseUrl(): string | undefined {

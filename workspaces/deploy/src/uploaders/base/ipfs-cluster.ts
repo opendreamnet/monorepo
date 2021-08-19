@@ -4,19 +4,11 @@ import { isArray } from 'lodash'
 import { DeployResult } from '../../types'
 import { IPFS } from './ipfs'
 
-/**
- *
- *
- * @export
- * @class IPFSCluster
- * @extends {IPFS}
- */
 export class IPFSCluster extends IPFS {
   /**
-   *
+   * Friendly name.
    *
    * @readonly
-   * @type {string}
    */
   public get label(): string {
     return `IPFS Cluster (${this.address})`
@@ -24,35 +16,29 @@ export class IPFSCluster extends IPFS {
 
   /**
    *
-   *
    * @readonly
-   * @type {string}
    */
   public get defaultAddress(): string {
     return '/ip4/127.0.0.1/tcp/9094'
   }
 
   /**
-   *
-   *
-   * @returns {Promise<void>}
+   * Initialization.
    */
   public async setup(): Promise<void> {
     this.ipfs = ipfsCluster(this.options)
   }
 
   /**
-   *
+   * Handles the provider's response when uploading a file.
    *
    * @param {*} response
-   * @returns {Promise<DeployResult>}
    */
-  public async parse(response: unknown): Promise<DeployResult> {
+  public async parse(response: any): Promise<DeployResult> {
     let cid: string
 
     if (isArray(response)) {
       cid = new CID(response[response.length - 1].hash).toString()
-    // @ts-ignore
     } else if (response.replication_factor_min && this.release.cid) {
       cid = this.release.cid
     } else {
@@ -66,9 +52,7 @@ export class IPFSCluster extends IPFS {
   }
 
   /**
-   *
-   *
-   * @returns {Promise<void>}
+   * Unpin the file.
    */
   public async unpin(): Promise<void> {
     // @ts-ignore

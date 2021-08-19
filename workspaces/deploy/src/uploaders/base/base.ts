@@ -52,7 +52,7 @@ export interface Provider {
   _secret?: string;
 
   /**
-   * Validate input.
+   * Input validation.
    */
   validate?(): void;
 
@@ -64,12 +64,12 @@ export interface Provider {
   /**
    * Upload the file.
    */
-  upload(): Promise<unknown>;
+  upload(): Promise<any>;
 
   /**
    * Handles the provider's response when uploading a file.
    */
-  parse(response: unknown): Promise<DeployResult>;
+  parse(response: any): Promise<DeployResult>;
 
   /**
    * Pin the file that has already been uploaded
@@ -78,17 +78,17 @@ export interface Provider {
    * @remarks
    * This prevents the file from being uploaded multiple times.
    */
-  pin?(): Promise<unknown>;
+  pin?(cid: string): Promise<unknown>;
 
   /**
-   * Returns the CID of the previous release, searching by name.
+   * Returns the CID of the previous release, searching by release name.
    */
-  // getPreviousCID?(): Promise<string>
+  getPreviousCID?(query: string): Promise<string | undefined>
 
   /**
    * Unpin the file.
    */
-  unpin?(): Promise<void>;
+  unpin?(cid: string): Promise<void>;
 }
 
 export class Provider {
@@ -320,12 +320,19 @@ export class Provider {
     let response: any
     let result: DeployResult
 
-    // Upload/Pin
+    // Find previous CID.
+    if (!this.release.previousCID && this.getPreviousCID && this.release.name) {
+      try {
+        this.release.previousCID = await this.getPreviousCID(this.release.name)
+      } catch { }
+    }
+
+    // Upload/Pin.
     if (this.pin && this.release.cid) {
       try {
         this.release.emit('pin:begin', this)
 
-        response = await this.pin()
+        response = await this.pin(this.release.cid)
         result = await this.parse(response)
 
         this.release.emit('pin:success', result, this)
@@ -358,7 +365,7 @@ export class Provider {
     if (this.unpin && this.release.previousCID && this.release.previousCID !== this.cid) {
       try {
         this.release.emit('unpin:begin', this)
-        await this.unpin()
+        await this.unpin(this.release.previousCID)
         this.release.emit('unpin:success', this)
       } catch (error) {
         this.release.emit('unpin:fail', error, this)

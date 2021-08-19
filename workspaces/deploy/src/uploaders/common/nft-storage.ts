@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { DeployResult, ReleaseFile } from '../../types'
 import { Http } from '../base/http'
 
@@ -13,13 +13,17 @@ export class NFTStorage extends Http {
     return 'nft.storage'
   }
 
+  public get defaultBaseUrl(): string | undefined {
+    return 'https://api.nft.storage'
+  }
+
   /**
-   * Url to upload and pin a file.
+   * Url to upload the file.
    *
    * @readonly
    */
   public get uploadUrl(): string {
-    return 'https://api.nft.storage/upload'
+    return '/upload'
   }
 
   /**
@@ -28,7 +32,7 @@ export class NFTStorage extends Http {
    * @readonly
    */
   public get unpinUrl(): string {
-    return 'https://api.nft.storage/'
+    return '/'
   }
 
   /**
@@ -78,6 +82,27 @@ export class NFTStorage extends Http {
     return {
       cid: response.value.cid,
       url: `${this.gateway}/ipfs/${response.value.cid}`
+    }
+  }
+
+  /**
+   * Returns the CID of the previous release, searching by release name.
+   */
+  public async getPreviousCID(query: string): Promise<string | undefined> {
+    if (!this.axios) {
+      throw new Error('No axios!')
+    }
+
+    const response = await this.axios.get('/')
+
+    if (!response.data.ok) {
+      throw new Error(response.data.error?.message || 'Unknown error')
+    }
+
+    for (const upload of response.data.value) {
+      if (upload.pin.name === query) {
+        return upload.cid
+      }
     }
   }
 }

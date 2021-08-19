@@ -45,28 +45,49 @@ export class Web3Storage extends Provider {
     })
   }
 
+  /**
+   * Upload the file.
+   */
   public async upload(): Promise<unknown> {
     if (!this.client) {
       throw new Error('No client!')
     }
 
     const files = await getFilesFromPath(this.filepath)
+
     // @ts-ignore
-    const cid = await this.client.put(files)
+    const cid = await this.client.put(files, {
+      name: this.release.name,
+      wrapWithDirectory: false
+    })
 
     return cid
   }
 
-  public async unpin(): Promise<void> {
+  /**
+   * Returns the CID of the previous release, searching by release name.
+   */
+  public async getPreviousCID(query: string): Promise<string | undefined> {
     if (!this.client) {
       throw new Error('No client!')
     }
 
-    if (!this.release.previousCID) {
-      throw new Error('No previous CID!')
+    for await (const upload of this.client.list()) {
+      if (upload.name === query) {
+        return upload.cid
+      }
+    }
+  }
+
+  /**
+   * Unpin the file.
+   */
+  public async unpin(cid: string): Promise<void> {
+    if (!this.client) {
+      throw new Error('No client!')
     }
 
-    await this.client.delete(this.release.previousCID)
+    await this.client.delete(cid)
   }
 
   /**
