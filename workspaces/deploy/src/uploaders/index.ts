@@ -8,6 +8,8 @@ export { Minio } from './base/minio'
 // Services
 export { Pinata } from './common/pinata'
 export { Slate } from './common/slate'
+export { NFTStorage } from './common/nft-storage'
+export { Web3Storage } from './common/web3-storage'
 export { Github } from './common/github'
 export { Gitea } from './common/gitea'
 export { MEGA } from './common/mega'

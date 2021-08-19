@@ -97,7 +97,8 @@
     "normalize-path": "^3.0.0",
     "ora": "^5.4.1",
     "recursive-fs": "^2.1.0",
-    "slash": "^3.0.0"
+    "slash": "^3.0.0",
+    "web3.storage": "^3.3.0"
   },
   "devDependencies": {
     "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
