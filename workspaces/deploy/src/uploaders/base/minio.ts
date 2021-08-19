@@ -4,7 +4,7 @@ import { Client, ClientOptions, ItemBucketMetadata } from 'minio'
 import { DeployResult } from '../../types'
 import { Provider } from './base'
 
-export interface FileData {
+export interface IFileData {
   objectName?: string
   metaData?: ItemBucketMetadata
 }
@@ -12,29 +12,21 @@ export interface FileData {
 export class Minio extends Provider {
   /**
    * Minio client.
-   *
-   * @type {Client}
    */
   public client!: Client
 
   /**
    * S3 bucket
-   *
-   * @type {string}
    */
   public _bucket?: string
 
   /**
    *
-   *
-   * @type {string}
    */
   public _folder?: string
 
   /**
    *
-   *
-   * @type {string}
    */
   public _gateway?: string
 
@@ -45,6 +37,11 @@ export class Minio extends Provider {
    */
   public _ssl: boolean
 
+  /**
+   * Friendly name.
+   *
+   * @readonly
+   */
   public get label(): string {
     return this.address ? `Minio (${this.address})` : super.label
   }
@@ -161,7 +158,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
     }
   }
 
-  protected putFile(filepath: string, { objectName, metaData = {} }: FileData = {}): Promise<string> {
+  protected putFile(filepath: string, { objectName, metaData = {} }: IFileData = {}): Promise<string> {
     const mimetype = mime.lookup(filepath)
 
     if (!objectName) {
