@@ -78,7 +78,7 @@ export interface Provider {
    * @remarks
    * This prevents the file from being uploaded multiple times.
    */
-  pin?(cid: string): Promise<unknown>;
+  pin?(cid: string): Promise<any>;
 
   /**
    * Returns the CID of the previous release, searching by release name.
@@ -169,8 +169,10 @@ export class Provider {
    *
    * @readonly
    */
-  public get headers(): Record<string, unknown> {
-    const headers: Record<string, unknown> = {}
+  public get headers(): Record<string, any> {
+    const headers: Record<string, any> = {
+      'X-Name': this.release.name
+    }
 
     if (!isEmpty(this.username) && !isEmpty(this.password)) {
       // Basic HTTP Authorization
@@ -323,24 +325,32 @@ export class Provider {
     // Find previous CID.
     if (!this.release.previousCID && this.getPreviousCID && this.release.name) {
       try {
+        this.release.emit('previousCID:begin', this)
         this.release.previousCID = await this.getPreviousCID(this.release.name)
-      } catch { }
+        this.release.emit('previousCID:success', this.release.previousCID, this)
+      } catch (error) {
+        this.release.emit('previousCID:fail', error, this)
+      }
     }
 
     // Upload/Pin.
+    let uploaded = false
+
     if (this.pin && this.release.cid) {
       try {
         this.release.emit('pin:begin', this)
 
         response = await this.pin(this.release.cid)
         result = await this.parse(response)
+        uploaded = true
 
         this.release.emit('pin:success', result, this)
       } catch (error) {
         this.release.emit('pin:fail', error, this)
-        throw error
       }
-    } else {
+    }
+
+    if (!uploaded) {
       try {
         this.release.emit('upload:begin', this)
 
