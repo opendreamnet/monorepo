@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { AxiosRequestConfig } from 'axios'
-import { UploadResult, ReleaseFile } from '../../types'
+import { DeployResult, ReleaseFile } from '../../types'
 import { Http } from '../base/http'
 
 export class NFTStorage extends Http {
@@ -70,7 +70,7 @@ export class NFTStorage extends Http {
    *
    * @param {*} response
    */
-  public async parse(response: any): Promise<UploadResult> {
+  public async parse(response: any): Promise<DeployResult> {
     if (!response.ok) {
       throw new Error(response.error?.message || 'Unknown error')
     }

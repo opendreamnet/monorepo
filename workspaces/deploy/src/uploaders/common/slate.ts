@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import { UploadResult } from '../../types'
+import { DeployResult } from '../../types'
 import { Http } from '../base/http'
 
 export class Slate extends Http {
@@ -47,7 +47,7 @@ export class Slate extends Http {
    * @readonly
    * @type {string}
    */
-  public get uploadURL(): string {
+  public get uploadUrl(): string {
     return 'https://uploads.slate.host/api/public'
   }
 
@@ -66,7 +66,7 @@ export class Slate extends Http {
    *
    * @param {*} response
    */
-  public async parse(response: any): Promise<UploadResult> {
+  public async parse(response: any): Promise<DeployResult> {
     return {
       cid: response.data.cid,
       url: `${this.gateway}/ipfs/${response.data.cid}`

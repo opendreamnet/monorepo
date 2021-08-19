@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-
-import { UploadResult } from '../../types'
+import FormData from 'form-data'
+import { ReleaseFile, DeployResult } from '../../types'
 import { Http } from '../base/http'
 
 /**
@@ -27,7 +27,7 @@ export class Pinata extends Http {
    * @readonly
    * @type {string}
    */
-  public get uploadURL(): string {
+  public get uploadUrl(): string {
     return 'https://api.pinata.cloud/pinning/pinFileToIPFS'
   }
 
@@ -37,7 +37,7 @@ export class Pinata extends Http {
    * @readonly
    * @type {string}
    */
-  public get unpinURL(): string {
+  public get unpinUrl(): string {
     return 'https://api.pinata.cloud/pinning/unpin'
   }
 
@@ -55,9 +55,9 @@ export class Pinata extends Http {
    *
    *
    * @param {*} response
-   * @returns {Promise<UploadResult>}
+   * @returns {Promise<DeployResult>}
    */
-  public async parse(response: unknown): Promise<UploadResult> {
+  public async parse(response: unknown): Promise<DeployResult> {
     return {
       // @ts-ignore
       cid: response.IpfsHash,
@@ -70,14 +70,16 @@ export class Pinata extends Http {
    *
    *
    */
-  public createFormData(): void {
-    super.createFormData()
+  public getFormData(files: ReleaseFile[]): FormData {
+    const formData = super.getFormData(files)
 
     if (this.release.name && this.isDirectory) {
       // Root directory name.
-      this.formData.append('pinataMetadata', JSON.stringify({
+      formData.append('pinataMetadata', JSON.stringify({
         name: this.release.name
       }))
     }
+
+    return formData
   }
 }

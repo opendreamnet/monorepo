@@ -1,5 +1,5 @@
 import { Web3Storage as Web3StorageClient, getFilesFromPath } from 'web3.storage'
-import { UploadResult } from '../../types'
+import { DeployResult } from '../../types'
 import { Provider } from '../base/base'
 
 export class Web3Storage extends Provider {
@@ -74,7 +74,7 @@ export class Web3Storage extends Provider {
    *
    * @param {*} response
    */
-  public async parse(cid: any): Promise<UploadResult> {
+  public async parse(cid: any): Promise<DeployResult> {
     return {
       cid,
       url: `${this.gateway}/ipfs/${cid}`

@@ -1,7 +1,7 @@
 import path from 'path'
 import mime from 'mime-types'
 import { Client, ClientOptions, ItemBucketMetadata } from 'minio'
-import { UploadResult } from '../../types'
+import { DeployResult } from '../../types'
 import { Provider } from './base'
 
 export interface FileData {
@@ -154,7 +154,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
     return this.getFileURL(path.posix.join(this.folder, this.release.rootPath))
   }
 
-  public async parse(response: unknown): Promise<UploadResult> {
+  public async parse(response: unknown): Promise<DeployResult> {
     return {
       cid: undefined,
       url: response as string

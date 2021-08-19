@@ -11,108 +11,98 @@ import * as DnsProviders from '../dnslink'
 import { DnsProvider, DnsProviderEntity } from '../dnslink'
 import * as Providers from '../uploaders'
 import { Provider, ProviderEntity } from '../uploaders'
-import { ReleaseFile, UploadResult } from '../types'
+import { ReleaseFile, DeployResult } from '../types'
 import gateways from '../data/gateways.json'
-import { storage } from './storage'
 import { isProvider } from './utils'
 
 export class Release extends EventEmitter {
   /**
-   *
-   *
+   * True if initialized.
    */
   public initialized = false
 
   /**
-   *
-   *
+   * Absolute file path.
    */
   public filepath: string
 
   /**
+   * File information.
+   */
+   public filestat: fs.Stats
+
+  /**
+   * Release name.
    *
-   *
+   * @remarks
+   * Used to search for past versions and unpin it.
    */
   public name?: string
 
   /**
+   * Cryptr instance to encrypt the results.
    *
-   *
-   */
-  public version?: string
-
-  /**
-   *
-   *
+   * @remarks
+   * Used for example for early access/paid releases.
    */
   public cryptr?: Cryptr
 
   /**
-   *
-   *
-   */
-  public filestat: fs.Stats
-
-  /**
-   *
-   *
+   * Release CID.
    */
    public cid?: string
 
   /**
-   *
-   *
+   * Release previous CID.
    */
   public previousCID?: string
 
   /**
+   * True to find the CID of the previous release and unpin it.
    *
-   *
+   * @remarks
+   * Recommended to specify a name with `setName()` and not change it.
+   */
+  public unpinPrevious = false
+
+  /**
+   * True to do caching of the file on public IPFS gateways.
    */
   public useCaching = false
 
   /**
-   *
-   *
+   * Cache attempt timeout.
    */
-  public cacheTimeout = 5 * 1000
+  public cachingTimeout = 5 * 1000
 
   /**
    *
-   *
-   * @type {ReleaseFile[]}
    */
   public files: ReleaseFile[] = []
 
   /**
    *
-   *
-   * @type {Provider[]}
    */
   public providers: Provider[] = []
 
   /**
    *
-   *
-   * @type {DnsProvider[]}
    */
   public dnsProviders: DnsProvider[] = []
 
   /**
-   *
+   * True if the release is a directory.
    *
    * @readonly
-   * @type {boolean}
    */
   public get isDirectory(): boolean {
     return this.filestat.isDirectory()
   }
 
   /**
-   *
+   * ReleaseFile instance if it is a file, not a directory.
    *
    * @readonly
-   * @type {(ReleaseFile | null)}
    */
   public get file(): ReleaseFile | null {
     if (this.isDirectory) {
@@ -123,7 +113,7 @@ export class Release extends EventEmitter {
   }
 
   /**
-   *
+   * Path of the root directory.
    *
    * @readonly
    */
@@ -144,6 +134,8 @@ export class Release extends EventEmitter {
 
     if (process.env.DEPLOY_NAME) {
       this.setName(process.env.DEPLOY_NAME)
+    } else {
+      this.setName(path.basename(this.filepath))
     }
 
     if (process.env.DEPLOY_ENCRYPT_KEY) {
@@ -152,7 +144,6 @@ export class Release extends EventEmitter {
   }
 
   /**
-   *
    *
    * @param [value]
    */
@@ -163,40 +154,14 @@ export class Release extends EventEmitter {
 
   /**
    *
-   *
    * @param value
    */
-  public setCaching(value: boolean, timeout?: number): this {
-    this.useCaching = value
-
-    if (timeout) {
-      this.cacheTimeout = timeout
-    }
-
+  public setUnpinPrevious(value: boolean): this {
+    this.unpinPrevious = value
     return this
   }
 
   /**
-   *
-   *
-   * @param value
-   */
-  public setEncryptKey(value: string): this {
-    this.cryptr = new Cryptr(value)
-    return this
-  }
-
-  /**
-   *
-   *
-   */
-  public clearEncryptKey(): this {
-    this.cryptr = undefined
-    return this
-  }
-
-  /**
-   *
    *
    * @param value
    */
@@ -216,16 +181,40 @@ export class Release extends EventEmitter {
 
   /**
    *
+   * @param value
+   */
+  public setCaching(value: boolean, timeout?: number): this {
+    this.useCaching = value
+
+    if (timeout) {
+      this.cachingTimeout = timeout
+    }
+
+    return this
+  }
+
+  /**
+   *
+   * @param value
+   */
+  public setEncryptKey(value: string): this {
+    this.cryptr = new Cryptr(value)
+    return this
+  }
+
+  /**
    *
    */
+  public clearEncryptKey(): this {
+    this.cryptr = undefined
+    return this
+  }
+
+  /**
+   * Initialization.
+   */
   public async init(): Promise<void> {
-    const [files] = await Promise.all([
-      this.getFiles(),
-      storage.init()
-    ])
-
-    this.files = files
-
+    this.files = await this.getFiles()
     this.initialized = true
   }
 
@@ -288,6 +277,7 @@ export class Release extends EventEmitter {
         this.providers.push(provider)
       } catch (error) {
         this.emit('fail', error)
+        throw error
       }
     }
 
@@ -295,7 +285,6 @@ export class Release extends EventEmitter {
   }
 
   /**
-   *
    *
    * @param provider
    */
@@ -321,24 +310,19 @@ export class Release extends EventEmitter {
   }
 
   /**
-   *
+   * Upload the release to all providers.
    */
-  public async deploy(): Promise<UploadResult[]> {
+  public async deploy(): Promise<DeployResult[]> {
     if (!this.initialized) {
       await this.init()
     }
 
-    if (this.name && !this.previousCID) {
-      // Get the IPFS CID of the previous release
-      this.previousCID = storage.get(this.name)
-    }
+    const responses: DeployResult[] = []
 
-    const responses: UploadResult[] = []
-
-    // Upload the release to each provider.
+    // Upload to each provider.
     for (const provider of this.providers) {
       try {
-        const response = await provider.run()
+        const response = await provider.deploy()
         responses.push(response)
 
         if (response.cid && !this.cid) {
@@ -358,16 +342,9 @@ export class Release extends EventEmitter {
       }
     }
 
-    if (this.cid) {
-      if (this.name) {
-        // Store the new IPFS CID.
-        storage.save(this.name, this.cid)
-      }
-
-      if (this.useCaching) {
-        // Cache gateways
-        await this.cacheCID()
-      }
+    if (this.cid && this.useCaching) {
+      // Cache on public gateways.
+      await this.cacheCID()
     }
 
     return responses
@@ -377,11 +354,10 @@ export class Release extends EventEmitter {
    *
    *
    * @protected
-   * @return {*}
    */
   protected async cacheCID(): Promise<void> {
     if (!this.cid) {
-      throw new Error('Unable to cache CID. This release has not been uploaded to IPFS.')
+      throw new Error('No CID!')
     }
 
     for (const uri of gateways) {
@@ -391,7 +367,7 @@ export class Release extends EventEmitter {
         this.emit('cache:begin', url)
 
         await axios.head(url, {
-          timeout: this.cacheTimeout
+          timeout: this.cachingTimeout
         })
 
         this.emit('cache:success', url)

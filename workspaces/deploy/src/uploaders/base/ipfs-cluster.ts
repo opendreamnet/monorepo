@@ -1,7 +1,7 @@
 import CID from 'cids'
 import ipfsCluster from 'ipfs-cluster-api'
 import { isArray } from 'lodash'
-import { UploadResult } from '../../types'
+import { DeployResult } from '../../types'
 import { IPFS } from './ipfs'
 
 /**
@@ -45,9 +45,9 @@ export class IPFSCluster extends IPFS {
    *
    *
    * @param {*} response
-   * @returns {Promise<UploadResult>}
+   * @returns {Promise<DeployResult>}
    */
-  public async parse(response: unknown): Promise<UploadResult> {
+  public async parse(response: unknown): Promise<DeployResult> {
     let cid: string
 
     if (isArray(response)) {

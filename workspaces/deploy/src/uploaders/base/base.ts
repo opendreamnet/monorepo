@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import { isEmpty, isNil, isPlainObject } from 'lodash'
-import { Multiaddress, UploadResult } from '../../types'
+import { Multiaddress, DeployResult } from '../../types'
 import { Release } from '../../modules/release'
 import { getMultiaddr } from '../../modules/utils'
 
 export interface Provider {
-  /**
-   * The file/folder to be uploaded.
-   */
-  release: Release;
-
   /**
    * Url of the uploaded file.
    */
@@ -62,46 +57,43 @@ export interface Provider {
   validate?(): void;
 
   /**
-   *
-   *
-   * @returns {Promise<void>}
+   * Initialization.
    */
   setup?(): Promise<void>;
 
   /**
-   *
-   *
-   * @returns {Promise<unknown>}
+   * Upload the file.
    */
   upload(): Promise<unknown>;
 
   /**
-   *
-   *
-   * @param {*} response
-   * @returns {Promise<UploadResult>}
+   * Handles the provider's response when uploading a file.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  parse(response: unknown): Promise<UploadResult>;
+  parse(response: unknown): Promise<DeployResult>;
 
   /**
+   * Pin the file that has already been uploaded
+   * to another IPFS provider.
    *
-   *
+   * @remarks
+   * This prevents the file from being uploaded multiple times.
    */
   pin?(): Promise<unknown>;
 
   /**
-   *
-   *
-   * @returns {Promise<void>}
-   * @memberof Provider
+   * Returns the CID of the previous release, searching by name.
+   */
+  // getPreviousCID?(): Promise<string>
+
+  /**
+   * Unpin the file.
    */
   unpin?(): Promise<void>;
 }
 
 export class Provider {
   /**
-   * Provider's technical name.
+   * Provider name.
    *
    * @readonly
    */
@@ -110,7 +102,7 @@ export class Provider {
   }
 
   /**
-   * Friendly provider name.
+   * Friendly name.
    *
    * @readonly
    */
@@ -128,7 +120,7 @@ export class Provider {
   }
 
   /**
-   * Indicates if the release is a directory.
+   * True if the release is a directory.
    *
    * @readonly
    */
@@ -137,7 +129,7 @@ export class Provider {
   }
 
   /**
-   * Indicates if this provider supports directory upload.
+   * True if this provider supports directory upload.
    *
    * @readonly
    */
@@ -146,7 +138,7 @@ export class Provider {
   }
 
   /**
-   * Indicates if the provider has been prepared and is ready to use.
+   * True if the provider is ready to use.
    *
    * @readonly
    */
@@ -237,10 +229,9 @@ export class Provider {
   /**
    * Creates an instance of Base.
    *
-   * @param release
+   * @param release The file/folder to be uploaded.
    */
-  public constructor(release: Release) {
-    this.release = release
+  public constructor(public release: Release) {
   }
 
   /**
@@ -310,14 +301,15 @@ export class Provider {
   }
 
   /**
-   * Upload the release to the provider.
+   * Upload the release.
    */
-  public async run(): Promise<UploadResult> {
+  public async deploy(): Promise<DeployResult> {
     if (this.address) {
       this.multi = getMultiaddr(this.address)
     }
 
     if (this.validate) {
+      // Input validation
       this.validate()
     }
 
@@ -325,9 +317,10 @@ export class Provider {
       await this.setup()
     }
 
-    let response: unknown
-    let result: UploadResult
+    let response: any
+    let result: DeployResult
 
+    // Upload/Pin
     if (this.pin && this.release.cid) {
       try {
         this.release.emit('pin:begin', this)
@@ -361,12 +354,11 @@ export class Provider {
     this.url = result.url
     this.cid = result.cid
 
+    // Unpin
     if (this.unpin && this.release.previousCID && this.release.previousCID !== this.cid) {
       try {
         this.release.emit('unpin:begin', this)
-
         await this.unpin()
-
         this.release.emit('unpin:success', this)
       } catch (error) {
         this.release.emit('unpin:fail', error, this)
@@ -375,9 +367,10 @@ export class Provider {
     }
 
     return {
-      provider: this.name,
+      name: this.name,
       url: this.url,
-      cid: this.cid
+      cid: this.cid,
+      response
     }
   }
 }

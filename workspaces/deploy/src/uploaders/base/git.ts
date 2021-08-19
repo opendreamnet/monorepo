@@ -1,4 +1,4 @@
-import { UploadResult } from '../../types'
+import { DeployResult } from '../../types'
 import { GitRelease, GitReleaseAsset } from '../../types/git'
 import { Http } from './http'
 
@@ -83,7 +83,7 @@ export class Git extends Http {
     return this.uploadReleaseAsset()
   }
 
-  public async parse(response: unknown): Promise<UploadResult> {
+  public async parse(response: unknown): Promise<DeployResult> {
     return {
       cid: undefined,
       // @ts-ignore

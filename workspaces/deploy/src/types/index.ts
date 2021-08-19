@@ -1,27 +1,26 @@
 
 import fs from 'fs'
 
-export interface UploadResult {
+export interface DeployResult {
   /**
    * Provider name.
-   *
-   * @type {string}
    */
-  provider?: string;
+  name?: string
 
   /**
    * Url of the uploaded file.
-   *
-   * @type {string}
    */
-  url: string;
+  url: string
 
   /**
    * IPFS CID of the uploaded file.
-   *
-   * @type {string}
    */
-  cid?: string;
+  cid?: string
+
+  /**
+   * Original provider's response.
+   */
+  response?: any
 }
 
 export interface ReleaseFile {

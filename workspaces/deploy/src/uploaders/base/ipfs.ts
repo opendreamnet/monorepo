@@ -1,7 +1,7 @@
 import CID from 'cids'
 import ipfsHttpClient from 'ipfs-http-client'
 import { map } from 'lodash'
-import { UploadResult } from '../../types'
+import { DeployResult } from '../../types'
 import { releaseFileToObject } from '../../modules/utils'
 import { Provider } from './base'
 
@@ -44,7 +44,7 @@ export class IPFS extends Provider {
    * @type {string}
    */
   public get defaultGatewayURL(): string {
-    return 'https://gateway.ipfs.io'
+    return 'https://dweb.link'
   }
 
   /**
@@ -153,9 +153,9 @@ DEPLOY_${this.name.toUpperCase()}_PASSWORD`)
    *
    *
    * @param {*} files
-   * @returns {Promise<UploadResult>}
+   * @returns {Promise<DeployResult>}
    */
-  public async parse(files: unknown): Promise<UploadResult> {
+  public async parse(files: unknown): Promise<DeployResult> {
     // @ts-ignore
     const cid = new CID(files.cid).toString()
 

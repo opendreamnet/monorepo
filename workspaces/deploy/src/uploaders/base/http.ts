@@ -8,11 +8,6 @@ export interface Http {
   /**
    *
    */
-  formData: FormData;
-
-  /**
-   *
-   */
   axios?: AxiosInstance;
 
   /**
@@ -23,26 +18,26 @@ export interface Http {
   /**
    *
    */
-  readonly uploadURL: string;
+  readonly uploadUrl: string;
 
   /**
    *
    */
-  readonly unpinURL?: string;
+  readonly unpinUrl?: string;
 }
 
 export class Http extends Provider {
   /**
-   * Friendly provider name.
+   * Friendly name.
    *
    * @readonly
    */
   public get label(): string {
-    return this.uploadURL ? `Http (${this.uploadURL})` : super.label
+    return this.uploadUrl ? `Http (${this.uploadUrl})` : super.label
   }
 
   /**
-   *
+   * Name of the field for the file.
    *
    * @readonly
    */
@@ -73,7 +68,7 @@ export class Http extends Provider {
    *
    * @readonly
    */
-  public get options(): AxiosRequestConfig {
+  public getOptions(): AxiosRequestConfig {
     return {
       baseURL: this.baseUrl,
       timeout: 5 * 1000,
@@ -82,35 +77,41 @@ export class Http extends Provider {
   }
 
   /**
-   *
+   * Upload request options.
    *
    * @readonly
    */
-  public get uploadOptions(): AxiosRequestConfig {
+  public getUploadOptions(files?: ReleaseFile[]): AxiosRequestConfig {
+    if (!files) {
+      files = this.release.files
+    }
+
+    const formData = this.getFormData(files)
+
     return {
       method: 'POST',
       maxContentLength: Infinity,
       maxBodyLength: Infinity,
       timeout: (60 * 60 * 1000),
-      url: this.uploadURL,
-      data: this.formData,
-      headers: this.formData.getHeaders(this.headers)
+      url: this.uploadUrl,
+      data: formData,
+      headers: formData.getHeaders(this.headers)
     }
   }
 
   /**
    *
    */
-  public setBaseURL(value: string): this {
+  public setBaseUrl(value: string): this {
     this._baseURL = value
     return this
   }
 
   /**
-   *
+   * Provider initialization.
    */
   public async setup?(): Promise<void> {
-    this.axios = axios.create(this.options)
+    this.axios = axios.create(this.getOptions())
   }
 
   /**
@@ -121,9 +122,7 @@ export class Http extends Provider {
       throw new Error('Axios has not been created.')
     }
 
-    this.createFormData()
-
-    const response = await this.axios.request(this.uploadOptions)
+    const response = await this.axios.request(this.getUploadOptions())
 
     return response.data
   }
@@ -138,13 +137,13 @@ export class Http extends Provider {
       throw new Error('Axios has not been created.')
     }
 
-    if (!this.unpinURL) {
+    if (!this.unpinUrl) {
       return
     }
 
     await this.axios.request({
       method: 'DELETE',
-      url: `${this.unpinURL}/${this.release.previousCID}`,
+      url: `${this.unpinUrl}/${this.release.previousCID}`,
       timeout: (15 * 60 * 1000)
     })
   }
@@ -154,22 +153,20 @@ export class Http extends Provider {
    *
    * @returns {void}
    */
-  public createFormData(files?: ReleaseFile[]): void {
-    this.formData = new FormData()
-
-    if (!files) {
-      files = this.release.files
-    }
+  public getFormData(files: ReleaseFile[]): FormData {
+    const formData = new FormData()
 
     files.forEach(file => {
       if (file.isDirectory) {
         return
       }
 
-      this.formData.append(this.formDataField, fs.createReadStream(file.path), {
+      formData.append(this.formDataField, fs.createReadStream(file.path), {
         filename: file.name,
         filepath: file.relpath
       })
     })
+
+    return formData
   }
 }

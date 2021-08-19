@@ -30,7 +30,7 @@ export class Gitea extends Git {
    * @readonly
    * @type {string}
    */
-  public get uploadURL(): string {
+  public get uploadUrl(): string {
     return `/repos/${this.owner}/${this.repo}/releases/${this.gitRelease?.id}/assets`
   }
 
@@ -103,11 +103,9 @@ export class Gitea extends Git {
         continue
       }
 
-      this.createFormData([file])
-
       // eslint-disable-next-line no-await-in-loop
       const response = await this.axios.request({
-        ...this.uploadOptions,
+        ...this.getUploadOptions([file]),
         params: {
           name: file.name
         }

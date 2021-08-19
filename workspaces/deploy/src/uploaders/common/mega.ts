@@ -3,7 +3,7 @@ import util from 'util'
 import { find } from 'lodash'
 import { MutableFile, Storage } from 'megajs'
 import slash from 'slash'
-import { UploadResult } from '../../types'
+import { DeployResult } from '../../types'
 import { Provider } from '../base/base'
 
 export class MEGA extends Provider {
@@ -173,9 +173,9 @@ export class MEGA extends Provider {
    *
    *
    * @param {*} response
-   * @returns {Promise<UploadResult>}
+   * @returns {Promise<DeployResult>}
    */
-  public async parse(response: unknown): Promise<UploadResult> {
+  public async parse(response: unknown): Promise<DeployResult> {
     return {
       cid: undefined,
       url: response as string
