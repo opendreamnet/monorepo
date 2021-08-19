@@ -1,8 +1,7 @@
-import path from 'path'
 import { Command, flags } from '@oclif/command'
 import { upperFirst } from 'lodash'
 import * as ora from 'ora'
-import { Provider, Release, storage, DnsRecord, UploadResult } from '@opendreamnet/deploy'
+import { Provider, Release, DnsRecord, DeployResult } from '@opendreamnet/deploy'
 
 class Deploy extends Command {
   /**
@@ -39,7 +38,9 @@ class Deploy extends Command {
         'teknik',
         'minio',
         'mega',
-        'slate'
+        'slate',
+        'nft.storage',
+        'web3.storage'
       ],
       required: true,
       char: 'p',
@@ -60,15 +61,14 @@ class Deploy extends Command {
       description: 'release name'
     }),
 
-    // path to CID's storage file
-    storage: flags.string({
-      char: 's',
-      description: 'path to CID\'s storage file'
+    unpin: flags.boolean({
+      char: 'u',
+      description: 'true to find the CID of the previous release and unpin it.'
     }),
 
     caching: flags.boolean({
       char: 'c',
-      description: 'enable the IPFS Caching in different public gateways'
+      description: 'true to do caching of the file on public IPFS gateways.'
     }),
 
     cachingTimeout: flags.integer({
@@ -77,7 +77,7 @@ class Deploy extends Command {
 
     encrypt: flags.string({
       char: 'k',
-      description: 'encryption key for output'
+      description: 'output encryption key'
     })
   }
 
@@ -98,22 +98,19 @@ class Deploy extends Command {
   public async run(): Promise<void> {
     const release = await this.createRelease()
 
-    this.log('------------------------------------------')
-    this.log(`| ${release.filepath}`)
-    this.log(`| Root: ${release.rootPath}`)
-    this.log('------------------------------------------')
-    this.log(`| Name: ${release.name}`)
-    this.log(`| Directory: ${release.isDirectory}`)
-    this.log(`| Encrypted: ${release.cryptr !== undefined}`)
-    this.log(`| Files: ${release.files.length}`)
-    this.log(`| Providers: ${release.providers.length}`)
-    this.log(`| DNS: ${release.dnsProviders.length}`)
-    this.log('------------------------------------------\n')
+    this.log(`Release: ${release.filepath}`)
+    // this.log(`Root: ${release.rootPath}`)
+    this.log(`Name: ${release.name}`)
+    this.log(`Directory: ${release.isDirectory}`)
+    this.log(`Encrypted: ${release.cryptr !== undefined}`)
+    this.log(`Files: ${release.files.length}`)
+    this.log(`Providers: ${release.providers.length}`)
+    this.log(`DNS: ${release.dnsProviders.length}`)
+    this.log('')
 
     const response = await release.deploy()
 
     this.log('')
-
     this.log(JSON.stringify(response, null, 2))
   }
 
@@ -123,11 +120,18 @@ class Deploy extends Command {
     const release = new Release(args.file)
 
     // Release name
-    release.setName(flags.name)
+    if (flags.name) {
+      release.setName(flags.name)
+    }
 
     if (flags.encrypt) {
       // Encryption key
       release.setEncryptKey(flags.encrypt)
+    }
+
+    if (flags.unpin) {
+      // Unpin previous release.
+      release.setUnpinPrevious(flags.unpin)
     }
 
     if (flags.caching) {
@@ -165,6 +169,14 @@ class Deploy extends Command {
       case 'dreamlink-cluster':
         release.addProvider('DreamLinkCluster')
         break
+
+      case 'nft.storage':
+        release.addProvider('NFTStorage')
+        break
+
+      case 'web3.storage':
+        release.addProvider('Web3Storage')
+        break
       }
     })
 
@@ -179,17 +191,29 @@ class Deploy extends Command {
       })
     }
 
-    if (flags.storage) {
-      // CID storage
-      storage.setFilepath(flags.storage)
-      this.log(`Storage path: ${path.resolve(flags.storage)}`)
-    }
+    // Find previous CID.
+    release.on('previousCID:begin', () => {
+      this.spinner.start('Finding previous CID...')
+    })
 
+    release.on('previousCID:success', (cid: string) => {
+      if (release.cryptr) {
+        this.spinner.succeed(`Previous CID: ${cid.substring(0, 5)}...`)
+      } else {
+        this.spinner.succeed(`Previous CID: ${cid}`)
+      }
+    })
+
+    release.on('previousCID:fail', (error: Error) => {
+      this.spinner.fail(`Previous CID: ${error.message}`)
+    })
+
+    // Upload.
     release.on('upload:begin', (provider: Provider) => {
       this.spinner.start(`Uploading to ${provider.label}...`)
     })
 
-    release.on('upload:success', (result: UploadResult, provider: Provider) => {
+    release.on('upload:success', (result: DeployResult, provider: Provider) => {
       this.spinner.succeed(`Uploaded to ${provider.label}.`)
 
       if (!release.cryptr) {
@@ -201,15 +225,16 @@ class Deploy extends Command {
       this.spinner.fail(`Upload to ${provider.label} failed: ${error.message}`)
     })
 
+    // Pin.
     release.on('pin:begin', (provider: Provider) => {
       this.spinner.start(`Pinning to ${provider.label}...`)
     })
 
-    release.on('pin:success', (cid: string, provider: Provider) => {
+    release.on('pin:success', (result: DeployResult, provider: Provider) => {
       this.spinner.succeed(`Pinned to ${provider.label}.`)
 
       if (!release.cryptr) {
-        this.spinner.info(cid)
+        this.spinner.info(`${result.url}`)
       }
     })
 
@@ -217,6 +242,7 @@ class Deploy extends Command {
       this.spinner.fail(`Pin to ${provider.label} failed: ${error.message}`)
     })
 
+    // Unpin
     release.on('unpin:begin', (provider: Provider) => {
       this.spinner.start(`Unpinning old version from ${provider.label}...`)
     })
@@ -233,6 +259,7 @@ class Deploy extends Command {
       this.spinner.fail(`Unpin from ${provider.label} failed: ${error.message}`)
     })
 
+    // DNS
     release.on('dns:begin', (provider: Provider) => {
       this.spinner.start(`Updating ${provider.label} DNS...`)
     })
@@ -249,6 +276,7 @@ class Deploy extends Command {
       }
     })
 
+    // Caching
     release.on('cache:begin', (url: string) => {
       const uri = new URL(url)
       this.spinner.start(`Caching to ${uri.hostname}...`)
@@ -268,8 +296,6 @@ class Deploy extends Command {
       // eslint-disable-next-line no-console
       console.trace(error)
     })
-
-    await release.init()
 
     return release
   }
