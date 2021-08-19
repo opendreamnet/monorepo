@@ -1,6 +1,5 @@
 declare module 'recursive-fs'
 declare module 'dnslink-cloudflare'
 declare module 'ipfs-cluster-api'
-declare module 'ipfs-http-client'
 declare module 'youch-terminal'
 declare module 'stack-trace'
