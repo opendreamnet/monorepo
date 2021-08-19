@@ -4,10 +4,9 @@ import { Http } from '../base/http'
 
 export class Slate extends Http {
   /**
-   *
+   * Friendly name.
    *
    * @readonly
-   * @type {string}
    */
   public get label(): string {
     return 'Slate'
@@ -17,7 +16,6 @@ export class Slate extends Http {
    *
    *
    * @readonly
-   * @type {string}
    */
   public get formDataField(): string {
     return 'data'
@@ -41,28 +39,30 @@ export class Slate extends Http {
     }
   }
 
-  /**
-   *
-   *
-   * @readonly
-   * @type {string}
-   */
-  public get uploadUrl(): string {
-    return 'https://uploads.slate.host/api/public'
+  public get defaultBaseUrl(): string | undefined {
+    return 'https://uploads.slate.host/api/v2'
   }
 
   /**
-   *
+   * Url to upload the file.
    *
    * @readonly
-   * @type {string}
+   */
+  public get uploadUrl(): string {
+    return '/public'
+  }
+
+  /**
+   * Url of the http gateway.
+   *
+   * @readonly
    */
   public get gateway(): string {
     return process.env.DEPLOY_SLATE_GATEWAY || 'https://slate.textile.io'
   }
 
   /**
-   *
+   * Handles the provider's response when uploading a file.
    *
    * @param {*} response
    */
@@ -71,5 +71,32 @@ export class Slate extends Http {
       cid: response.data.cid,
       url: `${this.gateway}/ipfs/${response.data.cid}`
     }
+  }
+
+  /**
+   * Pin the file that has already been uploaded
+   * to another IPFS provider.
+   *
+   * @remarks
+   * This prevents the file from being uploaded multiple times.
+   */
+   public async pin(cid: string): Promise<any> {
+    if (!this.axios) {
+      throw new Error('No axios!')
+    }
+
+    const data: Record<string, any> = {
+      cid
+    }
+
+    if (this.release.name) {
+      data.filename = this.release.name
+    }
+
+    const response = await this.axios.post('/public/upload-by-cid', { data }, {
+      timeout: (5 * 60 * 1000)
+    })
+
+    return response.data
   }
 }
