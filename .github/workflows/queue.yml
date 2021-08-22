@@ -1,10 +1,9 @@
-name: "@dreamnet/queue"
+name: "@opendreamnet/queue"
 
 on:
   workflow_dispatch:
   push:
-    tags:
-      - queue-v*
+    tags: [ queue-v* ]
 
 env:
   WORK_DIR: workspaces/queue
@@ -24,7 +23,7 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
       - name: 📦 Cache node_modules
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2
         env:
           cache-name: monorepo-cache
         with:
@@ -45,7 +44,7 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn workspaces focus
+        run: yarn install
 
       - name: ✍️ Lint
         working-directory: ${{ env.WORK_DIR }}
@@ -58,10 +57,6 @@ jobs:
       - name: 🏗️ Build
         working-directory: ${{ env.WORK_DIR }}
         run: yarn run build
-
-      - name: ✨ Release
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn run release
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
