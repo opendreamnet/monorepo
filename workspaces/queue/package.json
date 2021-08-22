@@ -1,5 +1,5 @@
 {
-  "name": "@dreamnet/queue",
+  "name": "@opendreamnet/queue",
   "version": "1.1.2",
   "description": "Small library to create managed queues.",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "build:web": "webpack",
     "build:node": "tsc -b",
     "build": "yarn run build:node && yarn run build:web",
-    "release": "yarn dlx standard-version && git push --follow-tags"
+    "release": "yarn dlx standard-version"
   },
   "dependencies": {
     "lodash": "^4.17.20"
@@ -42,7 +42,45 @@
   "standard-version": {
     "path": ".",
     "tag-prefix": "queue-v",
-    "releaseCommitMessageFormat": "chore(release): queue@{{currentTag}}"
+    "releaseCommitMessageFormat": "chore(release): queue@{{currentTag}}",
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "improvement",
+        "section": "Improvements"
+      },
+      {
+        "type": "docs",
+        "section": "Miscellaneous changes"
+      },
+      {
+        "type": "style",
+        "section": "Design"
+      },
+      {
+        "type": "refactor",
+        "section": "Miscellaneous changes"
+      },
+      {
+        "type": "perf",
+        "section": "Improvements"
+      },
+      {
+        "type": "test",
+        "hidden": true
+      },
+      {
+        "type": "chore",
+        "section": "Miscellaneous changes"
+      }
+    ]
   },
   "files": [
     "dist/",

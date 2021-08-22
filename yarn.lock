@@ -2517,31 +2517,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dreamnet/queue@workspace:workspaces/queue":
-  version: 0.0.0-use.local
-  resolution: "@dreamnet/queue@workspace:workspaces/queue"
-  dependencies:
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1"
-    "@istanbuljs/nyc-config-typescript": ^1.0.1
-    "@types/mocha": ^8
-    "@types/source-map-support": ^0
-    eslint: ^7.18.0
-    husky: ^4.3.8
-    lint-staged: ^10.5.3
-    lodash: ^4.17.20
-    mocha: ^8.3.2
-    nyc: ^15.1.0
-    shx: ^0.3.3
-    source-map-support: ^0.5.19
-    ts-loader: ^8.1.0
-    ts-mocha: ^8.0.0
-    ts-node: ^9.1.1
-    typescript: ^3.9.7
-    webpack: ^5.33.2
-    webpack-cli: ^4.6.0
-  languageName: unknown
-  linkType: soft
-
 "@dreamnet/readableid@workspace:workspaces/readableid":
   version: 0.0.0-use.local
   resolution: "@dreamnet/readableid@workspace:workspaces/readableid"
@@ -4121,6 +4096,31 @@ __metadata:
     "@nuxtjs/tailwindcss": "*"
     lodash: "*"
     tippy.js: "*"
+  languageName: unknown
+  linkType: soft
+
+"@opendreamnet/queue@workspace:workspaces/queue":
+  version: 0.0.0-use.local
+  resolution: "@opendreamnet/queue@workspace:workspaces/queue"
+  dependencies:
+    "@dreamnet/eslint-config-dreamnet": "workspace:^1"
+    "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@types/mocha": ^8
+    "@types/source-map-support": ^0
+    eslint: ^7.18.0
+    husky: ^4.3.8
+    lint-staged: ^10.5.3
+    lodash: ^4.17.20
+    mocha: ^8.3.2
+    nyc: ^15.1.0
+    shx: ^0.3.3
+    source-map-support: ^0.5.19
+    ts-loader: ^8.1.0
+    ts-mocha: ^8.0.0
+    ts-node: ^9.1.1
+    typescript: ^3.9.7
+    webpack: ^5.33.2
+    webpack-cli: ^4.6.0
   languageName: unknown
   linkType: soft
 

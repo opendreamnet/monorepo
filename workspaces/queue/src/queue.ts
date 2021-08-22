@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import EventEmitter from 'events'
-import { take, reject, debounce, find, sortBy, filter, ListIterateeCustom, cloneDeep } from 'lodash'
+import { take, reject, debounce, find, filter, ListIterateeCustom, DebouncedFunc } from 'lodash'
 
 export type WorkerCallback = (task: Task) => Promise<any>
 
@@ -8,26 +8,38 @@ export type BeforeWorkCallback = (tasks: Task[]) => Promise<Task[] | void>
 
 export type CancelCallback = (reason?: string) => void
 
+type WorkerFunc = () => Promise<void>
+
 export interface QueueOptions {
   /**
    * Number of tasks to process at the same time.
+   *
+   * @default 1
    */
   concurrent?: number
   /**
    * Time in milliseconds between task group executions.
+   *
+   * @default 10
    */
   delay?: number
   /**
    * Time in milliseconds to wait between added tasks to start processing.
+   *
+   * @default 300
    */
   debounceDelay?: number
   /**
    * Start processing tasks automatically.
+   *
+   * @default true
    */
   autoStart?: boolean
   /**
    * Indicates if failed tasks will be put back
    * to the beginning of the queue.
+   *
+   * @default false
    */
   retry?: boolean
   /**
@@ -146,7 +158,7 @@ export class Queue extends EventEmitter {
   /**
    * Debounced work function.
    */
-  protected work: () => Promise<void>
+  protected work: DebouncedFunc<WorkerFunc> | WorkerFunc
 
   /**
    * Tasks list.
@@ -303,7 +315,7 @@ export class Queue extends EventEmitter {
 
       const workload: Promise<unknown>[] = []
 
-      this.tasks = cloneDeep(this.tasks).sort((task1, task2) => {
+      this.tasks.sort((task1, task2) => {
         if (task1.priority < task2.priority) {
           return -1
         }
