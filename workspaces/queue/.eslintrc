@@ -4,6 +4,7 @@
   ],
   "rules": {
     "no-await-in-loop": "off",
+    "promise/catch-or-return": "off",
     "promise/always-return": "off",
     "@typescript-eslint/no-explicit-any": "off"
   }

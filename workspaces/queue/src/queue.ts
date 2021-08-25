@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import EventEmitter from 'events'
-import { take, reject, debounce, find, filter, ListIterateeCustom, DebouncedFunc } from 'lodash'
+import { take, reject, find, filter, ListIterateeCustom } from 'lodash'
 
 export type WorkerCallback = (task: Task) => Promise<any>
 
 export type BeforeWorkCallback = (tasks: Task[]) => Promise<Task[] | void>
 
 export type CancelCallback = (reason?: string) => void
-
-type WorkerFunc = () => Promise<void>
 
 export interface QueueOptions {
   /**
@@ -20,15 +18,9 @@ export interface QueueOptions {
   /**
    * Time in milliseconds between task group executions.
    *
-   * @default 10
-   */
-  delay?: number
-  /**
-   * Time in milliseconds to wait between added tasks to start processing.
-   *
    * @default 300
    */
-  debounceDelay?: number
+  delay?: number
   /**
    * Start processing tasks automatically.
    *
@@ -45,7 +37,7 @@ export interface QueueOptions {
   /**
    * Time in milliseconds to cancel "stuck" tasks.
    */
-  timeout?: number
+  timeout?: number | null
   /**
    * Indicates if task errors should be thrown
    * instead of only being passed to the `task:failed` event.
@@ -58,7 +50,7 @@ export interface QueueOptions {
    * Called before processing a group of tasks.
    * If returns a new list of tasks that list will be processed instead.
    */
-  onBeforeWork?: BeforeWorkCallback
+  onBeforeWork?: BeforeWorkCallback | null
 }
 
 export interface TaskCallbacks {
@@ -128,37 +120,20 @@ export class Queue extends EventEmitter {
   /**
    * Queue options.
    */
-  public options: QueueOptions = {
+  public options: Required<QueueOptions> = {
     concurrent: 1,
-    delay: 10,
-    debounceDelay: 300,
+    delay: 300,
     autoStart: true,
     retry: false,
-    throwOnError: process.env.NODE_ENV === 'test'
+    timeout: null,
+    throwOnError: process.env.NODE_ENV === 'test',
+    onBeforeWork: null
   }
 
   /**
-   * Indicates if the queue will process the tasks.
+   * True if the queue will process tasks.
    */
   public started = false
-
-  /**
-   * Indicates if the queue is currently processing tasks.
-   */
-  public working = false
-
-  /**
-   * Indicates if the queue has been emptied during execution.
-   *
-   * @remarks
-   * Just avoids calling the `finished` and `idle` events twice.
-   */
-  protected cleaned = false
-
-  /**
-   * Debounced work function.
-   */
-  protected work: DebouncedFunc<WorkerFunc> | WorkerFunc
 
   /**
    * Tasks list.
@@ -171,20 +146,47 @@ export class Queue extends EventEmitter {
   protected nextTaskID = -1
 
   /**
-   * Indicates if the task list is empty.
+   * True if the task list is empty.
+   *
+   * @readonly
    */
   public get isEmpty(): boolean {
     return this.tasks.length === 0
   }
 
   /**
-   * Returns the number of tasks in the queue.
+   * True if the number of tasks running is less than
+   * the maximum concurrent.
    *
-   * @remarks
-   * This includes tasks being processed.
+   * @readonly
+   */
+  public get isAvailable(): boolean {
+    return this.runningSize < this.options.concurrent
+  }
+
+  /**
+   * Returns the number of all tasks.
    */
   public get size(): number {
     return this.tasks.length
+  }
+
+  /**
+   * Returns the number of running tasks.
+   *
+   * @readonly
+   */
+  public get runningSize(): number {
+    return this.getBy({ running: true }).length
+  }
+
+  /**
+   * Returns the number of pending tasks.
+   *
+   * @readonly
+   */
+  public get pendingSize(): number {
+    return this.getBy({ running: false }).length
   }
 
   /**
@@ -199,17 +201,15 @@ export class Queue extends EventEmitter {
       ...options
     }
 
-    if (this.options.debounceDelay && this.options.debounceDelay > 0) {
-      this.work = debounce<() => Promise<void>>(this._work.bind(this), this.options.debounceDelay)
-    } else {
-      this.work = this._work
-    }
+    // Loop in charge of running tasks.
+    this.think()
 
     if (this.options.autoStart) {
       this.start()
     }
 
     if (this.options.throwOnError) {
+      // The user wants to throw errors instead of handling them with the event.
       this.on('task:failed', (task: Task, err: Error) => {
         throw err
       })
@@ -217,7 +217,7 @@ export class Queue extends EventEmitter {
   }
 
   /**
-   * Start processing tasks.
+   * Start queue.
    */
   public start(): this {
     if (this.started) {
@@ -225,16 +225,13 @@ export class Queue extends EventEmitter {
     }
 
     this.started = true
-
     this.emit('started')
-
-    this.work()
 
     return this
   }
 
   /**
-   * Pauses task processing.
+   * Pauses queue.
    *
    * @remarks
    * This does not cancel running tasks.
@@ -245,14 +242,13 @@ export class Queue extends EventEmitter {
     }
 
     this.started = false
-
     this.emit('paused')
 
     return this
   }
 
   /**
-   * Stop and clear the tasks list.
+   * Stops the queue and cancels all tasks.
    */
   public stop(): this {
     if (!this.started) {
@@ -260,16 +256,14 @@ export class Queue extends EventEmitter {
     }
 
     this.started = false
-
     this.clear('stopped')
-
     this.emit('stopped')
 
     return this
   }
 
   /**
-   * Clear the tasks list.
+   * Cancels all tasks.
    */
   public clear(reason?: string): this {
     this.tasks.forEach((task) => {
@@ -277,127 +271,166 @@ export class Queue extends EventEmitter {
     })
 
     this.tasks = []
-
     this.emit('idle')
-
-    if (this.working) {
-      this.cleaned = true
-    }
 
     return this
   }
 
   /**
-   * Process the tasks by groups until there are none left.
+   * Returns a promise that will not be resolved
+   * until the queue starts.
+   *
+   * @protected
    */
-  protected async _work(): Promise<void> {
-    if (!this.started) {
-      // Paused
-      return
+  protected waitUntilStart(): Promise<void> {
+    if (this.started) {
+      return Promise.resolve()
     }
 
-    if (this.working) {
-      return
+    return new Promise((resolve) => {
+      this.once('started', resolve)
+    })
+  }
+
+  /**
+   * Returns a promise that will not be resolved
+   * until there are pending tasks.
+   *
+   * @protected
+   */
+  protected waitUntilPendingTasks(): Promise<void> {
+    if (this.pendingSize > 0) {
+      return Promise.resolve()
     }
 
-    if (this.isEmpty) {
-      // No pending tasks.
-      return
+    return new Promise((resolve) => {
+      this.once('task:added', resolve)
+    })
+  }
+
+  /**
+   * Returns a promise that will not be resolved
+   * until there is space available in the queue.
+   *
+   * @protected
+   * @return {*}
+   */
+  protected waitUntilFree(): Promise<void> {
+    if (this.isAvailable) {
+      return Promise.resolve()
     }
 
-    this.working = true
+    return new Promise((resolve) => {
+      this.once('free', resolve)
+    })
+  }
 
-    do {
-      if (this.options.delay) {
-        // Wait between groups of tasks.
-        await wait(this.options.delay)
+  /**
+   * Returns the list of tasks to run.
+   *
+   * @protected
+   */
+  protected async getNextTasks(): Promise<Task[]> {
+    let tasks = this.getBy({ running: false })
+
+    // Priority sort.
+    tasks.sort((task1, task2) => {
+      if (task1.priority < task2.priority) {
+        return -1
       }
 
-      const workload: Promise<unknown>[] = []
-
-      this.tasks.sort((task1, task2) => {
-        if (task1.priority < task2.priority) {
-          return -1
-        }
-
-        if (task1.priority > task2.priority) {
-          return 1
-        }
-
-        return 0
-      })
-
-      let tasks = take(this.tasks, this.options.concurrent)
-
-      if (this.options.onBeforeWork) {
-        // User wants to modify the tasks before processing them.
-        const tasksResponse = await this.options.onBeforeWork(tasks)
-
-        if (tasksResponse) {
-          // User has returned new list of tasks, compare.
-          tasks.forEach((task) => {
-            const exists = find(tasksResponse, { id: task.id })
-
-            if (!exists) {
-              // This task is no longer in the new list.
-              // "I don't need you anymore..."
-              this.discard(task, true)
-            }
-          })
-
-          tasks = tasksResponse
-        }
+      if (task1.priority > task2.priority) {
+        return 1
       }
+
+      return 0
+    })
+
+    // Remaining before filling the max concurrent.
+    const remaining = this.options.concurrent - this.runningSize
+
+    tasks = take(tasks, remaining)
+
+    if (this.options.onBeforeWork) {
+      // User wants to modify the tasks before processing them.
+      const tasksResponse = await this.options.onBeforeWork(tasks)
+
+      if (tasksResponse) {
+        // User has returned new list of tasks, compare.
+        tasks.forEach((task) => {
+          const exists = find(tasksResponse, { id: task.id })
+
+          if (!exists) {
+            // This task is no longer in the new list.
+            // "I don't need you anymore..."
+            this.discard(task, true)
+          }
+        })
+
+        tasks = tasksResponse
+      }
+    }
+
+    return tasks
+  }
+
+  /**
+   *
+   *
+   * @protected
+   */
+  protected async think(): Promise<void> {
+    while(true) {
+      // Wait for the queue to start.
+      await this.waitUntilStart()
+
+      // Wait until there are pending tasks.
+      await this.waitUntilPendingTasks()
+
+      // Wait until the number of tasks running is less than the number of max concurrent tasks.
+      await this.waitUntilFree()
+
+      // Delay.
+      await wait(this.options.delay)
+
+      if (!this.started) {
+        // It seems that during this time the queue has stopped.
+        continue
+      }
+
+      const tasks = await this.getNextTasks()
 
       this.emit('group:started', tasks)
 
       tasks.forEach((task) => {
-        this.fireStart(task)
+        task.running = true
+        this.emitStart(task)
 
         if (this.options.timeout && this.options.timeout > 0) {
           // Safe timeout.
-          task.timeout = setTimeout(() => {
-            this.fireTimeout(task)
-          }, this.options.timeout)
+          task.timeout = setTimeout(() => this.emitTimeout(task), this.options.timeout)
         }
 
-        task.running = true
+        // Process the task!
+        this.fn(task)
+          .then((value: unknown) => {
+            this.discard(task)
+            this.emitSuccess(task, value)
+          })
+          .catch((err) => {
+            this.discard(task)
+            this.emitFailed(task, err)
 
-        workload.push(
-          this.fn(task)
-            .then((value: unknown) => {
-              this.discard(task)
-              this.fireSuccess(task, value)
-            })
-            .catch((err) => {
-              this.discard(task)
-              this.fireFail(task, err)
-
-              if (this.options.retry) {
-                // Place at the beginning of the queue to retry.
-                this.unshift(task.payload)
-              }
-            })
-            .finally(() => {
-              this.cleanup(task)
-            })
-        )
+            if (this.options.retry) {
+              // Place at the beginning of the queue to retry.
+              this.unshift(task.payload)
+            }
+          })
+          .finally(() => {
+            this.done(task)
+          })
       })
-
-      await Promise.allSettled(workload)
-
-      this.emit('group:finished', tasks)
-    } while (this.started && !this.isEmpty)
-
-    this.working = false
-
-    if (!this.cleaned) {
-      this.emit('idle')
     }
-
-    this.emit('finished')
-
-    this.cleaned = false
   }
 
   /**
@@ -463,8 +496,6 @@ export class Queue extends EventEmitter {
     this.tasks[func](task)
 
     this.emit('task:added', task)
-
-    this.work()
 
     return task
   }
@@ -535,13 +566,13 @@ export class Queue extends EventEmitter {
    * Removes a task from the queue.
    *
    * @param task
-   * @param [fire=false] Fire discarded task event?
+   * @param [fire=false] Emit event?
    */
   public discard(task: Task, fire = false): this {
     this.tasks = reject(this.tasks, { id: task.id })
 
     if (fire) {
-      this.fireDiscard(task)
+      this.emitDiscard(task)
     }
 
     return this
@@ -555,34 +586,43 @@ export class Queue extends EventEmitter {
    */
   public cancel(task: Task, reason?: string): this {
     if (task.running) {
-      this.fireCancel(task, reason)
+      this.emitCancel(task, reason)
     } else {
-      this.fireDiscard(task)
+      this.emitDiscard(task)
     }
 
-    this.cleanup(task)
+    this.done(task)
 
     return this
   }
 
   /**
-   * Performs the last actions before finishing a task.
+   * Prepare the task for completion.
    *
    * @param task
    */
-  public cleanup(task: Task): this {
+  public done(task: Task): this {
     if (task.timeout) {
       clearTimeout(task.timeout)
     }
 
     task.running = false
+    this.emitFinished(task)
 
-    this.fireFinished(task)
+    if (this.isAvailable) {
+      // There is already space in the queue.
+      this.emit('free')
+    }
+
+    if (this.isEmpty) {
+      // Totally empty.
+      this.emit('idle')
+    }
 
     return this
   }
 
-  protected fireStart(task: Task): void {
+  protected emitStart(task: Task): void {
     if (task.onStarted) {
       task.onStarted()
     }
@@ -590,7 +630,7 @@ export class Queue extends EventEmitter {
     this.emit('task:started', task)
   }
 
-  protected fireSuccess(task: Task, value: unknown): void {
+  protected emitSuccess(task: Task, value: unknown): void {
     if (task.onSuccess) {
       task.onSuccess(value)
     }
@@ -598,7 +638,7 @@ export class Queue extends EventEmitter {
     this.emit('task:success', task, value)
   }
 
-  protected fireFail(task: Task, err: Error): void {
+  protected emitFailed(task: Task, err: Error): void {
     if (task.onFailed) {
       task.onFailed(err)
     }
@@ -606,7 +646,7 @@ export class Queue extends EventEmitter {
     this.emit('task:failed', task, err)
   }
 
-  protected fireFinished(task: Task): void {
+  protected emitFinished(task: Task): void {
     if (task.onFinished) {
       task.onFinished()
     }
@@ -614,7 +654,7 @@ export class Queue extends EventEmitter {
     this.emit('task:finished', task)
   }
 
-  protected fireDiscard(task: Task): void {
+  protected emitDiscard(task: Task): void {
     if (task.onDiscarded) {
       task.onDiscarded()
     }
@@ -622,7 +662,7 @@ export class Queue extends EventEmitter {
     this.emit('task:discarded', task)
   }
 
-  protected fireTimeout(task: Task): void {
+  protected emitTimeout(task: Task): void {
     if (task.onCancel) {
       task.onCancel('timeout')
     }
@@ -630,7 +670,7 @@ export class Queue extends EventEmitter {
     this.emit('task:cancelled', task, 'timeout')
   }
 
-  protected fireCancel(task: Task, reason?: string): void {
+  protected emitCancel(task: Task, reason?: string): void {
     if (task.onCancel) {
       task.onCancel(reason)
     }
