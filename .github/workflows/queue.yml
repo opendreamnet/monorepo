@@ -50,9 +50,9 @@ jobs:
         working-directory: ${{ env.WORK_DIR }}
         run: yarn run lint
 
-      - name: 🧪 Tests
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn run test
+      #- name: 🧪 Tests
+      #  working-directory: ${{ env.WORK_DIR }}
+      #  run: yarn run test
 
       - name: 🏗️ Build
         working-directory: ${{ env.WORK_DIR }}
