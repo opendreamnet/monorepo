@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.1...nuxtjs-base-v1.4.2) (2021-09-26)
+
+
+### Bug Fixes
+
+* changed font domain ([8bbbeba](https://github.com/dreamnettech/monorepo/commit/8bbbeba7fed2fe5530ea9d2f233cc6b77a39b5de))
+
 ### [1.4.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.0...nuxtjs-base-v1.4.1) (2021-07-23)
 
 
