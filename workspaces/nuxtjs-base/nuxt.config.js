@@ -31,6 +31,11 @@ exports.setNuxtConfig = (config) => {
       link: []
     },
 
+    // Loading. (https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-loading)
+    loading: {
+      color: tailwindConfig.theme.extend.colors.primary.DEFAULT
+    },
+
     // Loading indicator. (https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-loading-indicator)
     loadingIndicator: {
       name: 'cube-grid',
