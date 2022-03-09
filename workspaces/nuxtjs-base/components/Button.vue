@@ -40,7 +40,7 @@ export default Vue.extend({
 
 .button {
   @apply inline-flex items-center justify-center relative transition-all;
-  @apply px-5 text-sm text-snow-lighter rounded-3xl font-semibold uppercase tracking-wide;
+  @apply px-6 text-sm font-semibold uppercase tracking-wide;
   @apply outline-none #{!important};
   height: $input-height;
 
@@ -97,115 +97,77 @@ export default Vue.extend({
   }
 
   /* Default theme */
-
-  @apply bg-button;
+  --button-color: var(--theme-button);
+  --button-bg-color: var(--button-color);
+  --button-text-color: var(--theme-snow-lighter);
+  --button-hover-bg-color: var(--theme-button-light);
+  --button-hover-text-color: var(--button-text-color);
+  --button-focus-bg-color: var(--theme-button-light);
+  --button-focus-text-color: var(--button-text-color);
+  
+  color: var(--button-text-color);
+  background-color: var(--button-bg-color);
 
   &:hover,
   &:active {
-    @apply bg-button-light shadow-lg;
+    @apply shadow-lg;
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-text-color);
   }
 
-  /*
   &:focus {
-    @apply bg-black;
+    background-color: var(--button-focus-bg-color);
+    color: var(--button-focus-text-color);
   }
-  */
 
   /* Primary */
 
   &.button--primary {
-    @apply text-black bg-primary;
-
-    &:hover,
-    &:active {
-      @apply bg-primary-light;
-    }
-
-    &:focus {
-      @apply bg-primary-dark;
-    }
+    --button-color: var(--theme-primary);
+    --button-text-color: var(--theme-night-darker);
+    --button-hover-bg-color: var(--theme-primary-light);
+    --button-focus-bg-color: var(--theme-primary-dark);
   }
 
   &.button--warning {
-    @apply bg-warning text-night-darker shadow;
-
-    &:hover,
-    &:active {
-      @apply bg-warning-light;
-    }
-
-    &:focus {
-      @apply bg-warning-dark;
-    }
+    --button-color: var(--theme-warning);
+    --button-text-color: var(--theme-night-darker);
+    --button-hover-bg-color: var(--theme-warning-light);
+    --button-focus-bg-color: var(--theme-warning-dark);
   }
 
   &.button--danger {
-    @apply bg-danger text-night-darker shadow;
-
-    &:hover,
-    &:active {
-      @apply bg-danger-light;
-    }
-
-    &:focus {
-      @apply bg-danger-dark;
-    }
+    --button-color: var(--theme-danger);
+    --button-text-color: var(--theme-night-darker);
+    --button-hover-bg-color: var(--theme-danger-light);
+    --button-focus-bg-color: var(--theme-danger-dark);
   }
 
   &.button--success {
-    @apply bg-success text-night-darker shadow;
-
-    &:hover,
-    &:active {
-      @apply bg-success-light;
-    }
-
-    &:focus {
-      @apply bg-success-dark;
-    }
+    --button-color: var(--theme-success);
+    --button-text-color: var(--theme-night-darker);
+    --button-hover-bg-color: var(--theme-success-light);
+    --button-focus-bg-color: var(--theme-success-dark);
   }
 
   &.button--info {
-    @apply bg-blue text-night-darker shadow;
-
-    &:hover,
-    &:active {
-      @apply bg-blue-light;
-    }
-
-    &:focus {
-      @apply bg-blue-dark;
-    }
+    --button-color: var(--theme-blue);
+    --button-text-color: var(--theme-night-darker);
+    --button-hover-bg-color: var(--theme-blue-light);
+    --button-focus-bg-color: var(--theme-blue-dark);
   }
 
-  /*
   &.button--glass {
-    @apply bg-transparent;
-
-    &:hover,
-    &:active,
-    &:focus {
-      @apply bg-opacity-30;
-    }
+    @apply bg-transparent shadow-none;
+    --button-text-color: var(--button-color);
+    --button-hover-text-color: var(--button-hover-bg-color);
+    --button-focus-text-color: var(--button-focus-bg-color);
   }
-  */
 }
 </style>
 
 <style lang="scss">
 .buttons {
   @apply flex flex-wrap;
-
-  .button {
-    @apply rounded-none;
-
-    &:first-child {
-      @apply rounded-l-full;
-    }
-
-    &:last-child {
-      @apply rounded-r-full;
-    }
-  }
 }
 </style>

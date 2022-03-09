@@ -1,9 +1,10 @@
+@import "./root";
 @import "./fonts";
 @import "./vendor";
 
 body {
   @apply bg-background text-snow;
-  font-feature-settings: "liga", "ss01", "zero", "cv11", "frac", "calt", "tnum";
+  // font-feature-settings: "liga", "ss01", "zero", "cv11", "frac", "calt", "tnum";
 }
 
 hr {
@@ -29,10 +30,6 @@ dialog + .backdrop {
 ._dialog_overlay {
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
-}
-
-.title {
-  @apply text-snow-lighter font-bold;
 }
 
 .code {

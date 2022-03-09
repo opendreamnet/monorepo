@@ -81,14 +81,14 @@ module.exports = {
           darker: darken(theme.night.darker, 6)
         },
         input: {
-          light: lighten(theme.night.dark),
-          DEFAULT: theme.night.dark,
-          dark: darken(theme.night.dark, 8)
+          light: lighten(theme.night.DEFAULT),
+          DEFAULT: theme.night.DEFAULT,
+          dark: darken(theme.night.DEFAULT, 8)
         },
         button: {
-          light: lighten(theme.night.dark),
-          DEFAULT: theme.night.dark,
-          dark: darken(theme.night.dark)
+          light: lighten(theme.night.DEFAULT),
+          DEFAULT: theme.night.DEFAULT,
+          dark: darken(theme.night.DEFAULT)
         },
         danger: {
           light: lighten(theme.aurora.red),
