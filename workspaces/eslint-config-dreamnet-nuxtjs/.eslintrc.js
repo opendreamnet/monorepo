@@ -23,25 +23,65 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/explicit-member-accessibility': ['error'],
         '@typescript-eslint/space-before-function-paren': ['error', 'never'],
-
+        '@typescript-eslint/no-explicit-any': 'off',
+        quotes: 'off',
+        semi: 'off',
+        'space-before-function-paren': 'off',
+        
+        'vue/html-indent': 'off',
+        'vue/no-v-html': 'off',
         'vue/html-closing-bracket-newline': ['warn', {
           'singleline': 'never',
           'multiline': 'never'
         }],
         'vue/max-attributes-per-line': ['warn', {
-          singleline: {
-            max: 3,
-            allowFirstLine: true
-          },
-          multiline: {
-            max: 1,
-            allowFirstLine: true
-          }
+          singleline: 3,
+          multiline: 1
         }],
-
-        quotes: 'off',
-        semi: 'off',
-        'space-before-function-paren': 'off',
+        'vue/singleline-html-element-content-newline': ['error', {
+          ignores: [
+            'a',
+            'abbr',
+            'audio',
+            'b',
+            'bdi',
+            'bdo',
+            'canvas',
+            'cite',
+            'code',
+            'data',
+            'del',
+            'dfn',
+            'em',
+            'i',
+            'iframe',
+            'ins',
+            'kbd',
+            'label',
+            'map',
+            'mark',
+            'noscript',
+            'object',
+            'output',
+            'picture',
+            'q',
+            'ruby',
+            's',
+            'samp',
+            'small',
+            'span',
+            'strong',
+            'sub',
+            'sup',
+            'svg',
+            'time',
+            'u',
+            'var',
+            'video',
+            'button',
+            'NuxtLink'
+          ]
+        }]
       },
     },
   ],

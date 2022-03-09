@@ -93,6 +93,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/explicit-member-accessibility': ['error'],
         '@typescript-eslint/space-before-function-paren': ['error', 'never'],
+        '@typescript-eslint/no-explicit-any': 'off',
 
         quotes: 'off',
         semi: 'off',
