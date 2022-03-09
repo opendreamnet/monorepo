@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.5](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.4...nuxtjs-base-v1.4.5) (2022-03-09)
+
+
+### Bug Fixes
+
+* process.env variables not working ([0acd8c6](https://github.com/dreamnettech/monorepo/commit/0acd8c6da53118cc5bbe2888459d151b16a18f15))
+
 ### [1.4.4](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.3...nuxtjs-base-v1.4.4) (2022-03-09)
 
 
