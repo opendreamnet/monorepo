@@ -1,6 +1,6 @@
 {
   "name": "@opendreamnet/nuxtjs-base",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "license": "MIT",
   "main": "nuxt.config.js",
   "scripts": {
