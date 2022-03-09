@@ -30,6 +30,7 @@ module.exports = {
         
         'vue/html-indent': 'off',
         'vue/no-v-html': 'off',
+        'vue/multi-word-component-names': 'off',
         'vue/html-closing-bracket-newline': ['warn', {
           'singleline': 'never',
           'multiline': 'never'
