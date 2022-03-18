@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.5...nuxtjs-base-v1.5.0) (2022-03-18)
+
+
+### Features
+
+* changed design colors from dark blue to dark gray ([4f9ece4](https://github.com/dreamnettech/monorepo/commit/4f9ece4a5ed615aaa19c2fbe5a705cf99d33d879))
+
 ### [1.4.5](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.4...nuxtjs-base-v1.4.5) (2022-03-09)
 
 
