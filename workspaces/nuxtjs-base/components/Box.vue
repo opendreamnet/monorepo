@@ -120,7 +120,7 @@ export default Vue.extend({
     @apply bg-menus-dark rounded-tr rounded-tl;
 
     .title {
-      @apply font-bold text-snow-lighter space-x-2 text-lg;
+      @apply font-bold text-white space-x-2 text-lg;
     }
   }
 

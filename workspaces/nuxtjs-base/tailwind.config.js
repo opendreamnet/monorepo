@@ -12,18 +12,19 @@ function darken(col, amount = 5) {
 //
 const theme = {
   night: {
-    light: '#4C566A', // nord3: UI elements like indent- and wrap guide marker
-    DEFAULT: '#434C5E', // nord2: selection- and text highlighting color
-    dark: '#3B4252', // nord1: elevated, more prominent or focused UI elements
-    darker: '#2E3440' // nord0: elements background
+    lighter: '#4c4d50',
+    light: '#414145', // nord3: UI elements like indent- and wrap guide marker
+    DEFAULT: '#35363a', // nord2: selection- and text highlighting color
+    dark: '#2a2b2f', // nord1: elevated, more prominent or focused UI elements
+    darker: '#1f2024' // nord0: elements background
   },
 
   snow: {
-    darker: '#82858c',
-    dark: '#adb2ba',
-    DEFAULT: '#D8DEE9',
-    light: '#E5E9F0',
-    lighter: '#ECEFF4'
+    darker: '#66676a',
+    dark: '#7c7d80',
+    DEFAULT: '#929397',
+    light: '#a2a3a7',
+    lighter: '#b3b3b6',
   },
 
   frost: {
@@ -71,7 +72,7 @@ module.exports = {
         frost: theme.frost,
         aurora: theme.aurora,
         primary: theme.primary,
-        background: '#242933',
+        background: '#121212',
 
         menus: {
           lighten: lighten(theme.night.darker, 6),
@@ -81,9 +82,9 @@ module.exports = {
           darker: darken(theme.night.darker, 6)
         },
         input: {
-          light: lighten(theme.night.DEFAULT),
-          DEFAULT: theme.night.DEFAULT,
-          dark: darken(theme.night.DEFAULT, 8)
+          light: lighten(theme.night.dark),
+          DEFAULT: theme.night.dark,
+          dark: darken(theme.night.dark, 8)
         },
         button: {
           light: lighten(theme.night.DEFAULT),
@@ -167,10 +168,10 @@ module.exports = {
               borderLeftColor: theme('colors.snow.lighter')
             },
             h1: {
-              color: theme('colors.snow.lighter')
+              color: 'white'
             },
             h2: {
-              color: theme('colors.snow.lighter')
+              color: 'white'
             },
             h3: {
               color: theme('colors.snow.lighter')
