@@ -4,6 +4,7 @@
 
 body {
   @apply bg-background text-snow;
+  accent-color: theme('colors.primary.DEFAULT');
   // font-feature-settings: "liga", "ss01", "zero", "cv11", "frac", "calt", "tnum";
 }
 
