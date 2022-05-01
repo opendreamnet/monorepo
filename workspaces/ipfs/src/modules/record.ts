@@ -613,8 +613,8 @@ export class Record extends EventEmitter {
       this.progress.timeElapsed = Date.now() - this.progress.timeStart
     }
 
-    if (this.size && this.progress.speed && this.progress.timeElapsed) {
-      this.progress.timeRemaining = ((this.size - this.progress.downloaded) / this.progress.speed) - this.progress.timeElapsed
+    if (this.size && this.progress.timeElapsed) {
+      this.progress.timeRemaining = (this.size / (this.progress.downloaded / this.progress.timeElapsed)) - this.progress.timeElapsed
     }
 
     this.emit('progress', bytes)
