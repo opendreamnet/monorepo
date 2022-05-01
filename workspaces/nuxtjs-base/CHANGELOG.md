@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.5.0...nuxtjs-base-v1.6.0) (2022-05-01)
+
+
+### Features
+
+* added `Notification` ([5cc4207](https://github.com/dreamnettech/monorepo/commit/5cc4207e76a01d1aaed6c8c634871e3351b81f75))
+
+
+### Design
+
+* added `accent-color` on reset.scss ([0f1e30c](https://github.com/dreamnettech/monorepo/commit/0f1e30ccac9baa298b41aca3651d5e44c27132f0))
+
 ## [1.5.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.4.5...nuxtjs-base-v1.5.0) (2022-03-18)
 
 
