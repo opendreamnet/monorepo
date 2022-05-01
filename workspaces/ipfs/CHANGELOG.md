@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.3.1...ipfs-v2.0.0) (2022-05-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* ipfs upgrade, some breaking changes on api, private/public keys fixes
+
+### Features
+
+* ipfs upgrade, some breaking changes on api, private/public keys fixes ([2cd6db6](https://github.com/dreamnettech/monorepo/commit/2cd6db6bcac53de96aecd1df9968c5222c988651))
+
+
+### Bug Fixes
+
+* `progress.timeRemaining` is incorrect ([a7faa6f](https://github.com/dreamnettech/monorepo/commit/a7faa6f7441540ff3284a85cfb2a2e620f24d014))
+* speedometer not working correctly ([f8e78c2](https://github.com/dreamnettech/monorepo/commit/f8e78c2c9b779e13951b60c4dd22066037b016e2))
+
 ### [1.3.1](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.3.0...ipfs-v1.3.1) (2021-08-15)
 
 
