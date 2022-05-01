@@ -6,7 +6,7 @@ import rfs from 'recursive-fs'
 import URI from 'urijs'
 import { isString, isArray, merge, isNil, clone } from 'lodash'
 import { FileObject, FileContent } from '../types/ipfs'
-import gatewayURLS from '../data/ipfs-gateways.json'
+import gatewayURLS from '../data/gateways.json'
 import { UploadSource } from './ipfs'
 
 export function isFileContent(source: unknown): source is FileContent {
@@ -21,6 +21,7 @@ export async function sourceToFileObject(source: UploadSource | UploadSource[] |
 
   /* eslint-disable no-await-in-loop */
   if (typeof FileList !== 'undefined' && source instanceof FileList) {
+    // @ts-ignore
     for(const file of source) {
       files.push(...await sourceToFileObject(file))
     }

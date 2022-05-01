@@ -6,7 +6,7 @@ import sanitize from 'sanitize-filename'
 import mime from 'mime'
 import DynamicBuffer from '@fidian/dynamic-buffer'
 import toStream from 'it-to-stream'
-import AbortController from 'node-abort-controller'
+import { AbortController } from 'node-abort-controller'
 import streamToBlob from 'stream-to-blob'
 import streamToBlobURL from 'stream-to-blob-url'
 import { merge, toNumber } from 'lodash'
@@ -307,7 +307,7 @@ export class File extends EventEmitter {
    */
   public writeFile(filepath?: string): Promise<string> {
     if (!is.nodeIntegration) {
-      throw new Error('This function is only available in NodeJS.')
+      throw new Error('Only available in NodeJS.')
     }
 
     if (!filepath) {
@@ -331,7 +331,7 @@ export class File extends EventEmitter {
    */
   public async getBlob(): Promise<Blob> {
     if (!is.browser) {
-      throw new Error('This function is only available in web browser.')
+      throw new Error('Only available in web browser.')
     }
 
     return await streamToBlob(this.getReadStream(), this.mimetype)
@@ -342,7 +342,7 @@ export class File extends EventEmitter {
    */
   public async getBlobURL(): Promise<string> {
     if (!is.browser) {
-      throw new Error('This function is only available in web browser.')
+      throw new Error('Only available in web browser.')
     }
 
     return await streamToBlobURL(this.getReadStream(), this.mimetype)
@@ -355,7 +355,7 @@ export class File extends EventEmitter {
    */
   public async downloadAsBlob(filename: string): Promise<void> {
     if (!is.browser) {
-      throw new Error('This function is only available in web browser.')
+      throw new Error('Only available in web browser.')
     }
 
     // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)

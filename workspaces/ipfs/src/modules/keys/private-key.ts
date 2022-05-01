@@ -1,12 +1,15 @@
 import crypto from 'libp2p-crypto'
-import forge from 'node-forge'
 import PeerId from 'peer-id'
-import * as bip39 from 'bip39'
-import * as cryptoKeys from 'human-crypto-keys'
-import Rasha from 'rasha'
+import { composePrivateKey, decomposePrivateKey } from 'crypto-key-composer'
 import { is } from '@opendreamnet/app'
-import { encode64 } from '../utils'
 import { PublicKey } from './public-key'
+
+export interface ComposeOptions {
+  format: 'pkcs8-der' | 'pkcs8-pem'
+
+  encryptionAlgorithm?: any
+  password?: string
+}
 
 /**
  * Represents an RSA private key.
@@ -15,35 +18,49 @@ import { PublicKey } from './public-key'
  */
 export class PrivateKey {
   /**
-   * Key instance.
+   * Peer ID of the key.
    */
-  public key: forge.pki.PrivateKey
+  public peerId: string
 
   /**
-   * Public key.
+   * Public key intance.
    */
   public publicKey: PublicKey
 
   /**
-   * Peer ID of the key.
+   * Encoded: `key type + private key + public key`
+   * (68 bytes)
+   *
+   * @see
+   * https://github.com/libp2p/js-libp2p-crypto/blob/master/src/keys/ed25519-class.ts#L66
+   *
+   * @readonly
    */
-  public id: string
+  public get bytes(): Uint8Array {
+    return new Uint8Array(this.pid.privKey.bytes)
+  }
 
   /**
-   * Mnemonic to backup the key.
+   * 32 byte private key + 32 byte public key
+   * (64 bytes)
    *
-   * @remarks
-   * Only available when creating a new key or importing it with the mnemonic.
+   * @see
+   * https://github.com/libp2p/js-libp2p-crypto/blob/master/src/keys/ed25519-class.ts#L62
+   *
+   * @readonly
    */
-  public mnemonic?: string
+  public get marshal(): Uint8Array {
+    return this.pid.privKey.marshal()
+  }
 
-  public constructor(public peerId: PeerId) {
-    const buffer = new forge.util.ByteStringBuffer(this.peerId.privKey.marshal())
-    const asn1 = forge.asn1.fromDer(buffer)
-
-    this.key = forge.pki.privateKeyFromAsn1(asn1)
-    this.publicKey = new PublicKey(this.peerId)
-    this.id = this.peerId.toB58String()
+  /**
+   * Creates an instance of PrivateKey.
+   *
+   * @param pid
+   */
+  public constructor(public pid: PeerId) {
+    this.publicKey = new PublicKey(this.pid)
+    this.peerId = this.pid.toB58String()
   }
 
   /**
@@ -51,20 +68,27 @@ export class PrivateKey {
    *
    * @static
    */
-  public static async create(): Promise<PrivateKey> {
-    // Generate keys and mnemonic.
-    const keyPair = await cryptoKeys.generateKeyPair('rsa')
-    const pem = keyPair.privateKey
-
-    // Import using PEM.
-    const privateKey = await this.fromPem(pem)
-    privateKey.mnemonic = keyPair.mnemonic
-
-    return privateKey
+  public static create(): Promise<PrivateKey> {
+    const seed = crypto.randomBytes(32)
+    return this.fromSeed(seed)
   }
 
   /**
-   * Import a key using its go-ipfs protobuf version.
+   * Import key from 32 byte seed.
+   *
+   * @param seed
+   * @returns
+   */
+
+  public static async fromSeed(seed: Uint8Array): Promise<PrivateKey> {
+    const cryptoPrivateKey = await crypto.keys.generateKeyPairFromSeed('Ed25519', seed, 4096)
+    const key = await this.fromProtobuf(cryptoPrivateKey.bytes)
+    return key
+  }
+
+  /**
+   * Import a key using its go-ipfs protobuf/seed.
+   * (Encoded: `key type + private key + public key`)
    *
    * @static
    * @param key
@@ -75,22 +99,7 @@ export class PrivateKey {
   }
 
   /**
-   * Import a key using a JWK.
-   *
-   * @static
-   * @param jwk
-   */
-  public static async fromJwk(jwk: Uint8Array | Rasha.Jwk): Promise<PrivateKey> {
-    // Convert JWK to libp2p-crypto RsaPrivateKey.
-    // @ts-ignore
-    const key = await crypto.keys.supportedKeys.rsa.fromJwk(jwk)
-
-    // Convert RsaPrivateKey to Protobuf.
-    return this.fromProtobuf(crypto.keys.marshalPrivateKey(key))
-  }
-
-  /**
-   * Import a RSA key using a PEM.
+   * Import a key using PEM data.
    *
    * @example
    * ```
@@ -101,88 +110,77 @@ export class PrivateKey {
    * @static
    * @param pem
    */
-   public static async fromPem(pem: string): Promise<PrivateKey> {
-    // Convert PEM to JWK.
-    const jwk = await Rasha.import({ pem, public: false })
-
-    return this.fromJwk(jwk)
+  public static async fromPem(pem: string, password?: string): Promise<PrivateKey> {
+    const data = decomposePrivateKey(pem, { password })
+    const key = await this.fromProtobuf(data.keyData.seed)
+    return key
   }
 
   /**
-   * Import a key using an instance of `forge.pki.PrivateKey`.
+   * @see
+   * https://github.com/ipfs-shipyard/js-crypto-key-composer
    *
-   * @static
-   * @param key
+   * @param options
+   * @return {*}
    */
-  public static fromKey(key: forge.pki.PrivateKey): Promise<PrivateKey> {
-    // Use PEM.
-    return this.fromPem(forge.pki.privateKeyToPem(key))
-  }
-
-  /**
-   * Import a key using a mnemonic.
-   *
-   * @static
-   * @param mnemonic
-   */
-  public static async fromMnemonic(mnemonic: string): Promise<PrivateKey> {
-    if (!bip39.validateMnemonic(mnemonic)) {
-      throw new Error('Invalid mnemonic')
-    }
-
-    const keyPair = await cryptoKeys.getKeyPairFromMnemonic(mnemonic, 'rsa')
-
-    // Import using PEM.
-    const privateKey = await this.fromPem(keyPair.privateKey)
-    privateKey.mnemonic = mnemonic
-
-    return privateKey
+   public compose(options: ComposeOptions): Uint8Array | string {
+    return composePrivateKey({
+      format: options.format,
+      keyAlgorithm: 'ed25519',
+      keyData: {
+        seed: this.pid.privKey.bytes
+      },
+      encryptionAlgorithm: options.encryptionAlgorithm
+    }, { password: options.password })
   }
 
   /**
    * Returns the key formatted in PEM.
    *
-   * @param {string} [password] - Password to encrypt the PEM.
+   * @param {string} [password] - Password to encrypt the PEM
    */
-  public toPem(password?: string): string {
-    if (password) {
-      return forge.pki.encryptRsaPrivateKey(this.key, password, {
-        algorithm: 'aes256',
-        count: 10000,
-        saltSize: 128 / 8,
-        prfAlgorithm: 'sha512'
-      })
-    }
-
-    return forge.pki.privateKeyToPem(this.key)
+  public toPem(password?: string, encryptionAlgorithm?: any): string {
+    return this.compose({
+      format: 'pkcs8-pem',
+      encryptionAlgorithm,
+      password
+    }) as string
   }
 
   /**
    * Returns the key in single-line PEM.
+   *
+   * @param {string} [password] - Password to encrypt the PEM
    */
-   public toPemInline(): string {
-    return encode64(this.peerId.privKey.marshal())
+  public toPemInline(password?: string, encryptionAlgorithm?: any): string {
+    const buffer = this.compose({
+      format: 'pkcs8-der',
+      encryptionAlgorithm,
+      password
+    }) as Uint8Array
+
+    return Buffer.from(buffer).toString('base64')
   }
 
   /**
-   * Returns the key as a Blob
+   * Returns the key as a Blob.
    */
   public toPemBlob(): Blob {
     if (!is.browser) {
-      throw new Error('This function is only available in web browser.')
+      throw new Error('Only available in web browser.')
     }
 
     return new Blob([this.toPem()], { type: 'text/plain' })
   }
 
   /**
-   * Requests the browser to download the key.
+   * Requests the web browser to download the key.
    *
    * @param filename
    */
-   public downloadPem(filename = 'ipfs.key'): void {
+  public download(filename = 'ipfs.key'): void {
     if (!is.browser) {
-      throw new Error('This function is only available in web browser.')
+      throw new Error('Only available in web browser.')
     }
 
     // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
@@ -213,15 +211,16 @@ export class PrivateKey {
   }
 
   /**
-   * Returns the base64 encoded key formatted in protobuf.
+   * Returns the key formatted in go-ipfs protobuf.
+   * (Encoded: `key type + private key + public key`)
    *
    * @remarks
-   * This is the same version as the one found in the IPFS node configuration:
+   * This is the same version as the one found in the IPFS config:
    * `Identity.PrivKey`
    *
    * @return {*}
    */
   public toProtobuf(): string {
-    return encode64(this.peerId.marshalPrivKey())
+    return Buffer.from(this.pid.marshalPrivKey()).toString('base64')
   }
 }

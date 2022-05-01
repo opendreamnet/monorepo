@@ -7,7 +7,7 @@ import Ctl from 'ipfsd-ctl'
 import fs from 'fs-extra'
 import PeerId from 'peer-id'
 import { ControllerOptions, AddOptions, FileContent, FileObject } from '../types/ipfs'
-// import gateways from '../data/ipfs-gateways.json'
+import * as Consts from './consts'
 import { Record, RecordOptions } from './record'
 import * as utils from './utils'
 import { PrivateKey, PublicKey } from './keys'
@@ -47,7 +47,8 @@ export type Options = {
    * Identity private key.
    *
    * @remarks
-   * It can be a private key instance or in go-ipfs protobuf format.
+   * It can be a [PrivateKey] instance or a go-ipfs protobuf format.
+   * This only works on a web browser node!
    */
   privateKey?: PrivateKey | Uint8Array | string
   /**
@@ -189,21 +190,30 @@ export class IPFS extends EventEmitter {
    *
    * @protected
    */
-  protected async getControllerOptions(): Promise<ControllerOptions> {
-    // True if we can interact with the operating system files.
+  protected async makeControllerOptions(): Promise<ControllerOptions> {
+    // True if we can interact with the OS files
     const useFilesystem = is.nodeIntegration && this.options.controller?.type !== 'js'
 
+    // Default options
     const options: ControllerOptions = {
       ipfsHttpModule: require('ipfs-http-client'),
-      disposable: false
+      disposable: false,
+      ipfsOptions: {
+        repoAutoMigrate: true
+      }
+    }
+
+    if (this.options.opendreamnet) {
+      // Our recommended settings
+      set(options, 'ipfsOptions.EXPERIMENTAL.ipnsPubsub', true)
     }
 
     if (useFilesystem) {
-      // go-ipfs has more freedom and options.
+      // go-ipfs FTW!
       options.ipfsBin = require('go-ipfs').path().replace('app.asar', 'app.asar.unpacked')
 
       if (this.options.controller?.disposable !== true) {
-        // If we do not want to make a temporary node, then we use this default location for repo.
+        // If we do not want to make a temporary node, then we use this default location for repo
         set(options, 'ipfsOptions.repo', process.env.IPFS_PATH || getPath('temp', 'opendreamnet', 'ipfs-repo'))
       }
     } else if (is.browser) {
@@ -211,37 +221,17 @@ export class IPFS extends EventEmitter {
       options.ipfsModule = require('ipfs')
 
       if (this.options.opendreamnet) {
-        const wrtcServers = [
-          '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-          '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
-          // '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-          // '/dns4/node4-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
-        ]
-
-        // This node wants to use the OpenDreamNet servers.
-        options.ipfsOptions = {
-          config: {
-            Addresses: {
-              Swarm: wrtcServers
-            }
-          },
-          EXPERIMENTAL: {
-            ipnsPubsub: true,
-            pubsub: true
-          }
-        }
+        // This node wants to use our servers
+        set(options, 'ipfsOptions.config.Addresses.Swarm', Consts.WRTC_NODES)
       }
     }
 
-    // Set Private Key.
+    // Restore private key
+    // Remember: This only works on a web browser node.
     if (this.options.privateKey) {
-      let privateKey: PrivateKey
-
-      if (this.options.privateKey instanceof PrivateKey) {
-        privateKey = this.options.privateKey
-      } else {
-        privateKey = await PrivateKey.fromProtobuf(this.options.privateKey)
-      }
+      const privateKey: PrivateKey = this.options.privateKey instanceof PrivateKey
+        ? this.options.privateKey
+        : await PrivateKey.fromProtobuf(this.options.privateKey)
 
       set(options, 'ipfsOptions.init.privateKey', privateKey.toProtobuf())
       set(options, 'ipfsOptions.config.Identity.PrivKey', privateKey.toProtobuf())
@@ -259,29 +249,31 @@ export class IPFS extends EventEmitter {
     }
 
     try {
+      // Create IPFS node
       await this.createNode()
 
-      // Public and private keys.
+      // Load public and private keys
       await this.loadKeys()
 
-      // Everything below is optional.
+      // Everything below is optional
+      //
       this.ready = true
       this.emit('ready')
 
       const workload: Promise<any>[] = []
 
       if (this.options.autoLoadRefs) {
-        // Fetch refs in storage.
+        // Fetch refs in storage
         workload.push(this.loadRefs())
       }
 
       if (this.options.autoLoadPins) {
-        // Fetch pinned files.
+        // Fetch pinned files
         workload.push(this.loadPins())
       }
 
       if (this.options.autoConnectPeers) {
-        // Connect to popular peers for faster file discovery.
+        // Connect to popular peers for faster file discovery
         workload.push(this.loadPeers())
       }
 
@@ -289,15 +281,15 @@ export class IPFS extends EventEmitter {
         await Promise.allSettled(workload)
       }
 
-      // Startup completed.
+      // Startup completed
       this.completed = true
-      this.emit('completed')
+      this.emit('started')
     } catch (err) {
       this.error = err
       this.emit('error', err)
     }
 
-    // A file has finished downloading.
+    // A file has finished downloading
     this.on('downloaded', () => {
       attempt(() => {
         if (this.options.autoLoadRefs) {
@@ -306,7 +298,7 @@ export class IPFS extends EventEmitter {
       })
     })
 
-    // A file has been uploaded.
+    // A file has been uploaded
     this.on('uploaded', () => {
       attempt(() => {
         if (this.options.autoLoadRefs) {
@@ -330,15 +322,15 @@ export class IPFS extends EventEmitter {
       return
     }
 
-    const options = await this.getControllerOptions()
+    // Best controller options
+    const options = await this.makeControllerOptions()
 
     if (options.ipfsOptions?.repo && is.nodeIntegration) {
-      // Make sure that the repo directory exists.
-      fs.ensureDirSync(options.ipfsOptions?.repo)
+      // Make sure that the repo directory exists
+      fs.ensureDirSync(options.ipfsOptions.repo)
     }
 
     this.options.controller = options
-
     this.node = await Ctl.createController(options)
 
     if (!this.node.initialized) {
@@ -358,9 +350,16 @@ export class IPFS extends EventEmitter {
    * @protected
    */
   protected async loadKeys(): Promise<void> {
-    this.peerId = await PeerId.createFromPrivKey((await this.node.api.config.getAll()).Identity.PrivKey)
-    this.privateKey = new PrivateKey(this.peerId)
-    this.publicKey = this.privateKey.publicKey
+    const { PrivKey } = (await this.node.api.config.getAll()).Identity
+
+    if (PrivKey) {
+      this.peerId = await PeerId.createFromPrivKey(PrivKey)
+      this.privateKey = new PrivateKey(this.peerId)
+    } else {
+      this.peerId = await PeerId.createFromPubKey(this.identity.publicKey)
+    }
+
+    this.publicKey = new PublicKey(this.peerId)
   }
 
   /**
@@ -420,30 +419,13 @@ export class IPFS extends EventEmitter {
 
     if (this.isBrowserNode) {
       if (this.options.opendreamnet) {
-        nodes = [
-          // OpenDreamNet (Swarm Websocket)
-          '/dns4/node1-ws.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWAuvHjmNSAxekkpqp9c5Hgcht7JJcZjQDjGUuLvYUDLPe'
-        ]
+        nodes = Consts.WSS_NODES
       }
     } else {
-      nodes = [
-        // Cloudflare
-        '/ip4/172.65.0.13/tcp/4009/p2p/QmcfgsJsMtx6qJb74akCw1M24X1zFwgGo11h1cuhwQjtJP',
-
-        // Pinata.cloud
-        '/dnsaddr/nyc1-1.hostnodes.pinata.cloud',
-        '/dnsaddr/nyc1-2.hostnodes.pinata.cloud',
-        '/dnsaddr/nyc1-3.hostnodes.pinata.cloud'
-      ]
-
-      if (this.options.opendreamnet) {
-        // OpenDreamNet
-        nodes.push('/dnsaddr/node1.dreamlink.cloud', '/dnsaddr/node2.dreamlink.cloud')
-      }
+      nodes = Consts.RECOMMENDED_NODES
     }
 
     const workload = nodes.map((link) => this.api.swarm.connect(link, { timeout })) as Promise<any>[]
-
     const response = Promise.allSettled(workload)
 
     this.emit('peers', response)
@@ -492,7 +474,7 @@ export class IPFS extends EventEmitter {
    * Returns a promise that will not be fulfilled
    * until the node has completed the startup.
    */
-   public waitUntilCompleted(): Promise<void> {
+   public waitUntilStarted(): Promise<void> {
     if (this.completed) {
       return Promise.resolve()
     }
@@ -503,7 +485,7 @@ export class IPFS extends EventEmitter {
 
     return new Promise((resolve, reject) => {
       this.once('error', (err) => reject(err))
-      this.once('completed', () => resolve())
+      this.once('started', () => resolve())
     })
   }
 
@@ -515,8 +497,9 @@ export class IPFS extends EventEmitter {
    * @returns Promise to be fulfilled when the object's metadata has been obtained.
    */
   public async add(cid: string, options: RecordOptions = {}): Promise<Record> {
-    await this.waitUntilCompleted()
+    await this.waitUntilStarted()
 
+    // Check if it is in cache (Seen in this session)
     let record = this.get(cid)
 
     if (record) {
@@ -524,8 +507,8 @@ export class IPFS extends EventEmitter {
       return record.setOptions(options)
     }
 
+    // Request object and store it on cache
     record = new Record(this, cid, options)
-
     this.records.push(record)
 
     try {
@@ -536,7 +519,6 @@ export class IPFS extends EventEmitter {
     }
 
     this.emit('added', record)
-
     return record
   }
 

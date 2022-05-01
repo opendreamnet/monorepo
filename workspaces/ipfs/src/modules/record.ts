@@ -4,9 +4,10 @@ import path from 'path'
 import all from 'it-all'
 import { toNumber, merge, head, isEmpty, isString, startsWith } from 'lodash'
 import fs from 'fs-extra'
-import AbortController from 'node-abort-controller'
+import { AbortController } from 'node-abort-controller'
 import speedometer from 'speedometer'
 import { getPath, is } from '@opendreamnet/app'
+import CID from 'cids'
 import { Link, File as IpfsFile, Peer } from '../types/ipfs'
 import { IPFS } from './ipfs'
 import { File } from'./file'
@@ -25,7 +26,7 @@ export type DownloadOptions = {
 
 export type RecordOptions = {
   /**
-   * Automatically downloads the file/directory to disk. (Node only)
+   * Automatically downloads the file/directory to disk. (go-ipfs only)
    *
    * @default false
    */
@@ -36,7 +37,7 @@ export type RecordOptions = {
    * @remarks
    * Set to false to only get the metadata.
    *
-   * @default true if the IPFS node is not web browser limited.
+   * @default true if its go-ipfs
    */
   autoDownloadToRepo?: boolean
   /**
@@ -47,10 +48,46 @@ export type RecordOptions = {
   timeout?: number
 } & DownloadOptions
 
+export interface DownloadProgress {
+  /**
+   * Unix time when the download started.
+   */
+  timeStart?: number
+  /**
+   * Time remaining for download to complete (in milliseconds).
+   */
+  timeRemaining?: number
+  /**
+   * Time elapsed downloading files (in milliseconds).
+   *
+   * @readonly
+   */
+  timeElapsed: number | undefined
+  /**
+   * Total bytes received from peers.
+   */
+  downloaded: number
+  _speedometer?: typeof speedometer
+  /**
+   * Download speed, in bytes/sec.
+   */
+  speed?: number
+  /**
+   * Download progress, from 0 to 1.
+   */
+  percentage: number
+}
+
 export function isDownloadOptions(value: { [key: string]: unknown }): value is DownloadOptions {
   return value.name !== undefined || value.path !== undefined
 }
 
+/**
+ * Represents an object (file/folder)
+ *
+ * @export
+ * @class Record
+ */
 export class Record extends EventEmitter {
   public options: RecordOptions = {
     autoDownload: false,
@@ -85,14 +122,19 @@ export class Record extends EventEmitter {
   }
 
   /**
-   * Array of all links in the IPFS object.
+   * Array of links in the IPFS object.
    */
   public links: Link[] = []
 
   /**
-   * Array of all files in the IPFS object.
+   * Array of files in the IPFS object.
    */
   public files: File[] = []
+
+  /**
+   * List of peers sharing the IPFS object.
+   */
+  public peers?: Peer[]
 
   /**
    * `File` instance if the IPFS object is not a directory.
@@ -101,6 +143,13 @@ export class Record extends EventEmitter {
    */
   public get file(): File | undefined {
     return !this.isDirectory ? head(this.files) : undefined
+  }
+
+  /**
+   * Number of peers.
+   */
+  public numPeers(): number | undefined {
+    return this.peers?.length
   }
 
   /**
@@ -130,73 +179,32 @@ export class Record extends EventEmitter {
   public downloading = false
 
   /**
-   * Unix time when the download started.
+   * Download progress information
    */
-  public timeStart?: number
+  public progress: DownloadProgress = {
+    get timeElapsed(): number | undefined {
+      if (!this.timeStart) {
+        return undefined
+      }
 
-  /**
-   * Time remaining for download to complete (in milliseconds).
-   */
-  public timeRemaining?: number
-
-  /**
-   * Time elapsed downloading files (in milliseconds).
-   *
-   * @readonly
-   */
-  public get timeElapsed(): number | undefined {
-    if (!this.timeStart) {
-      return undefined
-    }
-
-    return Date.now() - this.timeStart
-  }
-
-  /**
-   * Total bytes received from peers.
-   */
-  public downloaded = 0
-
-  /**
-   *
-   * @protected
-   */
-  protected _downloadSpeed?: typeof speedometer
-
-  /**
-   * Download speed, in bytes/sec.
-   */
-  public downloadSpeed?: number
-
-  /**
-   * Download progress, from 0 to 1.
-   */
-  public progress = 0
-
-  /**
-   * List of peers sharing the IPFS object.
-   */
-  public peers?: Peer[]
-
-  /**
-   * Number of peers.
-   */
-  public numPeers(): number | undefined {
-    return this.peers?.length
+      return Date.now() - this.timeStart
+    },
+    downloaded: 0,
+    percentage: 0
   }
 
   /**
    * Sum of the files size (in bytes).
    */
-  public length?: number
+  public size?: number
 
   /**
    * Sum of the files size (in bytes).
    *
    * @readonly
    */
-  public get size(): number | undefined {
-    return this.length
+  public get length(): number | undefined {
+    return this.size
   }
 
   /**
@@ -233,15 +241,17 @@ export class Record extends EventEmitter {
    */
   public constructor(public ipfs: IPFS, public cid: string, options: RecordOptions = {}) {
     super()
+
+    // Supress warning
     this.setMaxListeners(50)
 
+    // Make options
     this.options.autoDownloadToRepo = !ipfs.isBrowserNode
     this.options = merge(this.options, options)
   }
 
   /**
-   * Returns a promise that will not be fulfilled
-   * until the record is ready for use.
+   * Returns a promise that will resolve when the record is ready.
    */
    public waitUntilReady(): Promise<void> {
     if (this.ready) {
@@ -263,7 +273,10 @@ export class Record extends EventEmitter {
    */
   public async setup(): Promise<void> {
     try {
+      // Metadata
       await this.fetchMetadata()
+
+      // IPFS links to [File] instances
       await this.createFiles()
 
       this.ready = true
@@ -275,10 +288,10 @@ export class Record extends EventEmitter {
     }
 
     if (is.nodeIntegration && this.options.autoDownload) {
-      // Download to a location on the disk.
+      // Download to disk
       this.download()
     } else if (this.options.autoDownloadToRepo) {
-      // Request files to store them in the IPFS repository.
+      // Request to be stored in the repo
       this.downloadToRepo()
     }
   }
@@ -300,12 +313,15 @@ export class Record extends EventEmitter {
    */
   protected async fetchMetadata(): Promise<void> {
     const workload = [
-      all(this.api.dht.findProvs(this.cid, { timeout: this.options.timeout })),
+      // Links
       this.getLinks(this.cid),
-      this.api.object.stat(this.cid, { timeout: this.options.timeout })
+      // Peers
+      all(this.api.dht.findProvs(new CID(this.cid), { timeout: this.options.timeout })),
+      // Stats
+      this.api.object.stat(new CID(this.cid), { timeout: this.options.timeout })
     ]
 
-    const [peers, links, stats] = await Promise.allSettled(workload)
+    const [links, peers, stats] = await Promise.allSettled(workload)
 
     // Peers
     if (peers.status === 'fulfilled') {
@@ -324,9 +340,9 @@ export class Record extends EventEmitter {
 
     // Size
     if (stats.status === 'fulfilled') {
-      this.length = toNumber(stats.value.CumulativeSize)
+      this.size = toNumber(stats.value.CumulativeSize)
     } else {
-      this.length = undefined
+      this.size = undefined
     }
 
     // Is directory?
@@ -406,7 +422,7 @@ export class Record extends EventEmitter {
       this.files.push(new File(this, {
         name: this.name,
         path: this.name,
-        size: this.length || -1,
+        size: this.size || -1,
         cid: this.cid,
         type: 'file',
         depth: 1
@@ -432,7 +448,7 @@ export class Record extends EventEmitter {
    */
   public async download(options?: DownloadOptions | string): Promise<string> {
     if (!is.nodeIntegration) {
-      throw new Error('This function is only available in NodeJS.')
+      throw new Error('Only available in NodeJS.')
     }
 
     if (isString(options)) {
@@ -533,7 +549,7 @@ export class Record extends EventEmitter {
    *
    * @param [options={}]
    */
-   public getURL(options: GatewayOptions = {}): string {
+  public getURL(options: GatewayOptions = {}): string {
     options = merge({ filename: this.name } as GatewayOptions, options)
     return getGatewayURI(this.cid, options).href()
   }
@@ -574,10 +590,13 @@ export class Record extends EventEmitter {
 
     this.abort = new AbortController()
     this.downloading = true
-    this.downloaded = 0
-    this.progress = 0
-    this.timeStart = Date.now()
-    this._downloadSpeed = speedometer()
+    this.progress = {
+      ...this.progress,
+      downloaded: 0,
+      percentage: 0,
+      timeStart: Date.now(),
+      _speedometer: speedometer()
+    }
   }
 
   protected trackProgress(bytes: number): void {
@@ -585,19 +604,19 @@ export class Record extends EventEmitter {
       return
     }
 
-    this.downloaded += bytes
+    this.progress.downloaded += bytes
 
     if (this.size) {
-      this.progress = toNumber(this.downloaded / this.size)
+      this.progress.percentage = toNumber(this.progress.downloaded / this.size)
     }
 
-    if (this._downloadSpeed) {
-      this._downloadSpeed(bytes)
-      this.downloadSpeed = this._downloadSpeed()
+    if (this.progress._speedometer) {
+      this.progress._speedometer(bytes)
+      this.progress.speed = this.progress._speedometer()
     }
 
-    if (this.size && this.downloadSpeed && this.timeElapsed) {
-      this.timeRemaining = ((this.size / this.downloadSpeed) - this.timeElapsed) * 1000
+    if (this.size && this.progress.speed && this.progress.timeElapsed) {
+      this.progress.timeRemaining = ((this.size / this.progress.speed) - this.progress.timeElapsed) * 1000
     }
 
     this.emit('progress', bytes)
@@ -606,8 +625,11 @@ export class Record extends EventEmitter {
   protected trackFinish(): void {
     this.downloading = false
     this.abort = undefined
-    this.timeRemaining = undefined
-    this.downloadSpeed = undefined
-    this._downloadSpeed = undefined
+    this.progress = {
+      ...this.progress,
+      timeRemaining: undefined,
+      speed: undefined,
+      _speedometer: undefined
+    }
   }
 }
