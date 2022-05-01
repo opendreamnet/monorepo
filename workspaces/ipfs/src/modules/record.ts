@@ -5,7 +5,7 @@ import all from 'it-all'
 import { toNumber, merge, head, isEmpty, isString, startsWith } from 'lodash'
 import fs from 'fs-extra'
 import { AbortController } from 'node-abort-controller'
-import speedometer from 'speedometer'
+import speedometer, { SpeedometerFunc } from './speedometer'
 import { getPath, is } from '@opendreamnet/app'
 import CID from 'cids'
 import { Link, File as IpfsFile, Peer } from '../types/ipfs'
@@ -26,7 +26,7 @@ export type DownloadOptions = {
 
 export type RecordOptions = {
   /**
-   * Automatically downloads the file/directory to disk. (go-ipfs only)
+   * Automatically downloads the file/directory to disk. (NodeJS only)
    *
    * @default false
    */
@@ -37,7 +37,7 @@ export type RecordOptions = {
    * @remarks
    * Set to false to only get the metadata.
    *
-   * @default true if its go-ipfs
+   * @default false
    */
   autoDownloadToRepo?: boolean
   /**
@@ -62,12 +62,12 @@ export interface DownloadProgress {
    *
    * @readonly
    */
-  timeElapsed: number | undefined
+  timeElapsed?: number
   /**
    * Total bytes received from peers.
    */
   downloaded: number
-  _speedometer?: typeof speedometer
+  _speedometer?: SpeedometerFunc
   /**
    * Download speed, in bytes/sec.
    */
@@ -91,6 +91,7 @@ export function isDownloadOptions(value: { [key: string]: unknown }): value is D
 export class Record extends EventEmitter {
   public options: RecordOptions = {
     autoDownload: false,
+    autoDownloadToRepo: false,
     timeout: 30 * 1000
   }
 
@@ -182,13 +183,6 @@ export class Record extends EventEmitter {
    * Download progress information
    */
   public progress: DownloadProgress = {
-    get timeElapsed(): number | undefined {
-      if (!this.timeStart) {
-        return undefined
-      }
-
-      return Date.now() - this.timeStart
-    },
     downloaded: 0,
     percentage: 0
   }
@@ -246,7 +240,6 @@ export class Record extends EventEmitter {
     this.setMaxListeners(50)
 
     // Make options
-    this.options.autoDownloadToRepo = !ipfs.isBrowserNode
     this.options = merge(this.options, options)
   }
 
@@ -384,7 +377,7 @@ export class Record extends EventEmitter {
   protected async getLinks(cid: string, parent?: string): Promise<Link[]> {
     const links: Link[] = []
 
-    for await (const link of this.api.ls(cid, { timeout: this.options.timeout }) as Link[]) {
+    for await (const link of this.api.ls(new CID(cid), { timeout: this.options.timeout }) as Link[]) {
       if (startsWith(link.path, cid)) {
         link.path = link.path.substring(cid.length + 1)
       }
@@ -594,6 +587,7 @@ export class Record extends EventEmitter {
       ...this.progress,
       downloaded: 0,
       percentage: 0,
+      speed: 0,
       timeStart: Date.now(),
       _speedometer: speedometer()
     }
@@ -611,12 +605,16 @@ export class Record extends EventEmitter {
     }
 
     if (this.progress._speedometer) {
-      this.progress._speedometer(bytes)
-      this.progress.speed = this.progress._speedometer()
+      this.progress.speed = this.progress._speedometer(bytes)
+    }
+
+
+    if (this.progress.timeStart) {
+      this.progress.timeElapsed = Date.now() - this.progress.timeStart
     }
 
     if (this.size && this.progress.speed && this.progress.timeElapsed) {
-      this.progress.timeRemaining = ((this.size / this.progress.speed) - this.progress.timeElapsed) * 1000
+      this.progress.timeRemaining = ((this.size - this.progress.downloaded) / this.progress.speed) - this.progress.timeElapsed
     }
 
     this.emit('progress', bytes)
