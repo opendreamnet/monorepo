@@ -3,16 +3,24 @@
     "target": "es2020",
     "module": "commonjs",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "composite": true,
-    "importHelpers": true,
-    "removeComments": false,
-    "resolveJsonModule": true,
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
     "skipLibCheck": true,
+    "removeComments": false,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "composite": true,
+    "noImplicitAny": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true
   }
- }
+}
