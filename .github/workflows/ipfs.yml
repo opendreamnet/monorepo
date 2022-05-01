@@ -24,24 +24,19 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
       - name: 📦 Cache node_modules
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v3
         env:
           cache-name: monorepo-cache
         with:
-          path: |
-            node_modules
-            .yarn/cache
-            .yarn/unplugged
-            .yarn/build-state.yml
-            .yarn/install-state.gz
+          path: .yarn/cache
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-
 
-      - name: ⚙️ Install Node.js 14.x
+      - name: ⚙️ Install Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: "16"
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
