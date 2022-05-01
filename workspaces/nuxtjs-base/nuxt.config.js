@@ -39,7 +39,10 @@ exports.getNuxtConfig = () => {
   
     // Loading. (https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-loading)
     loading: {
-      color: tailwindConfig.theme.extend.colors.primary.DEFAULT
+      color: tailwindConfig.theme.extend.colors.primary.DEFAULT,
+      failedColor: tailwindConfig.theme.extend.colors.danger.DEFAULT,
+      height: '3px',
+      continuous: true
     },
   
     // Loading indicator. (https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-loading-indicator)
@@ -77,8 +80,7 @@ exports.getNuxtConfig = () => {
     ],
   
     // Modules: https://go.nuxtjs.dev/config-modules
-    modules: [
-    ],
+    modules: [],
   
     // https://github.com/nuxt-community/style-resources-module
     styleResources: {

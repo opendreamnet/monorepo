@@ -6,12 +6,23 @@
 
 <style lang="scss" scoped>
 .notification {
-  @apply mb-6 py-3 pl-3 pr-6 rounded;
+  @apply mb-6 p-5 rounded;
   @apply bg-night-light text-white text-sm;
-  @include transition('background-color, color, box-shadow');
 
-  &:hover {
-    @apply shadow;
+  &.notification--warning {
+    @apply bg-warning-light text-black;
+  }
+
+  &.notification--danger {
+    @apply bg-danger-light text-black;
+  }
+
+  &.notification--success {
+    @apply bg-success-light text-black;
+  }
+
+  &.notification--info {
+    @apply bg-blue-light text-black;
   }
 
   h5 {
