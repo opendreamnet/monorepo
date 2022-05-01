@@ -40,7 +40,7 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn workspaces focus
+        run: yarn install
 
       - name: ✍️ Lint
         working-directory: ${{ env.WORK_DIR }}
