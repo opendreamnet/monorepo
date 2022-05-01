@@ -441,7 +441,12 @@ export class IPFS extends EventEmitter {
    */
   public async destroy(): Promise<void> {
     if (this.node) {
-      await this.node.stop()
+      try {
+        await this.node.stop()
+      } catch (err) {
+        // Nothing
+      }
+      
       this.node = undefined
     }
 
