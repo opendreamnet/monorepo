@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.0.0...ipfs-v2.0.1) (2022-05-02)
+
+
+### Bug Fixes
+
+* `toPem()` and `toPemInline()` were using bytes in the IPFS context instead of general ([5e74e53](https://github.com/dreamnettech/monorepo/commit/5e74e53e877106c05967a2b041107c900cc980da))
+
 ## [2.0.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v1.3.1...ipfs-v2.0.0) (2022-05-01)
 
 
