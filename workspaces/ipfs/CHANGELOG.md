@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.1.0...ipfs-v2.2.0) (2022-05-02)
+
+
+### Features
+
+* extended `toPem`, fixed confusions when generating pem, small refactor ([31a050b](https://github.com/dreamnettech/monorepo/commit/31a050bb9a671df8ae3bb256b9b7a036d546f4aa))
+
 ## [2.1.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.0.1...ipfs-v2.1.0) (2022-05-02)
 
 
