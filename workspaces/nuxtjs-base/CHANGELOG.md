@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.6.0...nuxtjs-base-v1.6.1) (2022-05-02)
+
+
+### Miscellaneous changes
+
+* removed fonts.scss from reset.scss ([b3e468b](https://github.com/dreamnettech/monorepo/commit/b3e468bdf8bbe9ffc00a1061b0d90d7fcf5cc146))
+
+
+### Design
+
+* small changes on `Field` ([4da21e4](https://github.com/dreamnettech/monorepo/commit/4da21e4646c2e64632efa99711fc68bf07657516))
+
 ## [1.6.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.5.0...nuxtjs-base-v1.6.0) (2022-05-01)
 
 
