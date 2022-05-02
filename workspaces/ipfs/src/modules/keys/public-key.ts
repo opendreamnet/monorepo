@@ -1,3 +1,4 @@
+import { isString } from 'lodash'
 import PeerId from 'peer-id'
 import { composePublicKey, decomposePublicKey } from 'crypto-key-composer'
 import { is } from '@opendreamnet/app'
@@ -69,6 +70,19 @@ export class PublicKey {
     const data = decomposePublicKey(pem)
     const key = await this.fromProtobuf(data.keyData.seed)
     return key
+  }
+
+  /**
+   * Verify that the data and signature are valid.
+   *
+   * @param data
+   * @param sign
+   */
+  public verify(data: string | Uint8Array, sign: string | Uint8Array): Promise<boolean> {
+    return this.pid.pubKey.verify(
+      isString(data) ? Buffer.from(data) : data,
+      isString(sign) ? Buffer.from(sign) : sign
+    )
   }
 
   /**

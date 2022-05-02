@@ -1,3 +1,4 @@
+import { isString } from 'lodash'
 import crypto from 'libp2p-crypto'
 import PeerId from 'peer-id'
 import { composePrivateKey, decomposePrivateKey } from 'crypto-key-composer'
@@ -140,6 +141,26 @@ export class PrivateKey {
     const data = decomposePrivateKey(pem, { password })
     const key = await this.fromProtobuf(data.keyData.seed)
     return key
+  }
+
+  /**
+   * Returns the signature of data.
+   *
+   * @param data
+   */
+  public sign(data: string | Uint8Array): Promise<Uint8Array> {
+    const payload: Uint8Array = isString(data) ? Buffer.from(data) : data
+    return this.pid.privKey.sign(payload)
+  }
+
+  /**
+   * Verify that the data and signature are valid.
+   *
+   * @param data
+   * @param sign
+   */
+  public verify(data: string | Uint8Array, sign: string | Uint8Array): Promise<boolean> {
+    return this.publicKey.verify(data, sign)
   }
 
   /**
