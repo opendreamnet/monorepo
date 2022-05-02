@@ -41,6 +41,20 @@ export class PrivateKey {
   }
 
   /**
+   * Encoded: `key type + private key`
+   * (36 bytes)
+   *
+   * @remarks
+   * This is what you need to work with this key in other contexts. (Outside IPFS)
+   *
+   * @readonly
+   */
+  public get rawBytes(): Uint8Array {
+    const buffer = new Uint8Array(this.pid.privKey.bytes)
+    return buffer.subarray(0, 32 + 4)
+  }
+
+  /**
    * 32 byte private key + 32 byte public key
    * (64 bytes)
    *
@@ -51,6 +65,18 @@ export class PrivateKey {
    */
   public get marshal(): Uint8Array {
     return this.pid.privKey.marshal()
+  }
+
+  /**
+   * 32 byte private key
+   *
+   * @remarks
+   * This is what you need to work with this key in other contexts. (Outside IPFS)
+   *
+   * @readonly
+   */
+  public get rawMarshal(): Uint8Array {
+    return this.pid.privKey.marshal().subarray(0, 32)
   }
 
   /**
@@ -123,12 +149,12 @@ export class PrivateKey {
    * @param options
    * @return {*}
    */
-   public compose(options: ComposeOptions): Uint8Array | string {
+   public compose(options: ComposeOptions, seed?: Uint8Array): Uint8Array | string {
     return composePrivateKey({
       format: options.format,
       keyAlgorithm: 'ed25519',
       keyData: {
-        seed: this.pid.privKey.bytes
+        seed: seed || this.rawMarshal
       },
       encryptionAlgorithm: options.encryptionAlgorithm
     }, { password: options.password })
@@ -178,7 +204,7 @@ export class PrivateKey {
    *
    * @param filename
    */
-  public download(filename = 'ipfs.key'): void {
+  public download(filename = 'ipfs.pem'): void {
     if (!is.browser) {
       throw new Error('Only available in web browser.')
     }
