@@ -1,21 +1,21 @@
 module.exports = {
   extends: [
-    '@dreamnet/eslint-config-dreamnet',
+    '@dreamnet/eslint-config-dreamnet'
   ],
   overrides: [
     {
       files: ['**/*.vue'],
       parser: 'vue-eslint-parser',
       parserOptions: {
-        parser: '@typescript-eslint/parser',
+        parser: '@typescript-eslint/parser'
       },
       plugins: [
-        '@typescript-eslint',
+        '@typescript-eslint'
       ],
       extends: [
         '@nuxtjs',
         'plugin:nuxt/recommended',
-        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended'
       ],
       rules: {
         '@typescript-eslint/quotes': ['error', 'single'],
@@ -27,13 +27,13 @@ module.exports = {
         quotes: 'off',
         semi: 'off',
         'space-before-function-paren': 'off',
-        
+
         'vue/html-indent': 'off',
         'vue/no-v-html': 'off',
         'vue/multi-word-component-names': 'off',
         'vue/html-closing-bracket-newline': ['warn', {
-          'singleline': 'never',
-          'multiline': 'never'
+          singleline: 'never',
+          multiline: 'never'
         }],
         'vue/max-attributes-per-line': ['warn', {
           singleline: 3,
@@ -83,7 +83,7 @@ module.exports = {
             'NuxtLink'
           ]
         }]
-      },
-    },
-  ],
+      }
+    }
+  ]
 }
