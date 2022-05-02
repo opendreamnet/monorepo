@@ -1,10 +1,9 @@
 <template>
   <div class="field">
     <div v-if="title" class="field__title" v-html="$md.render(title)" />
-
     <div v-if="description" class="field__description" v-html="$md.render(description)" />
 
-    <div class="mt-3 mb-1">
+    <div class="field__content">
       <slot />
     </div>
 
@@ -70,7 +69,7 @@ export default Vue.extend({
 }
 
 .field__description {
-  @apply max-w-prose font-light text-snow-dark;
+  @apply max-w-prose text-snow-dark;
 
   &::v-deep {
     p {
@@ -81,6 +80,10 @@ export default Vue.extend({
       @apply font-bold text-white;
     }
   }
+}
+
+.field__content {
+  @apply mt-3 mb-1;
 }
 
 .field__hint {
