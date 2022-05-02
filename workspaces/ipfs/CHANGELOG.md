@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.0.1...ipfs-v2.1.0) (2022-05-02)
+
+
+### Features
+
+* added `PrivateKey.sign` and `PublicKey.verify` ([e0aa533](https://github.com/dreamnettech/monorepo/commit/e0aa533935d5f712b8945c95db3f8bfe011571a4))
+
 ### [2.0.1](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.0.0...ipfs-v2.0.1) (2022-05-02)
 
 
