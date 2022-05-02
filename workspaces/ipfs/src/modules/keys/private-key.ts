@@ -5,15 +5,51 @@ import { composePrivateKey, decomposePrivateKey } from 'crypto-key-composer'
 import { is } from '@opendreamnet/app'
 import { PublicKey } from './public-key'
 
+/**
+ * Type of key to use when composing PEM/DER.
+ *
+ * - `protobuf`/`marshal`: IPFS context
+ * - `raw`: General context
+ */
+export type ComposeType = 'protobuf' | 'marshal' | 'raw'
+
 export interface ComposeOptions {
+  type: ComposeType
   format: 'pkcs8-der' | 'pkcs8-pem'
 
   encryptionAlgorithm?: any
   password?: string
 }
 
+export interface PemOptions {
+  /**
+   * Type of key to use when composing PEM/DER.
+   *
+   * - `protobuf`/`marshal`: IPFS context
+   * - `raw`: General context
+   *
+   * @default
+   * protobuf
+   */
+  type: ComposeType
+  /**
+   * PEM password
+   */
+  password?: string
+  /**
+   * @see
+   * https://github.com/ipfs-shipyard/js-crypto-key-composer#encryption-algorithms
+   */
+  encryptionAlgorithm?: any
+  /**
+   * @default
+   * false
+   */
+  inline: boolean
+}
+
 /**
- * Represents an RSA private key.
+ * Represents an ED25519 private key.
  *
  * @export
  */
@@ -29,35 +65,22 @@ export class PrivateKey {
   public publicKey: PublicKey
 
   /**
-   * Encoded: `key type + private key + public key`
-   * (68 bytes)
+   * Key in go-ipfs protobuf format.
+   * - `key type + private key + public key`
+   * - (68 bytes)
    *
    * @see
    * https://github.com/libp2p/js-libp2p-crypto/blob/master/src/keys/ed25519-class.ts#L66
    *
    * @readonly
    */
-  public get bytes(): Uint8Array {
+  public get protobuf(): Uint8Array {
     return new Uint8Array(this.pid.privKey.bytes)
   }
 
   /**
-   * Encoded: `key type + private key`
-   * (36 bytes)
-   *
-   * @remarks
-   * This is what you need to work with this key in other contexts. (Outside IPFS)
-   *
-   * @readonly
-   */
-  public get rawBytes(): Uint8Array {
-    const buffer = new Uint8Array(this.pid.privKey.bytes)
-    return buffer.subarray(0, 32 + 4)
-  }
-
-  /**
-   * 32 byte private key + 32 byte public key
-   * (64 bytes)
+   * - `private key + public key`
+   * - (64 bytes)
    *
    * @see
    * https://github.com/libp2p/js-libp2p-crypto/blob/master/src/keys/ed25519-class.ts#L62
@@ -69,14 +92,15 @@ export class PrivateKey {
   }
 
   /**
-   * 32 byte private key
+   * - `private key`
+   * - (32 bytes)
    *
    * @remarks
    * This is what you need to work with this key in other contexts. (Outside IPFS)
    *
    * @readonly
    */
-  public get rawMarshal(): Uint8Array {
+  public get raw(): Uint8Array {
     return this.pid.privKey.marshal().subarray(0, 32)
   }
 
@@ -95,7 +119,7 @@ export class PrivateKey {
    *
    * @static
    */
-  public static create(): Promise<PrivateKey> {
+  public static fromRandom(): Promise<PrivateKey> {
     const seed = crypto.randomBytes(32)
     return this.fromSeed(seed)
   }
@@ -104,7 +128,6 @@ export class PrivateKey {
    * Import key from 32 byte seed.
    *
    * @param seed
-   * @returns
    */
 
   public static async fromSeed(seed: Uint8Array): Promise<PrivateKey> {
@@ -114,8 +137,8 @@ export class PrivateKey {
   }
 
   /**
-   * Import a key using its go-ipfs protobuf/seed.
-   * (Encoded: `key type + private key + public key`)
+   * Import a key using go-ipfs protobuf.
+   * - `key type + private key + public key`
    *
    * @static
    * @param key
@@ -126,18 +149,18 @@ export class PrivateKey {
   }
 
   /**
-   * Import a key using PEM data.
+   * Import a key using PEM go-ipfs protobuf data.
    *
    * @example
    * ```
    * const payload = fs.readFileSync('./private.pem')
-   * const privateKey = PrivateKey.fromPem(payload)
+   * const key = PrivateKey.fromProtobufPem(payload)
    * ```
    *
    * @static
    * @param pem
    */
-  public static async fromPem(pem: string, password?: string): Promise<PrivateKey> {
+  public static async fromProtobufPem(pem: string, password?: string): Promise<PrivateKey> {
     const data = decomposePrivateKey(pem, { password })
     const key = await this.fromProtobuf(data.keyData.seed)
     return key
@@ -168,14 +191,23 @@ export class PrivateKey {
    * https://github.com/ipfs-shipyard/js-crypto-key-composer
    *
    * @param options
-   * @return {*}
    */
-   public compose(options: ComposeOptions, seed?: Uint8Array): Uint8Array | string {
+   public compose(options: ComposeOptions): Uint8Array | string {
+    let seed = this.protobuf
+
+    if (options.type === 'marshal') {
+      seed = this.marshal
+    }
+
+    if (options.type === 'raw') {
+      seed = this.raw
+    }
+
     return composePrivateKey({
       format: options.format,
       keyAlgorithm: 'ed25519',
       keyData: {
-        seed: seed || this.rawMarshal
+        seed
       },
       encryptionAlgorithm: options.encryptionAlgorithm
     }, { password: options.password })
@@ -183,41 +215,37 @@ export class PrivateKey {
 
   /**
    * Returns the key formatted in PEM.
-   *
-   * @param {string} [password] - Password to encrypt the PEM
    */
-  public toPem(password?: string, encryptionAlgorithm?: any): string {
-    return this.compose({
-      format: 'pkcs8-pem',
-      encryptionAlgorithm,
-      password
-    }) as string
-  }
+  public toPem(opts: Partial<PemOptions> = {}): string {
+    const options: PemOptions = {
+      type: 'protobuf',
+      inline: false,
+      ...opts
+    }
 
-  /**
-   * Returns the key in single-line PEM.
-   *
-   * @param {string} [password] - Password to encrypt the PEM
-   */
-  public toPemInline(password?: string, encryptionAlgorithm?: any): string {
     const buffer = this.compose({
-      format: 'pkcs8-der',
-      encryptionAlgorithm,
-      password
-    }) as Uint8Array
+      type: options.type,
+      format: options.inline ? 'pkcs8-der' : 'pkcs8-pem',
+      encryptionAlgorithm: options.encryptionAlgorithm,
+      password: options.password
+    })
 
-    return Buffer.from(buffer).toString('base64')
+    if (options.inline) {
+      return Buffer.from(buffer).toString('base64')
+    }
+
+    return buffer as string
   }
 
   /**
    * Returns the key as a Blob.
    */
-  public toPemBlob(): Blob {
+  public toPemBlob(opts: Partial<PemOptions> = {}): Blob {
     if (!is.browser) {
       throw new Error('Only available in web browser.')
     }
 
-    return new Blob([this.toPem()], { type: 'text/plain' })
+    return new Blob([this.toPem(opts)], { type: 'text/plain' })
   }
 
   /**
@@ -259,15 +287,23 @@ export class PrivateKey {
 
   /**
    * Returns the key formatted in go-ipfs protobuf.
-   * (Encoded: `key type + private key + public key`)
+   * `key type + private key + public key`
    *
    * @remarks
    * This is the same version as the one found in the IPFS config:
    * `Identity.PrivKey`
-   *
-   * @return {*}
    */
   public toProtobuf(): string {
-    return Buffer.from(this.pid.marshalPrivKey()).toString('base64')
+    return Buffer.from(this.protobuf).toString('base64')
+  }
+
+  /**
+   * Returns the base64-encoded key.
+   */
+  public toBase64(): string {
+    // TODO: Why do we use Marshal? It seems to be the one who works
+    // with this tool: https://ed25519.herokuapp.com
+    // {clueless}
+    return Buffer.from(this.marshal).toString('base64')
   }
 }
