@@ -9,6 +9,6 @@ const config: Configuration = merge(webpackConfig, {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.umd.js'
   }
-})
+} as Configuration)
 
 export default config
