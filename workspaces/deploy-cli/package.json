@@ -94,8 +94,8 @@
     "tslib": "^2"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
     "@oclif/dev-cli": "^1.26.0",
+    "@opendreamnet/eslint-config": "workspace:^",
     "eslint": "^7.31.0",
     "eslint-config-oclif": "^3.1.0",
     "eslint-config-oclif-typescript": "^0.2.0",

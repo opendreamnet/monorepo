@@ -21,8 +21,8 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@opendreamnet/eslint-config": "workspace:^1",
     "@types/mocha": "^8",
     "@types/source-map-support": "^0",
     "eslint": "^7.18.0",

@@ -1,0 +1,48 @@
+{
+  "name": "@opendreamnet/eslint-config",
+  "packageManager": "yarn@3.2.0",
+  "version": "1.5.0",
+  "description": "ESLint config for OpenDreamNet projects.",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "release": "standard-version"
+  },
+  "author": {
+    "name": "Iván Bravo Bravo",
+    "email": "kolessios@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/eslint-config"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "eslint-config-v",
+    "releaseCommitMessageFormat": "chore(release): eslint-config@{{currentTag}}"
+  },
+  "files": [
+    "index.js",
+    ".eslintrc.js"
+  ],
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-mocha": "^10.0.4",
+    "eslint-plugin-promise": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/eslint": "8.4.2",
+    "eslint": "^8.14.0",
+    "standard-version": "^9.3.2"
+  },
+  "peerDependencies": {
+    "eslint": "^8"
+  }
+}

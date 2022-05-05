@@ -101,7 +101,7 @@
     "web3.storage": "^3.3.0"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:workspaces/eslint-config-dreamnet",
+    "@opendreamnet/eslint-config": "workspace:^",
     "@types/chai": "^4",
     "@types/cryptr": "4.0.1",
     "@types/fs-extra": "9.0.12",

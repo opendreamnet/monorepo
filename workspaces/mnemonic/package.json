@@ -18,7 +18,7 @@
     "randombytes": "^2.1.0"
   },
   "devDependencies": {
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1",
+    "@opendreamnet/eslint-config": "workspace:^1",
     "@types/create-hash": "^1.2.2",
     "@types/pbkdf2": "^3.1.0",
     "@types/randombytes": "^2.0.0",

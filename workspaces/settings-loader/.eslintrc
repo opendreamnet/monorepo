@@ -1,6 +1,6 @@
 {
   "extends": [
-    "@dreamnet/eslint-config-dreamnet"
+    "@opendreamnet/eslint-config"
   ],
   "rules": {
     "@typescript-eslint/ban-types": "off"
