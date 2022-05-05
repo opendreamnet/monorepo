@@ -68,7 +68,7 @@ ipfsStart()
 
 ```html
 <!-- Latest version -->
-<script src="https://unpkg.com/@opendreamnet/ipfs/dist/ipfs.umd.js" />
+<script src="https://unpkg.com/@opendreamnet/ipfs/dist/index.umd.js" />
 
 
 <!-- Image Preview -->
