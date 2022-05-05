@@ -1,4 +1,4 @@
-name: "@opendreamnet/ipfs"
+name: "ipfs"
 
 on:
   workflow_dispatch:
@@ -17,11 +17,7 @@ jobs:
 
     steps:
       - name: 📁 Checkout
-        uses: actions/checkout@v2
-
-      - run: |
-          git config user.name github-actions
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+        uses: actions/checkout@v3
 
       - name: 📦 Cache node_modules
         uses: actions/cache@v3
@@ -34,7 +30,7 @@ jobs:
             ${{ runner.os }}-${{ env.cache-name }}-
 
       - name: ⚙️ Install Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "16"
 

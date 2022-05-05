@@ -1,12 +1,12 @@
 export type SpeedometerFunc = (input?: number) => number
 
-export default function (windowSize?: number): SpeedometerFunc {
+export default function(windowSize?: number): SpeedometerFunc {
   const size = windowSize || 10
   let startTime = new Date()
   const lastTenValues: number[] = []
   const lastTenDist: number[] = []
 
-  return function (input?: number): number {
+  return function(input?: number): number {
     const inputLength = input || 0
     const endDate = new Date()
     let dist = (endDate.getTime() - startTime.getTime())
