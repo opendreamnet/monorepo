@@ -1,44 +1,10 @@
+import os from 'os'
 import path from 'path'
-import { isNil, keys, startCase } from 'lodash'
-
-/**
- * Indicates if the platform is a web browser.
- */
-const isBrowser = typeof window !== 'undefined' && !isNil(window.document)
-
-/**
- * Indicates if the platform is a webworker.
- */
-const isWebWorker = typeof self !== 'undefined'
-  && self.constructor
-  && self.constructor.name === 'DedicatedWorkerGlobalScope'
-
-/**
- * Indicates if the platform is NodeJS.
- */
-const isNode = typeof process !== 'undefined'
-  && !isNil(process.versions?.node)
-
-/**
- * Indicates if the platform is the ElectronJS renderer process.
- */
-const isElectronRenderer = typeof process !== 'undefined'
-  // @ts-ignore
-  && !isNil(process.type)
-  // @ts-ignore
-  && process.type === 'renderer'
-
-/**
- * Indicates if the platform is the ElectronJS main process.
- */
-const isElectronMain = typeof process !== 'undefined'
-  // @ts-ignore
-  && !isNil(process.versions?.electron)
-
-/**
- * Indicates if the platform has access to the NodeJS engine.
- */
-const hasNodeIntegration = isNode || isElectronMain
+import fs from 'fs'
+import { startCase, keys, isNil } from 'lodash'
+import parent from 'parent-package-json'
+import getPlatformPath from 'platform-folders'
+import * as $ from './shared'
 
 /**
  * Application name.
@@ -49,19 +15,19 @@ let appName: string
  * Returns the application name.
  */
 export function getName(): string {
-  if (!appName && isNode) {
-    const pkg = require('parent-package-json')(null, 1)
+ if (!appName && $.hasNodeIntegration) {
+   const pkg = parent(null, 1)
 
-    if (pkg) {
-      // Try to find the name of the application in the package.json
-      const payload = pkg.parse()
-      appName = startCase(payload.productName || payload.displayName || payload.name)
-    } else {
-      appName = 'DreamApp'
-    }
-  }
+   if (pkg) {
+     // Try to find the name of the application in the package.json
+     const payload = pkg.parse()
+     appName = startCase(payload.productName || payload.displayName || payload.name)
+   } else {
+     appName = 'OpenDreamApp'
+   }
+ }
 
-  return appName || 'DreamApp'
+ return appName
 }
 
 /**
@@ -78,56 +44,43 @@ export function setName(value: string): void {
  * Returns the operating system.
  */
 export function getPlatform(): string {
-  if (!isNode) {
-    return navigator.platform.toLowerCase()
+  if ($.hasNodeIntegration) {
+    return os.platform()
+  } else {
+    // @ts-ignore
+    return (navigator?.userAgentData?.platform || navigator?.platform || 'Unknown').toLowerCase()
   }
-
-  return require('os').platform()
 }
 
 /**
  *
  */
 export const is = {
-  browser: isBrowser,
-  webWorker: isWebWorker,
+  browser: $.isBrowser,
+  webWorker: $.isWebWorker,
   electron: {
-    any: isElectronRenderer || isElectronMain,
-    renderer: isElectronRenderer,
-    main: isElectronMain
+    any: $.isElectronRenderer || $.isElectronMain,
+    renderer: $.isElectronRenderer,
+    main: $.isElectronMain
   },
-  node: isNode,
-  nodeIntegration: hasNodeIntegration,
+  node: $.isNode,
+  nodeIntegration: $.hasNodeIntegration,
   macos: getPlatform() === 'darwin',
   windows: getPlatform() === 'win32',
   linux: getPlatform() === 'linux',
   android: getPlatform() === 'android',
-  dev: hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null
+  dev: $.hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null
 }
 
 /**
  *
- */
-export const isDev = hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null
-
-export interface Choices {
-  browser?: unknown
-  webWorker?: unknown
-  electron?: { any?: unknown, renderer?: unknown, main?: unknown }
-  node?: unknown
-  nodeIntegration?: unknown
-  macos?: unknown
-  windows?: unknown
-  linux?: unknown
-  android?: unknown
-  dev?: unknown
-}
-
-/**
  *
+ * @export
  * @param choices
+ * @param [defaultValue]
+ * @return {*}
  */
-export function choice(choices: Choices, defaultValue?: unknown): unknown {
+export function choice(choices: $.Choices, defaultValue?: any): any {
   for (const key of keys(choices)) {
     if (!isNil(is[key]) && is[key] === true) {
       return choices[key]
@@ -137,58 +90,17 @@ export function choice(choices: Choices, defaultValue?: unknown): unknown {
   return defaultValue
 }
 
-function getElectronPath(name: string, ...paths: string[]): string | undefined {
-  let basePath = ''
-
-  try {
-    const { app } = require('electron')
-
-    switch (name) {
-      case 'cwd':
-        basePath = process.cwd()
-        break
-
-      case 'cache':
-      case 'documents':
-        basePath = path.resolve(app.getPath(name), getName())
-        break
-
-      default:
-        basePath = app.getPath(name)
-        break
-    }
-
-    return path.resolve(basePath, ...paths)
-  } catch (error) { }
-
-  return undefined
-}
-
-export type PathName = 'cwd' | 'home' | 'temp' | 'temporary' | 'temporal' | 'appData' | 'userData' | 'downloads' | 'cache' | 'savegames' | 'desktop' | 'downloads' | 'music' | 'pictures' | 'videos'
-
 /**
  *
  * @param name
  * @param paths
  */
-export function getPath(name: PathName, ...paths: string[]): string | undefined {
-  if (!hasNodeIntegration) {
+export function getPath(name: $.PathName, ...paths: string[]): string | undefined {
+  if (!$.hasNodeIntegration) {
     return undefined
   }
 
-  if (isElectronMain || isElectronRenderer) {
-    const electronPath = getElectronPath(name, ...paths)
-
-    if (electronPath) {
-      return electronPath
-    }
-  }
-
-  let basePath = ''
-
-  const fs = require('fs')
-  const os = require('os')
-  const getPlatformPath = require('platform-folders').default
+  let basePath: string | undefined
 
   switch (name) {
     case 'cwd':
@@ -213,7 +125,7 @@ export function getPath(name: PathName, ...paths: string[]): string | undefined 
       break
 
     case 'userData':
-      return getPath('appData', 'dreamnet', getName(), ...paths)
+      return getPath('appData', 'opendreamnet', getName(), ...paths)
 
     case 'downloads': {
       const commonPath = getPath('home', 'Downloads')
@@ -228,7 +140,7 @@ export function getPath(name: PathName, ...paths: string[]): string | undefined 
 
     case 'cache':
     case 'savegames':
-      basePath = path.resolve(getPlatformPath(name), getName())
+      basePath = path.resolve(getPlatformPath(name) || '', getName())
       break
 
     // desktop
@@ -241,5 +153,9 @@ export function getPath(name: PathName, ...paths: string[]): string | undefined 
       break
   }
 
-  return path.resolve(basePath, ...paths)
+  if (basePath) {
+    return path.resolve(basePath, ...paths)
+  }
+
+  return undefined
 }
