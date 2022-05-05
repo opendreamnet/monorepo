@@ -1,22 +1,38 @@
 {
   "name": "@opendreamnet/ipfs",
   "version": "2.2.0",
-  "description": "",
+  "description": "Create and use an IPFS node easily, either in NodeJS or web browser.",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
-  "main": "dist/index.js",
-  "unpkg": "dist/ipfs.umd.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/index.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "author": {
+    "name": "Ivan Bravo Bravo",
+    "email": "kolessios@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/app"
+  },
   "scripts": {
     "lint": "eslint --fix --ext .ts,.js src",
     "test": "ts-mocha test/**/*.ts --recursive --exit",
     "clean": "shx rm -rf dist tsconfig.tsbuildinfo",
-    "watch:node": "tsc -w",
-    "watch:web": "webpack watch",
-    "build:web": "webpack",
-    "build:node": "tsc -b",
-    "build": "yarn run build:node && yarn run build:web",
-    "release": "yarn standard-version"
+    "watch": "unbuild --stub",
+    "build": "unbuild && webpack-cli",
+    "release": "standard-version"
+  },
+  "engines": {
+    "node": ">= 16"
   },
   "browser": {
     "fs": false,
@@ -24,6 +40,25 @@
     "go-ipfs": false,
     "recursive-fs": false
   },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not ie 11",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "ipfs-v",
+    "releaseCommitMessageFormat": "chore(release): ipfs@{{currentTag}}"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@fidian/dynamic-buffer": "^1.0.0",
     "@opendreamnet/app": "workspace:^1.1.3",
@@ -51,12 +86,8 @@
     "urijs": "^1.19.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
-    "@babel/preset-typescript": "^7.16.7",
-    "@dreamnet/eslint-config-dreamnet": "workspace:^1.3.0",
-    "@types/babel__core": "^7",
-    "@types/babel__preset-env": "^7",
+    "@opendreamnet/build": "workspace:^",
+    "@opendreamnet/eslint-config": "workspace:^",
     "@types/eslint": "^8",
     "@types/fs-extra": "9.0.13",
     "@types/lodash": "4.14.182",
@@ -65,8 +96,6 @@
     "@types/urijs": "^1",
     "@types/webpack-bundle-analyzer": "^4",
     "assert": "^2.0.0",
-    "babel-loader": "^8.2.5",
-    "babel-plugin-transform-imports": "^2.0.0",
     "constants-browserify": "^1.0.0",
     "crypto-browserify": "^3.12.0",
     "eslint": "^8.14.0",
@@ -75,38 +104,11 @@
     "shx": "^0.3.4",
     "standard-version": "^9.3.2",
     "stream-browserify": "^3.0.0",
-    "ts-loader": "^9.3.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4",
+    "unbuild": "^0.7.4",
     "vm-browserify": "^1.1.2",
-    "webpack": "^5.72.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2"
-  },
-  "standard-version": {
-    "path": ".",
-    "tag-prefix": "ipfs-v",
-    "releaseCommitMessageFormat": "chore(release): ipfs@{{currentTag}}"
-  },
-  "files": [
-    "dist/",
-    "src/"
-  ],
-  "author": {
-    "name": "Ivan Bravo Bravo",
-    "email": "kolessios@gmail.com",
-    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dreamnettech/monorepo.git",
-    "directory": "workspaces/ipfs"
-  },
-  "bugs": {
-    "email": "ivan@dreamnet.tech",
-    "url": "https://github.com/dreamnettech/monorepo/issues"
-  },
-  "engines": {
-    "node": ">= 14"
   }
 }

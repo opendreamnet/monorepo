@@ -1,17 +1,14 @@
-const { merge } = require('lodash')
-const path = require('path')
-const webpack = require('webpack')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-const config = require('../../webpack.config.js')
+import path from 'path'
+import { merge } from 'lodash'
+import { Configuration, ProvidePlugin } from 'webpack'
+import webpackConfig from '@opendreamnet/build/webpack.config'
 
-module.exports = merge(config, {
+const config: Configuration = merge(webpackConfig, {
   entry: './src/index.ts',
-
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'ipfs.umd.js'
+    filename: 'index.umd.js'
   },
-
   resolve: {
     alias: {
       os: require.resolve('os-browserify')
@@ -26,12 +23,12 @@ module.exports = merge(config, {
       crypto: require.resolve('crypto-browserify'),
     }
   },
-
   plugins: [
-    //new BundleAnalyzerPlugin.BundleAnalyzerPlugin(),
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
+    new ProvidePlugin({
+      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer']
     })
   ]
-})
+} as Configuration)
+
+export default config

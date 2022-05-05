@@ -6,6 +6,9 @@ import all from 'it-all'
 import Ctl from 'ipfsd-ctl'
 import fs from 'fs-extra'
 import PeerId from 'peer-id'
+import * as ipfsHttpClient from 'ipfs-http-client'
+import ipfsGo from 'go-ipfs'
+import * as ipfs from 'ipfs'
 import { ControllerOptions, AddOptions, FileContent, FileObject } from '../types/ipfs'
 import * as Consts from './consts'
 import { Record, RecordOptions } from './record'
@@ -196,7 +199,7 @@ export class IPFS extends EventEmitter {
 
     // Default options
     const options: ControllerOptions = {
-      ipfsHttpModule: require('ipfs-http-client'),
+      ipfsHttpModule: ipfsHttpClient,
       disposable: false,
       ipfsOptions: {
         repoAutoMigrate: true
@@ -210,7 +213,7 @@ export class IPFS extends EventEmitter {
 
     if (useFilesystem) {
       // go-ipfs FTW!
-      options.ipfsBin = require('go-ipfs').path().replace('app.asar', 'app.asar.unpacked')
+      options.ipfsBin = ipfsGo.path().replace('app.asar', 'app.asar.unpacked')
 
       if (this.options.controller?.disposable !== true) {
         // If we do not want to make a temporary node, then we use this default location for repo
@@ -218,7 +221,7 @@ export class IPFS extends EventEmitter {
       }
     } else if (is.browser) {
       options.type = 'proc'
-      options.ipfsModule = require('ipfs')
+      options.ipfsModule = ipfs
 
       if (this.options.opendreamnet) {
         // This node wants to use our servers
@@ -446,7 +449,7 @@ export class IPFS extends EventEmitter {
       } catch (err) {
         // Nothing
       }
-      
+
       this.node = undefined
     }
 

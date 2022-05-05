@@ -34,6 +34,7 @@ export async function sourceToFileObject(source: UploadSource | UploadSource[] |
     files.push({
       // @ts-ignore
       path: source.webkitRelativePath || source.name,
+      // @ts-ignore
       content: source.stream(),
       mode: source.lastModified
     })
