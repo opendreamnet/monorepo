@@ -13,7 +13,6 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "composite": true,
     "noImplicitAny": false,
     "strict": true,
     "strictNullChecks": true,
