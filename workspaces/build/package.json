@@ -1,0 +1,47 @@
+{
+  "name": "@opendreamnet/build",
+  "packageManager": "yarn@3.2.0",
+  "version": "1.0.0",
+  "description": "Base config files for building OpenDreamNet packages.",
+  "license": "MIT",
+  "author": {
+    "name": "Ivan Bravo Bravo",
+    "email": "kolessios@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/build"
+  },
+  "scripts": {
+    "release": "standard-version"
+  },
+  "engines": {
+    "node": ">= 16"
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "build-v",
+    "releaseCommitMessageFormat": "chore(release): build@{{currentTag}}"
+  },
+  "files": [
+    "build.config.ts",
+    "webpack.config.ts"
+  ],
+  "dependencies": {
+    "@babel/preset-env": "^7.17.10",
+    "@optimize-lodash/rollup-plugin": "^3.0.0",
+    "babel-loader": "^8.2.5",
+    "ts-loader": "^9.3.0",
+    "unbuild": "^0.7.4",
+    "webpack": "^5.72.0"
+  },
+  "devDependencies": {
+    "@types/babel__preset-env": "^7",
+    "standard-version": "^9.3.2"
+  },
+  "peerDependencies": {
+    "unbuild": "^0.7",
+    "webpack-cli": "^4"
+  }
+}
