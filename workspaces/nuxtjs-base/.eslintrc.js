@@ -5,11 +5,10 @@ module.exports = {
     node: true
   },
   extends: [
-    '@dreamnet/eslint-config-dreamnet-nuxtjs'
+    '@opendreamnet/eslint-config-nuxtjs'
   ],
   plugins: [
   ],
-  // add your custom rules here
   rules: {
     'vue/no-v-html': 'off'
   }
