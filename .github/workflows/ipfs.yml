@@ -44,7 +44,9 @@ jobs:
 
       - name: 🏗️ Build
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn run build
+        run: |
+          yarn workspace @opendreamnet/app build
+          yarn run build
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}

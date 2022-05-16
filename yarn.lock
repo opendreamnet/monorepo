@@ -3521,7 +3521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opendreamnet/app@workspace:^1.1.3, @opendreamnet/app@workspace:workspaces/app":
+"@opendreamnet/app@^1.1.3, @opendreamnet/app@workspace:workspaces/app":
   version: 0.0.0-use.local
   resolution: "@opendreamnet/app@workspace:workspaces/app"
   dependencies:
@@ -3675,7 +3675,7 @@ __metadata:
   resolution: "@opendreamnet/ipfs@workspace:workspaces/ipfs"
   dependencies:
     "@fidian/dynamic-buffer": ^1.0.0
-    "@opendreamnet/app": "workspace:^1.1.3"
+    "@opendreamnet/app": ^1.1.3
     "@opendreamnet/build": "workspace:^"
     "@opendreamnet/eslint-config": "workspace:^"
     "@types/eslint": ^8
