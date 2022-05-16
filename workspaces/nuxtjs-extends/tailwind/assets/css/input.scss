@@ -1,0 +1,58 @@
+.label {
+  @apply block font-bold mb-1;
+}
+
+label[for],
+select.input {
+  @apply cursor-pointer;
+}
+
+.input {
+  @apply bg-input shadow-sm text-snow-light rounded transition-all;
+  @apply border border-input-dark;
+  @apply py-2 px-4 w-full;
+  @apply outline-none #{!important};
+  height: $input-height;
+
+  &:not([readonly]):not([disabled]) {
+    &:hover {
+      @apply text-snow-lighter;
+    }
+
+    &:focus {
+      @apply text-snow-lighter shadow-lg;
+    }
+  }
+
+  &::placeholder {
+    @apply text-snow-darker;
+  }
+
+  &[readonly] {
+    @apply opacity-75 cursor-default;
+  }
+
+  &[disabled] {
+    @apply opacity-70 cursor-not-allowed;
+  }
+
+  &.input--xs {
+    @apply text-xs py-1;
+    height: $input-xs-height;
+  }
+
+  &.input--sm {
+    @apply text-sm;
+    height: $input-sm-height;
+  }
+
+  &.input--lg {
+    @apply text-lg;
+    height: $input-lg-height;
+  }
+
+  &.input--xl {
+    @apply text-xl py-3;
+    height: $input-xl-height;
+  }
+}

@@ -1,0 +1,42 @@
+$checkbox-size: 1.5rem;
+
+input[type="checkbox"] {
+  @apply bg-primary;
+}
+
+.checkbox {
+  @apply flex-shrink-0;
+  width: $checkbox-size;
+  height: $checkbox-size;
+
+  input[type="checkbox"] {
+    @apply opacity-0 pointer-events-none absolute w-0 h-0;
+  }
+
+  input[type="checkbox"] + label {
+    @apply inline-block rounded border-2 border-transparent;
+    @apply relative;
+    width: $checkbox-size;
+    height: $checkbox-size;
+  }
+
+  input[type="checkbox"] + label::before {
+    @apply inline-block rounded border-2 border-transparent bg-input;
+    @apply absolute transition-all;
+    content: "";
+    width: $checkbox-size;
+    height: $checkbox-size;
+    top: -2px;
+    left: -2px;
+  }
+
+  input[type="checkbox"]:hover + label::before {
+    @apply border-primary shadow-lg;
+  }
+
+  input[type="checkbox"]:checked + label::before {
+    @apply text-primary text-center border-primary font-black text-xl;
+    content: "✓";
+    line-height: 21px;
+  }
+}

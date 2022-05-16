@@ -1,0 +1,27 @@
+.tippy-content {
+  @apply bg-menus-light shadow-xl;
+
+  p:not(:last-child) {
+    @apply mb-3;
+  }
+
+  code {
+    @apply bg-primary-dark;
+  }
+
+  ul {
+    @apply list-disc;
+
+    li {
+      @apply text-sm ml-3;
+
+      &:not(:last-child) {
+        @apply mb-2;
+      }
+    }
+  }
+}
+
+.tippy-arrow {
+  @apply text-menus-light #{!important};
+}

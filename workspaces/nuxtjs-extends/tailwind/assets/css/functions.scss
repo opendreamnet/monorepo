@@ -1,0 +1,15 @@
+$input-xl-height: 54px;
+$input-lg-height: 49px;
+$input-height: 44px;
+$input-sm-height: 39px;
+$input-xs-height: 34px;
+
+@mixin transition($property, $duration: 280ms, $timing: cubic-bezier(0.4, 0, 0.2, 1)) {
+  transition-property: #{$property};
+  transition-duration: $duration;
+  transition-timing-function: $timing;
+}
+
+@mixin centered() {
+  @apply flex items-center justify-center;
+}
