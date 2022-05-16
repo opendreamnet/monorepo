@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.2.0...ipfs-v2.3.0) (2022-05-16)
+
+
+### Features
+
+* implemented @opendreamnet/build ([cb8d190](https://github.com/dreamnettech/monorepo/commit/cb8d19034f7871abb632ee50317771e4b9ea0d87))
+
 ## [2.2.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.1.0...ipfs-v2.2.0) (2022-05-02)
 
 
