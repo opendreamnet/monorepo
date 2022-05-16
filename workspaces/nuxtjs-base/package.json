@@ -82,9 +82,9 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@dreamnet/eslint-config-dreamnet-nuxtjs": "workspace:workspaces/eslint-config-dreamnet-nuxtjs",
     "@nuxt/types": "^2.15.3",
     "@nuxtjs/eslint-config-typescript": "^6.0.1",
+    "@opendreamnet/eslint-config-nuxtjs": "workspace:^",
     "@types/lodash": "4.14.170",
     "@types/tinycolor2": "^1",
     "eslint": "^7.29.0",

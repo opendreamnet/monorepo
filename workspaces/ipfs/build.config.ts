@@ -3,5 +3,8 @@ import buildConfig from '@opendreamnet/build/build.config'
 
 export default defineBuildConfig({
   entries: ['./src/index'],
-  preset: buildConfig
+  preset: buildConfig,
+  rollup: {
+    cjsBridge: false
+  }
 })
