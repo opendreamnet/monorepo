@@ -9,9 +9,11 @@
   "module": "dist/index.mjs",
   "unpkg": "dist/index.umd.js",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs",
-    "browser": "./dist/index.umd.js"
+    "browser": "./dist/index.umd.js",
+    "default": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
   },
   "scripts": {
     "lint": "eslint --fix --ext .ts,.js src",
