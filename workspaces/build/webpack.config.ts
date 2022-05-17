@@ -7,8 +7,7 @@ const config: webpack.Configuration = {
   // UMD
   output: {
     library: {
-      type: 'umd',
-      name: 'odn'
+      type: 'umd'
     }
   },
 

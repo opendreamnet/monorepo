@@ -7,14 +7,11 @@ const config: Configuration = merge(webpackConfig, {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.umd.js'
+    filename: 'index.umd.js',
   },
   resolve: {
-    alias: {
-      os: require.resolve('os-browserify')
-    },
-
     fallback: {
+      os: require.resolve('os-browserify'),
       path: require.resolve('path-browserify'),
       assert: require.resolve('assert/'),
       stream: require.resolve('stream-browserify'),
