@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.0.0...ipfs-v3.1.0) (2022-05-27)
+
+
+### Features
+
+* `entry.setup` now is loaded on background instead of waiting, added `options` param to `load()` ([0a44f7f](https://github.com/dreamnettech/monorepo/commit/0a44f7febd84cf8ed1a4a9cb71398906567329e0))
+* added `pin` and `unpin` functions ([14680e4](https://github.com/dreamnettech/monorepo/commit/14680e4a7d5dbff8a79ee302b19cc95999b74ea9))
+* added optional cache ([3f3f658](https://github.com/dreamnettech/monorepo/commit/3f3f658fc091230aa474603b2cfe45765da0ce14))
+
+
+### Bug Fixes
+
+* `isPinned` and `isStored` dont work ([f767c43](https://github.com/dreamnettech/monorepo/commit/f767c436e5efab5dffe1011740dec23b13c86c14))
+
 ## [3.0.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.4.0...ipfs-v3.0.0) (2022-05-27)
 
 
