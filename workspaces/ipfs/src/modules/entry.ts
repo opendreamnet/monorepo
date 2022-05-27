@@ -309,7 +309,8 @@ export class Entry extends EventEmitter {
    */
   public static fromIpfsEntry(ipfs: IPFS, ipfsEntry: IPFSEntry, options: IEntryOptions = {}) {
     const entry = new Entry(ipfs, ipfsEntry, options)
-    return entry.setup()
+    entry.setup()
+    return entry
   }
 
   /**
@@ -523,7 +524,7 @@ export class Entry extends EventEmitter {
   /**
    * Run optional tasks.
    */
-  public async setup(): Promise<this> {
+  protected async setup(): Promise<this> {
     // Load metadata.
     await this.load()
 
@@ -538,7 +539,10 @@ export class Entry extends EventEmitter {
   /**
    * Load metadata.
    */
-  public async load(): Promise<void> {
+  public async load(options: IEntryOptions = {}): Promise<void> {
+    // Set new options
+    this.setOptions(options)
+
     if (this.loading) {
       // Already loading, wait
       return this.waitUntil('loaded')
