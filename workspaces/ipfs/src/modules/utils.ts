@@ -4,48 +4,49 @@ import { is } from '@opendreamnet/app'
 import normalize from 'normalize-path'
 import rfs from 'recursive-fs'
 import URI from 'urijs'
-import { isString, isArray, merge, isNil, clone } from 'lodash'
-import { FileObject, FileContent } from '../types/ipfs'
+import { isString, isArray, merge, isNil, clone, random } from 'lodash'
+import sanitize from 'sanitize-filename'
+import { DateTime } from 'luxon'
+import type { IPFSEntry } from 'ipfs-core-types/src/root'
+import type { StatResult } from 'ipfs-core-types/src/files/index'
+import type { ImportCandidate, ImportCandidateStream, ToFile } from 'ipfs-core-types/src/utils'
 import gatewayURLS from '../data/gateways.json'
-import { UploadSource } from './ipfs'
+import { IPFS } from './ipfs'
 
-export function isFileContent(source: unknown): source is FileContent {
-  return source instanceof Uint8Array ||
-  (typeof Blob !== 'undefined' && source instanceof Blob) ||
-  isString(source) ||
-  source instanceof ReadableStream
-}
+export async function *inputToCandidateStream(input: ImportCandidate | ImportCandidate[] | FileList | File): ImportCandidateStream {
+  const files: ImportCandidate[] = []
 
-export async function sourceToFileObject(source: UploadSource | UploadSource[] | FileList): Promise<FileObject[]> {
-  const files: FileObject[] = []
-
-  /* eslint-disable no-await-in-loop */
-  if (typeof FileList !== 'undefined' && source instanceof FileList) {
-    // @ts-ignore
-    for(const file of source) {
-      files.push(...await sourceToFileObject(file))
+  const fromDomFile = (file: File): ToFile => {
+    return {
+      path: file.webkitRelativePath || file.name,
+      content: file,
+      mtime: { secs: DateTime.fromMillis(file.lastModified).toSeconds() }
     }
-  } else if (isArray(source)) {
-    for(const s of source) {
-      files.push(...await sourceToFileObject(s))
-    }
-  /* eslint-enable no-await-in-loop */
-  } else if (typeof File !== 'undefined' && source instanceof File) {
-    files.push({
-      // @ts-ignore
-      path: source.webkitRelativePath || source.name,
-      // @ts-ignore
-      content: source.stream(),
-      mode: source.lastModified
-    })
-  } else if (is.nodeIntegration && isString(source) && fs.existsSync(source)) {
-    const stats = fs.statSync(source)
+  }
 
-    if (stats.isDirectory()) {
-      const { files: subfiles } = await rfs.read(source)
+  if (typeof File !== 'undefined' && input instanceof File) {
+    files.push(fromDomFile(input))
+  } else if (typeof FileList !== 'undefined' && input instanceof FileList) {
+    // HTML FileList
+    for (let i = 0; i < input.length; i++) {
+      const file = input.item(i)
+
+      if (!file) {
+        continue
+      }
+
+      files.push(fromDomFile(file))
+    }
+  } else if (isArray(input)) {
+    files.push(...input)
+  } else if (is.nodeIntegration && isString(input) && fs.existsSync(input)) {
+    const stat = fs.statSync(input)
+
+    if (stat.isDirectory()) {
+      const { files: subfiles } = await rfs.read(input)
 
       subfiles.forEach((filepath: string) => {
-        const relpath = normalize(filepath.replace(path.dirname(source), ''))
+        const relpath = normalize(filepath.replace(path.dirname(input), ''))
         const abspath = path.resolve(filepath)
         const filestats = fs.statSync(abspath)
 
@@ -58,17 +59,19 @@ export async function sourceToFileObject(source: UploadSource | UploadSource[] |
       })
     } else {
       files.push({
-        path: path.basename(source),
-        content: fs.createReadStream(source),
-        mode: stats.mode,
-        mtime: stats.mtime
+        path: path.basename(input),
+        content: fs.createReadStream(input),
+        mode: stat.mode,
+        mtime: stat.mtime
       })
     }
   } else {
-    files.push({ content: source as any })
+    files.push(input as ImportCandidate)
   }
 
-  return files
+  for(const file of files) {
+    yield file
+  }
 }
 
 export type GatewayOptions = {
@@ -114,6 +117,54 @@ export function getGatewayURIS(cid: string, options: GatewayOptions = {}): URI[]
   })
 }
 
-export function encode64(data: Uint8Array): string {
-  return btoa(String.fromCharCode.apply(null, Array.from(data)))
+export function changeName(abspath: string, value: string): string {
+  const name = path.basename(abspath)
+  abspath = abspath.substring(0, abspath.length - name.length)
+  abspath = `${abspath}${value}`
+  return abspath
+}
+
+export function sanitizeName(linkpath: string): string {
+  const name = path.basename(linkpath)
+  return changeName(linkpath, sanitize(name))
+}
+
+export async function wrapWithDirectory(ipfs: IPFS, entries: Partial<IPFSEntry>[]): Promise<StatResult> {
+  if (!ipfs.api) {
+    throw new Error('IPFS node/api undefined!')
+  }
+
+  const dirpath = `/.wrapper_${Date.now()}_${random(100, false)}`
+  await ipfs.api.files.mkdir(dirpath, {})
+
+  // eslint-disable-next-line prefer-const
+  for (let { cid, name } of entries) {
+    if (!cid) {
+      continue
+    }
+
+    if (!name) {
+      name = cid.toString()
+    }
+
+    await ipfs.api.files.cp(`/ipfs/${cid}`, `${dirpath}/${name}`)
+  }
+
+  const stat = await ipfs.api.files.stat(dirpath)
+
+  ipfs.api.files.rm(dirpath, { recursive: true })
+
+  return stat
+}
+
+export function filesStatToIpfsEntry(stat: StatResult, name = ''): IPFSEntry {
+  return {
+    type: stat.type === 'directory' ? 'dir' : 'file',
+    cid: stat.cid,
+    name,
+    path: `/${stat.cid.toString()}`,
+    mode: stat.mode,
+    mtime: stat.mtime,
+    size: stat.size || stat.cumulativeSize
+  }
 }

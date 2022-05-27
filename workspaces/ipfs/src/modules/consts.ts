@@ -1,13 +1,24 @@
+/**
+ * WebRTC nodes to communicate with the IPFS network.
+ * TODO: Add more
+ */
 export const WRTC_NODES = [
   '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
   '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
   '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
 ]
 
+/**
+ * Websocket nodes for web browser IPFS nodes.
+ * TODO: Add more
+ */
 export const WSS_NODES = [
   '/dns4/node1-ws.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5'
 ]
 
+/**
+ * Recommended nodes for a fast discovery.
+ */
 export const RECOMMENDED_NODES = [
   // Cloudflare
   '/ip4/172.65.0.13/tcp/4009/p2p/QmcfgsJsMtx6qJb74akCw1M24X1zFwgGo11h1cuhwQjtJP',

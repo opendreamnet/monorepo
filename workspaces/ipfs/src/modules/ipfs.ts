@@ -1,33 +1,35 @@
 import EventEmitter from 'events'
-import path from 'path'
 import { getPath, is } from '@opendreamnet/app'
-import { merge, find, reject, last, attempt, set } from 'lodash'
+import { merge, attempt, set, isString, isArray, isFunction } from 'lodash'
 import all from 'it-all'
 import Ctl from 'ipfsd-ctl'
+import type { Controller, ControllerOptions } from 'ipfsd-ctl'
 import fs from 'fs-extra'
 import PeerId from 'peer-id'
 import * as ipfsHttpClient from 'ipfs-http-client'
 import ipfsGo from 'go-ipfs'
 import * as ipfs from 'ipfs'
-import { ControllerOptions, AddOptions, FileContent, FileObject } from '../types/ipfs'
+import { CID } from 'multiformats/cid'
+import type { AddAllOptions, IDResult } from 'ipfs-core-types/src/root'
+import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/src/utils'
 import * as Consts from './consts'
-import { Record, RecordOptions } from './record'
+import { Entry, IEntryOptions } from './entry'
 import * as utils from './utils'
 import { PrivateKey, PublicKey } from './keys'
 
-export type Options = {
+export interface IOptions {
   /**
    * True for the node to start as soon as possible.
    *
    * @default true
    */
-  autoStart?: boolean
+  start?: boolean
   /**
    * True to automatically connect to recommended Cloudflare, Pinata.cloud and OpenDreamNet nodes.
    *
    * @default true
    */
-  autoConnectPeers?: boolean
+  connectPeers?: boolean
   /**
    * True to get the list of stored objects.
    *
@@ -36,7 +38,7 @@ export type Options = {
    *
    * @default false
    */
-  autoLoadRefs?: boolean
+  loadRefs?: boolean
   /**
    * True to get the list of pinned files.
    *
@@ -45,7 +47,7 @@ export type Options = {
    *
    * @default true
    */
-  autoLoadPins?: boolean
+  loadPins?: boolean
   /**
    * Identity private key.
    *
@@ -73,53 +75,53 @@ export type Options = {
   controller?: ControllerOptions
 }
 
-export type UploadSource = File | Buffer | FileContent
+export type CIDInput = CID | string
+
+export type AddInput = ImportCandidate | ImportCandidate[] | ImportCandidateStream | FileList
 
 export class IPFS extends EventEmitter {
   /**
    * IPFS Node.
    */
-  public node: any
+  public node?: Controller
 
   /**
    * IPFS options.
    */
-  public options: Options = {
+  public options: IOptions = {
     opendreamnet: true,
-    autoStart: true,
-    autoConnectPeers: true,
-    autoLoadRefs: false,
-    autoLoadPins: true,
+    start: true,
+    connectPeers: true,
+    loadRefs: false,
+    loadPins: true,
     timeout: 8000,
     controller: {}
   }
 
-  public identity?: any
-
   /**
-   * List of fetched IPFS objects.
+   * IPFS Node identity.
    */
-  public records: Record[] = []
+  public identity?: IDResult
 
   /**
-   * List of object hashes in storage.
+   * List of entries hashes in repo storage.
    */
-  public refs: string[] = []
+  public refs: CID[] = []
 
   /**
-   * List of pinned files.
+   * List of pinned entries.
    */
-   public pins: string[] = []
+  public pins: CID[] = []
 
   /**
-   * True when the node has been started and is ready for use.
+   * True when the node has been started.
+   */
+  public started = false
+
+  /**
+   * True when the node is completely ready.
    */
   public ready = false
-
-  /**
-   * True when the node is completely ready and the optional operations are finished.
-   */
-  public completed = false
 
   /**
    * Error occurred during setup.
@@ -146,7 +148,7 @@ export class IPFS extends EventEmitter {
    *
    * @readonly
    */
-  public get api(): any {
+  public get api(): ipfs.IPFS | undefined {
     return this.node?.api
   }
 
@@ -164,17 +166,15 @@ export class IPFS extends EventEmitter {
 
   /**
    * Creates an instance of IPFS.
+   *
    * @param [options={}]
    */
-  public constructor(options: Options = {}) {
+  public constructor(options: IOptions = {}) {
     super()
-
-    // Suppress warning on many listeners.
-    this.setMaxListeners(50)
 
     this.options = merge(this.options, options)
 
-    if (this.options.autoStart) {
+    if (this.options.start) {
       this.start()
     }
   }
@@ -184,7 +184,7 @@ export class IPFS extends EventEmitter {
    *
    * @param options
    */
-  public setOptions(options: Options): void {
+  public setOptions(options: IOptions): void {
     this.options = merge(this.options, options)
   }
 
@@ -230,7 +230,7 @@ export class IPFS extends EventEmitter {
     }
 
     // Restore private key
-    // Remember: This only works on a web browser node.
+    // NOTE: This only works on a web browser node.
     if (this.options.privateKey) {
       const privateKey: PrivateKey = this.options.privateKey instanceof PrivateKey
         ? this.options.privateKey
@@ -247,7 +247,7 @@ export class IPFS extends EventEmitter {
    * Starts the IPFS node.
    */
   public async start(): Promise<void> {
-    if (this.ready) {
+    if (this.started) {
       return
     }
 
@@ -258,24 +258,37 @@ export class IPFS extends EventEmitter {
       // Load public and private keys
       await this.loadKeys()
 
-      // Everything below is optional
-      //
-      this.ready = true
-      this.emit('ready')
+      // Started!
+      this.started = true
+      this.emit('started')
+    } catch (err) {
+      this.error = err
+      this.emit('error', err)
+    }
 
+    this.load()
+  }
+
+  /**
+   * Load optional preparations.
+   *
+   * @protected
+   */
+  protected async load(): Promise<void> {
+    try {
       const workload: Promise<any>[] = []
 
-      if (this.options.autoLoadRefs) {
+      if (this.options.loadRefs) {
         // Fetch refs in storage
         workload.push(this.loadRefs())
       }
 
-      if (this.options.autoLoadPins) {
+      if (this.options.loadPins) {
         // Fetch pinned files
         workload.push(this.loadPins())
       }
 
-      if (this.options.autoConnectPeers) {
+      if (this.options.connectPeers) {
         // Connect to popular peers for faster file discovery
         workload.push(this.loadPeers())
       }
@@ -284,9 +297,9 @@ export class IPFS extends EventEmitter {
         await Promise.allSettled(workload)
       }
 
-      // Startup completed
-      this.completed = true
-      this.emit('started')
+      // Loaded and ready
+      this.ready = true
+      this.emit('ready')
     } catch (err) {
       this.error = err
       this.emit('error', err)
@@ -295,7 +308,7 @@ export class IPFS extends EventEmitter {
     // A file has finished downloading
     this.on('downloaded', () => {
       attempt(() => {
-        if (this.options.autoLoadRefs) {
+        if (this.options.loadRefs) {
           this.loadRefs()
         }
       })
@@ -304,11 +317,11 @@ export class IPFS extends EventEmitter {
     // A file has been uploaded
     this.on('uploaded', () => {
       attempt(() => {
-        if (this.options.autoLoadRefs) {
+        if (this.options.loadRefs) {
           this.loadRefs()
         }
 
-        if (this.options.autoLoadPins) {
+        if (this.options.loadPins) {
           this.loadPins()
         }
       })
@@ -348,17 +361,25 @@ export class IPFS extends EventEmitter {
   }
 
   /**
-   *
+   * Loads the public and private key of the node.
    *
    * @protected
    */
   protected async loadKeys(): Promise<void> {
-    const { PrivKey } = (await this.node.api.config.getAll()).Identity
+    if (!this.api) {
+      throw new Error('IPFS node/api undefined!')
+    }
 
-    if (PrivKey) {
-      this.peerId = await PeerId.createFromPrivKey(PrivKey)
+    const { Identity } = await this.api.config.getAll()
+
+    if (Identity?.PrivKey) {
+      this.peerId = await PeerId.createFromPrivKey(Identity.PrivKey)
       this.privateKey = new PrivateKey(this.peerId)
     } else {
+      if (!this.identity) {
+        throw new Error('IPFS identity undefined!')
+      }
+
       this.peerId = await PeerId.createFromPubKey(this.identity.publicKey)
     }
 
@@ -366,57 +387,73 @@ export class IPFS extends EventEmitter {
   }
 
   /**
-   *
+   * Loads the hashes of the stored entries.
    *
    * @param [timeout=8000]
    */
-  public async loadRefs(timeout?: number): Promise<void> {
+  public async loadRefs(timeout?: number): Promise<CID[]> {
+    if (!this.api) {
+      throw new Error('IPFS node/api undefined!')
+    }
+
     if (!timeout) {
       timeout = this.options.timeout
     }
 
-    await this.waitUntilReady()
+    await this.waitUntil('started')
 
     const refs = await all(this.api.refs.local({ timeout }))
 
-    this.refs = refs.map((item: any) => item.ref)
-
+    this.refs = refs.map((item) => CID.parse(item.ref))
     this.emit('refs', this.refs)
+
+    return this.refs
   }
 
   /**
-   *
+   * Loads the pinned entries.
    *
    * @param [timeout=8000]
    */
-  public async loadPins(timeout?: number): Promise<void> {
+  public async loadPins(timeout?: number): Promise<CID[]> {
+    if (!this.api) {
+      throw new Error('IPFS node/api undefined!')
+    }
+
     if (!timeout) {
       timeout = this.options.timeout
     }
 
-    await this.waitUntilReady()
+    await this.waitUntil('started')
 
     const pins = await all(this.api.pin.ls({ type: 'recursive', timeout }))
 
-    this.pins = pins.map((item: any) => item.cid.toString())
-
+    this.pins = pins.map((item) => item.cid)
     this.emit('pins', this.pins)
+
+    return this.pins
   }
 
   /**
    * Connects to a list of recommended nodes:
-   * - DreamNet
    * - Cloudflare
    * - Pinata.cloud
+   * - NFT.Storage
+   * - Web3.Storage
+   * - Protocol Labs
    *
    * @param [timeout=8000]
    */
   public async loadPeers(timeout?: number): Promise<PromiseSettledResult<any>[]> {
+    if (!this.api) {
+      throw new Error('IPFS node/api undefined!')
+    }
+
     if (!timeout) {
       timeout = this.options.timeout
     }
 
-    await this.waitUntilReady()
+    await this.waitUntil('started')
 
     let nodes: string[] = []
 
@@ -428,11 +465,10 @@ export class IPFS extends EventEmitter {
       nodes = Consts.RECOMMENDED_NODES
     }
 
-    const workload = nodes.map((link) => this.api.swarm.connect(link, { timeout })) as Promise<any>[]
+    const workload = nodes.map((link) => this.api!.swarm.connect(link, { timeout })) as Promise<any>[]
     const response = Promise.allSettled(workload)
 
     this.emit('peers', response)
-
     return response
   }
 
@@ -442,7 +478,7 @@ export class IPFS extends EventEmitter {
    * @remarks
    * If a remote node is being used, calling this function will stop it.
    */
-  public async destroy(): Promise<void> {
+  public async stop(): Promise<void> {
     if (this.node) {
       try {
         await this.node.stop()
@@ -453,18 +489,20 @@ export class IPFS extends EventEmitter {
       this.node = undefined
     }
 
+    /*
     if (is.nodeIntegration && this.options.controller?.ipfsOptions?.repo) {
       // Always make sure to delete this file
       fs.removeSync(path.resolve(this.options.controller.ipfsOptions.repo, 'api'))
     }
+    */
   }
 
   /**
    * Returns a promise that will not be fulfilled
-   * until the node is ready for use.
+   * until the event is fired.
    */
-  public waitUntilReady(): Promise<void> {
-    if (this.ready) {
+  public waitUntil(event: string): Promise<any> {
+    if (this[event] === true) {
       return Promise.resolve()
     }
 
@@ -474,134 +512,90 @@ export class IPFS extends EventEmitter {
 
     return new Promise((resolve, reject) => {
       this.once('error', (err) => reject(err))
-      this.once('ready', () => resolve())
+      this.once(event, (value) => resolve(value))
     })
   }
 
   /**
-   * Returns a promise that will not be fulfilled
-   * until the node has completed the startup.
-   */
-   public waitUntilStarted(): Promise<void> {
-    if (this.completed) {
-      return Promise.resolve()
-    }
-
-    if (this.error) {
-      return Promise.reject(this.error)
-    }
-
-    return new Promise((resolve, reject) => {
-      this.once('error', (err) => reject(err))
-      this.once('started', () => resolve())
-    })
-  }
-
-  /**
-   * Start downloading an IPFS object.
+   * Creates an [Entry] from the CID.
+   * If an array is specified, it will be wrapped in a folder and returns the [Entry] of the folder.
    *
    * @param cid
    * @param [options={}]
-   * @returns Promise to be fulfilled when the object's metadata has been obtained.
    */
-  public async add(cid: string, options: RecordOptions = {}): Promise<Record> {
-    await this.waitUntilStarted()
+  public async fromCID(cid: CIDInput | CIDInput[], options: IEntryOptions = {}): Promise<Entry> {
+    await this.waitUntil('started')
 
-    // Check if it is in cache (Seen in this session)
-    let record = this.get(cid)
+    let input: CID | CID[]
 
-    if (record) {
-      await record.waitUntilReady()
-      return record.setOptions(options)
+    if (isArray(cid)) {
+      // Convert string array to [CID] array
+      input = cid.map(value => {
+        if (isString(value)) {
+          return CID.parse(value)
+        }
+
+        return value
+      })
+    } else {
+      if (isString(cid)) {
+        // Convert string to [CID]
+        input = CID.parse(cid)
+      } else {
+        input = cid
+      }
     }
 
-    // Request object and store it on cache
-    record = new Record(this, cid, options)
-    this.records.push(record)
-
-    try {
-      await record.setup()
-    } catch (err) {
-      this.remove(cid)
-      throw err
-    }
-
-    this.emit('added', record)
-    return record
+    return Entry.fromCID(this, input, options)
   }
 
   /**
-   * Upload data or a file to the IPFS node.
+   * Creates an [Entry] from the path in MFS.
    *
-   * @param source
+   * @param path
    * @param [options={}]
-   * @return CID of the uploaded object.
    */
-  public async upload(source: UploadSource | UploadSource[] | FileList, options: AddOptions = {}): Promise<string> {
-    await this.waitUntilReady()
+  public async fromMFS(path: string, options: IEntryOptions = {}): Promise<Entry> {
+    await this.waitUntil('started')
+    return Entry.fromMFS(this, path, options)
+  }
 
-    // Convert the source to a list of files that we can upload.
-    const files: FileObject[] = await utils.sourceToFileObject(source)
+  /**
+   * Add data or a file to the IPFS node.
+   *
+   * @param input
+   * @param [options={}]
+   */
 
-    // Upload and get the results.
-    const items = await all(this.node.api.addAll(files, options)) as any[]
+  public async add(input: AddInput, options: AddAllOptions & AbortOptions = {}, entryOptions: IEntryOptions = {}): Promise<Entry> {
+    await this.waitUntil('started')
 
-    if (items.length === 0) {
-      throw new Error('The upload did not return any results.')
+    if (!this.api) {
+      throw new Error('IPFS node/api undefined!')
     }
 
-    this.emit('uploaded', source)
+    let source: ImportCandidateStream
+
+    if (isFunction(input)) {
+      // @ts-ignore
+      source = input
+    } else {
+      // Convert the source to [ImportCandidateStream]
+      // @ts-ignore
+      source = utils.inputToCandidateStream(input)
+    }
+
+    // Add and get the entries.
+    const entries = await all(this.api.addAll(source, options))
+
+    if (entries.length === 0) {
+      throw new Error('The add did not return any results.')
+    }
+
+    this.emit('added', input)
 
     // The last result is always the root (if it is a directory).
-    return last(items).cid.toString()
-  }
-
-  /**
-   * Upload data or a file to the IPFS node.
-   *
-   * @remarks
-   * `upload()` and `seed()` are the same, the only difference is that `seed()` returns a `Record` object.
-   *
-   * @param source
-   * @param [options={}]
-   * @param [recordOptions={}]
-   */
-  public async seed(source: UploadSource | UploadSource[] | FileList, options: AddOptions = {}, recordOptions: RecordOptions = {}): Promise<Record> {
-    const cid = await this.upload(source, options)
-    return await this.add(cid, recordOptions)
-  }
-
-  /**
-   * Removes an IPFS object and stops any active download.
-   *
-   * @param cid
-   * @param destroy Delete the file/directory?
-   */
-  public remove(cid: string, destroy = true): void {
-    const record = find(this.records, { cid })
-
-    if (!record) {
-      return
-    }
-
-    if (destroy) {
-      record.destroy()
-    } else {
-      record.stop()
-    }
-
-    this.records = reject(this.records, { cid })
-
-    this.emit('removed', cid)
-  }
-
-  /**
-   * Returns the IPFS object if it has been added with `add()`
-   *
-   * @param cid
-   */
-  public get(cid: string): Record | undefined {
-    return find(this.records, { cid })
+    return this.fromCID(entries[entries.length - 1].cid, entryOptions)
   }
 
   /**
@@ -609,7 +603,11 @@ export class IPFS extends EventEmitter {
    *
    * @param cid
    */
-  public isStored(cid: string): boolean {
+  public isStored(cid: string | CID): boolean {
+    if (isString(cid)) {
+      cid = CID.parse(cid)
+    }
+
     return this.refs.includes(cid)
   }
 
@@ -618,7 +616,11 @@ export class IPFS extends EventEmitter {
    *
    * @param cid
    */
-   public isPinned(cid: string): boolean {
+   public isPinned(cid: string | CID): boolean {
+    if (isString(cid)) {
+      cid = CID.parse(cid)
+    }
+
     return this.pins.includes(cid)
   }
 }

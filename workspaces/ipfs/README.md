@@ -5,8 +5,6 @@
 
 Easily create and use an IPFS node, either in NodeJS or web browser.
 
-API inspired in [webtorrent.](https://github.com/webtorrent/webtorrent)
-
 ## Example
 
 ### NodeJS
@@ -17,7 +15,7 @@ import { IPFS } from '@opendreamnet/ipfs'
 async function ipfsStart() {
   // IPFS repo created at `process.env.IPFS_PATH` or `%tmp%/opendreamnet/ipfs-repo`
   const client = new IPFS({
-    autoStart: false
+    start: false
   })
 
   console.log('Starting IPFS node...');
@@ -40,23 +38,26 @@ async function ipfsStart() {
   // Download to ./image.jpg
   console.log('Downloading test image...')
 
-  const image = await client.add('bafybeiaynnrpkowrudgxydruws4gz76gyyngtexuh7piwpa72pnnm7hmei', { 
-    autoDownload: true,
+  // image = [Entry]
+  const image = await client.fromCID('bafybeiaynnrpkowrudgxydruws4gz76gyyngtexuh7piwpa72pnnm7hmei', { 
     name: 'image.jpg',
-    directory: path.resolve(process.cwd(), 'data'),
     timeout: 2 * 60 * 1000
   });
 
+  await image.download(path.resolve(process.cwd(), 'data', 'image.jpg'));
+  // or...
+  await image.download({ directory: path.resolve(process.cwd(), 'data') });
+
   // Upload
   console.log('Uploading ./src ...')
-  const record = await client.seed('./src')
+  const record = await client.add('./src')
   console.log({ record })
 }
 
 ipfsStart()
 ```
 
-### Webpack
+### Webpack 4
 
 ```js
 {
@@ -77,8 +78,8 @@ ipfsStart()
 
 ```js
 async function ipfsStart() {
-  const client = new odn.IPFS({
-    autoStart: false
+  const client = new IPFS({
+    start: false
   });
 
   console.log('Starting IPFS node...');
@@ -101,12 +102,12 @@ async function ipfsStart() {
   // Show image
   console.log('Downloading test image...');
 
-  const image = await client.add('bafybeiaynnrpkowrudgxydruws4gz76gyyngtexuh7piwpa72pnnm7hmei', { 
+  const image = await client.fromCID('bafybeiaynnrpkowrudgxydruws4gz76gyyngtexuh7piwpa72pnnm7hmei', { 
     name: 'image.jpg',
     timeout: 2 * 60 * 1000
   });
 
-  const blob = await image.file.getBlob();
+  const blob = await image.getBlob();
   document.querySelector('#ipfs-image').src = window.URL.createObjectURL(blob);
 }
 
