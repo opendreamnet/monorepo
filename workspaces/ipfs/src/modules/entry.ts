@@ -336,7 +336,7 @@ export class Entry extends EventEmitter {
    */
   public static async fromCID(ipfs: IPFS, input: CID | CID[], options: IEntryOptions = {}) {
     if (!ipfs.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     if (isArray(input)) {
@@ -396,7 +396,7 @@ export class Entry extends EventEmitter {
    */
   public static async fromMFS(ipfs: IPFS, path: string, options: IEntryOptions = {}) {
     if (!ipfs.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     const stat = await ipfs.api.files.stat(path, { timeout: options.timeout })
@@ -609,18 +609,26 @@ export class Entry extends EventEmitter {
     }
   }
 
+  /**
+   *
+   *
+   */
   public async loadStat() {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     this.stat = await this.api.object.stat(this.cid, { timeout: this.options.timeout })
     this.emit('stat', this.stat)
   }
 
+  /**
+   *
+   *
+   */
   public async loadPeers() {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     this.peers = await all(this.api.dht.findProvs(this.cid, { timeout: this.options.timeout }))
@@ -632,7 +640,7 @@ export class Entry extends EventEmitter {
    */
   public async loadSubEntries() {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     if (this.type === 'file') {
@@ -680,6 +688,28 @@ export class Entry extends EventEmitter {
     }
 
     return files
+  }
+
+  /**
+   *
+   *
+   */
+  public async pin() {
+    await this.ipfs.pin(this)
+
+    this.pinned = true
+    this.emit('pinned')
+  }
+
+  /**
+   *
+   *
+   */
+  public async unpin() {
+    await this.ipfs.unpin(this)
+
+    this.pinned = false
+    this.emit('unpinned')
   }
 
   /**
@@ -788,7 +818,7 @@ export class Entry extends EventEmitter {
    */
   public async store() {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     if (this.downloading) {
@@ -833,7 +863,7 @@ export class Entry extends EventEmitter {
    */
   public getContent(): AsyncIterable<Uint8Array> {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     if (this.type === 'dir') {

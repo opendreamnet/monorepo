@@ -131,7 +131,7 @@ export function sanitizeName(linkpath: string): string {
 
 export async function wrapWithDirectory(ipfs: IPFS, entries: Partial<IPFSEntry>[]): Promise<StatResult> {
   if (!ipfs.api) {
-    throw new Error('IPFS node/api undefined!')
+    throw new Error('IPFS api undefined!')
   }
 
   const dirpath = `/.wrapper_${Date.now()}_${random(100, false)}`

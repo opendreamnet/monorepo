@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import { getPath, is } from '@opendreamnet/app'
-import { merge, attempt, set, isString, isArray, isFunction, find, some } from 'lodash'
+import { merge, attempt, set, isString, isArray, isFunction, find, some, reject } from 'lodash'
 import all from 'it-all'
 import Ctl from 'ipfsd-ctl'
 import type { Controller, ControllerOptions } from 'ipfsd-ctl'
@@ -10,8 +10,9 @@ import * as ipfsHttpClient from 'ipfs-http-client'
 import ipfsGo from 'go-ipfs'
 import * as ipfs from 'ipfs'
 import { CID } from 'multiformats/cid'
-import type { AddAllOptions, IDResult } from 'ipfs-core-types/src/root'
-import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/src/utils'
+import type { AddAllOptions, IDResult } from 'ipfs-core-types/types/src/root'
+import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/types/src/utils'
+import type { AddOptions, RmOptions } from 'ipfs-core-types/types/src/pin'
 import * as Consts from './consts'
 import { Entry, IEntryOptions } from './entry'
 import * as utils from './utils'
@@ -372,7 +373,7 @@ export class IPFS extends EventEmitter {
    */
   protected async loadKeys(): Promise<void> {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     const { Identity } = await this.api.config.getAll()
@@ -398,7 +399,7 @@ export class IPFS extends EventEmitter {
    */
   public async loadRefs(timeout?: number): Promise<CID[]> {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     if (!timeout) {
@@ -422,7 +423,7 @@ export class IPFS extends EventEmitter {
    */
   public async loadPins(timeout?: number): Promise<CID[]> {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     if (!timeout) {
@@ -451,7 +452,7 @@ export class IPFS extends EventEmitter {
    */
   public async loadPeers(timeout?: number): Promise<PromiseSettledResult<any>[]> {
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     if (!timeout) {
@@ -576,7 +577,7 @@ export class IPFS extends EventEmitter {
     await this.waitUntil('started')
 
     if (!this.api) {
-      throw new Error('IPFS node/api undefined!')
+      throw new Error('IPFS api undefined!')
     }
 
     let source: ImportCandidateStream
@@ -614,6 +615,63 @@ export class IPFS extends EventEmitter {
     }
 
     return some(this.refs, (value) => value.equals(cid))
+  }
+
+  /**
+   *
+   *
+   * @param input
+   * @param [options]
+   */
+  public async pin(input: string | CID | Entry, options?: AddOptions): Promise<void> {
+    if (!this.api) {
+      throw new Error('IPFS api undefined!')
+    }
+
+    // Convert to [CID]
+    if (isString(input)) {
+      input = CID.parse(input)
+    } else if (input instanceof Entry) {
+      input = input.cid
+    }
+
+    if (this.isPinned(input)) {
+      // Already pinned
+      return
+    }
+
+    await this.api.pin.add(input, options)
+
+    // Add to list
+    this.pins.push(input)
+  }
+
+  /**
+   *
+   *
+   * @param input
+   * @param [options]
+   */
+  public async unpin(input: string | CID | Entry, options?: RmOptions): Promise<void> {
+    if (!this.api) {
+      throw new Error('IPFS api undefined!')
+    }
+
+    // Convert to [CID]
+    if (isString(input)) {
+      input = CID.parse(input)
+    } else if (input instanceof Entry) {
+      input = input.cid
+    }
+
+    if (!this.isPinned(input)) {
+      // Not pinned
+      return
+    }
+
+    await this.api.pin.rm(input, options)
+
+    this.pins = reject<CID>(this.pins, (value) => value.equals(input))
   }
 
   /**
