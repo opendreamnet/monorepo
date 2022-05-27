@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.4.0...ipfs-v3.0.0) (2022-05-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* major changes to api. [Record] and [File] deleted, combined into [Entry], major performance updates
+
+### Features
+
+* major changes to api. [Record] and [File] deleted, combined into [Entry], major performance updates ([c001705](https://github.com/dreamnettech/monorepo/commit/c001705d49f819c9d768cd3a30ac4e82b1666907))
+
 ## [2.4.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v2.3.1...ipfs-v2.4.0) (2022-05-17)
 
 
