@@ -1,23 +1,23 @@
 module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   env: {
-    es6: true,
+    es6: true
   },
   plugins: [
     'import',
     'promise',
     'lodash',
-    'mocha',
+    'mocha'
   ],
   extends: [
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:promise/recommended',
     'plugin:lodash/recommended',
-    'plugin:mocha/recommended',
+    'plugin:mocha/recommended'
   ],
   rules: {
     // General Code Rules
@@ -82,10 +82,10 @@ module.exports = {
       files: ['**/*.ts', '**/*.tsx'],
       parser: '@typescript-eslint/parser',
       plugins: [
-        '@typescript-eslint',
+        '@typescript-eslint'
       ],
       extends: [
-        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended'
       ],
       rules: {
         '@typescript-eslint/quotes': ['error', 'single'],
@@ -97,13 +97,13 @@ module.exports = {
 
         quotes: 'off',
         semi: 'off',
-        'space-before-function-paren': 'off',
-      },
+        'space-before-function-paren': 'off'
+      }
     }
   ],
   settings: {
     'import/resolver': {
       node: { extensions: ['.js', '.mjs'] }
     }
-  },
+  }
 }

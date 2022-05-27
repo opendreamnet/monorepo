@@ -12,6 +12,10 @@ export default defineBuildConfig({
   declaration: true,
   hooks: {
     'rollup:options'(ctx, opts) {
+      if (!opts.plugins) {
+        opts.plugins = []
+      }
+      
       // Plugins
       opts.plugins.push(optimizeLodashImports())
     }
