@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.1.0...ipfs-v3.1.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* `entry.peers` does not return providers ([a58cb6e](https://github.com/dreamnettech/monorepo/commit/a58cb6eb4ef2d6630e4b50208f6dcbc9a12b419c))
+
 ## [3.1.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.0.0...ipfs-v3.1.0) (2022-05-27)
 
 
