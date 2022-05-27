@@ -7,7 +7,7 @@ import { CID } from 'multiformats/cid'
 import type { Mtime } from 'ipfs-unixfs'
 import type { IPFSEntry } from 'ipfs-core-types/types/src/root'
 import type { StatResult } from 'ipfs-core-types/types/src/object/index'
-import type { QueryEvent } from 'ipfs-core-types/types/src/dht/index'
+import type { ProviderEvent, PeerData } from 'ipfs-core-types/types/src/dht/index'
 import DynamicBuffer from '@fidian/dynamic-buffer'
 import toStream from 'it-to-stream'
 import { merge, isEmpty, isString, toNumber, isArray } from 'lodash'
@@ -249,7 +249,7 @@ export class Entry extends EventEmitter {
   /**
    * Peers distributing the entry.
    */
-  public peers?: QueryEvent[]
+  public peers?: PeerData[]
 
   /**
    * [IPFSEntry] subentries.
@@ -631,7 +631,18 @@ export class Entry extends EventEmitter {
       throw new Error('IPFS api undefined!')
     }
 
-    this.peers = await all(this.api.dht.findProvs(this.cid, { timeout: this.options.timeout }))
+    this.peers = []
+
+    // This returns verbose data responses
+    const payload = await all(this.api.dht.findProvs(this.cid, { timeout: this.options.timeout }))
+
+    // Only interested on provider responses
+    const providerEvents = payload.filter((value) => value.name === 'PROVIDER') as ProviderEvent[]
+
+    for (const event of providerEvents) {
+      this.peers.push(...event.providers)
+    }
+
     this.emit('peers', this.peers)
   }
 
