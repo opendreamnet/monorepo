@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import { getPath, is } from '@opendreamnet/app'
-import { merge, attempt, set, isString, isArray, isFunction, find } from 'lodash'
+import { merge, attempt, set, isString, isArray, isFunction, find, some } from 'lodash'
 import all from 'it-all'
 import Ctl from 'ipfsd-ctl'
 import type { Controller, ControllerOptions } from 'ipfsd-ctl'
@@ -613,7 +613,7 @@ export class IPFS extends EventEmitter {
       cid = CID.parse(cid)
     }
 
-    return this.refs.includes(cid)
+    return some(this.refs, (value) => value.equals(cid))
   }
 
   /**
@@ -626,7 +626,7 @@ export class IPFS extends EventEmitter {
       cid = CID.parse(cid)
     }
 
-    return this.pins.includes(cid)
+    return some(this.pins, (value) => value.equals(cid))
   }
 
   public addToCache(entry: Entry, name = 'default'): void {
