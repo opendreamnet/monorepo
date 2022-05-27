@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import { getPath, is } from '@opendreamnet/app'
-import { merge, attempt, set, isString, isArray, isFunction } from 'lodash'
+import { merge, attempt, set, isString, isArray, isFunction, find } from 'lodash'
 import all from 'it-all'
 import Ctl from 'ipfsd-ctl'
 import type { Controller, ControllerOptions } from 'ipfsd-ctl'
@@ -142,6 +142,11 @@ export class IPFS extends EventEmitter {
    * Operations for the private key.
    */
   public privateKey?: PrivateKey
+
+  /**
+   * Entries on cache.
+   */
+  public cache: Record<string, Entry[]> = {}
 
   /**
    * IPFS API
@@ -616,11 +621,34 @@ export class IPFS extends EventEmitter {
    *
    * @param cid
    */
-   public isPinned(cid: string | CID): boolean {
+  public isPinned(cid: string | CID): boolean {
     if (isString(cid)) {
       cid = CID.parse(cid)
     }
 
     return this.pins.includes(cid)
+  }
+
+  public addToCache(entry: Entry, name = 'default'): void {
+    if (this.getFromCache(entry.cid.toString(), name)) {
+      // Already on cache
+      return
+    }
+
+    this.cache[name].push(entry)
+  }
+
+  public getFromCache(cid: string | CID, name = 'default'): Entry | undefined {
+    if (!isString(cid)) {
+      cid = cid.toString()
+    }
+
+    if (!this.cache[name]) {
+      // Initialize
+      this.cache[name] = []
+      return undefined
+    }
+
+    return find(this.cache[name], { identifier: cid })
   }
 }

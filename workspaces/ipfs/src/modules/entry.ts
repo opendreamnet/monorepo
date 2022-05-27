@@ -70,6 +70,12 @@ export interface IEntryOptions {
    */
   store?: boolean
   /**
+   * Cache entry?
+   *
+   * @default false
+   */
+  cache?: boolean | string
+  /**
    * Maximum time in milliseconds for operations.
    *
    * @default 20,000
@@ -308,9 +314,17 @@ export class Entry extends EventEmitter {
    * @param [options={}]
    */
   public static fromIpfsEntry(ipfs: IPFS, ipfsEntry: IPFSEntry, options: IEntryOptions = {}) {
-    const entry = new Entry(ipfs, ipfsEntry, options)
-    entry.setup()
-    return entry
+    if (options.cache) {
+      // Use cache
+      const cacheKey = options.cache === true ? undefined : options.cache
+      const cacheEntry = ipfs.getFromCache(ipfsEntry.cid, cacheKey)
+
+      if (cacheEntry) {
+        return cacheEntry
+      }
+    }
+
+    return new Entry(ipfs, ipfsEntry, options)
   }
 
   /**
@@ -397,6 +411,12 @@ export class Entry extends EventEmitter {
     // Merge options
     this.setOptions(options)
 
+    if (options.cache) {
+      // Store in cache
+      const cacheKey = options.cache === true ? undefined : options.cache
+      ipfs.addToCache(this, cacheKey)
+    }
+
     // Normalized
     this.relpath = this.getRelPath()
 
@@ -414,6 +434,9 @@ export class Entry extends EventEmitter {
     if (this.ipfs.options.loadPins) {
       this.pinned = this.ipfs.isPinned(this.cid)
     }
+
+    // Setup background
+    this.setup()
   }
 
   public toJSON() {
