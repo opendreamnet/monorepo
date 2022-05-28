@@ -665,7 +665,7 @@ export class Entry extends EventEmitter {
 
     for(const entry of this.rawSubEntries) {
       this.subEntries.push(
-        await Entry.fromIpfsEntry(this.ipfs, entry, {
+        Entry.fromIpfsEntry(this.ipfs, entry, {
           timeout: this.options.subTimeout,
           parentRelPath: this.getRelPath(),
           subentries: this.options.subentries === 'recursive' ? 'recursive' : false,

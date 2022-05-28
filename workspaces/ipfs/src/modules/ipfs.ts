@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import { getPath, is } from '@opendreamnet/app'
-import { merge, attempt, set, isString, isArray, isFunction, find, some, reject } from 'lodash'
+import { merge, attempt, set, isString, isArray, isFunction, find, some, reject, isNil, noop } from 'lodash'
 import all from 'it-all'
 import Ctl from 'ipfsd-ctl'
 import type { Controller, ControllerOptions } from 'ipfsd-ctl'
@@ -9,7 +9,8 @@ import PeerId from 'peer-id'
 import * as ipfsHttpClient from 'ipfs-http-client'
 import ipfsGo from 'go-ipfs'
 import * as ipfs from 'ipfs'
-import { CID } from 'multiformats/cid'
+import { CID } from 'multiformats'
+import { Multiaddr } from 'multiaddr'
 import type { AddAllOptions, IDResult } from 'ipfs-core-types/types/src/root'
 import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/types/src/utils'
 import type { AddOptions, RmOptions } from 'ipfs-core-types/types/src/pin'
@@ -54,7 +55,7 @@ export interface IOptions {
    *
    * @remarks
    * It can be a [PrivateKey] instance or a go-ipfs protobuf format.
-   * This only works on a web browser node!
+   * NOTE: This only works on a web browser node!
    */
   privateKey?: PrivateKey | Uint8Array | string
   /**
@@ -74,6 +75,10 @@ export interface IOptions {
    * IPFS controller options.
    */
   controller?: ControllerOptions
+  /**
+   * Multiaddr API to connect to an external IPFS node.
+   */
+  apiAddr?: Multiaddr | string
 }
 
 export type CIDInput = CID | string
@@ -145,6 +150,13 @@ export class IPFS extends EventEmitter {
   public privateKey?: PrivateKey
 
   /**
+   *
+   *
+   * @protected
+   */
+  protected customPrivateKey?: PrivateKey
+
+  /**
    * Entries on cache.
    */
   public cache: Record<string, Entry[]> = {}
@@ -167,7 +179,7 @@ export class IPFS extends EventEmitter {
    * @readonly
    */
   public get isBrowserNode(): boolean {
-    return is.browser && this.node?.opts?.type === 'proc'
+    return isNil(this.node?.apiAddr)
   }
 
   /**
@@ -178,7 +190,7 @@ export class IPFS extends EventEmitter {
   public constructor(options: IOptions = {}) {
     super()
 
-    this.options = merge(this.options, options)
+    this.setOptions(options)
 
     if (this.options.start) {
       this.start()
@@ -208,6 +220,8 @@ export class IPFS extends EventEmitter {
       ipfsHttpModule: ipfsHttpClient,
       disposable: false,
       ipfsOptions: {
+        start: false,
+        init: false,
         repoAutoMigrate: true
       }
     }
@@ -238,12 +252,12 @@ export class IPFS extends EventEmitter {
     // Restore private key
     // NOTE: This only works on a web browser node.
     if (this.options.privateKey) {
-      const privateKey: PrivateKey = this.options.privateKey instanceof PrivateKey
+      this.customPrivateKey = this.options.privateKey instanceof PrivateKey
         ? this.options.privateKey
         : await PrivateKey.fromProtobuf(this.options.privateKey)
 
-      set(options, 'ipfsOptions.init.privateKey', privateKey.toProtobuf())
-      set(options, 'ipfsOptions.config.Identity.PrivKey', privateKey.toProtobuf())
+      set(options, 'ipfsOptions.init.privateKey', this.customPrivateKey.toProtobuf())
+      set(options, 'ipfsOptions.config.Identity.PrivKey', this.customPrivateKey.toProtobuf())
     }
 
     return merge(options, this.options.controller)
@@ -252,26 +266,24 @@ export class IPFS extends EventEmitter {
   /**
    * Starts the IPFS node.
    */
-  public async start(): Promise<void> {
+  public async start(options: IOptions = {}): Promise<void> {
     if (this.started) {
       return
     }
 
-    try {
-      // Create IPFS node
-      await this.createNode()
+    this.setOptions(options)
 
-      // Load public and private keys
-      await this.loadKeys()
+    // Create IPFS node
+    await this.create()
 
-      // Started!
-      this.started = true
-      this.emit('started')
-    } catch (err) {
-      this.error = err
-      this.emit('error', err)
-    }
+    // Load public and private keys
+    await this.loadKeys()
 
+    // Started!
+    this.started = true
+    this.emit('started')
+
+    // Optional load
     this.load()
   }
 
@@ -339,7 +351,7 @@ export class IPFS extends EventEmitter {
    *
    * @protected
    */
-  protected async createNode(): Promise<void> {
+  protected async create(): Promise<void> {
     if (this.node) {
       return
     }
@@ -355,15 +367,33 @@ export class IPFS extends EventEmitter {
     this.options.controller = options
     this.node = await Ctl.createController(options)
 
-    if (!this.node.initialized) {
-      await this.node.init()
+    if (!options.remote && this.options.apiAddr) {
+      // Little hack to allow custom API address.
+      if (isString(this.options.apiAddr)) {
+        this.options.apiAddr = new Multiaddr(this.options.apiAddr)
+      }
+
+      // @ts-ignore
+      this.node._setApi(this.options.apiAddr)
+      if (options.type !== 'proc') {
+        // @ts-ignore
+        this.node._createApi()
+      }
+      this.node.started = true
+      // @ts-ignore
+      this.node.api.peerId = await this.node.api.id()
+    } else {
+      if (!this.node.initialized) {
+        await this.node.init()
+      }
+
+      if (!this.node.started) {
+        await this.node.start()
+      }
     }
 
-    if (!this.node.started) {
-      await this.node.start()
-    }
-
-    this.identity = await this.node.api.id()
+    // @ts-ignore
+    this.identity = this.node.api.peerId
   }
 
   /**
@@ -377,9 +407,15 @@ export class IPFS extends EventEmitter {
     }
 
     const { Identity } = await this.api.config.getAll()
+    let protoPrivateKey: Uint8Array | string | undefined = Identity?.PrivKey
 
-    if (Identity?.PrivKey) {
-      this.peerId = await PeerId.createFromPrivKey(Identity.PrivKey)
+    if (!protoPrivateKey && this.customPrivateKey && this.customPrivateKey?.peerId === this.identity?.id) {
+      // Node has not provided the private key, but the one specified in options is correct, use that one
+      protoPrivateKey = this.customPrivateKey.toProtobuf()
+    }
+
+    if (protoPrivateKey) {
+      this.peerId = await PeerId.createFromPrivKey(protoPrivateKey)
       this.privateKey = new PrivateKey(this.peerId)
     } else {
       if (!this.identity) {
@@ -474,7 +510,7 @@ export class IPFS extends EventEmitter {
     const workload = nodes.map((link) => this.api!.swarm.connect(link, { timeout })) as Promise<any>[]
     const response = Promise.allSettled(workload)
 
-    this.emit('peers', response)
+    response.then((value) => this.emit('peers', value)).catch(noop)
     return response
   }
 
