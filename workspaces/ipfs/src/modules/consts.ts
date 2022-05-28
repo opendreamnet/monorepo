@@ -9,9 +9,9 @@
 export const WRTC_NODES = [
   '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
   '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-  '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-  '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star',
-  '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
+  // '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
+  '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
+  // '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
 ]
 
 /**
@@ -23,9 +23,9 @@ export const PRELOAD_NODES = [
 
   // Defaults
   '/dns4/node0.preload.ipfs.io/https',
-  '/dns4/node1.preload.ipfs.io/https',
-  '/dns4/node2.preload.ipfs.io/https',
-  '/dns4/node3.preload.ipfs.io/https'
+  '/dns4/node1.preload.ipfs.io/https'
+  // '/dns4/node2.preload.ipfs.io/https',
+  // '/dns4/node3.preload.ipfs.io/https'
 ]
 
 /**
@@ -37,9 +37,9 @@ export const BOOTSTRAP_NODES = [
 
   // Defaults
   '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
-  '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6',
-  '/dns4/node2.preload.ipfs.io/tcp/443/wss/p2p/QmV7gnbW5VTcJ3oyM2Xk1rdFBJ3kTkvxc87UFGsun29STS',
-  '/dns4/node3.preload.ipfs.io/tcp/443/wss/p2p/QmY7JB6MQXhxHvq7dBDh4HpbH29v4yE9JRadAVpndvzySN'
+  '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6'
+  // '/dns4/node2.preload.ipfs.io/tcp/443/wss/p2p/QmV7gnbW5VTcJ3oyM2Xk1rdFBJ3kTkvxc87UFGsun29STS',
+  // '/dns4/node3.preload.ipfs.io/tcp/443/wss/p2p/QmY7JB6MQXhxHvq7dBDh4HpbH29v4yE9JRadAVpndvzySN'
 ]
 
 /**
@@ -51,9 +51,9 @@ export const DELEGATES_NODES = [
 
   // Defaults
   '/dns4/node0.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node1.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node2.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node3.delegate.ipfs.io/tcp/443/https'
+  '/dns4/node1.delegate.ipfs.io/tcp/443/https'
+  // '/dns4/node2.delegate.ipfs.io/tcp/443/https',
+  // '/dns4/node3.delegate.ipfs.io/tcp/443/https'
 ]
 
 /**
