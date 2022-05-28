@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.1.1...ipfs-v3.2.0) (2022-05-28)
+
+
+### Features
+
+* added `apiAddr` option to connect to an external node, `privateKey` option now can be used to specify the private key on an external node ([a91624d](https://github.com/dreamnettech/monorepo/commit/a91624da65e8d12f81e0392092b225d3f055d463))
+
 ### [3.1.1](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.1.0...ipfs-v3.1.1) (2022-05-27)
 
 
