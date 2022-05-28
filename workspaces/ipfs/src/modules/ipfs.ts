@@ -213,7 +213,7 @@ export class IPFS extends EventEmitter {
    */
   protected async makeControllerOptions(): Promise<ControllerOptions> {
     // True if we can interact with the OS files
-    const useFilesystem = is.nodeIntegration && this.options.controller?.type !== 'js'
+    const useGo = is.nodeIntegration && this.options.controller?.type !== 'js'
 
     // Default options
     const options: ControllerOptions = {
@@ -234,7 +234,7 @@ export class IPFS extends EventEmitter {
       set(options, 'ipfsOptions.config.Pubsub.Enabled', true)
     }
 
-    if (useFilesystem) {
+    if (useGo) {
       // go-ipfs FTW!
       options.ipfsBin = ipfsGo.path().replace('app.asar', 'app.asar.unpacked')
 
@@ -242,7 +242,7 @@ export class IPFS extends EventEmitter {
         // If we do not want to make a temporary node, then we use this default location for repo
         set(options, 'ipfsOptions.repo', process.env.IPFS_PATH || getPath('temp', 'opendreamnet', 'ipfs-repo'))
       }
-    } else if (is.browser) {
+    } else if (is.browser || this.options.controller?.type === 'proc') {
       options.type = 'proc'
       options.ipfsModule = ipfs
 
