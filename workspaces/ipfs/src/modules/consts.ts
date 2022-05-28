@@ -1,23 +1,63 @@
 /**
- * WebRTC nodes to communicate with the IPFS network.
- * TODO: Add more
+ * WebRTC.
+ * Used to discover and communicate with other nodes
+ * connected to the same WebRTC nodes (JS-IPFS only)
+ *
+ * @see
+ * https://github.com/ipfs/js-ipfs/blob/master/docs/FAQ.md#what-are-all-these-refsqmfoo-http-errors-i-keep-seeing-in-the-console
  */
 export const WRTC_NODES = [
   '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
   '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-  '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star'
+  '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
+  '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star',
+  '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
 ]
 
 /**
- * Websocket nodes for web browser IPFS nodes.
- * TODO: Add more
+ * Preload.
+ * Used to get and distribute files from the browser IPFS node.
  */
-export const WSS_NODES = [
-  '/dns4/node1-ws.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5'
+export const PRELOAD_NODES = [
+  '/dns4/node0-preload.dreamlink.cloud/https',
+
+  // Defaults
+  '/dns4/node0.preload.ipfs.io/https',
+  '/dns4/node1.preload.ipfs.io/https',
+  '/dns4/node2.preload.ipfs.io/https',
+  '/dns4/node3.preload.ipfs.io/https'
 ]
 
 /**
- * Recommended nodes for a fast discovery.
+ * Bootstrap.
+ * Used to get and distribute files from the browser IPFS node.
+ */
+export const BOOTSTRAP_NODES = [
+  '/dns4/node0-preload.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
+
+  // Defaults
+  '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
+  '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6',
+  '/dns4/node2.preload.ipfs.io/tcp/443/wss/p2p/QmV7gnbW5VTcJ3oyM2Xk1rdFBJ3kTkvxc87UFGsun29STS',
+  '/dns4/node3.preload.ipfs.io/tcp/443/wss/p2p/QmY7JB6MQXhxHvq7dBDh4HpbH29v4yE9JRadAVpndvzySN'
+]
+
+/**
+ * Delegates.
+ * Used to perform actions on the network from the browser IPFS node.
+ */
+export const DELEGATES_NODES = [
+  '/dns4/node0-preload.dreamlink.cloud/tcp/443/https',
+
+  // Defaults
+  '/dns4/node0.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node1.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node2.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node3.delegate.ipfs.io/tcp/443/https'
+]
+
+/**
+ * Recommended nodes for fast discovery.
  */
 export const RECOMMENDED_NODES = [
   // Cloudflare

@@ -227,8 +227,11 @@ export class IPFS extends EventEmitter {
     }
 
     if (this.options.opendreamnet) {
-      // Our recommended settings
+      // Recommended settings
       set(options, 'ipfsOptions.EXPERIMENTAL.ipnsPubsub', true)
+
+      // Pubsub
+      set(options, 'ipfsOptions.config.Pubsub.Enabled', true)
     }
 
     if (useFilesystem) {
@@ -244,8 +247,22 @@ export class IPFS extends EventEmitter {
       options.ipfsModule = ipfs
 
       if (this.options.opendreamnet) {
-        // This node wants to use our servers
+        // Recommended
+        set(options, 'ipfsOptions.relay.enabled', true)
+        set(options, 'ipfsOptions.config.Discovery.MDNS.Enabled', true)
+
+        // WebRTC
         set(options, 'ipfsOptions.config.Addresses.Swarm', Consts.WRTC_NODES)
+
+        // Preload
+        set(options, 'ipfsOptions.preload.enabled', true)
+        set(options, 'ipfsOptions.preload.addresses', Consts.PRELOAD_NODES)
+
+        // Bootstrap
+        set(options, 'ipfsOptions.config.Bootstrap', Consts.BOOTSTRAP_NODES)
+
+        // Delegate
+        set(options, 'ipfsOptions.config.Addresses.Delegates', Consts.DELEGATES_NODES)
       }
     }
 
@@ -499,11 +516,7 @@ export class IPFS extends EventEmitter {
 
     let nodes: string[] = []
 
-    if (this.isBrowserNode) {
-      if (this.options.opendreamnet) {
-        nodes = Consts.WSS_NODES
-      }
-    } else {
+    if (!this.isBrowserNode) {
       nodes = Consts.RECOMMENDED_NODES
     }
 
