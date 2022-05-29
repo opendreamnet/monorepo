@@ -561,13 +561,6 @@ export class IPFS extends EventEmitter {
 
       this.node = undefined
     }
-
-    /*
-    if (is.nodeIntegration && this.options.controller?.ipfsOptions?.repo) {
-      // Always make sure to delete this file
-      fs.removeSync(path.resolve(this.options.controller.ipfsOptions.repo, 'api'))
-    }
-    */
   }
 
   /**
