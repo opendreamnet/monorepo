@@ -1,6 +1,8 @@
 import * as webpack from 'webpack'
 
 const config: webpack.Configuration = {
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  
   // enhance debugging by adding meta info for the browser devtools
   devtool: 'source-map',
 
