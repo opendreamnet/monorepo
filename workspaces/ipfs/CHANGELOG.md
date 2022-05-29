@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.4](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.2.3...ipfs-v3.2.4) (2022-05-29)
+
+
+### Bug Fixes
+
+* recommended options are not applied when changing `options.type` ([2d715eb](https://github.com/dreamnettech/monorepo/commit/2d715eb7f3ed8a25450bbcc5be8f0fa3d55d5626))
+
 ### [3.2.3](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.2.2...ipfs-v3.2.3) (2022-05-28)
 
 ### [3.2.2](https://github.com/dreamnettech/monorepo/compare/ipfs-v3.2.1...ipfs-v3.2.2) (2022-05-28)
