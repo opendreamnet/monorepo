@@ -4,7 +4,6 @@ import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin'
 export default defineBuildConfig({
   rollup: {
     emitCJS: true,
-    cjsBridge: true,
     esbuild: {
       sourceMap: true
     }
