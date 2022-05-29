@@ -3,7 +3,6 @@ import path from 'path'
 import fs from 'fs'
 import { startCase, keys, isNil } from 'lodash'
 import parent from 'parent-package-json'
-import getPlatformPath from 'platform-folders'
 import * as $ from './shared'
 
 /**
@@ -95,8 +94,17 @@ export function choice(choices: $.Choices, defaultValue?: any): any {
  * @param name
  * @param paths
  */
-export function getPath(name: $.PathName, ...paths: string[]): string | undefined {
+export async function getPath(name: $.PathName, ...paths: string[]): Promise<string | undefined> {
   if (!$.hasNodeIntegration) {
+    return undefined
+  }
+
+  let getPlatformPath: (name: $.PathName) => string | undefined
+
+  try {
+    // @ts-expect-error
+    getPlatformPath = (await import('platform-folders')).default
+  } catch (err: any) {
     return undefined
   }
 
@@ -128,7 +136,7 @@ export function getPath(name: $.PathName, ...paths: string[]): string | undefine
       return getPath('appData', 'opendreamnet', getName(), ...paths)
 
     case 'downloads': {
-      const commonPath = getPath('home', 'Downloads')
+      const commonPath = await getPath('home', 'Downloads')
 
       if (commonPath && fs.existsSync(commonPath)) {
         basePath = commonPath

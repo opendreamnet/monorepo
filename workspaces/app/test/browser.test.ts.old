@@ -4,14 +4,14 @@ import 'chromedriver'
 import assert from 'assert'
 import path from 'path'
 import {
-  Builder, By, until, Key, WebDriver,
+  Builder, By, until, Key, WebDriver
 } from 'selenium-webdriver'
 import chrome from 'selenium-webdriver/chrome'
 
 let driver: WebDriver
 
-describe('browser', function () {
-  before(async function () {
+describe('browser', function() {
+  before(async function() {
     this.timeout(10000)
 
     driver = await new Builder()
@@ -22,45 +22,45 @@ describe('browser', function () {
     await driver.get(`file://${path.resolve(__dirname, 'browser.test.html')}`)
   })
 
-  after(async function () {
+  after(async function() {
     await driver.close()
   })
 
-  describe('getPlatform()', function () {
-    it('should be string', async function () {
+  describe('getPlatform()', function() {
+    it('should be string', async function() {
       const actual = await driver.executeScript('return typeof dreamapp.getPlatform()')
       assert.equal(actual, 'string')
     })
 
-    it('should return the same as navigator.platform', async function () {
+    it('should return the same as navigator.platform', async function() {
       const expected = await driver.executeScript('return navigator.platform.toLowerCase()')
       const actual = await driver.executeScript('return dreamapp.getPlatform()')
 
       assert.strictEqual(actual, expected)
     })
 
-    it('win32', async function () {
+    it('win32', async function() {
       const expected = await driver.executeScript('return navigator.platform.toLowerCase() === "win32"')
       const actual = await driver.executeScript('return dreamapp.getPlatform() === "win32"')
 
       assert.strictEqual(actual, expected)
     })
 
-    it('darwin', async function () {
+    it('darwin', async function() {
       const expected = await driver.executeScript('return navigator.platform.toLowerCase() === "darwin"')
       const actual = await driver.executeScript('return dreamapp.getPlatform() === "darwin"')
 
       assert.strictEqual(actual, expected)
     })
 
-    it('linux', async function () {
+    it('linux', async function() {
       const expected = await driver.executeScript('return navigator.platform.toLowerCase() === "linux"')
       const actual = await driver.executeScript('return dreamapp.getPlatform() === "linux"')
 
       assert.strictEqual(actual, expected)
     })
 
-    it('android', async function () {
+    it('android', async function() {
       const expected = await driver.executeScript('return navigator.platform.toLowerCase() === "android"')
       const actual = await driver.executeScript('return dreamapp.getPlatform() === "android"')
 
