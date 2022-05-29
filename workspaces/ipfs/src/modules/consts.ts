@@ -14,6 +14,11 @@ export const WRTC_NODES = [
   // '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
 ]
 
+export const DEFAULT_JS_NODES = [
+  '/ip4/0.0.0.0/tcp/4002',
+  '/ip4/0.0.0.0/tcp/4003/ws'
+]
+
 /**
  * Preload.
  * Used to get and distribute files from the browser IPFS node.
@@ -33,7 +38,16 @@ export const PRELOAD_NODES = [
  * Used to get and distribute files from the browser IPFS node.
  */
 export const BOOTSTRAP_NODES = [
+  // OpenDreamNet
   '/dns4/node0-preload.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
+
+  // JS Defaults
+  '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmZa1sAxajnQjVM8WjWXoMbmPd7NsWhfKsPkErzpm9wGkp',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa',
+  '/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt',
 
   // Defaults
   '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
@@ -51,9 +65,9 @@ export const DELEGATES_NODES = [
 
   // Defaults
   '/dns4/node0.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node1.delegate.ipfs.io/tcp/443/https'
-  // '/dns4/node2.delegate.ipfs.io/tcp/443/https',
-  // '/dns4/node3.delegate.ipfs.io/tcp/443/https'
+  '/dns4/node1.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node2.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node3.delegate.ipfs.io/tcp/443/https'
 ]
 
 /**

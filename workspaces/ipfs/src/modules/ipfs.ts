@@ -212,13 +212,13 @@ export class IPFS extends EventEmitter {
    * @protected
    */
   protected async makeControllerOptions(): Promise<ControllerOptions> {
-    // True if we can interact with the OS files
-    const useGo = is.nodeIntegration && this.options.controller?.type !== 'js'
+    const defaultType = is.nodeIntegration ? 'go' : 'proc'
 
     // Default options
     const options: ControllerOptions = {
-      ipfsHttpModule: ipfsHttpClient,
       disposable: false,
+      type: this.options.controller?.type || defaultType,
+      ipfsHttpModule: ipfsHttpClient,
       ipfsOptions: {
         start: false,
         init: false,
@@ -234,25 +234,43 @@ export class IPFS extends EventEmitter {
       set(options, 'ipfsOptions.config.Pubsub.Enabled', true)
     }
 
-    if (useGo) {
-      // go-ipfs FTW!
+    // go-ipfs
+    // Fast, safe and reliable.
+    // Only NodeJS.
+    if (options.type === 'go') {
       options.ipfsBin = ipfsGo.path().replace('app.asar', 'app.asar.unpacked')
 
       if (this.options.controller?.disposable !== true) {
         // If we do not want to make a temporary node, then we use this default location for repo
         set(options, 'ipfsOptions.repo', process.env.IPFS_PATH || getPath('temp', 'opendreamnet', 'ipfs-repo'))
       }
-    } else if (is.browser || this.options.controller?.type === 'proc') {
-      options.type = 'proc'
-      options.ipfsModule = ipfs
+    }
 
+    // js-ipfs
+    // Like go-ipfs but in JavaScript.
+    // Only NodeJS.
+    if (options.type === 'js') {
+      options.ipfsBin = ipfs.path().replace('app.asar', 'app.asar.unpacked')
+    }
+
+    // js-ipfs (proc)
+    // In-memory node, compatible with web browsers.
+    if (options.type === 'proc') {
+      options.ipfsModule = ipfs
+    }
+
+    if (options.type === 'js' || options.type === 'proc') {
       if (this.options.opendreamnet) {
         // Recommended
         set(options, 'ipfsOptions.relay.enabled', true)
         set(options, 'ipfsOptions.config.Discovery.MDNS.Enabled', true)
 
         // WebRTC
-        set(options, 'ipfsOptions.config.Addresses.Swarm', Consts.WRTC_NODES)
+        if (options.type === 'js') {
+          set(options, 'ipfsOptions.config.Addresses.Swarm', [...Consts.DEFAULT_JS_NODES, ...Consts.WRTC_NODES])
+        } else {
+          set(options, 'ipfsOptions.config.Addresses.Swarm', Consts.WRTC_NODES)
+        }
 
         // Preload
         set(options, 'ipfsOptions.preload.enabled', true)
