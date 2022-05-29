@@ -238,7 +238,7 @@ export class IPFS extends EventEmitter {
     // Fast, safe and reliable.
     // Only NodeJS.
     if (options.type === 'go') {
-      options.ipfsBin = ipfsGo.path().replace('app.asar', 'app.asar.unpacked')
+      options.ipfsBin = process.env.IPFS_GO_EXEC || ipfsGo.path().replace('app.asar', 'app.asar.unpacked')
 
       if (this.options.controller?.disposable !== true) {
         // If we do not want to make a temporary node, then we use this default location for repo
@@ -250,7 +250,7 @@ export class IPFS extends EventEmitter {
     // Like go-ipfs but in JavaScript.
     // Only NodeJS.
     if (options.type === 'js') {
-      options.ipfsBin = ipfs.path().replace('app.asar', 'app.asar.unpacked')
+      options.ipfsBin = process.env.IPFS_JS_EXEC || ipfs.path().replace('app.asar', 'app.asar.unpacked')
     }
 
     // js-ipfs (proc)
