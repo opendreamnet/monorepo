@@ -7,8 +7,7 @@ import type { Controller, ControllerOptions } from 'ipfsd-ctl'
 import fs from 'fs-extra'
 import PeerId from 'peer-id'
 import * as ipfsHttpClient from 'ipfs-http-client'
-import ipfsGo from 'go-ipfs'
-import * as ipfs from 'ipfs'
+import type * as ipfs from 'ipfs'
 import { CID } from 'multiformats'
 import { Multiaddr } from 'multiaddr'
 import type { AddAllOptions, IDResult } from 'ipfs-core-types/types/src/root'
@@ -219,6 +218,8 @@ export class IPFS extends EventEmitter {
       disposable: false,
       type: this.options.controller?.type || defaultType,
       ipfsHttpModule: ipfsHttpClient,
+      ipfsBin: this.options.controller?.ipfsBin,
+      ipfsModule: this.options.controller?.ipfsModule,
       ipfsOptions: {
         start: false,
         init: false,
@@ -238,11 +239,19 @@ export class IPFS extends EventEmitter {
     // Fast, safe and reliable.
     // Only NodeJS.
     if (options.type === 'go') {
-      options.ipfsBin = process.env.IPFS_GO_EXEC || ipfsGo.path().replace('app.asar', 'app.asar.unpacked')
+      if (!options.ipfsBin) {
+        options.ipfsBin = process.env.IPFS_GO_EXEC
+      }
+
+      if (!options.ipfsBin) {
+        try {
+          options.ipfsBin = (await import('go-ipfs')).path().replace('app.asar', 'app.asar.unpacked')
+        } catch (err: any) { }
+      }
 
       if (this.options.controller?.disposable !== true) {
         // If we do not want to make a temporary node, then we use this default location for repo
-        set(options, 'ipfsOptions.repo', process.env.IPFS_PATH || getPath('temp', 'opendreamnet', 'ipfs-repo'))
+        set(options, 'ipfsOptions.repo', process.env.IPFS_PATH || await getPath('home', '.ipfs'))
       }
     }
 
@@ -250,13 +259,25 @@ export class IPFS extends EventEmitter {
     // Like go-ipfs but in JavaScript.
     // Only NodeJS.
     if (options.type === 'js') {
-      options.ipfsBin = process.env.IPFS_JS_EXEC || ipfs.path().replace('app.asar', 'app.asar.unpacked')
+      if (!options.ipfsBin) {
+        options.ipfsBin = process.env.IPFS_JS_EXEC
+      }
+
+      if (!options.ipfsBin) {
+        try {
+          options.ipfsBin = (await import('ipfs')).path().replace('app.asar', 'app.asar.unpacked')
+        } catch (err: any) { }
+      }
     }
 
     // js-ipfs (proc)
     // In-memory node, compatible with web browsers.
     if (options.type === 'proc') {
-      options.ipfsModule = ipfs
+      if (!options.ipfsModule) {
+        try {
+          options.ipfsModule = await import('ipfs')
+        } catch (err: any) { }
+      }
     }
 
     if (options.type === 'js' || options.type === 'proc') {
