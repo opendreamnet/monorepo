@@ -3,8 +3,7 @@ name: "app"
 on:
   workflow_dispatch:
   push:
-    tags:
-      - app-v*
+    tags: [ app-v* ]
 
 env:
   WORK_DIR: workspaces/app
@@ -36,7 +35,7 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn install
+        run: yarn workspaces focus
 
       - name: ✍️ Lint
         working-directory: ${{ env.WORK_DIR }}

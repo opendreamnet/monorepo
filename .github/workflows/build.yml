@@ -3,8 +3,7 @@ name: "build"
 on:
   workflow_dispatch:
   push:
-    tags:
-      - build-v*
+    tags: [ build-v* ]
   
 env:
   WORK_DIR: workspaces/build
@@ -40,6 +39,6 @@ jobs:
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn npm publish --access public --tolerate-republish
+        run: yarn npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

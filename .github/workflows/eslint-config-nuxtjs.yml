@@ -3,8 +3,7 @@ name: "eslint-config-nuxtjs"
 on:
   workflow_dispatch:
   push:
-    tags:
-      - eslint-config-nuxtjs-v*
+    tags: [ eslint-config-nuxtjs-v* ]
 
 env:
   WORK_DIR: workspaces/eslint-config-nuxtjs
@@ -36,7 +35,7 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn install
+        run: yarn workspaces focus
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}

@@ -1,17 +1,10 @@
 {
   "name": "@dreamnet/monorepo",
-  "description": "Monorepo for the DreamNet ecosystem.",
+  "description": "Monorepo for the OpenDreamNet ecosystem.",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
     "workspaces/*"
   ],
-  "engines": {
-    "node": ">=12"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dreamnettech/monorepo.git"
-  },
   "packageManager": "yarn@3.2.0"
 }

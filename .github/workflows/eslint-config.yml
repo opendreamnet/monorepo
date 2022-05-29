@@ -3,8 +3,7 @@ name: "eslint-config"
 on:
   workflow_dispatch:
   push:
-    tags:
-      - eslint-config-v*
+    tags: [ eslint-config-v* ]
   
 env:
   WORK_DIR: workspaces/eslint-config
@@ -36,7 +35,7 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn install
+        run: yarn workspaces focus
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}

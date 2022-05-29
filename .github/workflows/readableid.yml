@@ -1,10 +1,9 @@
-name: "@dreamnet/readableid"
+name: "readableid"
 
 on:
   workflow_dispatch:
   push:
-    tags:
-      - readableid-v*
+    tags: [ readableid-v* ]
   
 env:
   WORK_DIR: workspaces/readableid
@@ -17,34 +16,29 @@ jobs:
 
     steps:
       - name: 📁 Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 📦 Cache node_modules
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v3
         env:
           cache-name: monorepo-cache
         with:
-          path: |
-            node_modules
-            .yarn/cache
-            .yarn/unplugged
-            .yarn/build-state.yml
-            .yarn/install-state.gz
+          path: .yarn/cache
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-
 
-      - name: ⚙️ Install Node.js 14.x
-        uses: actions/setup-node@v2
+      - name: ⚙️ Install Node.js 16
+        uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "16"
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn install
+        run: yarn workspaces focus
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn npm publish --access public --tolerate-republish
+        run: yarn npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
