@@ -14,6 +14,9 @@ export const WRTC_NODES = [
   // '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
 ]
 
+/**
+ *
+ */
 export const DEFAULT_JS_NODES = [
   '/ip4/0.0.0.0/tcp/4002',
   '/ip4/0.0.0.0/tcp/4003/ws'
@@ -40,6 +43,8 @@ export const PRELOAD_NODES = [
 export const BOOTSTRAP_NODES = [
   // OpenDreamNet
   '/dns4/node0-preload.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
+  '/dns4/node0-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
+  '/dns4/node1-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWAxuHdoTaset7QsUpDGghmmBzfbc5Q6xz8KR64miYiuv3',
 
   // JS Defaults
   '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
