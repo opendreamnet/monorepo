@@ -3744,6 +3744,7 @@ __metadata:
     os-browserify: ^0.3.0
     path-browserify: ^1.0.1
     peer-id: ^0.16.0
+    process: ^0.11.10
     recursive-fs: ^2.1.0
     regenerator-runtime: ^0.13.9
     rollup-plugin-ts: ^2.0.7
