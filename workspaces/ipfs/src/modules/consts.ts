@@ -1,32 +1,37 @@
 /**
- * WebRTC.
- * Used to discover and communicate with other nodes
- * connected to the same WebRTC nodes (JS-IPFS only)
- *
- * @see
- * https://github.com/ipfs/js-ipfs/blob/master/docs/FAQ.md#what-are-all-these-refsqmfoo-http-errors-i-keep-seeing-in-the-console
+ * - Used when: `js` node and `options.opendreamnet`
  */
-export const WRTC_NODES = [
-  '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-  '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-  // '/dns4/node3-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-  '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
-  // '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
-]
-
-/**
- *
- */
-export const DEFAULT_JS_NODES = [
+ export const DEFAULT_SWARM_JS_ADDRS = [
   '/ip4/0.0.0.0/tcp/4002',
   '/ip4/0.0.0.0/tcp/4003/ws'
 ]
 
 /**
+ * WebRTC.
+ * - Used to discover and communicate with other nodes
+ * connected to the same WebRTC nodes (JS-IPFS only)
+ * - Used when: `proc` or `js` node and `options.opendreamnet`
+ *
+ * @see
+ * https://github.com/ipfs/js-ipfs/blob/master/docs/FAQ.md#what-are-all-these-refsqmfoo-http-errors-i-keep-seeing-in-the-console
+ */
+export const SWARM_WRTC_ADDRS = [
+  // OpenDreamNet
+  '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
+  '/dns4/node2-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
+
+  // Public
+  '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
+]
+
+/**
  * Preload.
- * Used to get and distribute files from the browser IPFS node.
+ * - Used to get and distribute files from the browser IPFS node.
+ * - Used when: `proc` or `js` node and `options.opendreamnet`
+ * - This nodes has public Gateway with `refs` access.
  */
 export const PRELOAD_NODES = [
+  // OpenDreamNet
   '/dns4/node0-preload.dreamlink.cloud/https',
 
   // Defaults
@@ -37,16 +42,38 @@ export const PRELOAD_NODES = [
 ]
 
 /**
+ * Delegates.
+ * - Used to perform actions on the network from the browser IPFS node.
+ * - Used when: `proc` or `js` node and `options.opendreamnet`
+ */
+ export const DELEGATES_NODES = [
+  // OpenDreamNet
+  '/dns4/node0-preload.dreamlink.cloud/tcp/443/https',
+
+  // Defaults
+  '/dns4/node0.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node1.delegate.ipfs.io/tcp/443/https'
+  // '/dns4/node2.delegate.ipfs.io/tcp/443/https',
+  // '/dns4/node3.delegate.ipfs.io/tcp/443/https'
+]
+
+/**
  * Bootstrap.
- * Used to get and distribute files from the browser IPFS node.
+ * - Used to get and distribute files from the browser IPFS node.
+ * - Used when: `proc` or `js` node and `options.opendreamnet`
  */
 export const BOOTSTRAP_NODES = [
   // OpenDreamNet
+  '/dnsaddr/node0.dreamlink.cloud/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
+  '/dnsaddr/node0-js.dreamlink.cloud/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
+  '/dnsaddr/node1-js.dreamlink.cloud/p2p/12D3KooWAxuHdoTaset7QsUpDGghmmBzfbc5Q6xz8KR64miYiuv3',
+
+  // OpenDreamNet: Websocket
   '/dns4/node0-preload.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
   '/dns4/node0-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
   '/dns4/node1-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWAxuHdoTaset7QsUpDGghmmBzfbc5Q6xz8KR64miYiuv3',
 
-  // JS Defaults
+  // JS/GO Defaults
   '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
@@ -54,26 +81,14 @@ export const BOOTSTRAP_NODES = [
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt',
 
-  // Defaults
+  // WebSocket defaults
   '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
   '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6',
   '/dns4/node2.preload.ipfs.io/tcp/443/wss/p2p/QmV7gnbW5VTcJ3oyM2Xk1rdFBJ3kTkvxc87UFGsun29STS',
   '/dns4/node3.preload.ipfs.io/tcp/443/wss/p2p/QmY7JB6MQXhxHvq7dBDh4HpbH29v4yE9JRadAVpndvzySN'
 ]
 
-/**
- * Delegates.
- * Used to perform actions on the network from the browser IPFS node.
- */
-export const DELEGATES_NODES = [
-  '/dns4/node0-preload.dreamlink.cloud/tcp/443/https',
 
-  // Defaults
-  '/dns4/node0.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node1.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node2.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node3.delegate.ipfs.io/tcp/443/https'
-]
 
 /**
  * Recommended nodes for fast discovery.

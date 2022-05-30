@@ -288,20 +288,20 @@ export class IPFS extends EventEmitter {
 
         // WebRTC
         if (options.type === 'js') {
-          set(options, 'ipfsOptions.config.Addresses.Swarm', [...Consts.DEFAULT_JS_NODES, ...Consts.WRTC_NODES])
+          set(options, 'ipfsOptions.config.Addresses.Swarm', [...Consts.DEFAULT_SWARM_JS_ADDRS, ...Consts.SWARM_WRTC_ADDRS])
         } else {
-          set(options, 'ipfsOptions.config.Addresses.Swarm', Consts.WRTC_NODES)
+          set(options, 'ipfsOptions.config.Addresses.Swarm', Consts.SWARM_WRTC_ADDRS)
         }
 
         // Preload
         set(options, 'ipfsOptions.preload.enabled', true)
         set(options, 'ipfsOptions.preload.addresses', Consts.PRELOAD_NODES)
 
-        // Bootstrap
-        set(options, 'ipfsOptions.config.Bootstrap', Consts.BOOTSTRAP_NODES)
-
         // Delegate
         set(options, 'ipfsOptions.config.Addresses.Delegates', Consts.DELEGATES_NODES)
+
+        // Bootstrap
+        set(options, 'ipfsOptions.config.Bootstrap', Consts.BOOTSTRAP_NODES)
       }
     }
 
