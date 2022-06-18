@@ -1,5 +1,4 @@
 import { ComponentOptions, DirectiveBinding } from 'vue'
-import { isString, isEmpty } from 'lodash'
 import tippy, { Props } from 'tippy.js'
 
 /**
@@ -10,7 +9,7 @@ import tippy, { Props } from 'tippy.js'
  */
 function getTippyOpts(el: HTMLElement, binding: DirectiveBinding): Partial<Props> {
   // Support for [v-tippy=""]
-  const opts: Partial<Props> = isString(binding.value) 
+  const opts: Partial<Props> = typeof binding.value === 'string' 
     ? { content: binding.value } 
     : binding.value || {}
 
@@ -36,7 +35,7 @@ export const TippyMixin: ComponentOptions = {
       mounted(el, binding) {
         const options = getTippyOpts(el, binding)
 
-        if (isEmpty(options.content)) {
+        if (options.content === undefined) {
           return
         }
 
@@ -49,7 +48,7 @@ export const TippyMixin: ComponentOptions = {
       updated(el, binding) {
         const options = getTippyOpts(el, binding)
 
-        if (isEmpty(options.content)) {
+        if (options.content === undefined) {
           // @ts-ignore
           el._tippy && el._tippy.destroy()
           return
