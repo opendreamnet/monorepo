@@ -67,7 +67,7 @@ export interface IOptions {
    * Maximum time in milliseconds to perform optional operations
    * such as connecting to nodes, getting refs and pins.
    *
-   * @default 8000
+   * @default 15000
    */
   timeout?: number
   /**
@@ -99,7 +99,7 @@ export class IPFS extends EventEmitter {
     connectPeers: true,
     loadRefs: false,
     loadPins: true,
-    timeout: 8000,
+    timeout: 15000,
     controller: {}
   }
 
@@ -288,7 +288,7 @@ export class IPFS extends EventEmitter {
 
         // WebRTC
         if (options.type === 'js') {
-          set(options, 'ipfsOptions.config.Addresses.Swarm', [...Consts.DEFAULT_SWARM_JS_ADDRS, ...Consts.SWARM_WRTC_ADDRS])
+          set(options, 'ipfsOptions.config.Addresses.Swarm', [...Consts.SWARM_JS_ADDRS, ...Consts.SWARM_WRTC_ADDRS])
         } else {
           set(options, 'ipfsOptions.config.Addresses.Swarm', Consts.SWARM_WRTC_ADDRS)
         }
@@ -444,7 +444,9 @@ export class IPFS extends EventEmitter {
       }
 
       if (!this.node.started) {
+        console.time('node-start')
         await this.node.start()
+        console.timeEnd('node-start')
       }
     }
 
@@ -556,10 +558,49 @@ export class IPFS extends EventEmitter {
     let nodes: string[] = []
 
     if (!this.isBrowserNode) {
-      nodes = Consts.RECOMMENDED_NODES
+      // Go/JS
+      // This should just work
+      nodes = Consts.BOOTSTRAP_NODES
+    } else {
+      // Proc
+      //
+
+      nodes = Consts.BOOTSTRAP_NODES.filter((value) => value.includes('/ws'))
+
+      /*
+      const resolvers = await import('multiaddr/src/resolvers')
+      Multiaddr.resolvers.set('dnsaddr', resolvers.dnsaddrResolver)
+
+      for(const addr of Consts.BOOTSTRAP_NODES) {
+        let maddr: Multiaddr | undefined = new Multiaddr(addr)
+
+        if (addr.includes('dnsaddr')) {
+          try {
+            const results = await maddr.resolve()
+            maddr = find<Multiaddr>(results, (value) => value.toString().includes('tcp'))
+
+            if (!maddr) {
+              continue
+            }
+          } catch (err: any) {
+            continue
+          }
+        }
+        nodes.push(maddr.toString())
+      }
+      */
     }
 
-    const workload = nodes.map((link) => this.api!.swarm.connect(link, { timeout })) as Promise<any>[]
+    // const workload = nodes.map((link) => this.api!.swarm.connect(link, { timeout })) as Promise<any>[]
+
+    const workload: Promise<any>[] = []
+
+    console.log({ nodes })
+
+    for (const addr of nodes) {
+      workload.push(this.api.swarm.connect(addr, { timeout }))
+    }
+
     const response = Promise.allSettled(workload)
 
     response.then((value) => this.emit('peers', value)).catch(noop)
