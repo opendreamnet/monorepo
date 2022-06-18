@@ -3,14 +3,14 @@
     <!-- Header -->
     <div v-if="showHeader" class="box__header">
       <slot name="header">
-        <h2 class="title">
+        <div class="title">
           <Tooltip v-if="tooltip" :content="tooltip" />
           <span>{{ title }}</span>
-        </h2>
+        </div>
 
-        <h3 v-if="subtitle" class="subtitle">
+        <div v-if="subtitle" class="subtitle">
           {{ subtitle }}
-        </h3>
+        </div>
       </slot>
     </div>
 
@@ -36,10 +36,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { isNil } from 'lodash'
+import { defineComponent } from 'vue'
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     title: {
       type: String,
@@ -65,11 +64,11 @@ export default Vue.extend({
 
   computed: {
     showPhoto() {
-      return !isNil(this.photo) || !isNil(this.$slots.photo)
+      return this.photo || this.$slots.photo
     },
 
     showHeader() {
-      return !isNil(this.title) || !isNil(this.$slots.header)
+      return this.title || this.$slots.header
     },
 
     prettyContent() {
@@ -83,18 +82,6 @@ export default Vue.extend({
 .box {
   @apply flex flex-col;
   @apply bg-menus shadow-lg rounded;
-
-  &:not(.box--header--p0) {
-    .box__header {
-      @apply px-6 py-4;
-    }
-  }
-
-  &:not(.box--body--p0) {
-    .box__body {
-      @apply p-8;
-    }
-  }
 
   &.box--xs {
     .box__header {
@@ -118,9 +105,10 @@ export default Vue.extend({
 
   .box__header {
     @apply bg-menus-dark rounded-tr rounded-tl;
+    @apply px-6 py-4;
 
     .title {
-      @apply font-bold text-white space-x-2 text-lg;
+      @apply font-bold space-x-2 text-lg;
     }
   }
 
@@ -136,6 +124,7 @@ export default Vue.extend({
 
   .box__body {
     @apply flex-1 relative;
+    @apply p-6;
   }
 
   .box__footer {

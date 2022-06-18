@@ -10,12 +10,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     el: {
-      type: [String, Element],
+      type: [String],
       default: 'button'
     },
     loading: {
@@ -39,7 +39,7 @@ export default Vue.extend({
 }
 
 .button {
-  @apply inline-flex items-center justify-center relative transition-all;
+  @apply inline-flex items-center justify-center relative transition-all rounded;
   @apply px-6 text-sm font-semibold uppercase tracking-wide;
   @apply outline-none #{!important};
   height: $input-height;

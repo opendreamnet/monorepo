@@ -1,7 +1,7 @@
 @import "./root";
 
 body {
-  @apply bg-background text-snow;
+  @apply bg-background text-origin;
   accent-color: theme('colors.primary.DEFAULT');
   // font-feature-settings: "liga", "ss01", "zero", "cv11", "frac", "calt", "tnum";
 }

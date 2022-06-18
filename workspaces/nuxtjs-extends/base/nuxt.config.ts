@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
   // Disable server-side rendering
-  ssr: false,
+  // ssr: false,
 
   // Target
   target: 'static',

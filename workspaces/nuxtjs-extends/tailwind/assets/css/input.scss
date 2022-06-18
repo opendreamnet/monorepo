@@ -16,16 +16,16 @@ select.input {
 
   &:not([readonly]):not([disabled]) {
     &:hover {
-      @apply text-snow-lighter;
+      @apply text-snow-lighten;
     }
 
     &:focus {
-      @apply text-snow-lighter shadow-lg;
+      @apply text-snow-lighten shadow-lg;
     }
   }
 
   &::placeholder {
-    @apply text-snow-darker;
+    @apply text-snow-darken;
   }
 
   &[readonly] {
