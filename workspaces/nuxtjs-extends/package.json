@@ -5,7 +5,7 @@
   "packageManager": "yarn@3.2.0",
   "scripts": {
     "lint": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
-    "release": "yarn dlx standard-version"
+    "release": "standard-version"
   },
   "standard-version": {
     "path": ".",

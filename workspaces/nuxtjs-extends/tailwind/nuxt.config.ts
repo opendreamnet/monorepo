@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     // https://color-mode.nuxtjs.org
-    '@nuxtjs/color-mode',
+    // '@nuxtjs/color-mode',
     // https://gist.github.com/volkipp/56655a3743bd7ebab57a6666833f3ec2
     resolve('./modules/style-resources.ts')
   ],
