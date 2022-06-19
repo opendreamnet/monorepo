@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.6.1...nuxtjs-base-v2.0.0) (2022-06-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* color palette change, var name changes, new rules
+
+### Features
+
+* color palette change, var name changes, new rules ([81aeb9d](https://github.com/dreamnettech/monorepo/commit/81aeb9d786e9fbc7c686bc081eebe60117d975b5))
+
+
+### Bug Fixes
+
+* eslint package rename ([f28446d](https://github.com/dreamnettech/monorepo/commit/f28446d8c65ad40f097019fd4dc5ca76d15e1777))
+
 ### [1.6.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.6.0...nuxtjs-base-v1.6.1) (2022-05-02)
 
 
