@@ -1,30 +1,58 @@
 const color = require('tinycolor2')
 
-//
+/**
+ * Lightens a color
+ * 
+ * @param {color.ColorInput} col 
+ * @param {number} amount 
+ * @returns {string}
+ */
 function lighten(col, amount = 5) {
   return color(col).lighten(amount).toString()
 }
 
+/**
+ * Darken a color
+ * 
+ * @param {color.ColorInput} col 
+ * @param {number} amount 
+ * @returns {string}
+ */
 function darken(col, amount = 5) {
   return color(col).darken(amount).toString()
+}
+
+/**
+ * 
+ * @param {string} value 
+ * @returns 
+ */
+function colorFromBase(value) {
+  return {
+    lighten: lighten(value, 8),
+    light: lighten(value, 4),
+    DEFAULT: value,
+    dark: darken(value, 4),
+    darken: darken(value, 8)
+  }
 }
 
 //
 const theme = {
   night: {
-    lighter: '#4c4d50',
-    light: '#414145', // nord3: UI elements like indent- and wrap guide marker
-    DEFAULT: '#35363a', // nord2: selection- and text highlighting color
-    dark: '#2a2b2f', // nord1: elevated, more prominent or focused UI elements
-    darker: '#1f2024' // nord0: elements background
+    lighten: '#5c6170',
+    light: '#484c59', // nord3: UI elements like indent- and wrap guide marker
+    DEFAULT: '#3c3f49', // nord2: selection- and text highlighting color
+    dark: '#33343c', // nord1: elevated, more prominent or focused UI elements
+    darken: '#1f2024' // nord0: elements background
   },
 
   snow: {
-    darker: '#66676a',
-    dark: '#7c7d80',
-    DEFAULT: '#929397',
-    light: '#a2a3a7',
-    lighter: '#b3b3b6',
+    darken: '#7f84ac',
+    dark: '#abb3ce',
+    DEFAULT: '#D8DEE9', // nord4
+    light: '#E5E9F0', // nord5
+    lighten: '#ECEFF4', // nord6
   },
 
   frost: {
@@ -43,14 +71,17 @@ const theme = {
   },
 
   primary: {
-    light: lighten('#7db8e8', 10),
+    lighten: '#c7e1f6',
+    light: '#a1ceef',
     DEFAULT: '#7db8e8',
-    dark: darken('#7db8e8', 10)
+    dark: '#5396de',
+    darken: '#3e7bd2'
   }
 }
 
 module.exports = {
   important: true,
+  
   theme: {
     extend: {
       fontFamily: {
@@ -60,7 +91,7 @@ module.exports = {
           'BlinkMacSystemFont',
           'system-ui',
           'Arial',
-          'sans-serif'
+          'sans-serif' 
         ]
       },
 
@@ -74,68 +105,22 @@ module.exports = {
         primary: theme.primary,
         background: '#121212',
 
-        menus: {
-          lighten: lighten(theme.night.darker, 6),
-          light: lighten(theme.night.darker, 3),
-          DEFAULT: theme.night.darker,
-          dark: darken(theme.night.darker, 3),
-          darker: darken(theme.night.darker, 6)
-        },
-        input: {
-          light: lighten(theme.night.dark),
-          DEFAULT: theme.night.dark,
-          dark: darken(theme.night.dark, 8)
-        },
-        button: {
-          light: lighten(theme.night.DEFAULT),
-          DEFAULT: theme.night.DEFAULT,
-          dark: darken(theme.night.DEFAULT)
-        },
-        danger: {
-          light: lighten(theme.aurora.red),
-          DEFAULT: theme.aurora.red,
-          dark: darken(theme.aurora.red)
-        },
-        success: {
-          light: lighten(theme.aurora.green),
-          DEFAULT: theme.aurora.green,
-          dark: darken(theme.aurora.green)
-        },
-        warning: {
-          light: lighten(theme.aurora.yellow),
-          DEFAULT: theme.aurora.yellow,
-          dark: darken(theme.aurora.yellow)
-        },
-        blue: {
-          light: lighten(theme.frost.blue),
-          DEFAULT: theme.frost.blue,
-          dark: darken(theme.frost.blue)
-        },
-        orange: {
-          light: lighten(theme.aurora.orange),
-          DEFAULT: theme.aurora.orange,
-          dark: darken(theme.aurora.orange)
-        },
-        pink: {
-          light: lighten(theme.aurora.pink),
-          DEFAULT: theme.aurora.pink,
-          dark: darken(theme.aurora.pink)
-        },
-        gray: {
-          light: lighten(theme.frost.gray),
-          DEFAULT: theme.frost.gray,
-          dark: darken(theme.frost.gray)
-        },
-        cyan: {
-          light: lighten(theme.frost.cyan),
-          DEFAULT: theme.frost.cyan,
-          dark: darken(theme.frost.cyan)
-        },
-        green: {
-          light: lighten(theme.frost.green),
-          DEFAULT: theme.frost.green,
-          dark: darken(theme.frost.green)
-        }
+        // Components
+        origin: colorFromBase(theme.snow.DEFAULT),
+        menus: colorFromBase(theme.night.darken),
+        input: colorFromBase(theme.night.dark),
+        button: colorFromBase(theme.night.DEFAULT),
+
+        // Colors
+        danger: colorFromBase(theme.aurora.red),
+        success: colorFromBase(theme.aurora.green),
+        warning: colorFromBase(theme.aurora.yellow),
+        blue: colorFromBase(theme.frost.blue),
+        orange: colorFromBase(theme.frost.orange),
+        pink: colorFromBase(theme.frost.pink),
+        gray: colorFromBase(theme.frost.gray),
+        cyan: colorFromBase(theme.frost.cyan),
+        green: colorFromBase(theme.frost.green),
       },
 
       typography: (theme) => ({

@@ -6,7 +6,7 @@
   "scripts": {
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
-    "release": "yarn dlx standard-version"
+    "release": "standard-version"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"
@@ -20,45 +20,7 @@
   "standard-version": {
     "path": ".",
     "tag-prefix": "nuxtjs-base-v",
-    "releaseCommitMessageFormat": "chore(release): nuxtjs-base@{{currentTag}}",
-    "types": [
-      {
-        "type": "feat",
-        "section": "Features"
-      },
-      {
-        "type": "fix",
-        "section": "Bug Fixes"
-      },
-      {
-        "type": "improvement",
-        "section": "Improvements"
-      },
-      {
-        "type": "docs",
-        "section": "Miscellaneous changes"
-      },
-      {
-        "type": "style",
-        "section": "Design"
-      },
-      {
-        "type": "refactor",
-        "section": "Miscellaneous changes"
-      },
-      {
-        "type": "perf",
-        "section": "Improvements"
-      },
-      {
-        "type": "test",
-        "hidden": true
-      },
-      {
-        "type": "chore",
-        "section": "Miscellaneous changes"
-      }
-    ]
+    "releaseCommitMessageFormat": "chore(release): nuxtjs-base@{{currentTag}}"
   },
   "author": {
     "name": "Ivan Bravo Bravo",
@@ -71,32 +33,33 @@
     "directory": "workspaces/app"
   },
   "bugs": {
-    "email": "ivan@dreamnet.tech",
+    "email": "kolessios@gmail.com",
     "url": "https://github.com/dreamnettech/monorepo/issues"
   },
   "dependencies": {
     "lodash": "^4.17.21",
     "tinycolor2": "^1.4.2",
-    "tippy.js": "^6.3.1"
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@nuxt/types": "^2.15.3",
-    "@nuxtjs/eslint-config-typescript": "^6.0.1",
+    "@nuxt/types": "^2.15.8",
+    "@nuxtjs/eslint-config-typescript": "^10.0.0",
     "@opendreamnet/eslint-config-nuxtjs": "workspace:^",
-    "@types/lodash": "4.14.170",
+    "@types/lodash": "4.14.182",
     "@types/tinycolor2": "^1",
     "eslint": "^7.29.0",
-    "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.12.1",
+    "eslint-plugin-nuxt": "^3.2.0",
+    "eslint-plugin-vue": "^9.1.1",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4"
   },
   "peerDependencies": {
+    "lodash": "^4",
+    "tippy.js": "^6",
+    "@nuxtjs/style-resources": "*",
     "@nuxtjs/markdownit": "*",
-    "@nuxtjs/tailwindcss": "*",
-    "lodash": "*",
-    "tippy.js": "*"
+    "@nuxtjs/tailwindcss": "*"
   }
 }
