@@ -29,11 +29,11 @@ function darken(col, amount = 5) {
  */
 function colorFromBase(value) {
   return {
-    lighten: lighten(value, 8),
-    light: lighten(value, 4),
+    lighten: lighten(value, 6),
+    light: lighten(value, 3),
     DEFAULT: value,
-    dark: darken(value, 4),
-    darken: darken(value, 8)
+    dark: darken(value, 3),
+    darken: darken(value, 6)
   }
 }
 
@@ -41,15 +41,15 @@ function colorFromBase(value) {
 const theme = {
   night: {
     lighten: '#5c6170',
-    light: '#484c59', // nord3: UI elements like indent- and wrap guide marker
-    DEFAULT: '#3c3f49', // nord2: selection- and text highlighting color
-    dark: '#33343c', // nord1: elevated, more prominent or focused UI elements
-    darken: '#1f2024' // nord0: elements background
+    light: '#4C566A', // nord3: UI elements like indent- and wrap guide marker
+    DEFAULT: '#434C5E', // nord2: selection- and text highlighting color
+    dark: '#3B4252', // nord1: elevated, more prominent or focused UI elements
+    darken: '#2E3440' // nord0: elements background
   },
 
   snow: {
-    darken: '#7f84ac',
-    dark: '#abb3ce',
+    darken: '#adb2ba',
+    dark: '#c2c8d2',
     DEFAULT: '#D8DEE9', // nord4
     light: '#E5E9F0', // nord5
     lighten: '#ECEFF4', // nord6
@@ -103,13 +103,13 @@ module.exports = {
         frost: theme.frost,
         aurora: theme.aurora,
         primary: theme.primary,
-        background: '#121212',
+        background: '#242933',
 
         // Components
-        origin: colorFromBase(theme.snow.DEFAULT),
+        origin: theme.snow,
         menus: colorFromBase(theme.night.darken),
         input: colorFromBase(theme.night.dark),
-        button: colorFromBase(theme.night.DEFAULT),
+        button: colorFromBase(theme.night.dark),
 
         // Colors
         danger: colorFromBase(theme.aurora.red),

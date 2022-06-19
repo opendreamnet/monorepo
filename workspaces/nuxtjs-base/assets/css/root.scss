@@ -1,14 +1,16 @@
 :root {
+  /* Theme */
+  --theme-night-lighten: theme('colors.night.lighten');
   --theme-night-light: theme('colors.night.light');
   --theme-night: theme('colors.night.DEFAULT');
   --theme-night-dark: theme('colors.night.dark');
-  --theme-night-darker: theme('colors.night.darker');
+  --theme-night-darken: theme('colors.night.darken');
   
-  --theme-snow-lighter: theme('colors.snow.lighter');
+  --theme-snow-lighter: theme('colors.snow.lighten');
   --theme-snow-light: theme('colors.snow.light');
   --theme-snow: theme('colors.snow.DEFAULT');
   --theme-snow-dark: theme('colors.snow.dark');
-  --theme-snow-darker: theme('colors.snow.darker');
+  --theme-snow-darken: theme('colors.snow.darken');
 
   --theme-frost-green: theme('colors.frost.green');
   --theme-frost-cyan: theme('colors.frost.cyan');
@@ -21,13 +23,27 @@
   --theme-aurora-green: theme('colors.aurora.green');
   --theme-aurora-pink: theme('colors.aurora.pink');
 
+  --theme-primary-lighten: theme('colors.primary.lighten');
   --theme-primary-light: theme('colors.primary.light');
   --theme-primary: theme('colors.primary.DEFAULT');
   --theme-primary-dark: theme('colors.primary.dark');
+  --theme-primary-darken: theme('colors.primary.darken');
 
+  /* Components */
+
+  --theme-origin-lighten: theme('colors.origin.lighten');
+  --theme-origin-light: theme('colors.origin.light');
+  --theme-origin: theme('colors.origin.DEFAULT');
+  --theme-origin-dark: theme('colors.origin.dark');
+  --theme-origin-darken: theme('colors.origin.darken');
+
+  --theme-button-lighten: theme('colors.button.lighten');
   --theme-button-light: theme('colors.button.light');
   --theme-button: theme('colors.button.DEFAULT');
   --theme-button-dark: theme('colors.button.dark');
+  --theme-button-darken: theme('colors.button.darken');
+
+  /* Colors */
 
   --theme-danger-light: theme('colors.danger.light');
   --theme-danger: theme('colors.danger.DEFAULT');
@@ -45,6 +61,7 @@
   --theme-blue: theme('colors.blue.DEFAULT');
   --theme-blue-dark: theme('colors.blue.dark');
 
+  /*
   --theme-orange-light: theme('colors.orange.light');
   --theme-orange: theme('colors.orange.DEFAULT');
   --theme-orange-dark: theme('colors.orange.dark');
@@ -52,6 +69,7 @@
   --theme-pink-light: theme('colors.pink.light');
   --theme-pink: theme('colors.pink.DEFAULT');
   --theme-pink-dark: theme('colors.pink.dark');
+  */
 
   --theme-gray-light: theme('colors.gray.light');
   --theme-gray: theme('colors.gray.DEFAULT');

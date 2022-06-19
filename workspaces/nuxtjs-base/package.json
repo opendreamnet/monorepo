@@ -2,20 +2,11 @@
   "name": "@opendreamnet/nuxtjs-base",
   "version": "1.6.1",
   "license": "MIT",
-  "main": "nuxt.config.js",
+  "main": "nuxt.config.ts",
   "scripts": {
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
     "release": "standard-version"
-  },
-  "lint-staged": {
-    "*.{js,vue}": "eslint"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
   },
   "standard-version": {
     "path": ".",
@@ -24,17 +15,12 @@
   },
   "author": {
     "name": "Ivan Bravo Bravo",
-    "email": "kolessios@gmail.com",
-    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+    "email": "kolessios@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/dreamnettech/monorepo.git",
-    "directory": "workspaces/app"
-  },
-  "bugs": {
-    "email": "kolessios@gmail.com",
-    "url": "https://github.com/dreamnettech/monorepo/issues"
+    "directory": "workspaces/nuxtjs-base"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -42,8 +28,6 @@
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4",
     "@nuxt/types": "^2.15.8",
     "@nuxtjs/eslint-config-typescript": "^10.0.0",
     "@opendreamnet/eslint-config-nuxtjs": "workspace:^",
@@ -52,14 +36,16 @@
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^3.2.0",
     "eslint-plugin-vue": "^9.1.1",
-    "husky": "^4.3.8",
-    "lint-staged": "^10.5.4"
+    "nuxt": "^2.15.8",
+    "standard-version": "^9.5.0",
+    "vue": "^2.6.14"
   },
   "peerDependencies": {
-    "lodash": "^4",
-    "tippy.js": "^6",
-    "@nuxtjs/style-resources": "*",
     "@nuxtjs/markdownit": "*",
-    "@nuxtjs/tailwindcss": "*"
+    "@nuxtjs/style-resources": "^1",
+    "@nuxtjs/tailwindcss": "^4",
+    "lodash": "^4",
+    "sass": "^1",
+    "tippy.js": "^6"
   }
 }

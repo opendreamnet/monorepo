@@ -4,8 +4,7 @@
     <div v-if="showHeader" class="box__header">
       <slot name="header">
         <h2 class="title">
-          <Tooltip v-if="tooltip" :content="tooltip" />
-          <span>{{ title }}</span>
+          <span v-tippy="tooltip">{{ title }}</span>
         </h2>
 
         <h3 v-if="subtitle" class="subtitle">
@@ -82,19 +81,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .box {
   @apply flex flex-col;
-  @apply bg-menus shadow-lg rounded;
-
-  &:not(.box--header--p0) {
-    .box__header {
-      @apply px-6 py-4;
-    }
-  }
-
-  &:not(.box--body--p0) {
-    .box__body {
-      @apply p-8;
-    }
-  }
+  @apply bg-menus shadow-lg rounded border border-menus-darken;
 
   &.box--xs {
     .box__header {
@@ -117,10 +104,11 @@ export default Vue.extend({
   }
 
   .box__header {
-    @apply bg-menus-dark rounded-tr rounded-tl;
+    @apply bg-menus-darken rounded-tr rounded-tl;
+    @apply px-6 py-4;
 
     .title {
-      @apply font-bold text-white space-x-2 text-lg;
+      @apply font-bold space-x-2 text-lg;
     }
   }
 
@@ -136,6 +124,7 @@ export default Vue.extend({
 
   .box__body {
     @apply flex-1 relative;
+    @apply p-6;
   }
 
   .box__footer {

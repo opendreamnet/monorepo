@@ -1,6 +1,5 @@
 .tippy-content {
-  @apply bg-menus-light shadow-2xl;
-  @apply p-3 #{!important};
+  @apply bg-menus-light shadow-xl;
 
   p:not(:last-child) {
     @apply mb-3;

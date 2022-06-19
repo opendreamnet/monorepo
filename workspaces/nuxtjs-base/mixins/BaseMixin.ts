@@ -1,31 +1,69 @@
+import Vue from 'vue'
 import tippy, { Props } from 'tippy.js'
-import { isString } from 'lodash'
+import { isString, isEmpty } from 'lodash'
+import type { DirectiveBinding, DirectiveOptions } from 'vue/types/options'
 
-export default {
+/**
+ * Returns the options for [Tippy] of the element
+ *
+ * @param el
+ * @param binding
+ */
+ function getTippyOpts(el: HTMLElement, binding: DirectiveBinding): Partial<Props> {
+  // Support for [v-tippy=""]
+  const opts: Partial<Props> = typeof binding.value === 'string' 
+    ? { content: binding.value } 
+    : binding.value || {}
+
+  // We can obtain tooltip content from [title] or [data-content]
+  const title = el.getAttribute('title')
+  const content = el.getAttribute('data-content')
+
+  if (title && !opts.content) {
+    opts.content = title
+    el.removeAttribute('title')
+  }
+
+  if (content && !opts.content) {
+    opts.content = content
+  }
+
+  return opts
+}
+
+export default Vue.extend({
   directives: {
-    tooltip: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      inserted(el: HTMLElement, binding: any): void {
-        if (!binding.value) {
+    tippy: {
+      bind(el, binding) {
+        const options = getTippyOpts(el, binding)
+
+        if (isEmpty(options.content)) {
           return
         }
 
-        const dialog = el.closest('dialog')
+        tippy(el, options)
+      },
+      unbind(el) {
+        // @ts-ignore
+        el._tippy && el._tippy.destroy()
+      },
+      update(el, binding) {
+        const options = getTippyOpts(el, binding)
 
-        let options: Partial<Props> = {}
-
-        if (isString(binding.value)) {
-          options.content = binding.value
-
-          if (dialog) {
-            options.appendTo = dialog
-          }
-        } else {
-          options = binding.value
+        if (isEmpty(options.content)) {
+          // @ts-ignore
+          el._tippy && el._tippy.destroy()
+          return
         }
 
-        tippy(el, options)
+        // @ts-ignore
+        if (el._tippy) {
+          // @ts-ignore
+          el._tippy.setProps(options)
+        } else {
+          tippy(el, options)
+        }
       }
-    }
+    } as DirectiveOptions
   }
-}
+})

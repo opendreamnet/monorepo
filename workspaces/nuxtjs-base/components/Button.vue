@@ -39,7 +39,7 @@ export default Vue.extend({
 }
 
 .button {
-  @apply inline-flex items-center justify-center relative transition-all;
+  @apply inline-flex items-center justify-center relative transition-all rounded;
   @apply px-6 text-sm font-semibold uppercase tracking-wide;
   @apply outline-none #{!important};
   height: $input-height;
@@ -99,7 +99,7 @@ export default Vue.extend({
   /* Default theme */
   --button-color: var(--theme-button);
   --button-bg-color: var(--button-color);
-  --button-text-color: var(--theme-snow-lighter);
+  --button-text-color: var(--theme-origin-lighten);
   --button-hover-bg-color: var(--theme-button-light);
   --button-hover-text-color: var(--button-text-color);
   --button-focus-bg-color: var(--theme-button-light);
@@ -124,35 +124,35 @@ export default Vue.extend({
 
   &.button--primary {
     --button-color: var(--theme-primary);
-    --button-text-color: var(--theme-night-darker);
+    --button-text-color: var(--theme-night-darken);
     --button-hover-bg-color: var(--theme-primary-light);
     --button-focus-bg-color: var(--theme-primary-dark);
   }
 
   &.button--warning {
     --button-color: var(--theme-warning);
-    --button-text-color: var(--theme-night-darker);
+    --button-text-color: var(--theme-night-darken);
     --button-hover-bg-color: var(--theme-warning-light);
     --button-focus-bg-color: var(--theme-warning-dark);
   }
 
   &.button--danger {
     --button-color: var(--theme-danger);
-    --button-text-color: var(--theme-night-darker);
+    --button-text-color: var(--theme-night-darken);
     --button-hover-bg-color: var(--theme-danger-light);
     --button-focus-bg-color: var(--theme-danger-dark);
   }
 
   &.button--success {
     --button-color: var(--theme-success);
-    --button-text-color: var(--theme-night-darker);
+    --button-text-color: var(--theme-night-darken);
     --button-hover-bg-color: var(--theme-success-light);
     --button-focus-bg-color: var(--theme-success-dark);
   }
 
   &.button--info {
     --button-color: var(--theme-blue);
-    --button-text-color: var(--theme-night-darker);
+    --button-text-color: var(--theme-night-darken);
     --button-hover-bg-color: var(--theme-blue-light);
     --button-focus-bg-color: var(--theme-blue-dark);
   }

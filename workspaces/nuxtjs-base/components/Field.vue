@@ -1,14 +1,14 @@
 <template>
   <div class="field">
-    <div v-if="title" class="field__title" v-html="$md.render(title)" />
-    <div v-if="description" class="field__description" v-html="$md.render(description)" />
+    <div v-if="title" class="field__title" v-html="title" />
+    <div v-if="description" class="field__description" v-html="description" />
 
     <div class="field__content">
       <slot />
     </div>
 
-    <div v-if="hint" class="field__hint" v-html="$md.render(hint)" />
-    <div v-if="error" class="field__error" v-html="$md.render(error)" />
+    <div v-if="hint" class="field__hint" v-html="hint" />
+    <div v-if="error" class="field__error" v-html="error" />
   </div>
 </template>
 
@@ -39,15 +39,13 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .field--sm {
-  .field__title {
-    @apply text-sm;
-  }
-
+  .field__title,
   .field__description {
     @apply text-sm;
   }
 
-  .field__hint {
+  .field__hint,
+  .field__error {
     @apply text-xs;
   }
 }
@@ -59,7 +57,7 @@ export default Vue.extend({
 }
 
 .field__title {
-  @apply font-semibold text-white;
+  @apply font-bold text-origin-lighten;
 
   &::v-deep {
     p {
@@ -69,7 +67,7 @@ export default Vue.extend({
 }
 
 .field__description {
-  @apply max-w-prose text-snow-dark;
+  @apply max-w-prose text-origin-dark;
 
   &::v-deep {
     p {
@@ -83,11 +81,11 @@ export default Vue.extend({
 }
 
 .field__content {
-  @apply mt-3 mb-1;
+  @apply mt-4 mb-2;
 }
 
 .field__hint {
-  @apply text-sm text-snow-darker;
+  @apply text-xs text-origin-darken;
 }
 
 .field__error {

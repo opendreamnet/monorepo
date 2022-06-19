@@ -3,8 +3,8 @@ import { Plugin } from '@nuxt/types'
 import tippy from 'tippy.js'
 import BaseMixin from '../mixins/BaseMixin'
 
-// BaseMixin
-// Vue.mixin(BaseMixin)
+// Base Mixin
+Vue.mixin(BaseMixin)
 
 const plugin: Plugin = async() => {
   // TippyJS

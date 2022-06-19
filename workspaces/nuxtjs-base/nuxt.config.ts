@@ -1,26 +1,14 @@
-const path = require('path')
-const { merge } = require('lodash')
-const tailwindConfig = require('./tailwind.config')
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-})
+import path from 'path'
+import { merge } from 'lodash'
+import type { NuxtConfig } from '@nuxt/types'
+import tailwindConfig from './tailwind.config'
 
 if (!process.env.NODE_ENV) {
+  // Default enviroment
   process.env.NODE_ENV = 'development'
 }
 
-/**
- * Tailwind configuration
- */
-exports.tailwindConfig = tailwindConfig
-
-/**
- *
- * @returns {import('@nuxt/types').NuxtConfig}
- */
-exports.getNuxtConfig = () => {
-  /** @type import('@nuxt/types').NuxtConfig */
+function getNuxtConfig(): NuxtConfig {
   return {
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
@@ -109,15 +97,15 @@ exports.getNuxtConfig = () => {
   }
 }
 
-/**
- *
- * @param {import('@nuxt/types').NuxtConfig} config
- * @returns {import('@nuxt/types').NuxtConfig}
- */
-exports.setNuxtConfig = (config) => {
-  return merge(exports.getNuxtConfig(), config)
+function setNuxtConfig(config: NuxtConfig): NuxtConfig {
+  return merge(getNuxtConfig(), config)
 }
 
-exports.setTailwindConfig = (config) => {
-  return merge(exports.tailwindConfig, config)
+/**
+ * Tailwind configuration
+ */
+export { 
+  tailwindConfig,
+  getNuxtConfig,
+  setNuxtConfig
 }
