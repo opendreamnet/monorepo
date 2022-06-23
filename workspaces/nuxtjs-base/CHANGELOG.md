@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.0...nuxtjs-base-v2.0.1) (2022-06-23)
+
+
+### Bug Fixes
+
+* class .buttons ([d3352d1](https://github.com/dreamnettech/monorepo/commit/d3352d1ac7d8c8eb12f787733aa3127b96cd67b4))
+* typography variables ([6a4638f](https://github.com/dreamnettech/monorepo/commit/6a4638ff1abb33f7a73709a4f108dfec7c578acc))
+
 ## [2.0.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v1.6.1...nuxtjs-base-v2.0.0) (2022-06-19)
 
 
