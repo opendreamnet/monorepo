@@ -169,5 +169,17 @@ export default Vue.extend({
 <style lang="scss">
 .buttons {
   @apply flex flex-wrap;
+
+  .button {
+    @apply rounded-none;
+    
+    &:first-child {
+      @apply rounded-tl rounded-bl;
+    }
+
+    &:last-child {
+      @apply rounded-tr rounded-br;
+    }
+  }
 }
 </style>
