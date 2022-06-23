@@ -3564,6 +3564,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxtjs/style-resources@npm:^1":
+  version: 1.2.1
+  resolution: "@nuxtjs/style-resources@npm:1.2.1"
+  dependencies:
+    consola: ^2.15.3
+    glob-all: ^3.2.1
+    sass-resources-loader: ^2.2.4
+  checksum: 0569925659827ad402d8f08cd066437d0d65d908f1be2be49bd100484b4114373e11c13ecd15345b686c76707533fe38766468193028079d95803f4977642e64
+  languageName: node
+  linkType: hard
+
 "@nuxtjs/tailwindcss@npm:^5.0.4":
   version: 5.1.2
   resolution: "@nuxtjs/tailwindcss@npm:5.1.2"
@@ -4115,7 +4126,9 @@ __metadata:
   dependencies:
     "@nuxt/types": ^2.15.8
     "@nuxtjs/eslint-config-typescript": ^10.0.0
+    "@nuxtjs/style-resources": ^1
     "@opendreamnet/eslint-config-nuxtjs": "workspace:^"
+    "@tailwindcss/typography": ^0.4
     "@types/lodash": 4.14.182
     "@types/tinycolor2": ^1
     eslint: ^7.29.0
@@ -4129,11 +4142,15 @@ __metadata:
     vue: ^2.6.14
   peerDependencies:
     "@nuxtjs/markdownit": "*"
-    "@nuxtjs/style-resources": ^1
     "@nuxtjs/tailwindcss": ^4
     lodash: ^4
     sass: ^1
     tippy.js: ^6
+  dependenciesMeta:
+    "@nuxtjs/style-resources":
+      optional: true
+    "@tailwindcss/typography":
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -4901,6 +4918,20 @@ __metadata:
   dependencies:
     defer-to-connect: ^2.0.0
   checksum: c29df3bcec6fc3bdec2b17981d89d9c9fc9bd7d0c9bcfe92821dc533f4440bc890ccde79971838b4ceed1921d456973c4180d7175ee1d0023ad0562240a58d95
+  languageName: node
+  linkType: hard
+
+"@tailwindcss/typography@npm:^0.4":
+  version: 0.4.1
+  resolution: "@tailwindcss/typography@npm:0.4.1"
+  dependencies:
+    lodash.castarray: ^4.4.0
+    lodash.isplainobject: ^4.0.6
+    lodash.merge: ^4.6.2
+    lodash.uniq: ^4.5.0
+  peerDependencies:
+    tailwindcss: ">=2.0.0"
+  checksum: d234509964f59389d00ccc0529b033a5aa670a93149a48520cd2088d102b894cc746146052ea844a926bbea4b16904f5f6b2874399511bf78d55631bdb88ac68
   languageName: node
   linkType: hard
 
@@ -14858,6 +14889,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"glob-all@npm:^3.2.1":
+  version: 3.3.0
+  resolution: "glob-all@npm:3.3.0"
+  dependencies:
+    glob: ^7.1.2
+    yargs: ^15.3.1
+  bin:
+    glob-all: bin/glob-all
+  checksum: c842b18aa4d4744e006f8535aa8f9dfd89ef822472e0621420204916642b90fa8caa2dda77dfda9c27e977739a5a724f4fa2f27983cb39c893d21d4730908f88
+  languageName: node
+  linkType: hard
+
 "glob-parent@npm:^3.1.0":
   version: 3.1.0
   resolution: "glob-parent@npm:3.1.0"
@@ -20281,6 +20324,13 @@ __metadata:
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
   checksum: cb9227612f71b83e42de93eccf1232feeb25e705bdb19ba26c04f91e885bfd3dd5c517c4a97137658190581d3493ea3973072ca010aab7e301046d90740393d1
+  languageName: node
+  linkType: hard
+
+"lodash.castarray@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.castarray@npm:4.4.0"
+  checksum: fca8c7047e0ae2738b0b2503fb00157ae0ff6d8a1b716f87ed715b22560e09de438c75b65e01a7e44ceb41c5b31dce2eb576e46db04beb9c699c498e03cbd00f
   languageName: node
   linkType: hard
 
@@ -27390,7 +27440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-resources-loader@npm:^2.2.5":
+"sass-resources-loader@npm:^2.2.4, sass-resources-loader@npm:^2.2.5":
   version: 2.2.5
   resolution: "sass-resources-loader@npm:2.2.5"
   dependencies:
@@ -32061,7 +32111,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^15.0.2":
+"yargs@npm:^15.0.2, yargs@npm:^15.3.1":
   version: 15.4.1
   resolution: "yargs@npm:15.4.1"
   dependencies:

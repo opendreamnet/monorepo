@@ -42,10 +42,13 @@
   },
   "peerDependencies": {
     "@nuxtjs/markdownit": "*",
-    "@nuxtjs/style-resources": "^1",
     "@nuxtjs/tailwindcss": "^4",
     "lodash": "^4",
     "sass": "^1",
     "tippy.js": "^6"
+  },
+  "optionalDependencies": {
+    "@nuxtjs/style-resources": "^1",
+    "@tailwindcss/typography": "^0.4"
   }
 }

@@ -126,9 +126,9 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            color: theme('colors.snow.DEFAULT'),
+            color: theme('colors.origin.DEFAULT'),
             '[class~="lead"]': {
-              color: theme('colors.snow.light')
+              color: theme('colors.origin.light')
             },
             a: {
               color: theme('colors.primary.light'),
@@ -137,39 +137,39 @@ module.exports = {
               }
             },
             strong: {
-              color: theme('colors.snow.light')
+              color: 'white'
             },
             'ol > li::before': {
-              color: theme('colors.snow.DEFAULT')
+              color: theme('colors.origin.DEFAULT')
             },
             'ul > li::before': {
-              backgroundColor: theme('colors.snow.lighter')
+              backgroundColor: theme('colors.origin.lighten')
             },
             hr: {
-              borderColor: theme('colors.menus.light')
+              borderColor: theme('colors.menus.lighten')
             },
             blockquote: {
-              color: theme('colors.snow.darker'),
-              borderLeftColor: theme('colors.snow.lighter')
+              color: theme('colors.origin.darken'),
+              borderLeftColor: theme('colors.origin.lighten')
             },
             h1: {
               color: 'white'
             },
             h2: {
-              color: 'white'
+              color: theme('colors.origin.lighten')
             },
             h3: {
-              color: theme('colors.snow.lighter')
+              color: theme('colors.origin.light')
             },
             h4: {
-              color: theme('colors.snow.lighter')
+              color: theme('colors.origin.light')
             },
             'figure figcaption': {
-              color: theme('colors.snow.DEFAULT')
+              color: theme('colors.origin.DEFAULT')
             },
             code: {
-              color: theme('colors.snow.DEFAULT'),
-              backgroundColor: theme('colors.menus.darker'),
+              color: theme('colors.origin.DEFAULT'),
+              backgroundColor: theme('colors.menus.darken'),
               paddingLeft: '0.25rem',
               paddingRight: '0.25rem',
               borderRadius: '0.25rem'
@@ -181,11 +181,11 @@ module.exports = {
               content: 'none'
             },
             'a code': {
-              color: theme('colors.snow.darker')
+              color: theme('colors.origin.darken')
             },
             pre: {
-              color: theme('colors.snow.DEFAULT'),
-              backgroundColor: theme('colors.menus.darker'),
+              color: theme('colors.origin.DEFAULT'),
+              backgroundColor: theme('colors.menus.darken'),
               maxHeight: '400px'
             }
           }
