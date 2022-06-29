@@ -115,9 +115,10 @@ module.exports = {
         danger: colorFromBase(theme.aurora.red),
         success: colorFromBase(theme.aurora.green),
         warning: colorFromBase(theme.aurora.yellow),
+        orange: colorFromBase(theme.aurora.orange),
+        pink: colorFromBase(theme.aurora.pink),
+
         blue: colorFromBase(theme.frost.blue),
-        orange: colorFromBase(theme.frost.orange),
-        pink: colorFromBase(theme.frost.pink),
         gray: colorFromBase(theme.frost.gray),
         cyan: colorFromBase(theme.frost.cyan),
         green: colorFromBase(theme.frost.green),
