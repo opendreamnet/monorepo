@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.1...nuxtjs-base-v2.0.2) (2022-06-29)
+
+
+### Bug Fixes
+
+* box--sm & box--xs ([d7cbd83](https://github.com/dreamnettech/monorepo/commit/d7cbd83668170650d9a9e6ae8e4cdf57d110c0a3))
+* invalid theme colors ([3ce94bd](https://github.com/dreamnettech/monorepo/commit/3ce94bd2b5c34f1c309586bb5deb1c242995f7a5))
+
 ### [2.0.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.0...nuxtjs-base-v2.0.1) (2022-06-23)
 
 
