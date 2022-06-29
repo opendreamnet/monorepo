@@ -85,11 +85,11 @@ export default Vue.extend({
 
   &.box--xs {
     .box__header {
-      @apply px-2 py-2;
+      @apply px-4 py-1;
     }
 
     .box__body {
-      @apply p-4;
+      @apply px-4 py-1;
     }
   }
 
@@ -99,7 +99,7 @@ export default Vue.extend({
     }
 
     .box__body {
-      @apply p-6;
+      @apply p-4;
     }
   }
 
