@@ -150,11 +150,46 @@ export default Vue.extend({
     --button-focus-bg-color: var(--theme-success-dark);
   }
 
+  &.button--orange {
+    --button-color: var(--theme-orange);
+    --button-text-color: var(--theme-night-darken);
+    --button-hover-bg-color: var(--theme-orange-light);
+    --button-focus-bg-color: var(--theme-orange-dark);
+  }
+
+  &.button--pink {
+    --button-color: var(--theme-pink);
+    --button-text-color: var(--theme-night-darken);
+    --button-hover-bg-color: var(--theme-pink-light);
+    --button-focus-bg-color: var(--theme-pink-dark);
+  }
+
   &.button--info {
     --button-color: var(--theme-blue);
     --button-text-color: var(--theme-night-darken);
     --button-hover-bg-color: var(--theme-blue-light);
     --button-focus-bg-color: var(--theme-blue-dark);
+  }
+
+  &.button--gray {
+    --button-color: var(--theme-gray);
+    --button-text-color: var(--theme-night-darken);
+    --button-hover-bg-color: var(--theme-gray-light);
+    --button-focus-bg-color: var(--theme-gray-dark);
+  }
+
+  &.button--cyan {
+    --button-color: var(--theme-cyan);
+    --button-text-color: var(--theme-night-darken);
+    --button-hover-bg-color: var(--theme-cyan-light);
+    --button-focus-bg-color: var(--theme-cyan-dark);
+  }
+
+  &.button--green {
+    --button-color: var(--theme-green);
+    --button-text-color: var(--theme-night-darken);
+    --button-hover-bg-color: var(--theme-green-light);
+    --button-focus-bg-color: var(--theme-green-dark);
   }
 
   &.button--glass {
