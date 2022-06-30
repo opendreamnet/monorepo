@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.4](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.3...nuxtjs-base-v2.0.4) (2022-06-30)
+
+
+### Bug Fixes
+
+* added theme variables for orange and pink colors ([c2c3f1f](https://github.com/dreamnettech/monorepo/commit/c2c3f1f3a566ff166e05ed31b53b188ff57f29b5))
+
 ### [2.0.3](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.2...nuxtjs-base-v2.0.3) (2022-06-29)
 
 ### [2.0.2](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.1...nuxtjs-base-v2.0.2) (2022-06-29)
