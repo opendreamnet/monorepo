@@ -15,7 +15,7 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     el: {
-      type: [String, Element],
+      type: String,
       default: 'button'
     },
     loading: {
