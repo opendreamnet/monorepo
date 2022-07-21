@@ -21,7 +21,7 @@
     "clean": "shx rm -rf dist tsconfig.tsbuildinfo",
     "watch": "tsup-node src/index.ts --format cjs --format esm --watch",
     "watch:browser": "webpack-cli watch",
-    "build": "tsup-node src/index.ts --format cjs --format esm --clean && webpack-cli",
+    "build": "tsup-node src/index.ts --format cjs --format esm --clean --dts && webpack-cli",
     "release": "standard-version",
     "ugly:test": "ts-node ./test/index.ts"
   },
