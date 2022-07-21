@@ -71,11 +71,19 @@ const theme = {
   },
 
   primary: {
-    lighten: '#c7e1f6',
-    light: '#a1ceef',
-    DEFAULT: '#7db8e8',
-    dark: '#5396de',
-    darken: '#3e7bd2'
+    lighten: '#96cab5',
+    light: '#73b89d',
+    DEFAULT: '#50A684',
+    dark: '#40856a',
+    darken: '#30644f'
+  },
+
+  secondary: {
+    lighten: '#8ec1d3',
+    light: '#68adc4',
+    DEFAULT: '#4298B5',
+    dark: '#357a91',
+    darken: '#285b6d'
   }
 }
 
@@ -103,6 +111,7 @@ module.exports = {
         frost: theme.frost,
         aurora: theme.aurora,
         primary: theme.primary,
+        secondary: theme.secondary,
         background: '#242933',
 
         // Components
