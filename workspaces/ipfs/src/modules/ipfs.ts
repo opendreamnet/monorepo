@@ -2,17 +2,15 @@ import EventEmitter from 'events'
 import { getPath, is } from '@opendreamnet/app'
 import { merge, attempt, set, isString, isArray, isFunction, find, some, reject, isNil, noop } from 'lodash'
 import all from 'it-all'
-import Ctl from 'ipfsd-ctl'
 import type { Controller, ControllerOptions } from 'ipfsd-ctl'
 import fs from 'fs-extra'
 import PeerId from 'peer-id'
-import * as ipfsHttpClient from 'ipfs-http-client'
 import type * as ipfs from 'ipfs'
 import { CID } from 'multiformats'
-import { Multiaddr } from 'multiaddr'
-import type { AddAllOptions, IDResult } from 'ipfs-core-types/types/src/root'
-import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/types/src/utils'
-import type { AddOptions, RmOptions } from 'ipfs-core-types/types/src/pin'
+import type { Multiaddr } from '@multiformats/multiaddr'
+import type { AddAllOptions, IDResult } from 'ipfs-core-types/src/root'
+import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/src/utils'
+import type { AddOptions, RmOptions } from 'ipfs-core-types/src/pin'
 import * as Consts from './consts'
 import { Entry, IEntryOptions } from './entry'
 import * as utils from './utils'
@@ -211,6 +209,7 @@ export class IPFS extends EventEmitter {
    * @protected
    */
   protected async makeControllerOptions(): Promise<ControllerOptions> {
+    const ipfsHttpClient = await import('ipfs-http-client')
     const defaultType = is.nodeIntegration ? 'go' : 'proc'
 
     // Default options
@@ -420,12 +419,15 @@ export class IPFS extends EventEmitter {
       fs.ensureDirSync(options.ipfsOptions.repo)
     }
 
+    const Ctl = await import('ipfsd-ctl')
+
     this.options.controller = options
     this.node = await Ctl.createController(options)
 
     if (!options.remote && this.options.apiAddr) {
       // Little hack to allow custom API address.
       if (isString(this.options.apiAddr)) {
+        const { Multiaddr } = await import('@multiformats/multiaddr')
         this.options.apiAddr = new Multiaddr(this.options.apiAddr)
       }
 
@@ -444,14 +446,11 @@ export class IPFS extends EventEmitter {
       }
 
       if (!this.node.started) {
-        console.time('node-start')
         await this.node.start()
-        console.timeEnd('node-start')
       }
     }
 
-    // @ts-ignore
-    this.identity = this.node.api.peerId
+    this.identity = await this.node.api.id()
   }
 
   /**
@@ -467,7 +466,7 @@ export class IPFS extends EventEmitter {
     const { Identity } = await this.api.config.getAll()
     let protoPrivateKey: Uint8Array | string | undefined = Identity?.PrivKey
 
-    if (!protoPrivateKey && this.customPrivateKey && this.customPrivateKey?.peerId === this.identity?.id) {
+    if (!protoPrivateKey && this.customPrivateKey && this.customPrivateKey?.peerId === this.identity?.id.toString()) {
       // Node has not provided the private key, but the one specified in options is correct, use that one
       protoPrivateKey = this.customPrivateKey.toProtobuf()
     }
@@ -594,11 +593,10 @@ export class IPFS extends EventEmitter {
     // const workload = nodes.map((link) => this.api!.swarm.connect(link, { timeout })) as Promise<any>[]
 
     const workload: Promise<any>[] = []
-
-    console.log({ nodes })
+    const { Multiaddr } = await import('@multiformats/multiaddr')
 
     for (const addr of nodes) {
-      workload.push(this.api.swarm.connect(addr, { timeout }))
+      workload.push(this.api.swarm.connect(new Multiaddr(addr), { timeout }))
     }
 
     const response = Promise.allSettled(workload)

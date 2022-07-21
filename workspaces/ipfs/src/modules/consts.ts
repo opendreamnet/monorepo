@@ -26,12 +26,12 @@ export const SWARM_WRTC_ADDRS = [
 
 /**
  * Preload.
- * - Used to get and distribute files from the browser IPFS node.
+ * - Used to get and distribute files from the IPFS browser node.
  * - Used when: `proc` or `js` node and `options.opendreamnet`
  * - This nodes has public Gateway with `refs` access.
  */
 export const PRELOAD_NODES = [
-  // OpenDreamNet
+  // OpenDreamnet
   '/dns4/node0-preload.dreamlink.cloud/https',
 
   // Defaults
@@ -43,11 +43,11 @@ export const PRELOAD_NODES = [
 
 /**
  * Delegates.
- * - Used to perform actions on the network from the browser IPFS node.
+ * - Used to perform actions on the network from the IPFS browser node.
  * - Used when: `proc` or `js` node and `options.opendreamnet`
  */
  export const DELEGATES_NODES = [
-  // OpenDreamNet
+  // OpenDreamnet
   '/dns4/node0-preload.dreamlink.cloud/tcp/443/https',
 
   // Defaults
@@ -63,30 +63,22 @@ export const PRELOAD_NODES = [
  * - Used when: `proc` or `js` node and `options.opendreamnet`
  */
 export const BOOTSTRAP_NODES = [
-  // OpenDreamNet
-  // TODO:
+  // Websocket
+  //'/dns4/node0-wss.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
+  '/dns4/node0-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
+  '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
+  '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6',
+
+  // Kubo defaults
   '/dns4/server0.dreamlink.cloud/tcp/4001/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
   '/dns4/server0.dreamlink.cloud/tcp/4002/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
-  '/dns4/server0.dreamlink.cloud/tcp/4003/p2p/12D3KooWAxuHdoTaset7QsUpDGghmmBzfbc5Q6xz8KR64miYiuv3',
 
-  // OpenDreamNet: Websocket
-  '/dns4/node0-wss.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
-  // '/dns4/node0-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
-  // '/dns4/node1-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWAxuHdoTaset7QsUpDGghmmBzfbc5Q6xz8KR64miYiuv3',
-
-  // JS/GO Defaults
   '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmZa1sAxajnQjVM8WjWXoMbmPd7NsWhfKsPkErzpm9wGkp',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt',
-
-  // WebSocket defaults
-  // '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
-  // '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6',
-  // '/dns4/node2.preload.ipfs.io/tcp/443/wss/p2p/QmV7gnbW5VTcJ3oyM2Xk1rdFBJ3kTkvxc87UFGsun29STS',
-  // '/dns4/node3.preload.ipfs.io/tcp/443/wss/p2p/QmY7JB6MQXhxHvq7dBDh4HpbH29v4yE9JRadAVpndvzySN',
 
   // Cloudflare
   '/ip4/172.65.0.13/tcp/4009/p2p/QmcfgsJsMtx6qJb74akCw1M24X1zFwgGo11h1cuhwQjtJP',
