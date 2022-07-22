@@ -1,7 +1,7 @@
 {
   "name": "@opendreamnet/build",
   "packageManager": "yarn@3.2.0",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Base config files for building OpenDreamNet packages.",
   "license": "MIT",
   "author": {
