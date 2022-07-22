@@ -15,6 +15,7 @@ import * as Consts from './consts'
 import { Entry, IEntryOptions } from './entry'
 import * as utils from './utils'
 import { PrivateKey, PublicKey } from './keys'
+import ipfsHttpClient from 'ipfs-http-client'
 
 export interface IOptions {
   /**
@@ -209,7 +210,7 @@ export class IPFS extends EventEmitter {
    * @protected
    */
   protected async makeControllerOptions(): Promise<ControllerOptions> {
-    const ipfsHttpClient = await import('ipfs-http-client')
+    //const ipfsHttpClient = await import('ipfs-http-client')
     const defaultType = is.nodeIntegration ? 'go' : 'proc'
 
     // Default options
@@ -239,7 +240,7 @@ export class IPFS extends EventEmitter {
     // Only NodeJS.
     if (options.type === 'go') {
       if (!options.ipfsBin) {
-        options.ipfsBin = process.env.IPFS_GO_EXEC
+        options.ipfsBin = process.env['IPFS_GO_EXEC']
       }
 
       if (!options.ipfsBin) {
@@ -250,7 +251,7 @@ export class IPFS extends EventEmitter {
 
       if (this.options.controller?.disposable !== true) {
         // If we do not want to make a temporary node, then we use this default location for repo
-        set(options, 'ipfsOptions.repo', process.env.IPFS_PATH || await getPath('home', '.ipfs'))
+        set(options, 'ipfsOptions.repo', process.env['IPFS_PATH'] || await getPath('home', '.ipfs'))
       }
     }
 
@@ -259,7 +260,7 @@ export class IPFS extends EventEmitter {
     // Only NodeJS.
     if (options.type === 'js') {
       if (!options.ipfsBin) {
-        options.ipfsBin = process.env.IPFS_JS_EXEC
+        options.ipfsBin = process.env['IPFS_JS_EXEC']
       }
 
       if (!options.ipfsBin) {
@@ -373,7 +374,7 @@ export class IPFS extends EventEmitter {
       // Loaded and ready
       this.ready = true
       this.emit('ready')
-    } catch (err) {
+    } catch (err: any) {
       this.error = err
       this.emit('error', err)
     }
@@ -720,8 +721,14 @@ export class IPFS extends EventEmitter {
 
     this.emit('added', input)
 
+    const lastEntry = entries[entries.length - 1]
+
+    if (isNil(lastEntry)) {
+      throw new Error('Expected that there would be an entry at the end.')
+    }
+
     // The last result is always the root (if it is a directory).
-    return this.fromCID(entries[entries.length - 1].cid, entryOptions)
+    return this.fromCID(lastEntry.cid, entryOptions)
   }
 
   /**
@@ -813,7 +820,7 @@ export class IPFS extends EventEmitter {
       return
     }
 
-    this.cache[name].push(entry)
+    this.cache[name]!.push(entry)
   }
 
   public getFromCache(cid: string | CID, name = 'default'): Entry | undefined {

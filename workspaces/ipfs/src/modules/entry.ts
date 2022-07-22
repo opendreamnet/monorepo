@@ -1,9 +1,9 @@
 
 import EventEmitter from 'events'
-import * as stream from 'stream'
+import type * as stream from 'stream'
 import path from 'path'
 import fs from 'fs-extra'
-import { CID } from 'multiformats/cid'
+import type { CID } from 'multiformats/cid'
 import type { Mtime } from 'ipfs-unixfs'
 import type { IPFSEntry } from 'ipfs-core-types/src/root'
 import type { StatResult } from 'ipfs-core-types/src/object/index'
@@ -19,7 +19,7 @@ import streamToBlobURL from 'stream-to-blob-url'
 import { is } from '@opendreamnet/app'
 import all from 'it-all'
 import speedometer, { SpeedometerFunc } from './speedometer'
-import { IPFS } from './ipfs'
+import type { IPFS } from './ipfs'
 import { changeName, sanitizeName, wrapWithDirectory, filesStatToIpfsEntry } from './utils'
 
 export interface IFileOptions {
@@ -358,7 +358,11 @@ export class Entry extends EventEmitter {
     // This should return only one entry
     const entries = await all(ipfs.api.ls(wrapper.cid, { timeout }))
 
-    return this.fromIpfsEntry(ipfs, entries[0], { ...options, wrapCID: wrapper.cid })
+    if (isEmpty(entries)) {
+      throw new Error('Unexpected error: entries are empty!')
+    }
+
+    return this.fromIpfsEntry(ipfs, entries[0]!, { ...options, wrapCID: wrapper.cid })
   }
 
   /**
@@ -374,10 +378,10 @@ export class Entry extends EventEmitter {
       throw new Error('No entries.')
     }
 
-    const ipfs = entries[0].ipfs
+    const ipfs = entries[0]!.ipfs
 
     if (!options) {
-      options = entries[0].options
+      options = entries[0]!.options
     }
 
     // Add all CIDs to a folder.

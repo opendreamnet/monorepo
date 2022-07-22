@@ -11,7 +11,7 @@ import type { IPFSEntry } from 'ipfs-core-types/src/root'
 import type { StatResult } from 'ipfs-core-types/src/files/index'
 import type { ImportCandidate, ImportCandidateStream, ToFile } from 'ipfs-core-types/src/utils'
 import gatewayURLS from '../data/gateways.json'
-import { IPFS } from './ipfs'
+import type { IPFS } from './ipfs'
 
 export async function *inputToCandidateStream(input: ImportCandidate | ImportCandidate[] | FileList | File): ImportCandidateStream {
   const files: ImportCandidate[] = []
