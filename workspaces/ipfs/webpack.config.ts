@@ -1,6 +1,7 @@
 import path from 'path'
 import { merge } from 'lodash'
-import { Configuration, ProvidePlugin } from 'webpack'
+import type { Configuration } from 'webpack'
+import { ProvidePlugin } from 'webpack'
 import webpackConfig from '@opendreamnet/build/webpack.config'
 
 const config: Configuration = merge(webpackConfig, {

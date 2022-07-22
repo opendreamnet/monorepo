@@ -16,7 +16,7 @@
  * https://github.com/ipfs/js-ipfs/blob/master/docs/FAQ.md#what-are-all-these-refsqmfoo-http-errors-i-keep-seeing-in-the-console
  */
 export const SWARM_WRTC_ADDRS = [
-  // OpenDreamNet
+  // OpenDreamnet
   '/dns4/node0-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
   '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
 

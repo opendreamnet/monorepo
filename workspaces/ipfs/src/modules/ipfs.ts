@@ -7,7 +7,8 @@ import fs from 'fs-extra'
 import PeerId from 'peer-id'
 import type * as ipfs from 'ipfs'
 import { CID } from 'multiformats'
-import type { Multiaddr } from '@multiformats/multiaddr'
+import { Multiaddr } from 'multiaddr'
+import * as ipfsHttpClient from 'ipfs-http-client'
 import type { AddAllOptions, IDResult } from 'ipfs-core-types/src/root'
 import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/src/utils'
 import type { AddOptions, RmOptions } from 'ipfs-core-types/src/pin'
@@ -15,7 +16,6 @@ import * as Consts from './consts'
 import { Entry, IEntryOptions } from './entry'
 import * as utils from './utils'
 import { PrivateKey, PublicKey } from './keys'
-import ipfsHttpClient from 'ipfs-http-client'
 
 export interface IOptions {
   /**
@@ -210,7 +210,6 @@ export class IPFS extends EventEmitter {
    * @protected
    */
   protected async makeControllerOptions(): Promise<ControllerOptions> {
-    //const ipfsHttpClient = await import('ipfs-http-client')
     const defaultType = is.nodeIntegration ? 'go' : 'proc'
 
     // Default options
@@ -428,7 +427,6 @@ export class IPFS extends EventEmitter {
     if (!options.remote && this.options.apiAddr) {
       // Little hack to allow custom API address.
       if (isString(this.options.apiAddr)) {
-        const { Multiaddr } = await import('@multiformats/multiaddr')
         this.options.apiAddr = new Multiaddr(this.options.apiAddr)
       }
 
@@ -594,10 +592,9 @@ export class IPFS extends EventEmitter {
     // const workload = nodes.map((link) => this.api!.swarm.connect(link, { timeout })) as Promise<any>[]
 
     const workload: Promise<any>[] = []
-    const { Multiaddr } = await import('@multiformats/multiaddr')
 
     for (const addr of nodes) {
-      workload.push(this.api.swarm.connect(new Multiaddr(addr), { timeout }))
+      workload.push(this.api.swarm.connect(addr, { timeout }))
     }
 
     const response = Promise.allSettled(workload)

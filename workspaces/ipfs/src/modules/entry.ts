@@ -7,8 +7,7 @@ import type { CID } from 'multiformats/cid'
 import type { Mtime } from 'ipfs-unixfs'
 import type { IPFSEntry } from 'ipfs-core-types/src/root'
 import type { StatResult } from 'ipfs-core-types/src/object/index'
-import type { ProviderEvent } from 'ipfs-core-types/src/dht/index'
-import type { PeerInfo } from '@libp2p/interfaces/peer-info'
+import type { ProviderEvent, PeerData } from 'ipfs-core-types/src/dht/index'
 import DynamicBuffer from '@fidian/dynamic-buffer'
 import toStream from 'it-to-stream'
 import { merge, isEmpty, isString, toNumber, isArray } from 'lodash'
@@ -250,7 +249,7 @@ export class Entry extends EventEmitter {
   /**
    * Peers distributing the entry.
    */
-  public peers?: PeerInfo[]
+  public peers?: PeerData[]
 
   /**
    * [IPFSEntry] subentries.

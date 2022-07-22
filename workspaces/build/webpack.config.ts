@@ -1,7 +1,7 @@
-import * as webpack from 'webpack'
+import type { Configuration } from 'webpack'
 
-const config: webpack.Configuration = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+const config: Configuration = {
+  mode: process.env['NODE_ENV'] === 'production' ? 'production' : 'development',
   
   // enhance debugging by adding meta info for the browser devtools
   devtool: 'source-map',
