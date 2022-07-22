@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/dreamnettech/monorepo/compare/ipfs-v0.1.1...ipfs-v0.1.2) (2022-07-22)
+
 ### [0.1.1](https://github.com/dreamnettech/monorepo/compare/ipfs-v0.1.0...ipfs-v0.1.1) (2022-07-21)
 
 
