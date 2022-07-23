@@ -1,7 +1,7 @@
 {
   "name": "@opendreamnet/app",
   "version": "2.0.2",
-  "description": "Utilities for OpenDreamNet applications.",
+  "description": "Utilities for OpenDreamnet applications.",
   "license": "MIT",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
   },
   "author": {
     "name": "Ivan Bravo Bravo",
-    "email": "kolessios@gmail.com"
+    "email": "ivan@opendreamnet.com"
   },
   "repository": {
     "type": "git",
@@ -28,8 +28,8 @@
     "lint": "eslint --fix --ext .ts,.js src",
     "test": "ts-mocha test/**/*.ts --recursive --exit",
     "clean": "shx rm -rf tsconfig.tsbuildinfo dist",
-    "watch": "tsup-node src/index.ts --format cjs --format esm --watch",
-    "build": "tsup-node src/index.ts --format cjs --format esm && webpack-cli",
+    "watch": "tsup-node --watch",
+    "build": "tsup-node && webpack-cli",
     "release": "standard-version"
   },
   "engines": {
@@ -70,7 +70,7 @@
     "@opendreamnet/build": "workspace:^",
     "@opendreamnet/eslint-config": "workspace:^",
     "@types/eslint": "8.4.2",
-    "@types/lodash": "4.14.182",
+    "@types/lodash": "4.14.171",
     "@types/selenium-webdriver": "4.0.19",
     "eslint": "^8.14.0",
     "platform-folders": "^0.6",

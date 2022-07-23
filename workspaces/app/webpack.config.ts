@@ -1,5 +1,5 @@
 import path from 'path'
-import { Configuration } from 'webpack'
+import type { Configuration } from 'webpack'
 import { merge } from 'lodash'
 import webpackConfig from '@opendreamnet/build/webpack.config'
 

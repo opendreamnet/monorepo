@@ -68,7 +68,7 @@ export const is = {
   windows: getPlatform() === 'win32',
   linux: getPlatform() === 'linux',
   android: getPlatform() === 'android',
-  dev: $.hasNodeIntegration ? process.env.NODE_ENV !== 'production' : null
+  dev: $.hasNodeIntegration ? process.env['NODE_ENV'] !== 'production' : null
 }
 
 /**
