@@ -1,7 +1,9 @@
 import os from 'os'
 import path from 'path'
 import fs from 'fs'
-import { startCase, keys, isNil } from 'lodash'
+import startCase from 'lodash/startCase'
+import keys from 'lodash/keys'
+import isNil from 'lodash/isNil'
 import parent from 'parent-package-json'
 import * as $ from './shared'
 
