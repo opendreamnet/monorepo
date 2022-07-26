@@ -1,4 +1,4 @@
-import { isString } from 'lodash'
+import { isString } from '../lodash'
 import crypto from 'libp2p-crypto'
 import PeerId from 'peer-id'
 import { composePrivateKey, decomposePrivateKey } from 'crypto-key-composer'

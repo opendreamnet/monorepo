@@ -7,10 +7,11 @@ import type { CID } from 'multiformats/cid'
 import type { Mtime } from 'ipfs-unixfs'
 import type { IPFSEntry } from 'ipfs-core-types/src/root'
 import type { StatResult } from 'ipfs-core-types/src/object/index'
-import type { ProviderEvent, PeerData } from 'ipfs-core-types/src/dht/index'
+import type { ProviderEvent } from 'ipfs-core-types/src/dht/index'
+import type { PeerInfo } from '@libp2p/interfaces/peer-info'
 import DynamicBuffer from '@fidian/dynamic-buffer'
 import toStream from 'it-to-stream'
-import { merge, isEmpty, isString, toNumber, isArray } from 'lodash'
+import { merge, isEmpty, isString, toNumber, isArray } from './lodash'
 import mime from 'mime'
 import type { IPFS as IpfsApi } from 'ipfs'
 import streamToBlob from 'stream-to-blob'
@@ -249,7 +250,7 @@ export class Entry extends EventEmitter {
   /**
    * Peers distributing the entry.
    */
-  public peers?: PeerData[]
+  public peers?: PeerInfo[]
 
   /**
    * [IPFSEntry] subentries.

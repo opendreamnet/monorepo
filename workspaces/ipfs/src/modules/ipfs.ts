@@ -1,14 +1,13 @@
 import EventEmitter from 'events'
 import { getPath, is } from '@opendreamnet/app'
-import { merge, attempt, set, isString, isArray, isFunction, find, some, reject, isNil, noop } from 'lodash'
+import { merge, attempt, set, isString, isArray, isFunction, find, some, reject, isNil, noop } from './lodash'
 import all from 'it-all'
 import type { Controller, ControllerOptions } from 'ipfsd-ctl'
 import fs from 'fs-extra'
 import PeerId from 'peer-id'
 import type * as ipfs from 'ipfs'
 import { CID } from 'multiformats'
-import { Multiaddr } from 'multiaddr'
-import * as ipfsHttpClient from 'ipfs-http-client'
+import type { Multiaddr } from '@multiformats/multiaddr'
 import type { AddAllOptions, IDResult } from 'ipfs-core-types/src/root'
 import type { AbortOptions, ImportCandidate, ImportCandidateStream } from 'ipfs-core-types/src/utils'
 import type { AddOptions, RmOptions } from 'ipfs-core-types/src/pin'
@@ -211,6 +210,7 @@ export class IPFS extends EventEmitter {
    */
   protected async makeControllerOptions(): Promise<ControllerOptions> {
     const defaultType = is.nodeIntegration ? 'go' : 'proc'
+    const ipfsHttpClient = await import('ipfs-http-client')
 
     // Default options
     const options: ControllerOptions = {
@@ -427,6 +427,7 @@ export class IPFS extends EventEmitter {
     if (!options.remote && this.options.apiAddr) {
       // Little hack to allow custom API address.
       if (isString(this.options.apiAddr)) {
+        const { Multiaddr } = await import('@multiformats/multiaddr')
         this.options.apiAddr = new Multiaddr(this.options.apiAddr)
       }
 
@@ -592,9 +593,10 @@ export class IPFS extends EventEmitter {
     // const workload = nodes.map((link) => this.api!.swarm.connect(link, { timeout })) as Promise<any>[]
 
     const workload: Promise<any>[] = []
+    const { Multiaddr } = await import('@multiformats/multiaddr')
 
     for (const addr of nodes) {
-      workload.push(this.api.swarm.connect(addr, { timeout }))
+      workload.push(this.api.swarm.connect(new Multiaddr(addr), { timeout }))
     }
 
     const response = Promise.allSettled(workload)

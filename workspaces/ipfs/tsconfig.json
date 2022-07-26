@@ -4,6 +4,11 @@
     "outDir": "dist",
     "rootDir": "src"
   },
+  "ts-node": {
+    "compilerOptions": {
+      "moduleResolution": "node16"
+    }
+  },
   "include": [
     "src/**/*",
     "src/data/gateways.json"

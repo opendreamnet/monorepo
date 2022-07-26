@@ -1,4 +1,4 @@
-import { isString } from 'lodash'
+import { isString } from '../lodash'
 import PeerId from 'peer-id'
 import { composePublicKey, decomposePublicKey } from 'crypto-key-composer'
 import { is } from '@opendreamnet/app'
