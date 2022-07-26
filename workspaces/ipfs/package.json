@@ -1,6 +1,6 @@
 {
   "name": "@opendreamnet/ipfs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Easily create and use an IPFS node in NodeJS and web browsers.",
   "license": "MIT",
   "source": "src/index.ts",
