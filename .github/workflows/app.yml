@@ -37,10 +37,6 @@ jobs:
         working-directory: ${{ env.WORK_DIR }}
         run: yarn workspaces focus
 
-      - name: ✍️ Lint
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn run lint
-
       - name: 🏗️ Build
         working-directory: ${{ env.WORK_DIR }}
         run: yarn run build
