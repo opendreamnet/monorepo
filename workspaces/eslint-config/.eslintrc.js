@@ -62,7 +62,7 @@ module.exports = {
 
     // Lodash
 
-    'lodash/import-scope': ['error', 'member'],
+    'lodash/import-scope': 'off',
     'lodash/prefer-constant': 'off',
     'lodash/prefer-includes': 'warn',
     'lodash/prefer-lodash-method': 'off',
