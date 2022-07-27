@@ -1,5 +1,5 @@
 /**
- * - Used when: `js` node and `options.opendreamnet`
+ * - `js` node and `options.opendreamnet`
  */
  export const SWARM_JS_ADDRS = [
   '/ip4/0.0.0.0/tcp/4002',
@@ -8,9 +8,10 @@
 
 /**
  * WebRTC.
- * - Used to discover and communicate with other nodes
+ * Used to discover and communicate with other nodes
  * connected to the same WebRTC nodes (JS-IPFS only)
- * - Used when: `proc` or `js` node and `options.opendreamnet`
+ * 
+ * - `proc`/`js` node and `options.opendreamnet`
  *
  * @see
  * https://github.com/ipfs/js-ipfs/blob/master/docs/FAQ.md#what-are-all-these-refsqmfoo-http-errors-i-keep-seeing-in-the-console
@@ -21,7 +22,8 @@ export const SWARM_WRTC_ADDRS = [
   '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
 
   // Public
-  '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
+  '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star',
+  '/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star'
 ]
 
 /**
@@ -36,9 +38,9 @@ export const PRELOAD_NODES = [
 
   // Defaults
   '/dns4/node0.preload.ipfs.io/https',
-  '/dns4/node1.preload.ipfs.io/https'
-  // '/dns4/node2.preload.ipfs.io/https',
-  // '/dns4/node3.preload.ipfs.io/https'
+  '/dns4/node1.preload.ipfs.io/https',
+  '/dns4/node2.preload.ipfs.io/https',
+  '/dns4/node3.preload.ipfs.io/https'
 ]
 
 /**
@@ -52,9 +54,9 @@ export const PRELOAD_NODES = [
 
   // Defaults
   '/dns4/node0.delegate.ipfs.io/tcp/443/https',
-  '/dns4/node1.delegate.ipfs.io/tcp/443/https'
-  // '/dns4/node2.delegate.ipfs.io/tcp/443/https',
-  // '/dns4/node3.delegate.ipfs.io/tcp/443/https'
+  '/dns4/node1.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node2.delegate.ipfs.io/tcp/443/https',
+  '/dns4/node3.delegate.ipfs.io/tcp/443/https'
 ]
 
 /**
@@ -64,21 +66,21 @@ export const PRELOAD_NODES = [
  */
 export const BOOTSTRAP_NODES = [
   // Websocket
-  //'/dns4/node0-wss.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
-  '/dns4/node0-js.dreamlink.cloud/tcp/443/wss/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
   '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
   '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6',
 
   // Kubo defaults
-  '/dns4/server0.dreamlink.cloud/tcp/4001/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
-  '/dns4/server0.dreamlink.cloud/tcp/4002/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
+  '/dnsaddr/bootstrap.dreamlink.cloud/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
+  '/dnsaddr/bootstrap.dreamlink.cloud/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
 
-  '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmZa1sAxajnQjVM8WjWXoMbmPd7NsWhfKsPkErzpm9wGkp',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt',
+
+  '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
+  '/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
 
   // Cloudflare
   '/ip4/172.65.0.13/tcp/4009/p2p/QmcfgsJsMtx6qJb74akCw1M24X1zFwgGo11h1cuhwQjtJP',
