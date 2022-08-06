@@ -40,19 +40,21 @@ function colorFromBase(value) {
 //
 const theme = {
   night: {
-    lighten: '#5c6170',
-    light: '#4C566A', // nord3: UI elements like indent- and wrap guide marker
-    DEFAULT: '#434C5E', // nord2: selection- and text highlighting color
-    dark: '#3B4252', // nord1: elevated, more prominent or focused UI elements
-    darken: '#2E3440' // nord0: elements background
+    lighten: '#40464d',
+    light: '#282f36', // nord3: UI elements like indent- and wrap guide marker
+    DEFAULT: '#101820', // nord2: selection- and text highlighting color
+    dark: '#0d131a', // nord1: elevated, more prominent or focused UI elements
+    darken: '#0a0e13' // nord0: elements background
   },
 
   snow: {
-    darken: '#adb2ba',
-    dark: '#c2c8d2',
+    darken: '#777E90',
+    dark: '#B1B5C3',
+
     DEFAULT: '#D8DEE9', // nord4
     light: '#E5E9F0', // nord5
-    lighten: '#ECEFF4', // nord6
+    
+    lighten: '#FCFCFD', // nord6
   },
 
   frost: {
@@ -100,6 +102,16 @@ module.exports = {
           'system-ui',
           'Arial',
           'sans-serif' 
+        ],
+        logo: [
+          'Anke',
+          'Anke Regular',
+          'Inter',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'system-ui',
+          'Arial',
+          'sans-serif' 
         ]
       },
 
@@ -112,13 +124,13 @@ module.exports = {
         aurora: theme.aurora,
         primary: theme.primary,
         secondary: theme.secondary,
-        background: '#242933',
+        background: '#141416',
 
         // Components
         origin: theme.snow,
-        menus: colorFromBase(theme.night.darken),
-        input: colorFromBase(theme.night.dark),
-        button: colorFromBase(theme.night.dark),
+        menus: colorFromBase('#23262F'),
+        input: colorFromBase('#23262F'),
+        button: colorFromBase('#353945'),
 
         // Colors
         danger: colorFromBase(theme.aurora.red),
