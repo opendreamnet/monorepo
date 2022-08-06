@@ -104,16 +104,16 @@ export default Vue.extend({
   }
 
   .box__header {
-    @apply bg-menus-darken rounded-tr rounded-tl;
-    @apply px-6 py-4;
+    @apply bg-menus-dark rounded-tr rounded-tl;
+    @apply px-8 py-4;
 
     .title {
-      @apply font-bold space-x-2 text-lg;
+      @apply font-bold space-x-2 text-xl;
     }
   }
 
   .box__photo {
-    @apply relative bg-center bg-menus-dark;
+    @apply relative bg-center bg-menus-darken;
     min-height: 130px;
 
     .box__photo__image {
@@ -124,7 +124,7 @@ export default Vue.extend({
 
   .box__body {
     @apply flex-1 relative;
-    @apply p-6;
+    @apply p-8;
   }
 
   .box__footer {

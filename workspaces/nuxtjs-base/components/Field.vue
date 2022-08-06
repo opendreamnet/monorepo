@@ -57,31 +57,27 @@ export default Vue.extend({
 }
 
 .field__title {
-  @apply font-bold text-origin-lighten;
+  @apply uppercase font-bold text-origin-dark;
 
-  &::v-deep {
-    p {
-      @apply m-0;
-    }
+  &:deep(p) {
+    @apply m-0;
   }
 }
 
 .field__description {
-  @apply max-w-prose text-origin-dark;
+  @apply text-origin-dark;
 
-  &::v-deep {
-    p {
-      @apply m-0;
-    }
+  &:deep(p) {
+    @apply m-0;
+  }
 
-    strong {
-      @apply font-bold text-white;
-    }
+  &:deep(strong) {
+    @apply font-bold text-origin-lighten;
   }
 }
 
 .field__content {
-  @apply mt-4 mb-2;
+  @apply my-3;
 }
 
 .field__hint {
