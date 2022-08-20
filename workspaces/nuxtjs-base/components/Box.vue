@@ -108,7 +108,7 @@ export default Vue.extend({
     @apply px-8 py-4;
 
     .title {
-      @apply font-bold space-x-2 text-xl;
+      @apply font-bold space-x-2 text-lg;
     }
   }
 
