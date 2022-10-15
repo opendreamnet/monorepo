@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/dreamnettech/monorepo/compare/deploy-v1.4.0...deploy-v1.4.1) (2022-10-15)
+
+
+### Miscellaneous changes
+
+* added web3 host support for cloudflare ([3288399](https://github.com/dreamnettech/monorepo/commit/32883993078b65e309c3099e6f8f374a60d5a4f0))
+* updated and renamed @dreamnet/eslint-config-dreamnet to @opendreamnet/eslint-config ([eadd97d](https://github.com/dreamnettech/monorepo/commit/eadd97d8b6f82f168372008b899e6f9e9b1457fe))
+
 ## [1.4.0](https://github.com/dreamnettech/monorepo/compare/deploy-v1.3.1...deploy-v1.4.0) (2021-08-19)
 
 
