@@ -77,6 +77,8 @@ export class Web3Storage extends Provider {
         return upload.cid
       }
     }
+
+    return undefined
   }
 
   /**

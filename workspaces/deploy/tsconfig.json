@@ -1,18 +1,37 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2020", "DOM"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "removeComments": false,
+    "declaration": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+
+
     "outDir": "dist",
     "rootDir": "src",
+    //"noPropertyAccessFromIndexSignature": false,
+    //"noImplicitOverride": false,
+    "importsNotUsedAsValues": "remove",
     "strictPropertyInitialization": false,
     "typeRoots": [
       "src/types"
     ]
   },
-  "references": [
-    {
-      "path": "../app/tsconfig.json"
-    }
-  ],
   "include": [
     "src/**/*",
     "src/data/gateways.json"

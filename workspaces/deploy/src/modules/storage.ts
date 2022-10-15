@@ -15,7 +15,7 @@ class Storage {
     }
 
     if (!this.filepath || !fs.existsSync(this.filepath)) {
-      this.filepath = app.getPath('userData', 'storage.json') as string
+      this.filepath = await app.getPath('userData', 'storage.json') as string
     } else if (fs.lstatSync(this.filepath).isDirectory()) {
       this.filepath = path.resolve(this.filepath, 'storage.json')
     }

@@ -158,7 +158,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
     }
   }
 
-  protected putFile(filepath: string, { objectName, metaData = {} }: IFileData = {}): Promise<string> {
+  protected putFile(filepath: string, { objectName, metaData = {} }: IFileData = {}): void {
     const mimetype = mime.lookup(filepath)
 
     if (!objectName) {
@@ -170,7 +170,7 @@ DEPLOY_${this.name.toUpperCase()}_SECRET`)
       ...metaData
     }
 
-    return this.client.fPutObject(this.bucket!, objectName, filepath, metaData)
+    this.client.fPutObject(this.bucket!, objectName, filepath, metaData)
   }
 
   protected getFileURL(objectName: string, expiry = 604800): Promise<string> {

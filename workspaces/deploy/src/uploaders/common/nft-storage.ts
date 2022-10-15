@@ -104,5 +104,7 @@ export class NFTStorage extends Http {
         return upload.cid
       }
     }
+
+    return undefined
   }
 }

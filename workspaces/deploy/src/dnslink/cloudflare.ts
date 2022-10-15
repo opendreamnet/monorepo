@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
-import { isEmpty } from 'lodash'
-import { DnsRecord } from '../types'
+import { isEmpty, isNil } from 'lodash'
+import type { DnsRecord } from '../types'
 import { DnsProvider } from './base'
 
 export class Cloudflare extends DnsProvider {
@@ -57,6 +57,10 @@ export class Cloudflare extends DnsProvider {
 
   public get record(): string | undefined {
     return this._record || process.env.DEPLOY_CLOUDFLARE_RECORD
+  }
+
+  public get isWeb3Gateway(): boolean {
+    return !isNil(process.env.DEPLOY_CLOUDFLARE_IS_WEB3_GATEWAY)
   }
 
   /**
@@ -121,6 +125,15 @@ DEPLOY_CLOUDFLARE_TOKEN`)
    * Execute DNSLink creation
    */
   public async exec(): Promise<DnsRecord> {
+    const content = this.isWeb3Gateway ? await this.updateWeb3Hostname() : await this.updateZone()
+
+    return {
+      record: this.record as string,
+      content
+    }
+  }
+
+  protected async updateZone() {
     if (!this.api) {
       throw new Error('Not setup')
     }
@@ -140,10 +153,30 @@ DEPLOY_CLOUDFLARE_TOKEN`)
       })
     }
 
-    return {
-      record: this.record as string,
-      content
+    return content
+  }
+
+  protected async updateWeb3Hostname() {
+    if (!this.api) {
+      throw new Error('Not setup')
     }
+
+    const dnslink = `/ipfs/${this.release.cid}`
+    const identifier = await this.getWeb3HostnameId()
+
+    if (identifier) {
+      await this.api.patch(`zones/${this.zoneId}/web3/hostnames/${identifier}`, {
+        dnslink
+      })
+    } else {
+      await this.api.post(`zones/${this.zoneId}/web3/hostnames`, {
+        name: `${this.record}.${this.zone}`,
+        target: 'ipfs',
+        dnslink
+      })
+    }
+
+    return dnslink
   }
 
   /**
@@ -174,6 +207,22 @@ DEPLOY_CLOUDFLARE_TOKEN`)
     }
 
     const { data } = await this.api.get(`zones/${this.zoneId}/dns_records?type=TXT`)
+
+    if (data.result.length === 0) {
+      return undefined
+    }
+
+    const record = data.result.find(record => record.name === `${this.record}.${this.zone}`)
+
+    return record ? record.id : undefined
+  }
+
+  protected async getWeb3HostnameId(): Promise<number | undefined> {
+    if (!this.api) {
+      throw new Error('Not setup')
+    }
+
+    const { data } = await this.api.get(`zones/${this.zoneId}/web3/hostnames`)
 
     if (data.result.length === 0) {
       return undefined
