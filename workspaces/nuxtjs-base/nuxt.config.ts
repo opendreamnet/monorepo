@@ -8,6 +8,13 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development'
 }
 
+// Application values
+const name = process.env.APP_NAME || process.env.npm_package_displayName || process.env.npm_package_name
+const short_name = process.env.APP_SHORT_NAME || name
+const author = process.env.APP_AUTHOR || 'OpenDremanet'
+const description = process.env.APP_DESCRIPTION || process.env.npm_package_description
+const version = process.env.APP_VERSION || process.env.npm_package_version
+
 function getNuxtConfig(): NuxtConfig {
   return {
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -69,15 +76,15 @@ function getNuxtConfig(): NuxtConfig {
     // PWA module configuration: https://go.nuxtjs.dev/pwa
     pwa: {
       meta: {
-        name: process.env.npm_package_displayName,
-        author: 'OpenDreamnet',
-        description: process.env.npm_package_description,
+        name,
+        author,
+        description,
         theme_color: tailwindConfig.theme.extend.colors.primary.DEFAULT
       },
       manifest: {
-        name: process.env.npm_package_displayName,
-        short_name: process.env.npm_package_displayName,
-        description: process.env.npm_package_description,
+        name,
+        short_name,
+        description,
         background_color: tailwindConfig.theme.extend.colors.background,
         lang: 'en'
       }
@@ -90,9 +97,9 @@ function getNuxtConfig(): NuxtConfig {
 
     // Runtime env
     publicRuntimeConfig: {
-      name: process.env.npm_package_displayName,
-      description: process.env.npm_package_description,
-      version: process.env.npm_package_version
+      name,
+      description,
+      version
     }
   }
 }
@@ -104,7 +111,7 @@ function setNuxtConfig(config: NuxtConfig): NuxtConfig {
 /**
  * Tailwind configuration
  */
-export { 
+export {
   tailwindConfig,
   getNuxtConfig,
   setNuxtConfig
