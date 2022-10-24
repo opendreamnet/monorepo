@@ -8,14 +8,14 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development'
 }
 
-// Application values
-const name = process.env.APP_NAME || process.env.npm_package_displayName || process.env.npm_package_name
-const short_name = process.env.APP_SHORT_NAME || name
-const author = process.env.APP_AUTHOR || 'OpenDremanet'
-const description = process.env.APP_DESCRIPTION || process.env.npm_package_description
-const version = process.env.APP_VERSION || process.env.npm_package_version
-
 function getNuxtConfig(): NuxtConfig {
+  // Application values
+  const name = process.env.APP_NAME || process.env.npm_package_displayName || process.env.npm_package_name
+  const short_name = process.env.APP_SHORT_NAME || name
+  const author = process.env.APP_AUTHOR || 'OpenDremanet'
+  const description = process.env.APP_DESCRIPTION || process.env.npm_package_description
+  const version = process.env.APP_VERSION || process.env.npm_package_version
+
   return {
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
