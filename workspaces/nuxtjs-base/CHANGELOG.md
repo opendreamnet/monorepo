@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.9](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.8...nuxtjs-base-v2.0.9) (2022-10-24)
+
+
+### Bug Fixes
+
+* possible fix  for wrong env variables ([5fbd75f](https://github.com/dreamnettech/monorepo/commit/5fbd75fb13f34069b86b84dbaec5f96556ad2026))
+
 ### [2.0.8](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.7...nuxtjs-base-v2.0.8) (2022-10-24)
 
 ### [2.0.7](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.6...nuxtjs-base-v2.0.7) (2022-08-20)
