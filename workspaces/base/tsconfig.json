@@ -1,0 +1,11 @@
+{
+  "extends": "./assets/tsconfig.json",
+  "compilerOptions": {
+    "importHelpers": true,
+    "outDir": "dist",
+    "rootDir": "src",
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
