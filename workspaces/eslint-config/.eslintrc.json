@@ -23,8 +23,6 @@
     "plugin:lodash/recommended"
   ],
   "rules": {
-    // General Code Rules
-
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
     "space-before-function-paren": ["error", "never"],
@@ -54,15 +52,11 @@
     "spaced-comment": "warn",
     "object-curly-spacing": ["error", "always"],
 
-    // Import
-
     "import/order": "error",
     "import/first": "error",
     "import/no-mutable-exports": "error",
     "import/no-unresolved": "off",
     "import/named": "error",
-
-    // Lodash
 
     "lodash/import-scope": "off",
     "lodash/prefer-constant": "off",
