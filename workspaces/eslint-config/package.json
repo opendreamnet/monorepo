@@ -1,7 +1,7 @@
 {
   "name": "@opendreamnet/eslint-config",
   "packageManager": "yarn@3.2.0",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "ESLint config for OpenDreamnet projects.",
   "license": "MIT",
   "main": "index.js",
