@@ -1646,7 +1646,7 @@ __metadata:
     is-ipfs: ^4.0.0
     isomorphic-fetch: ^3.0.0
     lodash: ^4.17.15
-    luxon: ^1.26.0
+    luxon: ^2.5.2
     mime: ^2.5.2
     pretty-bytes: ^5.6.0
     sanitize-filename: ^1.6.3
@@ -5018,7 +5018,7 @@ __metadata:
     libp2p-crypto: ^0.21.2
     lodash: ^4.17.21
     lodash-es: ^4.17.21
-    luxon: ^3.0.1
+    luxon: ^2.5.2
     mime: ^3.0.0
     multiaddr: ^10.0.1
     multiformats: ^9.5.1
@@ -22438,17 +22438,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.26.0":
-  version: 1.28.0
-  resolution: "luxon@npm:1.28.0"
-  checksum: 5250cb9f138b6048eeb0b3a9044a4ac994d0058f680c72a0da4b6aeaec8612460385639cba2b1052ef6d5564879e9ed144d686f26d9d97b38ab920d82e18281c
-  languageName: node
-  linkType: hard
-
-"luxon@npm:^3.0.1":
-  version: 3.1.0
-  resolution: "luxon@npm:3.1.0"
-  checksum: f8a850b759ba7a2e009d904c522ed7bc264bf4add57578f8948e52a0ed96b627b025b5aad8032295b570ae19fac41f0ffab91bdb128715fb0cc020798a7ba886
+"luxon@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "luxon@npm:2.5.2"
+  checksum: d8b671ffd2ff0b438af862ac11082a81b3aedd9f8b6a4ca636f944224f8dd381125cd4d274ca0a8aedcaf2cfca0fc2ca96fe4cc1b16a28b7af701afb95c0bff8
   languageName: node
   linkType: hard
 
