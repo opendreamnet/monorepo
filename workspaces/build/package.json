@@ -34,7 +34,7 @@
     "babel-loader": "^8.2.5",
     "ts-loader": "^9.3.0",
     "unbuild": "^0.7.4",
-    "webpack": "^5.72.0"
+    "webpack": "^5.76.0"
   },
   "devDependencies": {
     "@types/babel__preset-env": "^7",
