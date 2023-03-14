@@ -34564,11 +34564,11 @@ __metadata:
   linkType: hard
 
 "undici@npm:^5.12.0":
-  version: 5.12.0
-  resolution: "undici@npm:5.12.0"
+  version: 5.21.0
+  resolution: "undici@npm:5.21.0"
   dependencies:
     busboy: "npm:^1.6.0"
-  checksum: 7b1060fdd2e041a4f7589f6c053f0741ade2431b91a4d2664fad2a7826c2561bac5179b18eb9d6c51cc6554f96fe0aba063d46b657d9a9fa2a4e8e5ba88bc6c9
+  checksum: d312210d63d9bcd541e7476cb60f513a5da9aa5473890bf77a26ae44d9ebb50655da2ed92544a107c1be3570cfe32279332123e6ee55563b2c14fef65d6ac53d
   languageName: node
   linkType: hard
 
