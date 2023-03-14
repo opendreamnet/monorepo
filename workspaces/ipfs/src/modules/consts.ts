@@ -18,8 +18,8 @@
  */
 export const SWARM_WRTC_ADDRS = [
   // OpenDreamnet
-  '/dns4/node0-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
-  '/dns4/node1-wrtc.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
+  '/dns4/wrtc0.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
+  '/dns4/wrtc1.dreamlink.cloud/tcp/443/wss/p2p-webrtc-star',
 
   // Public
   '/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star',
@@ -34,7 +34,7 @@ export const SWARM_WRTC_ADDRS = [
  */
 export const PRELOAD_NODES = [
   // OpenDreamnet
-  '/dns4/node0-preload.dreamlink.cloud/https',
+  '/dns4/preload.node0.dreamlink.cloud/https',
 
   // Defaults
   '/dns4/node0.preload.ipfs.io/https',
@@ -50,7 +50,7 @@ export const PRELOAD_NODES = [
  */
  export const DELEGATES_NODES = [
   // OpenDreamnet
-  '/dns4/node0-preload.dreamlink.cloud/tcp/443/https',
+  '/dns4/preload.node0.dreamlink.cloud/tcp/443/https',
 
   // Defaults
   '/dns4/node0.delegate.ipfs.io/tcp/443/https',
@@ -69,10 +69,11 @@ export const BOOTSTRAP_NODES = [
   '/dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
   '/dns4/node1.preload.ipfs.io/tcp/443/wss/p2p/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6',
 
-  // Kubo defaults
+  // OpenDreamnet
   '/dnsaddr/bootstrap.dreamlink.cloud/p2p/12D3KooWNwRazEX1ZfMVFFoBvUF6Ey8s7Ygu77RjPj55jDJ2DJF5',
   '/dnsaddr/bootstrap.dreamlink.cloud/p2p/12D3KooWBoDc9HaB9SNevFfUHGYyNJoAdhyzx7w5MVFLTu1r88hX',
 
+  // Kubo defaults
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
   '/dnsaddr/bootstrap.libp2p.io/p2p/QmZa1sAxajnQjVM8WjWXoMbmPd7NsWhfKsPkErzpm9wGkp',

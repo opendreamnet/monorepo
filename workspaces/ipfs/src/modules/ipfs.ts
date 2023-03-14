@@ -24,7 +24,7 @@ export interface IOptions {
    */
   start?: boolean
   /**
-   * True to automatically connect to recommended Cloudflare, Pinata.cloud and OpenDreamNet nodes.
+   * True to automatically connect to recommended Cloudflare, Pinata.cloud and OpenDreamnet nodes.
    *
    * @default true
    */
@@ -56,7 +56,7 @@ export interface IOptions {
    */
   privateKey?: PrivateKey | Uint8Array | string
   /**
-   * True to use OpenDreamNet nodes.
+   * True to use OpenDreamnet config and nodes.
    *
    * @default true
    */
