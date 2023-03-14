@@ -1,7 +1,7 @@
-import { isString } from '../lodash'
 import PeerId from 'peer-id'
 import { composePublicKey, decomposePublicKey } from 'crypto-key-composer'
 import { is } from '@opendreamnet/app'
+import { isString } from '../lodash'
 
 /**
  * Type of key to use when composing PEM/DER.

@@ -8,16 +8,16 @@ import type { Mtime } from 'ipfs-unixfs'
 import type { IPFSEntry } from 'ipfs-core-types/src/root'
 import type { StatResult } from 'ipfs-core-types/src/object/index'
 import type { ProviderEvent } from 'ipfs-core-types/src/dht/index'
-import type { PeerInfo } from '@libp2p/interfaces/peer-info'
+import type { PeerInfo } from '@libp2p/interface-peer-info'
 import DynamicBuffer from '@fidian/dynamic-buffer'
 import toStream from 'it-to-stream'
-import { merge, isEmpty, isString, toNumber, isArray } from './lodash'
 import mime from 'mime'
 import type { IPFS as IpfsApi } from 'ipfs'
 import streamToBlob from 'stream-to-blob'
 import streamToBlobURL from 'stream-to-blob-url'
 import { is } from '@opendreamnet/app'
 import all from 'it-all'
+import { merge, isEmpty, isString, toNumber, isArray } from './lodash'
 import speedometer, { SpeedometerFunc } from './speedometer'
 import type { IPFS } from './ipfs'
 import { changeName, sanitizeName, wrapWithDirectory, filesStatToIpfsEntry } from './utils'
@@ -131,7 +131,7 @@ export interface IDownloadProgress {
   percentage: number
 }
 
-export class Entry extends EventEmitter {
+export class Entry extends EventEmitter implements IPFSEntry {
   /**
    * File/Directory name or CID.
    *

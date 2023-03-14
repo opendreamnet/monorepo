@@ -10,7 +10,7 @@
  * WebRTC.
  * Used to discover and communicate with other nodes
  * connected to the same WebRTC nodes (JS-IPFS only)
- * 
+ *
  * - `proc`/`js` node and `options.opendreamnet`
  *
  * @see

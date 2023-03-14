@@ -1,8 +1,8 @@
-import { isString } from '../lodash'
 import crypto from 'libp2p-crypto'
 import PeerId from 'peer-id'
 import { composePrivateKey, decomposePrivateKey } from 'crypto-key-composer'
 import { is } from '@opendreamnet/app'
+import { isString } from '../lodash'
 import { PublicKey } from './public-key'
 
 /**
