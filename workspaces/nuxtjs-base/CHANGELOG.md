@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.9...nuxtjs-base-v2.1.0) (2023-03-26)
+
+
+### Features
+
+* tippy.js is now optional, removed "Inter" from fontFamly ([c0da6f3](https://github.com/dreamnettech/monorepo/commit/c0da6f3a609075a5d84e9b2ba3046cc03e171081))
+
 ### [2.0.9](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.8...nuxtjs-base-v2.0.9) (2022-10-24)
 
 
