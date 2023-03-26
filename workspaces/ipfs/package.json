@@ -79,7 +79,7 @@
     "libp2p-crypto": "^0.21.2",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
-    "luxon": "^3.3.0",
+    "luxon": "^1.28.1",
     "mime": "^3.0.0",
     "multiaddr": "^10.0.1",
     "multiformats": "^11.0.2",

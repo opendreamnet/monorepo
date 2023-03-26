@@ -1659,7 +1659,7 @@ __metadata:
     is-ipfs: "npm:^4.0.0"
     isomorphic-fetch: "npm:^3.0.0"
     lodash: "npm:^4.17.15"
-    luxon: "npm:^1.26.0"
+    luxon: "npm:^1.28.1"
     mime: "npm:^2.5.2"
     pretty-bytes: "npm:^5.6.0"
     sanitize-filename: "npm:^1.6.3"
@@ -5887,7 +5887,7 @@ __metadata:
     libp2p-crypto: "npm:^0.21.2"
     lodash: "npm:^4.17.21"
     lodash-es: "npm:^4.17.21"
-    luxon: "npm:^3.3.0"
+    luxon: "npm:^1.28.1"
     mime: "npm:^3.0.0"
     multiaddr: "npm:^10.0.1"
     multiformats: "npm:^11.0.2"
@@ -5938,7 +5938,7 @@ __metadata:
     eslint-plugin-nuxt: "npm:^3.2.0"
     eslint-plugin-vue: "npm:^9.1.1"
     lodash: "npm:^4.17.21"
-    luxon: "npm:^3.3.0"
+    luxon: "npm:^1.28.1"
     nuxt: "npm:^2.15.8"
     standard-version: "npm:^9.5.0"
     tinycolor2: "npm:^1.4.2"
@@ -24102,17 +24102,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.26.0":
-  version: 1.28.0
-  resolution: "luxon@npm:1.28.0"
-  checksum: 68b6b285ba7cc9935ea4d2bf3dcea95c9d4f337a253db31e9a2adb2c5153f0305208bfb48f6b0233be0960325151460812d969be9b35410ceda90d8f6a9e057a
-  languageName: node
-  linkType: hard
-
-"luxon@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "luxon@npm:3.3.0"
-  checksum: 2c028c47f829c934708b8bb90b28aa126e65389e70431cab4347bf01bc4a8361a7e6f46df00c89a4f4a4a3e8d5f99e9eb30300ec3011759eb86001cf6e47ebd7
+"luxon@npm:^1.28.1":
+  version: 1.28.1
+  resolution: "luxon@npm:1.28.1"
+  checksum: fbd0f22f922f5bdd04bc4f775ae71e523fcc0dee8751b513fb1fc1767d4c358abb3ccd16d625c622b06ad4d27e15ff22f0ef907742d346dae0e43fb427d12468
   languageName: node
   linkType: hard
 
