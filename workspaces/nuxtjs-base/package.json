@@ -24,31 +24,28 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "tinycolor2": "^1.4.2",
-    "tippy.js": "^6.3.7"
+    "tinycolor2": "^1.4.2"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
     "@nuxtjs/eslint-config-typescript": "^10.0.0",
     "@opendreamnet/eslint-config-nuxtjs": "workspace:^",
     "@types/lodash": "4.14.182",
+    "@types/luxon": "^3",
     "@types/tinycolor2": "^1",
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^3.2.0",
     "eslint-plugin-vue": "^9.1.1",
+    "luxon": "^3.3.0",
     "nuxt": "^2.15.8",
     "standard-version": "^9.5.0",
     "vue": "^2.6.14"
   },
-  "peerDependencies": {
-    "@nuxtjs/markdownit": "*",
-    "@nuxtjs/tailwindcss": "^4",
-    "lodash": "^4",
-    "sass": "^1",
-    "tippy.js": "^6"
-  },
   "optionalDependencies": {
-    "@nuxtjs/style-resources": "^1",
-    "@tailwindcss/typography": "^0.4"
+    "@nuxtjs/style-resources": "^1.2.1",
+    "@nuxtjs/tailwindcss": "^4.2.1",
+    "@tailwindcss/typography": "^0.4",
+    "luxon": "^3.3.0",
+    "tippy.js": "^6.3.7"
   }
 }
