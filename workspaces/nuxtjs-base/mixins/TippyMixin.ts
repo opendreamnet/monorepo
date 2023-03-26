@@ -40,39 +40,42 @@ function getTippyOpts(el: HTMLElement, binding: DirectiveBinding): Partial<Props
   return opts
 }
 
+const directive: DirectiveOptions = {
+  bind(el, binding) {
+    const options = getTippyOpts(el, binding)
+
+    if (isEmpty(options.content)) {
+      return
+    }
+
+    tippy(el, options)
+  },
+  unbind(el) {
+    // @ts-ignore
+    el._tippy && el._tippy.destroy()
+  },
+  update(el, binding) {
+    const options = getTippyOpts(el, binding)
+
+    if (isEmpty(options.content)) {
+      // @ts-ignore
+      el._tippy && el._tippy.destroy()
+      return
+    }
+
+    // @ts-ignore
+    if (el._tippy) {
+      // @ts-ignore
+      el._tippy.setProps(options)
+    } else {
+      tippy(el, options)
+    }
+  }
+}
+
 export default Vue.extend({
   directives: {
-    tippy: {
-      bind(el, binding) {
-        const options = getTippyOpts(el, binding)
-
-        if (isEmpty(options.content)) {
-          return
-        }
-
-        tippy(el, options)
-      },
-      unbind(el) {
-        // @ts-ignore
-        el._tippy && el._tippy.destroy()
-      },
-      update(el, binding) {
-        const options = getTippyOpts(el, binding)
-
-        if (isEmpty(options.content)) {
-          // @ts-ignore
-          el._tippy && el._tippy.destroy()
-          return
-        }
-
-        // @ts-ignore
-        if (el._tippy) {
-          // @ts-ignore
-          el._tippy.setProps(options)
-        } else {
-          tippy(el, options)
-        }
-      }
-    } as DirectiveOptions
+    tippy: directive,
+    tooltip: directive
   }
 })
