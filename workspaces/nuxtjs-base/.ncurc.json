@@ -1,0 +1,9 @@
+{
+  "reject": [
+    "nuxt",
+    "@nuxt/types",
+    "@nuxtjs/tailwindcss",
+    "@tailwindcss/typography",
+    "vue"
+  ]
+}

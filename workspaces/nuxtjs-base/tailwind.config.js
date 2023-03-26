@@ -2,9 +2,9 @@ const color = require('tinycolor2')
 
 /**
  * Lightens a color
- * 
- * @param {color.ColorInput} col 
- * @param {number} amount 
+ *
+ * @param {color.ColorInput} col
+ * @param {number} amount
  * @returns {string}
  */
 function lighten(col, amount = 5) {
@@ -13,9 +13,9 @@ function lighten(col, amount = 5) {
 
 /**
  * Darken a color
- * 
- * @param {color.ColorInput} col 
- * @param {number} amount 
+ *
+ * @param {color.ColorInput} col
+ * @param {number} amount
  * @returns {string}
  */
 function darken(col, amount = 5) {
@@ -23,9 +23,9 @@ function darken(col, amount = 5) {
 }
 
 /**
- * 
- * @param {string} value 
- * @returns 
+ *
+ * @param {string} value
+ * @returns
  */
 function colorFromBase(value) {
   return {
@@ -53,7 +53,7 @@ const theme = {
 
     DEFAULT: '#D8DEE9', // nord4
     light: '#E5E9F0', // nord5
-    
+
     lighten: '#FCFCFD', // nord6
   },
 
@@ -91,27 +91,31 @@ const theme = {
 
 module.exports = {
   important: true,
-  
+
   theme: {
     extend: {
       fontFamily: {
         sans: [
-          'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
-          'system-ui',
+          'Segoe UI',
+          'Noto Sans',
+          'Helvetica',
           'Arial',
-          'sans-serif' 
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji'
         ],
         logo: [
           'Anke',
           'Anke Regular',
-          'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
-          'system-ui',
+          'Segoe UI',
+          'Noto Sans',
+          'Helvetica',
           'Arial',
-          'sans-serif' 
+          'sans-serif'
         ]
       },
 

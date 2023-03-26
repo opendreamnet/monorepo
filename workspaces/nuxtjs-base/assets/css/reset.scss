@@ -1,11 +1,9 @@
-@import "./root";
-@import "./vendor";
-@import "./fonts.scss";
+@import "./reset/root";
+@import "./reset/fonts";
 
 body {
   @apply bg-background text-origin;
   accent-color: theme('colors.primary.DEFAULT');
-  // font-feature-settings: "liga", "ss01", "zero", "cv11", "frac", "calt", "tnum";
 }
 
 hr {
@@ -15,7 +13,7 @@ hr {
 .code {
   @apply rounded font-semibold px-1 text-sm;
   background-color: #444950;
-  
+
   a {
     @apply text-primary underline;
   }

@@ -1,10 +1,10 @@
 import path from 'path'
-import { merge } from 'lodash'
 import type { NuxtConfig } from '@nuxt/types'
+import { merge } from 'lodash'
 import tailwindConfig from './tailwind.config'
 
 if (!process.env.NODE_ENV) {
-  // Default enviroment
+  // default enviroment
   process.env.NODE_ENV = 'development'
 }
 
@@ -52,9 +52,7 @@ function getNuxtConfig(): NuxtConfig {
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
       '@opendreamnet/nuxtjs-base/assets/css/reset.scss',
-      '@opendreamnet/nuxtjs-base/assets/css/input.scss',
-      '@opendreamnet/nuxtjs-base/assets/css/checkbox.scss',
-      'tippy.js/dist/tippy.css'
+      '@opendreamnet/nuxtjs-base/assets/css/forms.scss'
     ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -88,11 +86,6 @@ function getNuxtConfig(): NuxtConfig {
         background_color: tailwindConfig.theme.extend.colors.background,
         lang: 'en'
       }
-    },
-
-    //
-    markdownit: {
-      runtime: true // Support `$md()`
     },
 
     // Runtime env

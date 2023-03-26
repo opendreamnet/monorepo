@@ -26,7 +26,7 @@ export default Vue.extend({
 
   computed: {
     css() {
-      return { 'button--loading': this.loading === true }
+      return { 'button--loading': this.loading }
     }
   }
 })
@@ -104,7 +104,7 @@ export default Vue.extend({
   --button-hover-text-color: var(--button-text-color);
   --button-focus-bg-color: var(--theme-button-light);
   --button-focus-text-color: var(--button-text-color);
-  
+
   color: var(--button-text-color);
   background-color: var(--button-bg-color);
 
@@ -207,7 +207,7 @@ export default Vue.extend({
 
   .button {
     @apply rounded-none;
-    
+
     &:first-child {
       @apply rounded-tl rounded-bl;
     }
