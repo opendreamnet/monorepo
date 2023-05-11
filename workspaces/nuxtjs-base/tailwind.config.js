@@ -132,9 +132,9 @@ module.exports = {
 
         // Components
         origin: theme.snow,
-        menus: colorFromBase('#23262F'),
-        input: colorFromBase('#23262F'),
-        button: colorFromBase('#353945'),
+        menus: colorFromBase('#202022'),
+        input: colorFromBase('#202022'),
+        button: colorFromBase('#202022'),
 
         // Colors
         danger: colorFromBase(theme.aurora.red),
