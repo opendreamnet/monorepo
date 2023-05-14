@@ -3,7 +3,12 @@ name: "nuxtjs-base (legacy)"
 on:
   workflow_dispatch:
   push:
-    tags: [ nuxtjs-base-v* ]
+    paths:
+      - workspaces/nuxtjs-base/**
+      - "!workspaces/nuxtjs-base/package.json"
+      - "!workspaces/nuxtjs-base/CHANGELOG.md"
+    branches:
+      - master
 
 env:
   WORK_DIR: workspaces/nuxtjs-base
@@ -17,6 +22,8 @@ jobs:
     steps:
       - name: 📁 Checkout
         uses: actions/checkout@v3
+
+      - uses: fregante/setup-git-user@v2
 
       - name: 📦 Cache node_modules
         uses: actions/cache@v3
@@ -35,7 +42,11 @@ jobs:
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ env.WORK_DIR }}
-        run: yarn workspaces focus
+        run: yarn install
+
+      - name: 🎇 Release
+        working-directory: ${{ env.WORK_DIR }}
+        run: yarn run release
 
       - name: 🚀 Publish
         working-directory: ${{ env.WORK_DIR }}
