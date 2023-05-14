@@ -5,6 +5,10 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:0-20",
 
+	"workspaceFolder": "/workspace",
+
+	"workspaceMount": "source=src,target=/workspace,type=volume",
+
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "yarn install"
 
