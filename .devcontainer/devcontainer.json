@@ -10,7 +10,7 @@
 	"workspaceMount": "source=src,target=/workspace,type=volume",
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "yarn install"
+	"postCreateCommand": "sudo chown node . && git clone --depth 1 git@github.com:dreamnettech/monorepo.git . --progress && yarn install"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
