@@ -2,7 +2,7 @@ import { Command, Flags, CliUx } from '@oclif/core'
 import Listr from 'listr'
 import path from 'path'
 import pkgUp from 'pkg-up'
-import fs from 'fs'
+import fs from 'fs-extra'
 import { isNil } from 'lodash'
 import execa from 'execa'
 
@@ -74,10 +74,17 @@ export default class Run extends Command {
 
     // Project directory
     this.log(`> ${this.root}`)
+    fs.ensureDirSync(this.root)
 
     // Questions
     const initYarn = await CliUx.ux.confirm('Do you want to initialize Yarn v2?')
     const yarnPlugins = await CliUx.ux.confirm('Do you want to install Yarn plugins?')
+    let setupPackage = initYarn
+
+    if (!initYarn) {
+      setupPackage = await CliUx.ux.confirm('Do you want to setup package.json?')
+    }
+
     const devDeps = await CliUx.ux.confirm('Do you want to install dev dependencies?')
     const tsDeps = await CliUx.ux.confirm('Do you want to install typescript?')
     const eslintDeps = await CliUx.ux.confirm('Do you want to install eslint?')
@@ -104,7 +111,7 @@ export default class Run extends Command {
     // package.json
     workload.push({
       title: 'package.json',
-      enabled: () => initYarn,
+      enabled: () => initYarn || setupPackage,
       task: (ctx, task) => this.setupPackage().catch((err: any) => task.report(err))
     })
 
@@ -193,10 +200,10 @@ export default class Run extends Command {
   }
 
   public async setupPackage() {
-    const pkgFile = await pkgUp({ cwd: this.root })
+    let pkgFile = path.resolve(this.root, 'package.json') // await pkgUp({ cwd: this.root })
 
-    if (!pkgFile) {
-      throw new Error('')
+    if (!fs.existsSync(pkgFile)) {
+      fs.writeFileSync(pkgFile, '{}')
     }
 
     const pkg = JSON.parse(fs.readFileSync(pkgFile, { encoding: 'utf-8' }))
@@ -223,7 +230,7 @@ export default class Run extends Command {
 
     if (!pkg.engines) {
       pkg.engines = {
-        node: '>= 16'
+        node: '>= 18'
       }
     }
 
