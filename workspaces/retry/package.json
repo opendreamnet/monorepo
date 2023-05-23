@@ -1,0 +1,42 @@
+{
+  "name": "@opendreamnet/retry",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc -b",
+    "watch": "tsc -w",
+    "test": "ts-mocha test/**/*.ts --recursive --exit",
+    "lint": "eslint --fix --ext .ts,.js src",
+    "clean": "shx rm -rf dist",
+    "release": "standard-version"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@opendreamnet/app": "workspace:^",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@opendreamnet/eslint-config": "workspace:^",
+    "@types/eslint": "^8",
+    "@types/expect": "^24.3.0",
+    "@types/lodash": "4.14.171",
+    "@types/mocha": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "@typescript-eslint/parser": "^5.59.7",
+    "eslint": "^8.41.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "shx": "^0.3.4",
+    "sinon": "^15.1.0",
+    "standard-version": "^9.5.0",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
