@@ -34,5 +34,5 @@
 	"overrideCommand": true,
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo cp -RT /src . && sudo chown node:node -R . && yarn install"
+	"postCreateCommand": "sudo cp -RT /src . && sudo chown node:node -R . && yarn install && sudo chown node:node -R ."
 }
