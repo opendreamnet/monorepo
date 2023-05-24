@@ -88,14 +88,8 @@ describe('Retry', () => {
 
   it('timeout = 1500, timed out on attempt 4', async function() {
     const callback = sinon.stub()
-    callback.returns(() => {
-      console.log(callback.callCount)
-      if (callback.callCount === 4) {
-        return delay(3500)
-      } else {
-        throw this.itReject
-      }
-    })
+    callback.rejects(this.itReject)
+    callback.onCall(4).returns(delay(3500))
 
     const promise = retry(callback, {
       timeout: 1500,
