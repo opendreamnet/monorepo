@@ -1,6 +1,11 @@
 {
   "name": "@opendreamnet/retry",
   "version": "0.1.0",
+  "description": "Retry promises and callbacks when they fail.",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc -b",
     "watch": "tsc -w",
@@ -9,12 +14,31 @@
     "clean": "shx rm -rf dist",
     "release": "standard-version"
   },
+  "author": {
+    "name": "Ivan Bravo Bravo",
+    "email": "ivan@opendreamnet.com",
+    "url": "https://github.com/dreamnettech/monorepo/graphs/contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreamnettech/monorepo.git",
+    "directory": "workspaces/retry"
+  },
+  "bugs": {
+    "email": "ivan@opendreamnet.com",
+    "url": "https://github.com/dreamnettech/monorepo/issues"
+  },
   "files": [
     "dist/",
     "src/"
   ],
   "engines": {
     "node": ">= 18"
+  },
+  "standard-version": {
+    "path": ".",
+    "tag-prefix": "retry-v",
+    "releaseCommitMessageFormat": "chore(release): queue@{{currentTag}}"
   },
   "dependencies": {
     "@opendreamnet/app": "workspace:^",
