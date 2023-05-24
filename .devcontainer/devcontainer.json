@@ -17,6 +17,11 @@
 	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
 	"workspaceFolder": "/workspace",
 
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/act:1": {},
+    "ghcr.io/flexwie/devcontainer-features/op:1": {}
+	},
+
 	// Configure tool-specific properties.
 	"customizations": {
     "vscode": {
