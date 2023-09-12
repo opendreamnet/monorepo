@@ -24,8 +24,7 @@ export default Vue.extend({
     },
     variant: {
       type: String,
-      default: 'solid',
-      required: true
+      default: 'solid'
     }
   },
 
@@ -147,6 +146,7 @@ $colors: "primary", "warning", "danger", "success", "orange", "pink", "blue", "g
 
     &:not([disabled]):hover {
       @apply bg-origin-dark;
+      @apply bg-opacity-50 #{!important};
     }
 
     @each $color in $colors {
@@ -154,7 +154,7 @@ $colors: "primary", "warning", "danger", "success", "orange", "pink", "blue", "g
         @apply text-#{$color} bg-#{$color}-darken;
 
         &:not([disabled]):hover {
-          @apply bg-opacity-50 #{!important};
+          @apply bg-#{$color}-dark;
         }
       }
     }
