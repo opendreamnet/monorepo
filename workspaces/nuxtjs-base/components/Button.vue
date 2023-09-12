@@ -41,7 +41,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-$colors: primary, warning, danger, success, orange, pink, blue, gray, cyan, green;
+$colors: "primary", "warning", "danger", "success", "orange", "pink", "blue", "gray", "cyan", "green";
 
 .button {
   @apply relative inline-flex items-center flex-shrink-0 gap-x-2;
