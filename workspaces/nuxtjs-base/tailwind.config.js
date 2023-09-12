@@ -128,7 +128,7 @@ module.exports = {
         aurora: theme.aurora,
         primary: theme.primary,
         secondary: theme.secondary,
-        background: '#17171d',
+        background: '#141416',
 
         // Components
         origin: theme.snow,
