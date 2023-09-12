@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.1.1...nuxtjs-base-v2.1.2) (2023-09-12)
+
 ### [2.1.1](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.1.0...nuxtjs-base-v2.1.1) (2023-03-26)
 
 ## [2.1.0](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.0.9...nuxtjs-base-v2.1.0) (2023-03-26)
