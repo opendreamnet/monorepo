@@ -1,6 +1,7 @@
 <template>
   <div class="field">
     <div v-if="title" class="field__title" v-html="title" />
+
     <div v-if="description" class="field__description" v-html="description" />
 
     <div class="field__content">
@@ -57,7 +58,7 @@ export default Vue.extend({
 }
 
 .field__title {
-  @apply uppercase font-bold text-origin-dark;
+  @apply uppercase font-bold text-white;
 
   &:deep(p) {
     @apply m-0;
@@ -72,19 +73,19 @@ export default Vue.extend({
   }
 
   &:deep(strong) {
-    @apply font-bold text-origin-lighten;
+    @apply font-bold text-white;
   }
 }
 
 .field__content {
-  @apply my-3;
+  @apply mt-1 mb-2;
 }
 
 .field__hint {
-  @apply text-xs text-origin-darken;
+  @apply text-sm text-origin-dark;
 }
 
 .field__error {
-  @apply text-sm font-semibold text-danger;
+  @apply text-sm text-danger;
 }
 </style>

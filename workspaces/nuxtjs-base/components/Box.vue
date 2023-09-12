@@ -80,8 +80,11 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .box {
-  @apply flex flex-col;
-  @apply bg-menus shadow-lg rounded border border-menus-darken;
+  //@apply flex flex-col;
+  //@apply bg-menus shadow-lg rounded border border-menus-darken;
+  @apply overflow-hidden rounded-lg shadow bg-menus w-full;
+  @apply divide-y divide-menus-lighten;
+  @apply ring-1 ring-menus-lighten;
 
   &.box--xs {
     .box__header {
@@ -104,11 +107,10 @@ export default Vue.extend({
   }
 
   .box__header {
-    @apply bg-menus-dark rounded-tr rounded-tl;
-    @apply px-8 py-4;
+    @apply px-6 py-5;
 
     .title {
-      @apply font-bold space-x-2 text-lg;
+      @apply font-bold space-x-2 text-lg text-white;
     }
   }
 
@@ -123,12 +125,11 @@ export default Vue.extend({
   }
 
   .box__body {
-    @apply flex-1 relative;
-    @apply p-8;
+    @apply p-6;
   }
 
   .box__footer {
-    @apply border-t border-button;
+    @apply px-6 py-4;
   }
 }
 </style>

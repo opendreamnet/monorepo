@@ -21,40 +21,143 @@ export default Vue.extend({
     loading: {
       type: Boolean,
       default: false
+    },
+    variant: {
+      type: String,
+      default: 'solid',
+      required: true
     }
   },
 
   computed: {
     css() {
-      return { 'button--loading': this.loading }
+      return {
+        'button--loading': this.loading,
+        ['button--' + this.variant]: true
+      }
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-@keyframes spinAround{
-  from{transform:rotate(0)}
-  to{transform:rotate(359deg)}
-}
+$colors: primary, warning, danger, success, orange, pink, blue, gray, cyan, green;
 
 .button {
-  @apply inline-flex items-center justify-center relative transition-all rounded;
-  @apply px-6 text-sm font-semibold uppercase tracking-wide;
-  @apply outline-none #{!important};
-  height: $input-height;
+  @apply relative inline-flex items-center flex-shrink-0 gap-x-2;
+  @apply rounded-md shadow-sm font-medium;
+  @apply px-3 py-2;
 
-  &::v-deep {
-    .icon {
-      &:not(:last-child) {
-        margin-right: 8px;
+  &:focus {
+    @apply outline-none;
+  }
+
+  &:focus-visible {
+    @apply ring-2 ring-inset ring-primary;
+  }
+
+  &[disabled] {
+    @apply opacity-60 cursor-not-allowed;
+  }
+
+  // Sizes
+
+  &.button--xs {
+    @apply text-xs px-2.5 py-1.5 gap-x-1.5;
+  }
+
+  &.button--sm {
+    @apply text-sm px-2.5 py-1.5 gap-x-1.5;
+  }
+
+  &.button--lg {
+    @apply text-lg px-3.5 py-2.5 gap-x-2.5;
+  }
+
+  &.button--xl {
+    @apply text-xl px-3.5 py-2.5 gap-x-2.5;
+  }
+
+  // Variants
+
+  &.button--ghost {
+    @apply text-origin;
+
+    &:not([disabled]):hover {
+      @apply bg-origin-darken;
+      @apply bg-opacity-30 #{!important};
+    }
+
+    @each $color in $colors {
+      &.button--#{$color} {
+        @apply text-#{$color};
+
+        &:not([disabled]):hover {
+          @apply bg-#{$color}-darken;
+        }
       }
     }
   }
 
-  &[disabled],
-  &.button--disabled {
-    @apply opacity-50 cursor-not-allowed pointer-events-none;
+  &.button--solid {
+    @apply text-black bg-origin;
+
+    &:not([disabled]):hover {
+      @apply bg-origin-darken;
+    }
+
+    &.button--loading::after {
+      @apply border-black;
+    }
+
+    @each $color in $colors {
+      &.button--#{$color} {
+        @apply bg-#{$color};
+
+        &:not([disabled]):hover {
+          @apply bg-#{$color}-darken;
+        }
+      }
+    }
+  }
+
+  &.button--outline {
+    @apply text-origin;
+    @apply ring-1 ring-inset ring-current;
+
+    &:not([disabled]):hover {
+      @apply bg-origin-darken;
+      @apply bg-opacity-30 #{!important};
+    }
+
+    @each $color in $colors {
+      &.button--#{$color} {
+        @apply text-#{$color};
+
+        &:not([disabled]):hover {
+          @apply bg-#{$color}-darken;
+        }
+      }
+    }
+  }
+
+  &.button--soft {
+    @apply text-origin-light bg-origin-darken;
+    @apply bg-opacity-20 #{!important};
+
+    &:not([disabled]):hover {
+      @apply bg-origin-dark;
+    }
+
+    @each $color in $colors {
+      &.button--#{$color} {
+        @apply text-#{$color} bg-#{$color}-darken;
+
+        &:not([disabled]):hover {
+          @apply bg-opacity-50 #{!important};
+        }
+      }
+    }
   }
 
   &.button--loading {
@@ -62,7 +165,7 @@ export default Vue.extend({
     text-shadow: none !important;
 
     &::after {
-      @apply absolute rounded-full block border-2 border-white;
+      @apply absolute rounded-full block border-2 border-origin;
       @apply animate-spin;
       left: calc(50% - (1em / 2));
       top: calc(50% - (1em / 2));
@@ -72,131 +175,6 @@ export default Vue.extend({
       height: 1em;
       width: 1em;
     }
-  }
-
-  /* Sizes */
-
-  &.button--xs {
-    @apply text-xs;
-    height: $input-xs-height;
-  }
-
-  &.button--sm {
-    @apply text-sm;
-    height: $input-sm-height;
-  }
-
-  &.button--lg {
-    @apply text-lg;
-    height: $input-lg-height;
-  }
-
-  &.button--xl {
-    @apply text-xl;
-    height: $input-xl-height;
-  }
-
-  /* Default theme */
-  --button-color: var(--theme-button);
-  --button-bg-color: var(--button-color);
-  --button-text-color: var(--theme-origin-lighten);
-  --button-hover-bg-color: var(--theme-button-light);
-  --button-hover-text-color: var(--button-text-color);
-  --button-focus-bg-color: var(--theme-button-light);
-  --button-focus-text-color: var(--button-text-color);
-
-  color: var(--button-text-color);
-  background-color: var(--button-bg-color);
-
-  &:hover,
-  &:active {
-    @apply shadow-lg;
-    background-color: var(--button-hover-bg-color);
-    color: var(--button-hover-text-color);
-  }
-
-  &:focus {
-    background-color: var(--button-focus-bg-color);
-    color: var(--button-focus-text-color);
-  }
-
-  /* Primary */
-
-  &.button--primary {
-    --button-color: var(--theme-primary);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-primary-light);
-    --button-focus-bg-color: var(--theme-primary-dark);
-  }
-
-  &.button--warning {
-    --button-color: var(--theme-warning);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-warning-light);
-    --button-focus-bg-color: var(--theme-warning-dark);
-  }
-
-  &.button--danger {
-    --button-color: var(--theme-danger);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-danger-light);
-    --button-focus-bg-color: var(--theme-danger-dark);
-  }
-
-  &.button--success {
-    --button-color: var(--theme-success);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-success-light);
-    --button-focus-bg-color: var(--theme-success-dark);
-  }
-
-  &.button--orange {
-    --button-color: var(--theme-orange);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-orange-light);
-    --button-focus-bg-color: var(--theme-orange-dark);
-  }
-
-  &.button--pink {
-    --button-color: var(--theme-pink);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-pink-light);
-    --button-focus-bg-color: var(--theme-pink-dark);
-  }
-
-  &.button--info {
-    --button-color: var(--theme-blue);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-blue-light);
-    --button-focus-bg-color: var(--theme-blue-dark);
-  }
-
-  &.button--gray {
-    --button-color: var(--theme-gray);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-gray-light);
-    --button-focus-bg-color: var(--theme-gray-dark);
-  }
-
-  &.button--cyan {
-    --button-color: var(--theme-cyan);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-cyan-light);
-    --button-focus-bg-color: var(--theme-cyan-dark);
-  }
-
-  &.button--green {
-    --button-color: var(--theme-green);
-    --button-text-color: var(--theme-night-darken);
-    --button-hover-bg-color: var(--theme-green-light);
-    --button-focus-bg-color: var(--theme-green-dark);
-  }
-
-  &.button--glass {
-    @apply bg-transparent shadow-none;
-    --button-text-color: var(--button-color);
-    --button-hover-text-color: var(--button-hover-bg-color);
-    --button-focus-text-color: var(--button-focus-bg-color);
   }
 }
 </style>

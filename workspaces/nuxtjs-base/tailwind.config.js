@@ -7,7 +7,7 @@ const color = require('tinycolor2')
  * @param {number} amount
  * @returns {string}
  */
-function lighten(col, amount = 5) {
+export function lighten(col, amount = 5) {
   return color(col).lighten(amount).toString()
 }
 
@@ -18,7 +18,7 @@ function lighten(col, amount = 5) {
  * @param {number} amount
  * @returns {string}
  */
-function darken(col, amount = 5) {
+export function darken(col, amount = 5) {
   return color(col).darken(amount).toString()
 }
 
@@ -27,7 +27,7 @@ function darken(col, amount = 5) {
  * @param {string} value
  * @returns
  */
-function colorFromBase(value) {
+export function colorFromBase(value) {
   return {
     lighten: lighten(value, 6),
     light: lighten(value, 3),
@@ -38,7 +38,7 @@ function colorFromBase(value) {
 }
 
 //
-const theme = {
+export const theme = {
   night: {
     lighten: '#40464d',
     light: '#282f36', // nord3: UI elements like indent- and wrap guide marker
@@ -98,8 +98,8 @@ module.exports = {
         sans: [
           '-apple-system',
           'BlinkMacSystemFont',
+          'Inter',
           'Segoe UI',
-          'Noto Sans',
           'Helvetica',
           'Arial',
           'sans-serif',
@@ -111,8 +111,8 @@ module.exports = {
           'Anke Regular',
           '-apple-system',
           'BlinkMacSystemFont',
+          'Inter',
           'Segoe UI',
-          'Noto Sans',
           'Helvetica',
           'Arial',
           'sans-serif'
@@ -128,13 +128,11 @@ module.exports = {
         aurora: theme.aurora,
         primary: theme.primary,
         secondary: theme.secondary,
-        background: '#141416',
+        background: '#17171d',
 
         // Components
         origin: theme.snow,
         menus: colorFromBase('#202022'),
-        input: colorFromBase('#202022'),
-        button: colorFromBase('#202022'),
 
         // Colors
         danger: colorFromBase(theme.aurora.red),

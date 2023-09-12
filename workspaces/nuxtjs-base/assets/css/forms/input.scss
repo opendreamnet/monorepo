@@ -7,29 +7,33 @@ select.input {
   @apply cursor-pointer;
 }
 
-select.input:not([multiple]) option {
-  @apply text-origin-light bg-background;
+select.input {
+  //padding-inline-end: 2.25rem;
+
+  &:not([multiple]) option {
+    @apply text-white bg-background;
+  }
 }
 
 .input {
-  @apply bg-transparent text-origin-light rounded-md transition-all;
-  @apply border-2 border-button;
-  @apply py-2 px-4 w-full;
-  @apply outline-none #{!important};
-  height: $input-height;
+  @apply relative block w-full;
+  @apply border-0 rounded-md shadow-sm transition-colors;
+  @apply px-3 py-2;
+  @apply ring-1 ring-inset ring-gray-700;
+  @apply bg-transparent text-white;
 
   &:not([readonly]):not([disabled]) {
     &:hover {
-      @apply text-origin-lighten border-button-light;
+      @apply ring-2;
     }
 
     &:focus {
-      @apply text-origin-lighten border-button-lighten shadow-lg;
+      @apply outline-none ring-2 ring-primary;
     }
   }
 
   &::placeholder {
-    @apply text-origin-darken;
+    @apply text-gray-400;
   }
 
   &[readonly] {
@@ -41,22 +45,18 @@ select.input:not([multiple]) option {
   }
 
   &.input--xs {
-    @apply text-xs py-1;
-    height: $input-xs-height;
+    @apply text-xs px-2.5 py-1.5;
   }
 
   &.input--sm {
-    @apply text-sm;
-    height: $input-sm-height;
+    @apply text-sm px-2.5 py-1.5;
   }
 
   &.input--lg {
-    @apply text-lg;
-    height: $input-lg-height;
+    @apply text-lg px-3.5 py-2.5;
   }
 
   &.input--xl {
-    @apply text-xl py-3;
-    height: $input-xl-height;
+    @apply text-xl px-3.5 py-2.5;
   }
 }

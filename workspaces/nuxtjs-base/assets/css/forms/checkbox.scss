@@ -1,42 +1,32 @@
-$checkbox-size: 1.5rem;
-
-input[type="checkbox"] {
-  @apply bg-primary;
-}
-
 .checkbox {
-  @apply flex-shrink-0;
-  width: $checkbox-size;
-  height: $checkbox-size;
+  @apply h-4 w-4 inline-block p-0 rounded appearance-none;
+  @apply bg-transparent bg-origin-border border border-gray-700;
+  @apply text-primary;
+  @apply flex-shrink-0 select-none align-middle;
+  print-color-adjust: exact;
 
-  input[type="checkbox"] {
-    @apply opacity-0 pointer-events-none absolute w-0 h-0;
+  &[disabled] {
+    @apply opacity-50 cursor-not-allowed;
   }
 
-  input[type="checkbox"] + label {
-    @apply inline-block rounded border-2 border-transparent;
-    @apply relative;
-    width: $checkbox-size;
-    height: $checkbox-size;
+  &:focus {
+    @apply ring-0 ring-transparent ring-offset-transparent;
   }
 
-  input[type="checkbox"] + label::before {
-    @apply inline-block rounded border-2 border-transparent bg-input;
-    @apply absolute transition-all;
-    content: "";
-    width: $checkbox-size;
-    height: $checkbox-size;
-    top: -2px;
-    left: -2px;
+  &:focus-visible {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-gray-900;
   }
 
-  input[type="checkbox"]:hover + label::before {
-    @apply border-primary shadow-lg;
+  &:checked {
+    @apply bg-current border-transparent;
+    @apply bg-no-repeat;
+
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 16 16'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E");
+    background-position: 50%;
+    background-size: 100% 100%;
   }
 
-  input[type="checkbox"]:checked + label::before {
-    @apply text-primary text-center border-primary font-black text-xl;
-    content: "✓";
-    line-height: 21px;
+  &:indeterminate {
+    @apply bg-current border-transparent;
   }
 }
