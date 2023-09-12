@@ -80,8 +80,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .box {
-  //@apply flex flex-col;
-  //@apply bg-menus shadow-lg rounded border border-menus-darken;
+  @apply flex flex-col;
   @apply overflow-hidden rounded-lg shadow bg-menus w-full;
   @apply divide-y divide-menus-lighten;
   @apply ring-1 ring-menus-lighten;
