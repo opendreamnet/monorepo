@@ -9,6 +9,7 @@ jobs:
   # Publish on NPM
   publish:
     uses: ./.github/workflows/template.publish.yml
+    secrets: inherit
     with:
       checkout: true
       working-dir: workspaces/nuxtjs-extends

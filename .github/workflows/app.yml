@@ -16,3 +16,4 @@ jobs:
   # Publish on NPM
   publish:
     uses: ./.github/workflows/template.publish.yml
+    secrets: inherit
