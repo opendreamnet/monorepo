@@ -18,8 +18,7 @@
 	"workspaceFolder": "/workspace",
 
   "features": {
-    "ghcr.io/devcontainers-contrib/features/act:1": {},
-    "ghcr.io/flexwie/devcontainer-features/op:1": {}
+    "ghcr.io/devcontainers-contrib/features/act:1": {}
 	},
 
 	// Configure tool-specific properties.
@@ -36,8 +35,5 @@
     }
   },
 
-	"overrideCommand": true,
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo cp -RT /src . && sudo chown node:node -R . && yarn install && sudo chown node:node -R ."
+	"overrideCommand": true
 }

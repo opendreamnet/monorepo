@@ -1,0 +1,47 @@
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        default: artifact
+        type: string
+      checkout:
+        default: false
+        type: boolean
+      working-dir:
+        default: ${{ github.workspace }}
+        type: string
+
+jobs:
+  publish:
+    name: publish on NPM
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📁 Checkout
+        uses: actions/checkout@v3
+        if: ${{ inputs.checkout == true }}
+
+      - uses: actions/download-artifact@v3
+        if: ${{ inputs.checkout == false }}
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.working-dir }}
+
+      - name: 🔑 Load 1Password Secrets
+        uses: 1password/load-secrets-action@v1
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          NPM_TOKEN: "op://xen65q6xejmrcafvgdfso4lyu4/NPM Token/credential"
+
+      - name: ⚙️ Install Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: 🚀 Publish
+        working-directory: ${{ inputs.working-dir }}
+        run: yarn npm publish --access public
+        env:
+          NPM_TOKEN: ${{ env.NPM_TOKEN }}

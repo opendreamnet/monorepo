@@ -1,0 +1,68 @@
+on:
+  workflow_call:
+    inputs:
+      # Project directory in the monorepo
+      working-dir:
+        required: true
+        type: string
+      # Build enviroment
+      enviroment:
+        default: production
+        type: string
+      # Artifact name (Used for publish)
+      artifact-name:
+        default: artifact
+        type: string
+      # Command for building
+      build-command:
+        default: yarn run build
+        type: string
+      lint:
+        default: false
+        type: boolean
+
+jobs:
+  build:
+    name: build source
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_ENV: ${{ inputs.enviroment }}
+
+    steps:
+      - name: 📁 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📦 Setup cache
+        uses: actions/cache@v3
+        env:
+          cache-name: ${{ runner.os }}-monorepo
+        with:
+          path: .yarn/cache
+          key: ${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ env.cache-name }}-
+
+      - name: ⚙️ Install Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: 👨🏻‍💻 Install Dependencies
+        working-directory: ${{ inputs.working-dir }}
+        run: yarn install --inline-builds --immutable
+
+      - name: ✍️ Lint
+        if: ${{ inputs.lint == true }}
+        working-directory: ${{ inputs.working-dir }}
+        run: yarn run lint
+
+      - name: 🏗️ Build
+        working-directory: ${{ inputs.working-dir }}
+        run: ${{ inputs.build-command }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.working-dir }}
+
+

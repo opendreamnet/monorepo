@@ -5,40 +5,10 @@ on:
   push:
     tags: [ eslint-config-nuxtjs-v* ]
 
-env:
-  WORK_DIR: workspaces/eslint-config-nuxtjs
-  NODE_ENV: production  
-
 jobs:
-  build:
-    name: Publish
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 📁 Checkout
-        uses: actions/checkout@v3
-
-      - name: 📦 Cache node_modules
-        uses: actions/cache@v3
-        env:
-          cache-name: monorepo-cache
-        with:
-          path: .yarn/cache
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ env.cache-name }}-
-
-      - name: ⚙️ Install Node.js 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-
-      - name: 👨🏻‍💻 Install Dependencies
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn workspaces focus
-
-      - name: 🚀 Publish
-        working-directory: ${{ env.WORK_DIR }}
-        run: yarn npm publish --access public
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  # Publish on NPM
+  publish:
+    uses: ./.github/workflows/template.publish.yml
+    with:
+      checkout: true
+      working-dir: workspaces/eslint-config-nuxtjs

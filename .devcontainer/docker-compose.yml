@@ -1,12 +1,9 @@
 version: "3.8"
 
-volumes:
-  workspace:
-
 services:
   node:
     image: mcr.microsoft.com/devcontainers/typescript-node:18
     volumes:
       # Update this to wherever you want VS Code to mount the folder of your project
-      - workspace:/workspace
-      - ..:/src:cached
+      - ..:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
