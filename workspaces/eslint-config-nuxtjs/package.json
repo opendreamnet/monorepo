@@ -2,20 +2,15 @@
   "name": "@opendreamnet/eslint-config-nuxtjs",
   "packageManager": "yarn@3.2.0",
   "version": "1.5.3",
-  "description": "ESLint config for OpenDreamNet projects in NuxtJS.",
+  "description": "ESLint config for OpenDreamnet projects.",
   "license": "MIT",
-  "main": "index.js",
+  "main": ".eslintrc.js",
   "scripts": {
     "release": "standard-version"
   },
   "author": {
     "name": "Iván Bravo Bravo",
-    "email": "kolessios@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dreamnettech/monorepo.git",
-    "directory": "workspaces/eslint-config-nuxtjs"
+    "email": "ivan@opendreamnet.com"
   },
   "publishConfig": {
     "access": "public"
@@ -26,22 +21,19 @@
     "releaseCommitMessageFormat": "chore(release): eslint-config-nuxtjs@{{currentTag}}"
   },
   "files": [
-    "index.js",
     ".eslintrc.js"
   ],
   "dependencies": {
-    "@nuxtjs/eslint-config": "^10.0.0",
-    "@nuxtjs/eslint-module": "^3.1.0",
+    "@nuxt/eslint-config": "^0.2.0",
     "@opendreamnet/eslint-config": "workspace:^",
-    "eslint-plugin-nuxt": "^3.2.0",
-    "eslint-plugin-vue": "^8.7.1"
+    "@rushstack/eslint-patch": "^1.5.1"
   },
   "devDependencies": {
-    "@types/eslint": "8.4.2",
-    "eslint": "^8.14.0",
-    "standard-version": "^9.3.2"
+    "@types/eslint": "8.44.6",
+    "eslint": "^8.52.0",
+    "standard-version": "^9.5.0"
   },
   "peerDependencies": {
-    "eslint": "^8"
+    "eslint": "^8.52.0"
   }
 }
