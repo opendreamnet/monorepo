@@ -4,18 +4,13 @@
   "version": "1.5.4",
   "description": "ESLint config for OpenDreamnet projects.",
   "license": "MIT",
-  "main": "index.js",
+  "main": ".eslintrc.js",
   "scripts": {
     "release": "standard-version"
   },
   "author": {
     "name": "Iván Bravo Bravo",
-    "email": "kolessios@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dreamnettech/monorepo.git",
-    "directory": "workspaces/eslint-config"
+    "email": "ivan@opendreamnet.com"
   },
   "publishConfig": {
     "access": "public"
@@ -26,25 +21,22 @@
     "releaseCommitMessageFormat": "chore(release): eslint-config@{{currentTag}}"
   },
   "files": [
-    "index.js",
-    ".eslintrc.json"
+    ".eslintrc.js"
   ],
-  "devDependencies": {
-    "@types/eslint": "8.4.6",
-    "@typescript-eslint/eslint-plugin": "^5.39.0",
-    "@typescript-eslint/parser": "^5.39.0",
-    "eslint": "^8.25.0",
-    "eslint-plugin-import": "^2.26.0",
+  "dependencies": {
+    "@rushstack/eslint-patch": "^1.5.1",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-lodash": "^7.4.0",
-    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-promise": "^6.1.1"
+  },
+  "devDependencies": {
+    "@types/eslint": "8.44.6",
+    "eslint": "^8.52.0",
     "standard-version": "^9.5.0"
   },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5",
-    "@typescript-eslint/parser": "^5",
-    "eslint": "^8",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-lodash": "^7",
-    "eslint-plugin-promise": "^6"
+    "eslint": "^8.52.0"
   }
 }
