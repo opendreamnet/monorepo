@@ -39,7 +39,12 @@ module.exports = {
     'spaced-comment': 'error',
     'object-curly-spacing': ['error', 'always'],
 
-    'import/order': ['warn', ['type', 'builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object']],
+    'import/order': [
+      'warn',
+      {
+        'groups': ['type', 'builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object']
+      }
+    ],
     'import/first': 'error',
     'import/no-mutable-exports': 'error',
 
