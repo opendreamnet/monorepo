@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/opendreamnet/monorepo/compare/eslint-config-v0.1.0...eslint-config-v0.1.1) (2023-11-08)
+
+
+### Bug Fixes
+
+* wrong explicit-member-accessibility rule ([6b32580](https://github.com/opendreamnet/monorepo/commit/6b325808164f53571bf970d94d04c2d72374a345))
+
 ## 0.1.0 (2023-11-08)
 
 
