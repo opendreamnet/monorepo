@@ -1,7 +1,7 @@
 {
   "name": "@opendreamnet/eslint-config-nuxtjs",
   "packageManager": "yarn@3.2.0",
-  "version": "1.6.0",
+  "version": "0.1.0",
   "description": "ESLint config for OpenDreamnet projects.",
   "license": "MIT",
   "main": ".eslintrc.js",

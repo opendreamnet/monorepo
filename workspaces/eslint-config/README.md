@@ -3,7 +3,7 @@
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 
-ESLint config for OpenDreamNet projects in NuxtJS.
+ESLint config for OpenDreamnet projects.
 
 <!-- Badges -->
 [npm-version-src]: https://img.shields.io/npm/v/@opendreamnet/eslint-config?style=flat-square
