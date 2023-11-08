@@ -23,8 +23,8 @@ module.exports = {
     'plugin:lodash/recommended'
   ],
   rules: {
-    quotes: ['error', 'single'],
-    semi: ['error', 'never'],
+    'quotes': ['error', 'single'],
+    'semi': ['error', 'never'],
     'space-before-function-paren': ['error', 'never'],
     'linebreak-style': 'error',
     'no-await-in-loop': 'warn',
@@ -66,12 +66,12 @@ module.exports = {
       rules: {
         '@typescript-eslint/quotes': ['error', 'single'],
         '@typescript-eslint/semi': ['error', 'never'],
-        '@typescript-eslint/explicit-member-accessibility': ['error', 'explicit'],
+        '@typescript-eslint/explicit-member-accessibility': ['error'],
         '@typescript-eslint/space-before-function-paren': ['error', 'never'],
         '@typescript-eslint/no-explicit-any': ['warn'],
 
-        quotes: ['off'],
-        semi: ['off'],
+        'quotes': ['off'],
+        'semi': ['off'],
         'space-before-function-paren': ['off']
       }
     }
