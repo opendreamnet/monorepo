@@ -1984,7 +1984,7 @@ __metadata:
   dependencies:
     "@giphy/js-fetch-api": "npm:^2.4.0"
     "@opendreamnet/app": "workspace:workspaces/app"
-    "@opendreamnet/eslint-config": "workspace:^1"
+    "@opendreamnet/eslint-config": "workspace:^"
     "@types/content-disposition": "npm:^0"
     "@types/lodash": "npm:4.14.151"
     "@types/luxon": "npm:^1"
@@ -2022,7 +2022,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dreamnet/dreamlink@workspace:workspaces/dreamlink"
   dependencies:
-    "@opendreamnet/eslint-config": "workspace:^1.0.0"
+    "@opendreamnet/eslint-config": "workspace:^"
     "@types/eslint": "npm:7.2.0"
     "@types/rimraf": "npm:3.0.0"
     eslint: "npm:^7.10.0"
@@ -2049,7 +2049,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dreamnet/mnemonic@workspace:workspaces/mnemonic"
   dependencies:
-    "@opendreamnet/eslint-config": "workspace:^1"
+    "@opendreamnet/eslint-config": "workspace:^"
     "@types/create-hash": "npm:^1.2.2"
     "@types/pbkdf2": "npm:^3.1.0"
     "@types/randombytes": "npm:^2.0.0"
@@ -2074,7 +2074,7 @@ __metadata:
   resolution: "@dreamnet/readableid@workspace:workspaces/readableid"
   dependencies:
     "@dreamnet/mnemonic": "workspace:^1.0.1"
-    "@opendreamnet/eslint-config": "workspace:^1"
+    "@opendreamnet/eslint-config": "workspace:^"
     "@types/chance": "npm:1.1.1"
     "@types/eslint": "npm:7.2.6"
     "@types/lodash": "npm:4.14.168"
@@ -2092,7 +2092,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dreamnet/settings-loader@workspace:workspaces/settings-loader"
   dependencies:
-    "@opendreamnet/eslint-config": "workspace:^1.0.0"
+    "@opendreamnet/eslint-config": "workspace:^"
     "@types/js-yaml": "npm:^4.0.0"
     "@types/node": "npm:^14.14.39"
     eslint: "npm:^7.24.0"
@@ -6661,7 +6661,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opendreamnet/eslint-config@workspace:^, @opendreamnet/eslint-config@workspace:^1, @opendreamnet/eslint-config@workspace:^1.0.0, @opendreamnet/eslint-config@workspace:workspaces/eslint-config":
+"@opendreamnet/eslint-config@workspace:^, @opendreamnet/eslint-config@workspace:workspaces/eslint-config":
   version: 0.0.0-use.local
   resolution: "@opendreamnet/eslint-config@workspace:workspaces/eslint-config"
   dependencies:
@@ -6671,7 +6671,6 @@ __metadata:
     "@typescript-eslint/parser": "npm:^6.9.0"
     eslint: "npm:^8.52.0"
     eslint-plugin-import: "npm:^2.29.0"
-    eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-promise: "npm:^6.1.1"
     standard-version: "npm:^9.5.0"
   peerDependencies:
@@ -6825,7 +6824,7 @@ __metadata:
   resolution: "@opendreamnet/queue@workspace:workspaces/queue"
   dependencies:
     "@istanbuljs/nyc-config-typescript": "npm:^1.0.1"
-    "@opendreamnet/eslint-config": "workspace:^1"
+    "@opendreamnet/eslint-config": "workspace:^"
     "@types/mocha": "npm:^8"
     "@types/source-map-support": "npm:^0"
     eslint: "npm:^7.18.0"

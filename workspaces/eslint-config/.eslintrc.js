@@ -14,13 +14,11 @@ module.exports = {
   plugins: [
     'import',
     'promise',
-    'lodash'
   ],
   extends: [
     'eslint:recommended',
     'plugin:import/recommended',
     'plugin:promise/recommended',
-    'plugin:lodash/recommended'
   ],
   rules: {
     'quotes': ['error', 'single'],
@@ -47,11 +45,6 @@ module.exports = {
     ],
     'import/first': 'error',
     'import/no-mutable-exports': 'error',
-
-    'lodash/prefer-constant': 'off',
-    'lodash/prefer-includes': 'warn',
-    'lodash/prefer-lodash-method': 'off',
-    'lodash/prefer-noop': 'off'
   },
   overrides: [
     {
