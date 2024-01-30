@@ -18,7 +18,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@opendreamnet/eslint-config": "workspace:^1.0.0",
+    "@opendreamnet/eslint-config": "workspace:^",
     "@types/js-yaml": "^4.0.0",
     "@types/node": "^14.14.39",
     "eslint": "^7.24.0",
