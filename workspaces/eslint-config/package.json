@@ -33,6 +33,7 @@
   "dependencies": {
     "@rushstack/eslint-patch": "^1.7.2",
     "@stylistic/eslint-plugin": "^1.6.0",
+    "@stylistic/eslint-plugin-migrate": "^1.6.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint-plugin-import": "^2.29.1",
@@ -40,7 +41,6 @@
     "eslint-plugin-promise": "^6.1.1"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-migrate": "^1.6.0",
     "@types/eslint": "8.56.2",
     "eslint": "^8.56.0",
     "eslint-config-standard": "^17.1.0",
