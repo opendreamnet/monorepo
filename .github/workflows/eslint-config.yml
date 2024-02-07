@@ -6,6 +6,13 @@ on:
     tags: [ eslint-config-v* ]
 
 jobs:
+  # Build source
+  build:
+    uses: ./.github/workflows/template.build-node.yml
+    secrets: inherit
+    with:
+      working-dir: workspaces/eslint-config
+
   # Publish on NPM
   publish:
     uses: ./.github/workflows/template.publish.yml

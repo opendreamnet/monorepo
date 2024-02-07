@@ -1,20 +1,22 @@
 {
   "name": "@opendreamnet/eslint-config",
-  "packageManager": "yarn@3.2.0",
-  "version": "0.1.1",
   "description": "ESLint config for OpenDreamnet projects.",
+  "version": "0.1.1",
   "license": "MIT",
-  "main": ".eslintrc.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "packageManager": "yarn@3.2.0",
   "scripts": {
     "release": "standard-version",
-    "upgrade": "yarn dlx npm-check-updates -i"
+    "upgrade": "yarn dlx npm-check-updates -i",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "eslint tests --config dist/index.js",
+    "update-rules": "ts-node src/scripts/update-rules.ts"
   },
   "author": {
     "name": "Ivan Bravo Bravo",
     "email": "ivan@opendreamnet.com"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "standard-version": {
     "path": ".",
@@ -22,19 +24,30 @@
     "releaseCommitMessageFormat": "chore(release): eslint-config@{{currentTag}}"
   },
   "files": [
-    ".eslintrc.js"
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/json/standard.rules.json",
+    "dist/json/standard.typescript.rules.json"
   ],
   "dependencies": {
     "@rushstack/eslint-patch": "^1.7.2",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
+    "@stylistic/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin-migrate": "^1.6.0",
     "@types/eslint": "8.56.2",
     "eslint": "^8.56.0",
-    "standard-version": "^9.5.0"
+    "eslint-config-standard": "^17.1.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "standard-version": "^9.5.0",
+    "ts-node": "^10.9.2",
+    "tsconfigs": "^5.0.0",
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "eslint": "^8.52.0"
