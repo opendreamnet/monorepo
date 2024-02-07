@@ -42,10 +42,10 @@ jobs:
           key: ${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ env.cache-name }}-
 
-      - name: ⚙️ Install Node.js 18
+      - name: ⚙️ Install Node.js 20
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "20"
 
       - name: 👨🏻‍💻 Install Dependencies
         working-directory: ${{ inputs.working-dir }}
