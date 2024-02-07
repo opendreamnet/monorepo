@@ -1,7 +1,7 @@
 {
   "name": "@opendreamnet/eslint-config",
   "description": "ESLint config for OpenDreamnet projects.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
