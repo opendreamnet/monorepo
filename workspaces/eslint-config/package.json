@@ -8,6 +8,7 @@
   "packageManager": "yarn@3.2.0",
   "scripts": {
     "release": "standard-version",
+    "deploy": "git push --follow-tags origin master",
     "upgrade": "yarn dlx npm-check-updates -i",
     "build": "tsc",
     "watch": "tsc -w",

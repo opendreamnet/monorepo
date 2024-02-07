@@ -15,8 +15,8 @@ jobs:
 
   # Publish on NPM
   publish:
+    needs: build
     uses: ./.github/workflows/template.publish.yml
     secrets: inherit
     with:
-      checkout: true
       working-dir: workspaces/eslint-config
