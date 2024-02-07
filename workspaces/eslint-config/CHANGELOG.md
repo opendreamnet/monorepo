@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/opendreamnet/monorepo/compare/eslint-config-v0.1.1...eslint-config-v0.2.0) (2024-02-07)
+
+
+### Features
+
+* **eslint-config:** new major rules added ([4f1be49](https://github.com/opendreamnet/monorepo/commit/4f1be492bec4dad218272dc9f29857a0e537a221))
+* removed `eslint-plugin-lodash` ([afb0cc9](https://github.com/opendreamnet/monorepo/commit/afb0cc935c6b827170edee05b8dce70169813af2))
+
 ### [0.1.1](https://github.com/opendreamnet/monorepo/compare/eslint-config-v0.1.0...eslint-config-v0.1.1) (2023-11-08)
 
 
