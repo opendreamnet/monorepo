@@ -39,6 +39,10 @@ jobs:
         with:
           node-version: "20"
 
+      - name: 👨🏻‍💻 Install Dependencies
+        working-directory: ${{ inputs.working-dir }}
+        run: yarn install --inline-builds --immutable
+
       - name: 🚀 Publish
         working-directory: ${{ inputs.working-dir }}
         run: yarn npm publish --access public
