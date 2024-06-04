@@ -1,0 +1,4 @@
+reject:
+  - eslint
+  - "@stylistic/eslint-plugin"
+  - "@stylistic/eslint-plugin-migrate"

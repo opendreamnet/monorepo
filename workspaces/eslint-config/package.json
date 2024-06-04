@@ -31,26 +31,27 @@
     "dist/json/standard.typescript.rules.json"
   ],
   "dependencies": {
-    "@rushstack/eslint-patch": "^1.7.2",
-    "@stylistic/eslint-plugin": "^1.6.0",
-    "@stylistic/eslint-plugin-migrate": "^1.6.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@rushstack/eslint-patch": "^1.10.3",
+    "@stylistic/eslint-plugin": "^1.8.1",
+    "@stylistic/eslint-plugin-migrate": "^1.8.1",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1"
+    "eslint-plugin-n": "^17.7.0",
+    "eslint-plugin-promise": "^6.2.0"
   },
   "devDependencies": {
-    "@types/eslint": "8.56.2",
+    "@types/eslint": "8.56.10",
     "eslint": "^8.56.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
     "tsconfigs": "^5.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "eslint": "^8.52.0"
+    "eslint": "^8.56.0",
+    "typescript": "^5.4.5"
   }
 }
