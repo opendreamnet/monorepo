@@ -65,6 +65,6 @@ jobs:
           name: ${{ inputs.artifact-name }}
           path: |
             ${{ inputs.working-dir }}
-            !node_modules/**
+            !${{ inputs.working-dir }}/node_modules/**
 
 
