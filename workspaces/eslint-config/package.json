@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@4.2.2",
   "scripts": {
     "release": "standard-version",
     "deploy": "git push --follow-tags origin master",
