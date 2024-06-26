@@ -1,4 +1,4 @@
-name: "nuxtjs-base"
+name: nuxtjs-base
 
 on:
   workflow_dispatch:

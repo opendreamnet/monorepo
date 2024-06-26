@@ -18,9 +18,9 @@ jobs:
 
     steps:
       - name: 📁 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         if: ${{ inputs.checkout == false }}
         with:
           name: ${{ inputs.artifact-name }}
@@ -35,7 +35,7 @@ jobs:
           NPM_TOKEN: "op://xen65q6xejmrcafvgdfso4lyu4/NPM Token/credential"
 
       - name: ⚙️ Install Node.js 20
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
