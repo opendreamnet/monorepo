@@ -1,12 +1,12 @@
 <template>
-  <div class="section">
-    <div class="section__header">
+  <div class="relative w-full">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between border-b border-gray-800 py-8">
       <div class="section__left">
-        <div v-if="title" class="section__title">
+        <div v-if="title" class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
           {{ title }}
         </div>
 
-        <div v-if="subtitle" class="section__subtitle">
+        <div v-if="subtitle" class="mt-4 text-lg text-gray-400">
           {{ subtitle }}
         </div>
       </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="section__content">
+    <div class="py-8">
       <slot />
     </div>
   </div>

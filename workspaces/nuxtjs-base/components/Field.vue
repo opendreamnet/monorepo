@@ -1,15 +1,28 @@
 <template>
-  <div class="field">
-    <div v-if="title" class="field__title" v-html="title" />
+  <div>
+    <div
+      v-if="title"
+      class="block font-medium text-gray-200"
+      v-html="title" />
 
-    <div v-if="description" class="field__description" v-html="description" />
+    <div
+      v-if="description"
+      class="text-gray-400 text-sm"
+      v-html="description" />
 
-    <div class="field__content">
+    <div class="mt-1 relative">
       <slot />
     </div>
 
-    <div v-if="hint" class="field__hint" v-html="hint" />
-    <div v-if="error" class="field__error" v-html="error" />
+    <div
+      v-if="hint"
+      class="mt-2 text-gray-400 text-sm"
+      v-html="hint" />
+
+    <div
+      v-if="error"
+      class="mt-2 text-red-400 text-sm"
+      v-html="error" />
   </div>
 </template>
 
@@ -37,55 +50,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.field--sm {
-  .field__title,
-  .field__description {
-    @apply text-sm;
-  }
-
-  .field__hint,
-  .field__error {
-    @apply text-xs;
-  }
-}
-
-.field--danger {
-  .field__title {
-    @apply text-danger;
-  }
-}
-
-.field__title {
-  @apply uppercase font-bold text-white;
-
-  &:deep(p) {
-    @apply m-0;
-  }
-}
-
-.field__description {
-  @apply text-origin-dark;
-
-  &:deep(p) {
-    @apply m-0;
-  }
-
-  &:deep(strong) {
-    @apply font-bold text-white;
-  }
-}
-
-.field__content {
-  @apply mt-1 mb-2;
-}
-
-.field__hint {
-  @apply text-sm text-origin-dark;
-}
-
-.field__error {
-  @apply text-sm text-danger;
-}
-</style>

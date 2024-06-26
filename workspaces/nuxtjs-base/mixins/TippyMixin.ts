@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import type { DirectiveBinding, DirectiveOptions } from 'vue/types/options'
-import { isString, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import tippy, { Props } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import '../assets/css/vendor/tippy.scss'

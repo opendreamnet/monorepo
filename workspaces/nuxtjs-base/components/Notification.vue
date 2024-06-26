@@ -1,10 +1,43 @@
 <template>
-  <div class="notification">
+  <div class="w-full relative overflow-hidden rounded-lg p-4 text-gray-900 text-sm" :class="css">
     <slot />
   </div>
 </template>
 
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  props: {
+    color: {
+      type: String,
+      default: 'zinc',
+    }
+  },
+
+  computed: {
+    css() {
+      return {
+        ['notification--' + this.color]: true,
+      }
+    }
+  }
+})
+</script>
+
 <style lang="scss" scoped>
+$colors: "primary", "warning", "danger", "success", "orange", "pink", "blue", "cyan", "green";
+
+@each $color in $colors {
+  .notification--#{$color} {
+    @apply bg-#{$color}-light;
+  }
+}
+
+.notification--zinc {
+  @apply bg-gray-900 text-white ring-2 ring-gray-800;
+}
+
 .notification {
   @apply mb-6 p-4 rounded;
   @apply bg-night-light text-white;

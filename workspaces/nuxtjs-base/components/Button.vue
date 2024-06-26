@@ -24,7 +24,15 @@ export default Vue.extend({
     },
     variant: {
       type: String,
-      default: 'solid'
+      default: 'solid',
+    },
+    size: {
+      type: String,
+      default: 'md',
+    },
+    color: {
+      type: String,
+      default: 'zinc',
     }
   },
 
@@ -32,7 +40,9 @@ export default Vue.extend({
     css() {
       return {
         'button--loading': this.loading,
-        ['button--' + this.variant]: true
+        ['button--' + this.variant]: true,
+        ['button--' + this.size]: true,
+        ['button--' + this.color]: true,
       }
     }
   }
@@ -40,23 +50,19 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-$colors: "primary", "warning", "danger", "success", "orange", "pink", "blue", "gray", "cyan", "green";
+$colors: "primary", "warning", "danger", "success", "orange", "pink", "blue", "gray", "cyan", "green", "zinc";
 
 .button {
-  @apply relative inline-flex items-center flex-shrink-0 gap-x-2;
-  @apply rounded-md shadow-sm font-medium;
-  @apply px-3 py-2;
+  @apply relative inline-flex items-center flex-shrink-0;
+  @apply rounded-md font-medium;
+  @apply text-left break-all;
 
   &:focus {
     @apply outline-none;
   }
 
-  &:focus-visible {
-    @apply ring-2 ring-inset ring-primary;
-  }
-
   &[disabled] {
-    @apply opacity-60 cursor-not-allowed;
+    @apply opacity-75 cursor-not-allowed;
   }
 
   // Sizes
@@ -69,104 +75,119 @@ $colors: "primary", "warning", "danger", "success", "orange", "pink", "blue", "g
     @apply text-sm px-2.5 py-1.5 gap-x-1.5;
   }
 
+  &.button--md {
+    @apply text-sm px-3 py-2 gap-x-2;
+  }
+
   &.button--lg {
-    @apply text-lg px-3.5 py-2.5 gap-x-2.5;
+    @apply text-sm px-3.5 py-2.5 gap-x-2.5;
   }
 
   &.button--xl {
-    @apply text-xl px-3.5 py-2.5 gap-x-2.5;
+    @apply text-base px-3.5 py-2.5 gap-x-2.5;
   }
 
   // Variants
 
-  &.button--ghost {
-    @apply text-origin;
-
-    &:not([disabled]):hover {
-      @apply bg-origin-darken;
-      @apply bg-opacity-30 #{!important};
-    }
+  &.button--solid {
+    @apply shadow-sm text-gray-900;
 
     @each $color in $colors {
       &.button--#{$color} {
-        @apply text-#{$color};
+        --button-text-color: theme('colors.gray.900');
+        @apply bg-#{$color}-light;
 
         &:not([disabled]):hover {
-          @apply bg-#{$color}-darken;
+          @apply bg-#{$color};
         }
       }
     }
-  }
 
-  &.button--solid {
-    @apply text-black bg-origin;
+    &.button--zinc {
+      @apply ring-1 ring-inset ring-gray-700 text-gray-200 bg-gray-800;
 
-    &:not([disabled]):hover {
-      @apply bg-origin-darken;
-    }
-
-    &.button--loading::after {
-      @apply border-black;
-    }
-
-    @each $color in $colors {
-      &.button--#{$color} {
-        @apply bg-#{$color};
-
-        &:not([disabled]):hover {
-          @apply bg-#{$color}-darken;
-        }
+      &:not([disabled]):hover {
+        @apply bg-gray-700;
       }
     }
   }
 
   &.button--outline {
-    @apply text-origin;
-    @apply ring-1 ring-inset ring-current;
-
-    &:not([disabled]):hover {
-      @apply bg-origin-darken;
-      @apply bg-opacity-30 #{!important};
-    }
+    @apply ring-1 ring-inset;
 
     @each $color in $colors {
       &.button--#{$color} {
-        @apply text-#{$color};
+        --button-text-color: theme('colors.#{$color}.light');
+        @apply text-#{$color}-light ring-#{$color}-light;
 
         &:not([disabled]):hover {
           @apply bg-#{$color}-darken;
         }
+
+        &[disabled] {
+          @apply bg-transparent;
+        }
+
+        &:focus {
+          @apply ring-2;
+        }
+      }
+    }
+
+    &.button--zinc {
+      &:not([disabled]):hover {
+        @apply bg-black;
+      }
+    }
+  }
+
+  &.button--ghost {
+    @each $color in $colors {
+      &.button--#{$color} {
+        --button-text-color: theme('colors.#{$color}.light');
+        @apply text-#{$color}-light;
+
+        &:not([disabled]):hover {
+          @apply bg-#{$color}-darken;
+        }
+
+        &[disabled] {
+          @apply bg-transparent;
+        }
+      }
+    }
+
+    &.button--zinc {
+      &:not([disabled]):hover {
+        @apply bg-gray-800;
       }
     }
   }
 
   &.button--soft {
-    @apply text-origin-light bg-origin-darken;
-    @apply bg-opacity-20 #{!important};
-
-    &:not([disabled]):hover {
-      @apply bg-origin-dark;
-      @apply bg-opacity-50 #{!important};
-    }
-
     @each $color in $colors {
       &.button--#{$color} {
-        @apply text-#{$color} bg-#{$color}-darken;
+        --button-text-color: theme('colors.#{$color}.light');
+        @apply text-#{$color}-light bg-#{$color}-darken;
 
         &:not([disabled]):hover {
           @apply bg-#{$color}-dark;
         }
       }
     }
+
+    &.button--zinc {
+      @apply bg-gray-800;
+    }
   }
 
   &.button--loading {
     @apply text-transparent pointer-events-none #{!important};
-    text-shadow: none !important;
 
     &::after {
-      @apply absolute rounded-full block border-2 border-origin;
+      @apply absolute rounded-full block border-2;
       @apply animate-spin;
+      border-color: var(--button-text-color);
       left: calc(50% - (1em / 2));
       top: calc(50% - (1em / 2));
       border-right-color: transparent;

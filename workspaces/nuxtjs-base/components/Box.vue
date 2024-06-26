@@ -1,34 +1,31 @@
 <template>
-  <div class="box" v-on="$listeners">
+  <div
+    class="rounded-lg divide-y divide-gray-800 ring-1 ring-gray-800 shadow bg-gray-900 w-full"
+    v-on="$listeners"
+  >
     <!-- Header -->
-    <div v-if="showHeader" class="box__header">
+    <div
+      v-if="showHeader"
+      class="px-4 py-5 sm:px-6"
+    >
       <slot name="header">
-        <h2 class="title">
-          <span v-tippy="tooltip">{{ title }}</span>
-        </h2>
+        <div class="font-bold leading-6 text-gray-100">
+          {{ title }}
+        </div>
 
-        <h3 v-if="subtitle" class="subtitle">
+        <div v-if="subtitle" class="mt-1 text-sm text-gray-400">
           {{ subtitle }}
-        </h3>
-      </slot>
-    </div>
-
-    <!-- Photo -->
-    <div v-if="showPhoto" class="box__photo">
-      <slot name="photo">
-        <div class="box__photo__preview" :class="photo" />
+        </div>
       </slot>
     </div>
 
     <!-- Content -->
-    <div v-if="content" class="box__body" v-html="prettyContent" />
-
-    <div v-else class="box__body">
+    <div class="px-4 py-5 sm:p-6">
       <slot />
     </div>
 
     <!-- Footer -->
-    <div v-if="$slots.footer" class="box__footer">
+    <div v-if="$slots.footer" class="px-4 py-4 sm:px-6">
       <slot name="footer" />
     </div>
   </div>
@@ -47,88 +44,13 @@ export default Vue.extend({
     subtitle: {
       type: String,
       default: null
-    },
-    photo: {
-      type: [String, Array],
-      default: null
-    },
-    tooltip: {
-      type: [String, Object],
-      default: null
-    },
-    content: {
-      type: String,
-      default: null
     }
   },
 
   computed: {
-    showPhoto() {
-      return !isNil(this.photo) || !isNil(this.$slots.photo)
-    },
-
     showHeader() {
-      return !isNil(this.title) || !isNil(this.$slots.header)
+      return this.title !== null || this.$slots.header !== undefined
     },
-
-    prettyContent() {
-      return this.$md.render(this.content)
-    }
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.box {
-  @apply flex flex-col;
-  @apply overflow-hidden rounded-lg shadow bg-menus w-full;
-  @apply divide-y divide-menus-lighten;
-  @apply ring-1 ring-menus-lighten;
-
-  &.box--xs {
-    .box__header {
-      @apply px-4 py-1;
-    }
-
-    .box__body {
-      @apply px-4 py-1;
-    }
-  }
-
-  &.box--sm {
-    .box__header {
-      @apply px-4 py-2;
-    }
-
-    .box__body {
-      @apply p-4;
-    }
-  }
-
-  .box__header {
-    @apply px-6 py-5;
-
-    .title {
-      @apply font-bold space-x-2 text-lg text-white;
-    }
-  }
-
-  .box__photo {
-    @apply relative bg-center bg-menus-darken;
-    min-height: 130px;
-
-    .box__photo__image {
-      @apply absolute top-0 bottom-0 left-0 right-0 z-10;
-      @apply bg-contain bg-no-repeat bg-center m-3;
-    }
-  }
-
-  .box__body {
-    @apply p-6;
-  }
-
-  .box__footer {
-    @apply px-6 py-4;
-  }
-}
-</style>

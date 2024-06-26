@@ -4,8 +4,9 @@
   "license": "MIT",
   "main": "nuxt.config.ts",
   "scripts": {
-    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
-    "lint": "yarn lint:js",
+    "dev": "nuxt .playground",
+    "lint": "eslint .",
+    "upgrade": "yarn dlx npm-check-updates -i",
     "release": "standard-version"
   },
   "standard-version": {
@@ -15,37 +16,41 @@
   },
   "author": {
     "name": "Ivan Bravo Bravo",
-    "email": "kolessios@gmail.com"
+    "email": "ivan@opendreamnet.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dreamnettech/monorepo.git",
+    "url": "https://github.com/opendreamnet/monorepo.git",
     "directory": "workspaces/nuxtjs-base"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
-    "tinycolor2": "^1.4.2"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.15.8",
-    "@nuxtjs/eslint-config-typescript": "^10.0.0",
-    "@opendreamnet/eslint-config-nuxtjs": "workspace:^",
-    "@types/lodash": "4.14.182",
+    "@nuxt/types": "^2.17.4",
+    "@nuxt/typescript-build": "^3.0.2",
+    "@nuxtjs/tailwindcss": "^4.2.1",
+    "@types/lodash": "4.17.5",
     "@types/luxon": "^3",
-    "@types/tinycolor2": "^1",
-    "eslint": "^7.29.0",
-    "eslint-plugin-nuxt": "^3.2.0",
-    "eslint-plugin-vue": "^9.1.1",
-    "luxon": "^3.3.0",
-    "nuxt": "^2.15.8",
+    "core-js": "^3.37.1",
+    "eslint": "^8.56.0",
+    "luxon": "^3.4.4",
+    "nuxt": "^2.17.4",
+    "postcss": "^8.4.38",
+    "sass": "^1.77.6",
+    "sass-loader": "10",
     "standard-version": "^9.5.0",
-    "vue": "^2.6.14"
+    "typescript": "^5.5.2",
+    "vue": "^2.7.16",
+    "vue-server-renderer": "^2.7.16",
+    "vue-template-compiler": "^2.7.16"
   },
   "optionalDependencies": {
-    "@nuxtjs/style-resources": "^1.2.1",
+    "@nuxtjs/style-resources": "^1.2.2",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "@tailwindcss/typography": "^0.4",
-    "luxon": "^3.3.0",
+    "luxon": "^3.4.4",
     "tippy.js": "^6.3.7"
-  }
+  },
+  "packageManager": "yarn@4.3.1"
 }

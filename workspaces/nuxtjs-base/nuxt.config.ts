@@ -1,43 +1,51 @@
 import path from 'path'
 import type { NuxtConfig } from '@nuxt/types'
 import { merge } from 'lodash'
-import tailwindConfig from './tailwind.config'
+import { colors } from './tailwind.config'
 
-if (!process.env.NODE_ENV) {
-  // default enviroment
-  process.env.NODE_ENV = 'development'
-}
-
-function getNuxtConfig(): NuxtConfig {
+function getNuxtConfig(projectDir: string): NuxtConfig {
   // Application values
-  const name = process.env.APP_NAME || process.env.npm_package_displayName || process.env.npm_package_name
-  const short_name = process.env.APP_SHORT_NAME || name
+  const name = process.env.APP_NAME
+  const shortName = process.env.APP_SHORT_NAME || name
   const author = process.env.APP_AUTHOR || 'OpenDremanet'
-  const description = process.env.APP_DESCRIPTION || process.env.npm_package_description
-  const version = process.env.APP_VERSION || process.env.npm_package_version
+  const description = process.env.APP_DESCRIPTION
+  const version = process.env.APP_VERSION
+
+  function resolve(...paths: string[]) {
+    return path.resolve(__dirname, ...paths)
+  }
+
+  function relative(...paths: string[]) {
+    return path.relative(projectDir, path.resolve(__dirname, ...paths))
+  }
 
   return {
-    // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+    server: {
+      host: process.env.HOST ?? '0.0.0.0',
+      port: process.env.PORT ?? 3000
+    },
+
+    // Disable server-side rendering
     ssr: false,
 
-    // Target: https://go.nuxtjs.dev/config-target
+    // Target
     target: 'static',
 
-    // Global page headers: https://go.nuxtjs.dev/config-head
+    // Global page headers
     head: {
       htmlAttrs: {
         lang: 'en'
       },
       meta: [
         { name: 'format-detection', content: 'telephone=no' },
-        { name: 'monetization', content: process.env.META_MONETIZATION || '$ilp.uphold.com/ZjjF93fX8YKy' }
+        { name: 'monetization', content: process.env.META_MONETIZATION ?? '$ilp.uphold.com/ZjjF93fX8YKy' }
       ]
     },
 
     // Loading. (https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-loading)
     loading: {
-      color: tailwindConfig.theme.extend.colors.primary.DEFAULT,
-      failedColor: tailwindConfig.theme.extend.colors.danger.DEFAULT,
+      color: colors.primary.DEFAULT,
+      failedColor: colors.danger.DEFAULT,
       height: '3px',
       continuous: true
     },
@@ -45,30 +53,25 @@ function getNuxtConfig(): NuxtConfig {
     // Loading indicator. (https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-loading-indicator)
     loadingIndicator: {
       name: 'cube-grid',
-      color: tailwindConfig.theme.extend.colors.primary.DEFAULT,
-      background: tailwindConfig.theme.extend.colors.background
+      color: colors.primary.DEFAULT,
+      background: colors.background
     },
 
-    // Global CSS: https://go.nuxtjs.dev/config-css
+    // Global CSS
     css: [
-      '@opendreamnet/nuxtjs-base/assets/css/reset.scss',
-      '@opendreamnet/nuxtjs-base/assets/css/forms.scss'
+      relative('assets/css/reset.scss'),
+      relative('assets/css/forms.scss')
     ],
 
-    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [
-      path.resolve(path.dirname(require.resolve('@opendreamnet/nuxtjs-base')), 'plugins', 'boot.ts')
-    ],
-
-    // Auto import components: https://go.nuxtjs.dev/config-components
+    // Auto import components
     components: [
-      path.resolve(path.dirname(require.resolve('@opendreamnet/nuxtjs-base')), 'components'),
+      resolve('components'),
       '~/components'
     ],
 
     // https://github.com/nuxt-community/style-resources-module
     styleResources: {
-      scss: '@opendreamnet/nuxtjs-base/assets/css/functions.scss'
+      scss: relative('assets/css/functions.scss'),
     },
 
     // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -77,13 +80,13 @@ function getNuxtConfig(): NuxtConfig {
         name,
         author,
         description,
-        theme_color: tailwindConfig.theme.extend.colors.primary.DEFAULT
+        theme_color: colors.primary.DEFAULT
       },
       manifest: {
         name,
-        short_name,
+        short_name: shortName,
         description,
-        background_color: tailwindConfig.theme.extend.colors.background,
+        background_color: colors.background,
         lang: 'en'
       }
     },
@@ -93,19 +96,22 @@ function getNuxtConfig(): NuxtConfig {
       name,
       description,
       version
+    },
+
+    tailwindcss: {
+      configPath: relative('tailwind.config.ts')
     }
   }
 }
 
-function setNuxtConfig(config: NuxtConfig): NuxtConfig {
-  return merge(getNuxtConfig(), config)
+function setNuxtConfig(config: NuxtConfig, currentDir: string): NuxtConfig {
+  return merge(getNuxtConfig(currentDir), config)
 }
 
 /**
  * Tailwind configuration
  */
 export {
-  tailwindConfig,
   getNuxtConfig,
   setNuxtConfig
 }

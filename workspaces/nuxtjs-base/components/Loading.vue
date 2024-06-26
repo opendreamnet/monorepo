@@ -9,7 +9,7 @@
   width: 1em;
 
   &::after {
-    @apply absolute rounded-full block border-2 border-white;
+    @apply absolute rounded-full block border-2 border-current;
     @apply animate-spin;
     left: calc(50% - (1em / 2));
     top: calc(50% - (1em / 2));

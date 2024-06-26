@@ -1,60 +1,47 @@
-const color = require('tinycolor2')
-
-/**
- * Lightens a color
- *
- * @param {color.ColorInput} col
- * @param {number} amount
- * @returns {string}
- */
-export function lighten(col, amount = 5) {
-  return color(col).lighten(amount).toString()
-}
-
-/**
- * Darken a color
- *
- * @param {color.ColorInput} col
- * @param {number} amount
- * @returns {string}
- */
-export function darken(col, amount = 5) {
-  return color(col).darken(amount).toString()
-}
-
-/**
- *
- * @param {string} value
- * @returns
- */
-export function colorFromBase(value) {
-  return {
-    lighten: lighten(value, 6),
-    light: lighten(value, 3),
-    DEFAULT: value,
-    dark: darken(value, 3),
-    darken: darken(value, 6)
-  }
-}
-
-//
+// Official theme (legacy and modern)
 export const theme = {
+  zinc: {
+    '50': '#fafafa',
+    '100': '#f4f4f5',
+    '200': '#e4e4e7',
+    '300': '#d4d4d8',
+    '400': '#a1a1aa',
+    '500': '#71717a',
+    '600': '#52525b',
+    '700': '#3f3f46',
+    '800': '#27272a',
+    '900': '#18181b',
+    '950': '#09090b',
+
+    lighten: '#f4f4f5',
+    light: '#d4d4d8',
+    DEFAULT: '#71717a',
+    dark: '#3f3f46',
+    darken: '#18181b'
+  },
+
+  origin: {
+    lighten: '#fafafa',
+    light: '#f4f4f5',
+    DEFAULT: '#e4e4e7',
+    dark: '#d4d4d8',
+    darken: '#a1a1aa'
+  },
+
   night: {
-    lighten: '#40464d',
-    light: '#282f36', // nord3: UI elements like indent- and wrap guide marker
-    DEFAULT: '#101820', // nord2: selection- and text highlighting color
-    dark: '#0d131a', // nord1: elevated, more prominent or focused UI elements
-    darken: '#0a0e13' // nord0: elements background
+    lighten: '#e3e7ea',
+    light: '#a6b1ba',
+    DEFAULT: '#5f6f7b',
+    dark: '#464f58',
+    darken: '#373c42'
   },
 
   snow: {
     darken: '#777E90',
     dark: '#B1B5C3',
-
-    DEFAULT: '#D8DEE9', // nord4
-    light: '#E5E9F0', // nord5
-
-    lighten: '#FCFCFD', // nord6
+    DEFAULT: '#D8DEE9',
+    light: '#E5E9F0',
+    lighten: '#FCFCFD',
   },
 
   frost: {
@@ -72,80 +59,144 @@ export const theme = {
     pink: '#c2a3bc' // rarely used for UI elements
   },
 
-  primary: {
-    lighten: '#96cab5',
-    light: '#73b89d',
-    DEFAULT: '#50A684',
-    dark: '#40856a',
-    darken: '#30644f'
-  },
-
   secondary: {
     lighten: '#8ec1d3',
     light: '#68adc4',
     DEFAULT: '#4298B5',
     dark: '#357a91',
     darken: '#285b6d'
-  }
+  },
+
+  blue: {
+    lighten: '#daeef3',
+    light: '#88c4d8',
+    DEFAULT: '#3588a5',
+    dark: '#2c5b72',
+    darken: '#284151',
+  },
+
+  brand: {
+    lighten: '#daf1e4',
+    light: '#8acbaf',
+    DEFAULT: '#379271',
+    dark: '#1f5d4a',
+    darken: '#163e32',
+  },
+
+  green: {
+    lighten: '#daf1e4',
+    light: '#8acbaf',
+    DEFAULT: '#379271',
+    dark: '#1f5d4a',
+    darken: '#163e32',
+  },
+
+  cyan: {
+    lighten: '#e9f1f5',
+    light: '#94c4d1',
+    DEFAULT: '#4e97a9',
+    dark: '#316373',
+    darken: '#294651',
+  },
+
+  red: {
+    lighten: '#fbe8e8',
+    light: '#f0a8af',
+    DEFAULT: '#dc576a',
+    dark: '#a72945',
+    darken: '#79223b',
+  },
+
+  orange: {
+    lighten: '#f8ece8',
+    light: '#e9c3b8',
+    DEFAULT: '#c9806a',
+    dark: '#96533f',
+    darken: '#694033',
+  },
+
+  yellow: {
+    lighten: '#f9f0db',
+    light: '#eac787',
+    DEFAULT: '#da8f35',
+    dark: '#a95d25',
+    darken: '#6d3e21',
+  },
+
+  pink: {
+    lighten: '#f4eff3',
+    light: '#dac7d6',
+    DEFAULT: '#ad87a5',
+    dark: '#7f5773',
+    darken: '#5a4152',
+  },
 }
 
-module.exports = {
-  important: true,
+export const colors = {
+  ...theme,
 
+  background: theme.zinc.darken,
+  menus: theme.zinc,
+  primary: theme.brand,
+
+  danger: theme.red,
+  success: theme.green,
+  warning: theme.yellow,
+
+  gray: theme.zinc,
+}
+
+/**
+ *
+ */
+export const fontFamily = {
+  sans: [
+    'ui-sans-serif',
+    'Inter',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'Segoe UI Variable Display',
+    'Helvetica',
+    'Arial',
+    'sans-serif',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol'
+  ],
+
+  mono: [
+    'ui-monospace',
+    'SFMono-Regular',
+    'SF Mono',
+    'Cascadia Mono',
+    'Segoe UI Mono',
+    'Liberation Mono',
+    'Menlo',
+    'Monaco',
+    'Consolas',
+    'monospace',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol'
+  ],
+
+  logo: [
+    'Anke',
+    'Anke Regular',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'Segoe UI Variable Display',
+    'Helvetica',
+    'Arial',
+    'sans-serif'
+  ]
+}
+
+export default {
   theme: {
     extend: {
-      fontFamily: {
-        sans: [
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Inter',
-          'Segoe UI',
-          'Helvetica',
-          'Arial',
-          'sans-serif',
-          'Apple Color Emoji',
-          'Segoe UI Emoji'
-        ],
-        logo: [
-          'Anke',
-          'Anke Regular',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Inter',
-          'Segoe UI',
-          'Helvetica',
-          'Arial',
-          'sans-serif'
-        ]
-      },
-
-      // https://www.crispedge.com/color-shades-generator
-      // https://maketintsandshades.com/#1e202b
-      colors: {
-        night: theme.night,
-        snow: theme.snow,
-        frost: theme.frost,
-        aurora: theme.aurora,
-        primary: theme.primary,
-        secondary: theme.secondary,
-        background: '#141416',
-
-        // Components
-        origin: theme.snow,
-        menus: colorFromBase('#202022'),
-
-        // Colors
-        danger: colorFromBase(theme.aurora.red),
-        success: colorFromBase(theme.aurora.green),
-        warning: colorFromBase(theme.aurora.yellow),
-        orange: colorFromBase(theme.aurora.orange),
-        pink: colorFromBase(theme.aurora.pink),
-
-        blue: colorFromBase(theme.frost.blue),
-        gray: colorFromBase(theme.frost.gray),
-        cyan: colorFromBase(theme.frost.cyan),
-        green: colorFromBase(theme.frost.green),
-      },
+      fontFamily,
+      colors,
 
       typography: (theme) => ({
         DEFAULT: {
@@ -216,7 +267,5 @@ module.exports = {
         }
       })
     }
-  },
-  variants: {},
-  plugins: []
+  }
 }
