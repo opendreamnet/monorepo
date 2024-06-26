@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/opendreamnet/monorepo/compare/nuxtjs-base-v2.1.6...nuxtjs-base-v2.2.0) (2024-06-26)
+
+
+### Features
+
+* **nuxtjs-base:** updated dependencies, new color palette, some improvements implemented from `nuxt-layers`. ([0cd805b](https://github.com/opendreamnet/monorepo/commit/0cd805b74a2c0d7d08846f2f6467eca3e61c82e0))
+
 ### [2.1.6](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.1.5...nuxtjs-base-v2.1.6) (2023-09-12)
 
 ### [2.1.5](https://github.com/dreamnettech/monorepo/compare/nuxtjs-base-v2.1.4...nuxtjs-base-v2.1.5) (2023-09-12)
