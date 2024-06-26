@@ -32,7 +32,7 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          NPM_TOKEN: "op://xen65q6xejmrcafvgdfso4lyu4/NPM Token/credential"
+          NPM_AUTH_TOKEN: "op://xen65q6xejmrcafvgdfso4lyu4/NPM Token/credential"
 
       - name: ⚙️ Install Node.js 20
         uses: actions/setup-node@v4
@@ -47,4 +47,4 @@ jobs:
         working-directory: ${{ inputs.working-dir }}
         run: yarn npm publish --access public
         env:
-          NPM_TOKEN: ${{ env.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ env.NPM_AUTH_TOKEN }}
